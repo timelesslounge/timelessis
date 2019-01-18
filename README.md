@@ -41,10 +41,10 @@ Very important for us in case of serious software/hardware failure. The system s
 * Module sections should be represented as tabs (at the top of the screen)
 * Ability to sort / filter data in all tables based on values ​​from any column
 * The module consists of the following sections:
-..* **Companies**: The list of all the companies managed by our software; (Visible only to Administrator role)
-..* **Spots**: The list of all the bars belonging to a given company;
-..* **Users**: The list of all the users belonging to a given company;
-..* **Roles**: The list of all the roles configured and privileges;
+  * **Companies**: The list of all the companies managed by our software; (Visible only to Administrator role)
+  * **Spots**: The list of all the bars belonging to a given company;
+  * **Users**: The list of all the users belonging to a given company;
+  * **Roles**: The list of all the roles configured and privileges;
 
 #### Involved Entities
 
@@ -62,26 +62,26 @@ Very important for us in case of serious software/hardware failure. The system s
 #### Privileges by Role
 
 * Administrator
-..* Add / Modify / Archive Spots
-..* Create / modify / activate / deactivate accounts for all spots Users
-..* View User profiles
+  * Add / Modify / Archive Spots
+  * Create / modify / activate / deactivate accounts for all spots Users
+  * View User profiles
 * Owner
-..* Create / modify / activate / deactivate accounts for all Users associated with owned spots
-..* View self-profile
-..* View User profiles associated with owned spots
+  * Create / modify / activate / deactivate accounts for all Users associated with owned spots
+  * View self-profile
+  * View User profiles associated with owned spots
 * Director
-..* Create / modify / activate / deactivate accounts for all managers, masters, interns associated with spots he involved in
-..* View self-profile
-..* View profiles of managers, masters, interns associated with spots he involved in
+  * Create / modify / activate / deactivate accounts for all managers, masters, interns associated with spots he involved in
+  * View self-profile
+  * View profiles of managers, masters, interns associated with spots he involved in
 * Manager
-..* Create / modify / activate / deactivate accounts for all masters and interns associated with spots he involved in
-..* View self-profile
-..* View profiles of masters and interns associated with spots he involved in
+  * Create / modify / activate / deactivate accounts for all masters and interns associated with spots he involved in
+  * View self-profile
+  * View profiles of masters and interns associated with spots he involved in
 * Spot Admin
-..* Only reservation table access
+  * Only reservation table access
 * Master / Intern
-..* View self-profile
-..* Modify account
+  * View self-profile
+  * Modify account
 
 ### Reservation Module
 
@@ -98,16 +98,16 @@ Very important for us in case of serious software/hardware failure. The system s
 * The system should prevent any possible reservation overlapping and violating of constraints (such as table’s min / max capacity)
 * Time should be in a 24-hour format
 * The module consists of the following sections:
-..* **Timeline-based table**: shows all reservations in a particular spot for a selected day divided by tables (Y-Axis) and time intervals (X-Axis).
-..* **Page to add/modify reservations**: page to create or modify reservations
-..* **Table map**: Ideally, this element should be located together with the main timetable-view. It should be hideable from the main screen. The main idea of this element is to help freshers to navigate across the tables.
-..* **Settings Page**: Page to set default duration of the reservation and notification settings
+  * **Timeline-based table**: shows all reservations in a particular spot for a selected day divided by tables (Y-Axis) and time intervals (X-Axis).
+  * **Page to add/modify reservations**: page to create or modify reservations
+  * **Table map**: Ideally, this element should be located together with the main timetable-view. It should be hideable from the main screen. The main idea of this element is to help freshers to navigate across the tables.
+  * **Settings Page**: Page to set default duration of the reservation and notification settings
 
 #### Involved Entities
 
 * Reservation
 
-![Reservation Life Cycle](https://drive.google.com/open?id=1TK7qZoj7DB68BI48PlLHac4LxkBTAc56)
+![Reservation Life Cycle](https://drive.google.com/file/d/1TK7qZoj7DB68BI48PlLHac4LxkBTAc56/view)
 
 * Customers
 * Comments
@@ -115,22 +115,22 @@ Very important for us in case of serious software/hardware failure. The system s
 #### Privileges by Role
 
 * Spot Admin
-..* Select a day from calendar
-..* Select a floor from floor plan list
-..* Create/Modify/Delete reservations
-..* View a list of unconfirmed / late / not contacting reservations
-..* Move reservations using drag & drop
-..* Stretch reservations
-..* Split reservations
-..* Undo action
+  * Select a day from calendar
+  * Select a floor from floor plan list
+  * Create/Modify/Delete reservations
+  * View a list of unconfirmed / late / not contacting reservations
+  * Move reservations using drag & drop
+  * Stretch reservations
+  * Split reservations
+  * Undo action
 * Manager
-..* All Masters permissions
-..* Create/edit comment of the day
+  * All Masters permissions
+  * Create/edit comment of the day
 * Director
-..* All Managers permissions
-..* Settings
+  * All Managers permissions
+  * Settings
 * Owner
-..* View reservation table
-..* Settings
+  * View reservation table
+  * Settings
 * Administrator
-..* Full access to all reservation tables
+  * Full access to all reservation tables
