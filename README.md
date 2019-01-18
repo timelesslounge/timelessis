@@ -107,7 +107,7 @@ Very important for us in case of serious software/hardware failure. The system s
 
 * Reservation
 
-![Reservation Life Cycle](https://drive.google.com/file/d/1TK7qZoj7DB68BI48PlLHac4LxkBTAc56/view)
+![Reservation Life Cycle](https://drive.google.com/file/d/1Cr35yF9kXEyzAqScRmBZqs9b8vdQQBAN/view?usp=sharing)
 
 * Customers
 * Comments
