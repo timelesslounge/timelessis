@@ -11,15 +11,17 @@ This application is not flexible enough, does not cover all the needs for proces
 
 ### Technology stack
 
-* Python 3.7.2 - programming language
-* Flask - backend framework;
-* React - backend framework;
-* PostgreSQL - permanent storage;
-* Redis - cache storage;
+* [Python 3.7.2](https://www.python.org/downloads/) - programming language
+* [Flask](http://flask.pocoo.org/) - backend framework;
+* [React](https://reactjs.org/) - backend framework;
+* [PostgreSQL](https://www.postgresql.org/) - permanent storage;
+* [Redis](https://redis.io/) - cache storage;
 
 ### Usability
 
-The application should be able to work on any computer displays as well as mobile devices (smartphones and tablets). The interface of the application should be sophisticated, but simple, self-explanatory and intuitive
+The application should be able to work on any computer displays as well as mobile devices (smartphones and tablets). The interface of the application should be sophisticated, but simple, self-explanatory and intuitive.
+
+A good example on how should be developed the frontend is the [GetSling webapp](https://app.getsling.com/).
 
 ### Security
 
@@ -87,21 +89,27 @@ Very important for us in case of serious software/hardware failure. The system s
 
 #### General Information
 
-* Reservation Management module should be deployed on separate subdomain
-* UI should be designed for large screens
-* Only Users with the Spot Admin role and above must have access to this module
-* Users shouldn’t have an access to the reservation table outside of a spot
-* Reservations table should have a support for a concurrent work, e.g. 2 Users can update the table from different devices
-* Tables may accommodate more than 1 reservation (example: bar), if such setting is On
-* One reservation can contain multiple tables
-* Adding / Modifying / Deleting reservations only allowed for current and future shifts
-* The system should prevent any possible reservation overlapping and violating of constraints (such as table’s min / max capacity)
-* Time should be in a 24-hour format
+* Reservation Management module should be deployed on separate subdomain;
+* UI should be designed for large screens;
+* Only Users with the Spot Admin role and above must have access to this module;
+* Users shouldn’t have an access to the reservation table outside of a spot;
+* Reservations table should have a support for a concurrent work, e.g. 2 Users can update the table from different devices;
+* Tables may accommodate more than 1 reservation (example: bar), if such setting is On;
+* One reservation can contain multiple tables;
+* Adding / Modifying / Deleting reservations only allowed for current and future shifts;
+* The system should prevent any possible reservation overlapping and violating of constraints (such as table’s min / max capacity);
+* Time should be in a 24-hour format;
 * The module consists of the following sections:
-  * **Timeline-based table**: shows all reservations in a particular spot for a selected day divided by tables (Y-Axis) and time intervals (X-Axis).
-  * **Page to add/modify reservations**: page to create or modify reservations
-  * **Table map**: Ideally, this element should be located together with the main timetable-view. It should be hideable from the main screen. The main idea of this element is to help freshers to navigate across the tables.
-  * **Settings Page**: Page to set default duration of the reservation and notification settings
+  * **Timeline-based table**: shows all reservations in a particular spot for a selected day divided by tables (Y-Axis) and time intervals (X-Axis);
+
+![Timeline-based table](https://drive.google.com/uc?export=view&id=1rZcmESm-cWDycv0YFgce5gdlydjbIVL8)
+
+  * **Page to add/modify reservations**: page to create or modify reservations;
+  * **Table map**: Ideally, this element should be located together with the main timetable-view. It should be hideable from the main screen. The main idea of this element is to help freshers to navigate across the tables;
+
+![Floorplan](https://drive.google.com/uc?export=view&id=1HfkDN4uS21bFud2J49jHPCyYLTWoJ2OL)
+
+  * **Settings Page**: Page to set default duration of the reservation and notification settings;
 
 #### Involved Entities
 
@@ -134,3 +142,17 @@ Very important for us in case of serious software/hardware failure. The system s
   * Settings
 * Administrator
   * Full access to all reservation tables
+
+## Development Guidelines
+
+* Always be as pythonic as possible;
+* [PEP-8](https://www.python.org/dev/peps/pep-0008/) is your friend;
+* It's better to write clear code than good comments;
+* The right test cycle is:
+  1. Write a test;
+  2. Run it and watch it fail;
+  3. Write just enough code to make it pass;
+  4. Go to 1;
+* If you have questions on a task, ask it on the same issue or open a new one;
+* Use PDD when you couldn't complete a task;
+* Only submit stable and working PRs;
