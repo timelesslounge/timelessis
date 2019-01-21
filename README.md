@@ -11,7 +11,7 @@ This application is not flexible enough, does not cover all the needs for proces
 
 ### Technology stack
 
-* [Python 3.7.2](https://www.python.org/downloads/) - programming language
+* [Python 3.6.7](https://www.python.org/downloads/) - programming language
 * [Flask](http://flask.pocoo.org/) - backend framework;
 * [React](https://reactjs.org/) - backend framework;
 * [PostgreSQL](https://www.postgresql.org/) - permanent storage;
