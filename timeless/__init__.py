@@ -1,11 +1,14 @@
-import os
+"""This file contains all functions needed to create
+a new Flask app for timeless"""
 
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+DB = SQLAlchemy()
 
 def create_app(config):
+    """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
     initialize_extensions(app)
@@ -20,5 +23,6 @@ def create_app(config):
     return app
 
 def initialize_extensions(app):
-    db.init_app(app)
+    """Initialize extensions for the app"""
+    DB.init_app(app)
     from .models import Company

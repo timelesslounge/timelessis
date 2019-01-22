@@ -1,13 +1,13 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from timeless import create_app, db
+from timeless import create_app, DB
 
-app = create_app('config.DevelopmentConfig')
+APP = create_app('config.DevelopmentConfig')
 
-migrate = Migrate(app, db)
-manager = Manager(app)
+MIGRATE = Migrate(APP, DB)
+MANAGER = Manager(APP)
 
-manager.add_command('db', MigrateCommand)
+MANAGER.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
-        manager.run()
+    MANAGER.run()

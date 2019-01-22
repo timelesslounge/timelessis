@@ -1,9 +1,13 @@
-from timeless import db
+"""File for all models in Timeless"""
 
-class Company(db.Model):
+from timeless import DB
+
+class Company(DB.Model):
+    """"Model for company business entity"""
     __tablename__ = 'companies'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+
     def __init__(self, id):
-        self.id = id;
+        """Initialization method"""
+        self.id = id
