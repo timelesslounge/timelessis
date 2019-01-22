@@ -156,3 +156,37 @@ Very important for us in case of serious software/hardware failure. The system s
 * If you have questions on a task, ask it on the same issue or open a new one;
 * Use PDD when you couldn't complete a task;
 * Only submit stable and working PRs;
+
+### Dependency Install
+
+. venv/bin/activate
+pip install -r requirements.txt
+gem install pdd
+
+### Database Setup
+
+sudo -u postgres createuser --superuser timeless_user
+sudo -u postgres createdb timelessdb_dev
+sudo -u postgres createdb timelessdb_test
+psql -U postgres -d timelessdb_dev
+> alter user timeless_user with encrypted password 'timeless_pwd';
+psql -U timeless_user -d timelessdb_dev
+
+### Running tests
+
+export FLASK_ENV=testing
+pytest
+
+### Generating migrations
+
+python manage.py db migrate
+python manage.py db upgrade
+
+### Running the webserver in development
+
+export FLASK_APP=main.py
+export FLASK_ENV=development
+flask run
+
+
+  
