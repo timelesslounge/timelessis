@@ -1,0 +1,19 @@
+architect:
+  - emilianodellacasa
+install: |-
+  . venv/bin/activate
+  pip install -r requirements.txt
+  gem install pdd
+merge:
+  script: |-
+    pytest
+    pdd -f /dev/null -v
+deploy:
+  script: |-
+    echo "There is nothing to deploy"
+    exit -1
+release:
+  script: |-
+    echo "There is nothing to release"
+    exit -1
+
