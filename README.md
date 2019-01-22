@@ -13,7 +13,7 @@ This application is not flexible enough, does not cover all the needs for proces
 
 * [Python 3.6.7](https://www.python.org/downloads/) - programming language
 * [Flask](http://flask.pocoo.org/) - backend framework;
-* [React](https://reactjs.org/) - backend framework;
+* [React](https://reactjs.org/) - frontend framework;
 * [PostgreSQL](https://www.postgresql.org/) - permanent storage;
 * [Redis](https://redis.io/) - cache storage;
 
