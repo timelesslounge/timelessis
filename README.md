@@ -161,7 +161,7 @@ Very important for us in case of serious software/hardware failure. The system s
 
 ```
 # Install RVM (for pdd)
-\curl -sSL https://get.rvm.io | bash -s stable --ruby
+curl -sSL https://get.rvm.io | bash -s stable --ruby
 gem install pdd
 
 # Download Python
@@ -179,12 +179,12 @@ mkdir timelessis-project/venv
 python3 -m venv timelessis-project/venv
 
 # Clone the repository
-cd /timelessis-project
+cd timelessis-project
 git clone https://github.com/<your-github-username>/timelessis.git
 cd timelessis
 
 # Activate virtual environment
-. ../timelessis-project/venv/bin/activate
+. ../venv/bin/activate
 ```
 
 ### Dependency Install
