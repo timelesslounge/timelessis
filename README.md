@@ -156,6 +156,7 @@ Very important for us in case of serious software/hardware failure. The system s
 * If you have questions on a task, ask it on the same issue or open a new one;
 * Use PDD when you couldn't complete a task;
 * Only submit stable and working PRs;
+* PLEASE NOTE: when forking, remember to add rultor as collaborator in your private REPO, otherwise we won't be able to merge your contribution (and you won't get paid ;-) )
 
 ### Dependency Install
 
