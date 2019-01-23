@@ -38,39 +38,39 @@ Very important for us in case of serious software/hardware failure. The system s
 
 #### General Information
 
-* The module is designed to manage spots, Users and their roles
-* Only Users with Manager role and above should have access to this module
+* The module is designed to manage spots, Employees and their roles
+* Only Employees with Manager role and above should have access to this module
 * Module sections should be represented as tabs (at the top of the screen)
 * Ability to sort / filter data in all tables based on values ​​from any column
 * The module consists of the following sections:
   * **Companies**: The list of all the companies managed by our software; (Visible only to Administrator role)
-  * **Spots**: The list of all the bars belonging to a given company;
-  * **Users**: The list of all the users belonging to a given company;
+  * **Locations**: The list of all the bars belonging to a given company;
+  * **Employees**: The list of all the users belonging to a given company;
   * **Roles**: The list of all the roles configured and privileges;
 
 #### Involved Entities
 
 * Company
-* Spots
+* Locations
 * Floors
 * Tables
 * TableShapes
 * Scheme
 * SchemeCondition
-* Users
+* Employees
 * Roles
 * Items
 
 #### Privileges by Role
 
 * Administrator
-  * Add / Modify / Archive Spots
-  * Create / modify / activate / deactivate accounts for all spots Users
-  * View User profiles
+  * Add / Modify / Archive Locations
+  * Create / modify / activate / deactivate accounts for all spots Employees
+  * View Employee profiles
 * Owner
-  * Create / modify / activate / deactivate accounts for all Users associated with owned spots
+  * Create / modify / activate / deactivate accounts for all Employees associated with owned spots
   * View self-profile
-  * View User profiles associated with owned spots
+  * View Employee profiles associated with owned spots
 * Director
   * Create / modify / activate / deactivate accounts for all managers, masters, interns associated with spots he involved in
   * View self-profile
@@ -79,7 +79,7 @@ Very important for us in case of serious software/hardware failure. The system s
   * Create / modify / activate / deactivate accounts for all masters and interns associated with spots he involved in
   * View self-profile
   * View profiles of masters and interns associated with spots he involved in
-* Spot Admin
+* Location Admin
   * Only reservation table access
 * Master / Intern
   * View self-profile
@@ -91,9 +91,9 @@ Very important for us in case of serious software/hardware failure. The system s
 
 * Reservation Management module should be deployed on separate subdomain;
 * UI should be designed for large screens;
-* Only Users with the Spot Admin role and above must have access to this module;
-* Users shouldn’t have an access to the reservation table outside of a spot;
-* Reservations table should have a support for a concurrent work, e.g. 2 Users can update the table from different devices;
+* Only Employees with the Location Admin role and above must have access to this module;
+* Employees shouldn’t have an access to the reservation table outside of a spot;
+* Reservations table should have a support for a concurrent work, e.g. 2 Employees can update the table from different devices;
 * Tables may accommodate more than 1 reservation (example: bar), if such setting is On;
 * One reservation can contain multiple tables;
 * Adding / Modifying / Deleting reservations only allowed for current and future shifts;
@@ -122,7 +122,7 @@ Very important for us in case of serious software/hardware failure. The system s
 
 #### Privileges by Role
 
-* Spot Admin
+* Location Admin
   * Select a day from calendar
   * Select a floor from floor plan list
   * Create/Modify/Delete reservations
