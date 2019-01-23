@@ -14,7 +14,7 @@ This application is not flexible enough, does not cover all the needs for proces
 * [Python 3.6.7](https://www.python.org/downloads/) - programming language
 * [Flask](http://flask.pocoo.org/) - backend framework;
 * [React](https://reactjs.org/) - frontend framework;
-* [PostgreSQL](https://www.postgresql.org/) - permanent storage;
+* [PostgreSQL 10.6](https://www.postgresql.org/) - permanent storage;
 * [Redis](https://redis.io/) - cache storage;
 
 ### Usability
@@ -160,9 +160,26 @@ Very important for us in case of serious software/hardware failure. The system s
 ### Dependency Install
 
 ```
-. venv/bin/activate
-pip install -r requirements.txt
+# Install RVM (for pdd)
+\curl -sSL https://get.rvm.io | bash -s stable --ruby
 gem install pdd
+# Download Python
+wget https://www.python.org/ftp/python/3.6.7/Python-3.6.7.tgz
+tar xvzf Python-3.6.7.tgz
+cd Python-3.6.7
+./configure
+make
+make test
+sudo make install
+# Clone the repository
+cd /<your-workspace-path>/
+git clone https://github.com/<your-github-username>/timelessis.git
+cd timelessis
+# Create a virtual environment and activate it
+python3 -m venv /path/to/new/virtual/environment
+. venv/bin/activate
+# Install requirements
+pip install -r requirements.txt
 ```
 
 ### Database Setup
