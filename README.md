@@ -158,12 +158,13 @@ Very important for us in case of serious software/hardware failure. The system s
 * Only submit stable and working PRs;
 * PLEASE NOTE: when forking, remember to add rultor as collaborator in your private REPO, otherwise we won't be able to merge your contribution (and you won't get paid ;-) )
 
-### Dependency Install
+### Setup Development Environment
 
 ```
 # Install RVM (for pdd)
-\curl -sSL https://get.rvm.io | bash -s stable --ruby
+curl -sSL https://get.rvm.io | bash -s stable --ruby
 gem install pdd
+
 # Download Python
 wget https://www.python.org/ftp/python/3.6.7/Python-3.6.7.tgz
 tar xvzf Python-3.6.7.tgz
@@ -172,14 +173,24 @@ cd Python-3.6.7
 make
 make test
 sudo make install
+
+# Create workspace and virtual environment
+mkdir timelessis-project
+mkdir timelessis-project/venv
+python3 -m venv timelessis-project/venv
+
 # Clone the repository
-cd /<your-workspace-path>/
+cd timelessis-project
 git clone https://github.com/<your-github-username>/timelessis.git
 cd timelessis
-# Create a virtual environment and activate it
-python3 -m venv /path/to/new/virtual/environment
-. venv/bin/activate
-# Install requirements
+
+# Activate virtual environment
+. ../venv/bin/activate
+```
+
+### Dependency Install
+
+```
 pip install -r requirements.txt
 ```
 
