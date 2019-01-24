@@ -25,7 +25,7 @@ def runner(app):
 
 @pytest.fixture(scope='module')
 def new_company():
-    company = Company(1)
+    company = Company(name="First company", code="C")
     return company
 
 
