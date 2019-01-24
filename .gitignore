@@ -8,3 +8,6 @@ instance/
 
 #Environment
 venv/
+
+.idea/
+.DS_Store
