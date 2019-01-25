@@ -4,6 +4,6 @@ def test_new_company(new_company):
 
 
 def test_new_location(new_location):
-    assert new_location.name == "Test location"
-    assert new_location.code == "L"
-    assert new_location.company_id == "123"
+    assert (new_location.name == "Test location"
+            and new_location.code == "L"
+            and new_location.company_id == 123)

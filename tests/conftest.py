@@ -31,6 +31,6 @@ def new_company():
 
 @pytest.fixture(scope='module')
 def new_location():
-    location = Location(name="Test location", code="L", company_id="123")
+    location = Location(name="Test location", code="L", company_id=123)
     return location
 

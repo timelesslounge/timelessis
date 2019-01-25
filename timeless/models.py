@@ -4,7 +4,7 @@ from timeless import DB
 
 
 class Location(DB.Model):
-    """"Model for location business entity
+    """Model for location business entity
     @todo #10:30min Continue implementation. Locations should have its own management pages to
      list, create, edit and delete them. In the index page it should
      be possible to sort and filter for every column.
@@ -33,7 +33,7 @@ class Location(DB.Model):
 
 
 class Company(DB.Model):
-    """"Model for company business entity"""
+    """Model for company business entity"""
     __tablename__ = 'companies'
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
