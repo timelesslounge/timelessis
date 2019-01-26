@@ -12,13 +12,13 @@ class Floor(DB.Model):
     __tablename__ = 'floors'
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-    location_id = DB.Column(DB.Integer, DB.ForeignKey('locations.id'))
+    location_id = DB.Column(DB.Integer, DB.ForeignKey("locations.id"))
     description = DB.Column(DB.String, nullable = True)
 
     location = DB.relationship("Location", back_populates="floors")
 
     def __repr__(self):
-        return '<Floor %r>' % self.id
+        return "<Floor %r>" % self.id
 
 
 class Location(DB.Model):
@@ -48,7 +48,7 @@ class Location(DB.Model):
     floors = DB.relationship("Floor", order_by=Floor.id, back_populates = "location")
 
     def __repr__(self):
-        return '<Location %r>' % self.name
+        return "<Location %r>" % self.name
 
 
 class Company(DB.Model):
