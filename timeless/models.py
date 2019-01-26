@@ -13,7 +13,7 @@ class Floor(DB.Model):
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     location_id = DB.Column(DB.Integer, DB.ForeignKey("locations.id"))
-    description = DB.Column(DB.String, nullable = True)
+    description = DB.Column(DB.String, nullable=True)
 
     location = DB.relationship("Location", back_populates="floors")
 
