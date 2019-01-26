@@ -51,12 +51,6 @@ class Company(DB.Model):
 
     locations = DB.relationship("Location", order_by=Location.id,
                                 back_populates="company")
-    
-    def __init__(self, name, code, address=""):
-        self.name = name
-        self.code = code
-        self.address = address
-        self.created_on = datetime.utcnow
 
     def __repr__(self):
         return '<Company %r>' % self.name
