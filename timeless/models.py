@@ -45,7 +45,7 @@ class Location(DB.Model):
     comment = DB.Column(DB.String, nullable = True)
 
     company = DB.relationship("Company", back_populates="locations")
-    floors = DB.relationship("Floor", order_by=Floor.id, back_populates = "location")
+    floors = DB.relationship("Floor", order_by=Floor.id, back_populates="location")
 
     def __repr__(self):
         return "<Location %r>" % self.name
