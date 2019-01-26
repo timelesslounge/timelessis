@@ -16,8 +16,8 @@ class SchemeCondition(DB.Model):
 
     value = DB.Column(DB.String, unique=True, nullable=False)
     priority = DB.Column(DB.Integer, nullable=False)
-    startTime = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
-    endTime = DB.Column(DB.DateTime, onupdate=datetime.utcnow, nullable=False)
+    start_time = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
+    end_time = DB.Column(DB.DateTime, onupdate=datetime.utcnow, nullable=False)
 
     def __repr__(self):
         return "<SchemeCondition %r>" % self.id

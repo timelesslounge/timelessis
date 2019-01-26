@@ -5,7 +5,7 @@ import pytest
 from timeless import create_app
 from timeless.models import Company
 from timeless.models import Location
-from timeless.db.schemetypes.SchemeCondition import SchemeCondition
+
 
 @pytest.fixture
 def app():
@@ -34,8 +34,3 @@ def new_location():
     location = Location(name="Test location", code="L", company_id=123)
     return location
 
-
-@pytest.fixture(scope='module')
-def new_scheme_condition():
-    condition = SchemeCondition(id=1, value="test", priority=2)
-    return condition
