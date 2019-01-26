@@ -19,7 +19,6 @@ class Floor(DB.Model):
     def __repr__(self):
         return "<Floor %r>" % self.id
 
-
 class Location(DB.Model):
     """Model for location business entity
     @todo #10:30min Continue implementation. Locations should have its own management pages to
