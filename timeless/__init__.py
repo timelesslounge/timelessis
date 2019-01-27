@@ -26,3 +26,4 @@ def initialize_extensions(app):
     """Initialize extensions for the app"""
     DB.init_app(app)
     from .models import Company
+    from timeless.db.schemetypes.scheme_condition import SchemeCondition
