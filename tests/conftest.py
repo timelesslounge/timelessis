@@ -3,7 +3,7 @@ import tempfile
 
 import pytest
 from timeless import create_app
-from timeless.restaurants import models as restaurants_models
+from timeless.restaurants.models import Location, Floor
 
 
 @pytest.fixture
@@ -27,16 +27,12 @@ def runner(app):
 
 @pytest.fixture(scope='module')
 def new_location():
-    location = restaurants_models.Location(
-        name="Test location", code="L", company_id=123
-    )
+    location = Location(name="Test location", code="L", company_id=123)
     return location
 
 
 @pytest.fixture(scope='module')
 def new_floor():
-    floor = restaurants_models.Floor(
-        id=1, location_id=456, description="First floor"
-    )
+    floor = Floor(id=1, location_id=456, description="First floor")
     return floor
 
