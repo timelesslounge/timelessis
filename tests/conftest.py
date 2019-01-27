@@ -3,7 +3,6 @@ import tempfile
 
 import pytest
 from timeless import create_app
-from timeless.models import Company
 from timeless.models import Location
 
 
@@ -22,12 +21,6 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
-
-@pytest.fixture(scope='module')
-def new_company():
-    company = Company(1)
-    return company
-
 
 @pytest.fixture(scope='module')
 def new_location():
