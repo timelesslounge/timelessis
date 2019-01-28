@@ -24,6 +24,8 @@ class Company(DB.Model):
 
     locations = DB.relationship("Location", order_by="Location.id",
                                 back_populates="company")
+    employees = DB.relationship("Employee", order_by="Employee.id",
+                                back_populates="company")
 
     def __repr__(self):
         return '<Company %r>' % self.name

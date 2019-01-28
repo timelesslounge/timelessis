@@ -1,4 +1,5 @@
 """File for models in employees module"""
+from datetime import datetime
 from timeless import DB
 
 class Employee(DB.Model):
@@ -13,7 +14,7 @@ class Employee(DB.Model):
      user_status, created_on and password. Password is special and it should be
      hashed and salted - one can use bcrypt_sha256.hash() function. See more at:
      https://pythonhosted.org/passlib/lib/passlib.hash.bcrypt_sha256.html
-     Also create a method to validate the password, using: 
+     Also create a method to validate the password, using:
      bcrypt_sha256.verify("password", h)
     """
     __tablename__ = 'employees'
