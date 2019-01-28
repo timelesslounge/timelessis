@@ -31,7 +31,7 @@ def create_app(config):
 def initialize_extensions(app):
     """Initialize extensions for the app"""
     DB.init_app(app)
-    from timeless.db.schemetypes.scheme_condition import SchemeCondition
+    from timeless.schemetypes import models
     from timeless.companies import models
     from timeless.restaurants import models
 

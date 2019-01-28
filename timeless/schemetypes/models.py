@@ -1,7 +1,5 @@
-"""SchemeCondition DB model"""
-
-from datetime import datetime
 from timeless import DB
+from datetime import datetime
 
 
 class SchemeCondition(DB.Model):

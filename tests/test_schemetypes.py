@@ -1,5 +1,5 @@
 """Tests for models in the schemetypes package."""
-from timeless.db.schemetypes.scheme_condition import SchemeCondition
+from timeless.schemetypes.models import SchemeCondition
 
 
 def test_new_scheme_condition():
