@@ -9,7 +9,9 @@ def test_new_company():
 def test_new_location(new_location):
     assert (new_location.name == "Test location"
             and new_location.code == "L"
-            and new_location.company_id == 123)
+            and new_location.company_id == 123
+            and new_location.poster_id == 100
+            and new_location.synchronized_on is not None)
 
 
 def test_new_floor(new_floor):

@@ -2,6 +2,7 @@ import os
 import tempfile
 
 import pytest
+from datetime import datetime
 from timeless import create_app
 from timeless.models import Location
 from timeless.models import Floor
@@ -24,7 +25,7 @@ def runner(app):
 
 @pytest.fixture(scope='module')
 def new_location():
-    location = Location(name="Test location", code="L", company_id=123)
+    location = Location(name="Test location", code="L", company_id=123, poster_id=100, synchronized_on=datetime.utcnow)
     return location
 
 @pytest.fixture(scope='module')
