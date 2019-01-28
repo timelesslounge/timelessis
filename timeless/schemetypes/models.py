@@ -11,11 +11,30 @@ class SchemeCondition(DB.Model):
     __tablename__ = "scheme_conditions"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    scheme_type_id = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
     value = DB.Column(DB.String, unique=True, nullable=False)
     priority = DB.Column(DB.Integer, nullable=False)
     start_time = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
     end_time = DB.Column(DB.DateTime, nullable=False)
 
+    scheme_type = DB.relationship("SchemeType", back_populates="conditions")
+
     def __repr__(self):
         return "<SchemeCondition %r>" % self.id
+
+
+class SchemeType(DB.Model):
+    """
+    @todo #17:30min Continue implementation as in #17.
+    """
+    __tablename__ = "scheme_types"
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    description = DB.Column(DB.String, unique=True, nullable=False)
+    default_value = DB.Column(DB.String, nullable=False)
+    value_type = DB.Column(DB.String, nullable=False)
+    conditions = DB.relationship("SchemeCondition", order_by=SchemeCondition.id, back_populates="scheme_type")
+
+    def __repr__(self):
+        return "<SchemeType %r>" % self.id
