@@ -28,4 +28,4 @@ class Company(DB.Model):
                                 back_populates="company")
 
     def __repr__(self):
-        return '<Company %r>' % self.name
+        return "<Company %r>" % self.name
