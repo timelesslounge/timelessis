@@ -1,6 +1,8 @@
 from timeless.companies.models import Company
 from timeless.restaurants.models import Location
 from timeless.restaurants.models import Floor
+from timeless.restaurants.models import TableShape
+
 
 def test_new_company():
     """
@@ -27,3 +29,13 @@ def test_new_floor():
     assert (new_floor.id == id
             and new_floor.location_id == location_id
             and new_floor.description == description)
+
+
+def test_new_table_shape():
+    id = 1
+    description = "Round table"
+    picture = "/static/pictures/roundtable.png"
+    new_table_shape = TableShape(id=id, description=description, picture=picture)
+    assert (new_table_shape.id == id
+            and new_table_shape.description == description
+            and new_table_shape.picture == picture)
