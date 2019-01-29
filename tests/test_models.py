@@ -1,5 +1,6 @@
 from timeless.companies.models import Company
-
+from timeless.reservations.models import Comment
+from datetime import datetime
 
 def test_new_company():
     """
@@ -20,3 +21,8 @@ def test_new_floor(new_floor):
     assert (new_floor.id == 1
             and new_floor.location_id == 456
             and new_floor.description == "First floor")
+
+def test_new_comment():
+    comment = Comment(description="My comment", date=datetime.utcnow)
+    assert (comment.description is not None
+            and comment.date is not None)
