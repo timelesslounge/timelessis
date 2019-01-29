@@ -14,7 +14,7 @@ class ReservationSettings(DB.Model):
     default_duration = DB.Column(DB.SmallInteger)
     default_deposit = DB.Column(DB.SmallInteger)
     sms_notifications = DB.Column(DB.Boolean)
-    threshold_sms_time = DB.Column(DB.SmallInteger, nullable=True)
+    threshold_sms_time = DB.Column(DB.SmallInteger)
     greeting_by_time = DB.Column(DB.JSON)
     sex = DB.Column(DB.String)
     created_on = DB.Column(

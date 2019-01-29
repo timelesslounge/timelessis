@@ -37,6 +37,7 @@ def initialize_extensions(app):
     import timeless.companies.models
     import timeless.restaurants.models
     import timeless.reservations.models
+    import timeless.employees.models
 
 
 def register_endpoints(app):
