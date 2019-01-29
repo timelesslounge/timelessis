@@ -26,7 +26,9 @@ class SchemeCondition(DB.Model):
 
 class SchemeType(DB.Model):
     """
-    @todo #17:30min Continue implementation as in #17.
+    @todo #17:30min Continue implementation as in #17. SchemeType should have
+     its own management pages to list, create, edit and delete them. In the
+     index page it should be possible to sort and filter for every column.
     """
     __tablename__ = "scheme_types"
 
