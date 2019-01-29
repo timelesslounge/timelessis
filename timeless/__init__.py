@@ -23,9 +23,9 @@ def create_app(config):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-    @app.route('/')
+    @app.route("/")
     def main():
-        return 'Hello, World!'
+        return "Hello, World!"
     return app
 
 

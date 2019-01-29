@@ -12,13 +12,14 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+bp = Blueprint("auth", __name__, url_prefix="/auth")
 
-@bp.route('/login', methods=('GET', 'POST'))
+
+@bp.route("/login", methods=("GET", "POST"))
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
         error = None
         # fetch user using DB and Employee model
         # check that password hash matches
@@ -30,23 +31,26 @@ def login():
         #     session.clear()
         #     session['user_id'] = user[id]
         #     return redirect(url_for('index'))
-        flash('Login not yet implemented')
+        flash("Login not yet implemented")
 
-    return render_template('auth/login.html')
+    return render_template("auth/login.html")
 
-@bp.route('/logout')
+
+@bp.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for('main'))
 
-@bp.route('/forgotpassword', methods=('GET', 'POST'))
-def forgot_password():
-    if request.method == 'POST':
-        # send user link for password reset
-        flash('Forgot password not yet implemented')
-    return render_template('auth/forgot_password.html')
 
-@bp.route('/activate', methods=['POST'])
+@bp.route("/forgotpassword", methods=("GET", "POST"))
+def forgot_password():
+    if request.method == "POST":
+        # send user link for password reset
+        flash("Forgot password not yet implemented")
+    return render_template("auth/forgot_password.html")
+
+
+@bp.route("/activate", methods=["POST"])
 def activate():
-    flash('Activate link is not yet implemented')
-    return render_template('auth/activate.html')
+    flash("Activate link is not yet implemented")
+    return render_template("auth/activate.html")

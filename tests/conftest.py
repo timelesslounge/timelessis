@@ -7,7 +7,7 @@ from timeless import create_app
 @pytest.fixture
 def app():
     db_fd, db_path = tempfile.mkstemp()
-    app = create_app('config.TestingConfig')
+    app = create_app("config.TestingConfig")
     yield app
     os.close(db_fd)
     os.unlink(db_path)
@@ -22,18 +22,20 @@ def client(app):
 def runner(app):
     return app.test_cli_runner()
 
+
 class AuthActions(object):
     def __init__(self, client):
         self._client = client
 
-    def login(self, username='test', password='test'):
+    def login(self, username="test", password="test"):
         return self._client.post(
-            '/auth/login',
-            data={'username': username, 'password': password}
+            "/auth/login",
+            data={"username": username, "password": password}
         )
 
     def logout(self):
-        return self._client.get('/auth/logout')
+        return self._client.get("/auth/logout")
+
 
 @pytest.fixture
 def auth(client):

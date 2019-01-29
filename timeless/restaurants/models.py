@@ -8,7 +8,7 @@ class Floor(DB.Model):
      edit and delete them. In the index page it should be possible to sort and filter for every column.
      Floor management page should be accessed by the Location page.
      """
-    __tablename__ = 'floors'
+    __tablename__ = "floors"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     location_id = DB.Column(DB.Integer, DB.ForeignKey("locations.id"))
@@ -25,13 +25,13 @@ class Location(DB.Model):
      list, create, edit and delete them. In the index page it should
      be possible to sort and filter for every column.
     """
-    __tablename__ = 'locations'
+    __tablename__ = "locations"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
 
     name = DB.Column(DB.String, unique=True, nullable=False)
     code = DB.Column(DB.String, unique=True, nullable=False)
-    company_id = DB.Column(DB.Integer, DB.ForeignKey('companies.id'))
+    company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
     country = DB.Column(DB.String, nullable=False)
     region = DB.Column(DB.String, nullable=False)
     city = DB.Column(DB.String, nullable=False)

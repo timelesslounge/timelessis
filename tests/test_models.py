@@ -10,6 +10,7 @@ def test_new_company():
     assert (new_company.name is not None
             and new_company.code is not None)
 
+
 def test_new_location():
     name = "Test location"
     code = "L"

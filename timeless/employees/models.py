@@ -17,7 +17,7 @@ class Employee(DB.Model):
      Also create a method to validate the password, using:
      bcrypt_sha256.verify("password", h)
     """
-    __tablename__ = 'employees'
+    __tablename__ = "employees"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     first_name = DB.Column(DB.String, nullable=False)
@@ -32,7 +32,7 @@ class Employee(DB.Model):
     password = DB.Column(DB.String(300), nullable=False)
     pin_code = DB.Column(DB.Integer, unique=True, nullable=False)
     comment = DB.Column(DB.String)
-    company_id = DB.Column(DB.Integer, DB.ForeignKey('companies.id'))
+    company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
     created_on = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
     updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
 
