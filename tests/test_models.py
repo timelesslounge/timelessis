@@ -1,12 +1,15 @@
-from timeless.models import Company
-from timeless.models import Location
-from timeless.models import Floor
+from timeless.companies.models import Company
+from timeless.restaurants.models import Location
+from timeless.restaurants.models import Floor
 
 def test_new_company():
-    ''' Test creating new company '''
+    """
+    @todo #31:30min Move tests to related module tests folder
+    Test creating new company"""
     new_company = Company(name="First company", code="C")
     assert (new_company.name is not None
             and new_company.code is not None)
+
 
 def test_new_location():
     name = "Test location"
