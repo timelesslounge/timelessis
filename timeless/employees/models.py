@@ -2,6 +2,7 @@
 from datetime import datetime
 from timeless import DB
 
+
 class Employee(DB.Model):
     """Model for employee business entity.
     @todo #4:30min Continue implementation. Employees should have its own
