@@ -6,6 +6,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from timeless.companies import views as companies_views
+from timeless.auth import views as auth_views
+from timeless.reservations import views as reservations_views
 
 
 DB = SQLAlchemy()
@@ -22,19 +24,23 @@ def create_app(config):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-    @app.route('/')
+    @app.route("/")
     def main():
-        return 'Hello, World!'
+        return "Hello, World!"
     return app
 
 
 def initialize_extensions(app):
     """Initialize extensions for the app"""
     DB.init_app(app)
-    from timeless.db.schemetypes.scheme_condition import SchemeCondition
-    from timeless.companies import models
-    from timeless.restaurants import models
+    import timeless.schemetypes.models
+    import timeless.companies.models
+    import timeless.restaurants.models
+    import timeless.reservations.models
+    import timeless.employees.models
 
 
 def register_endpoints(app):
     app.register_blueprint(companies_views.bp)
+    app.register_blueprint(auth_views.bp)
+    app.register_blueprint(reservations_views.bp)

@@ -4,13 +4,11 @@ import tempfile
 import pytest
 from datetime import datetime
 from timeless import create_app
-from timeless.restaurants.models import Location, Floor
-
 
 @pytest.fixture
 def app():
     db_fd, db_path = tempfile.mkstemp()
-    app = create_app('config.TestingConfig')
+    app = create_app("config.TestingConfig")
     yield app
     os.close(db_fd)
     os.unlink(db_path)
@@ -26,14 +24,20 @@ def runner(app):
     return app.test_cli_runner()
 
 
-@pytest.fixture(scope='module')
-def new_location():
-    location = Location(name="Test location", code="L", company_id=123, poster_id=100, synchronized_on=datetime.utcnow)
-    return location
+class AuthActions(object):
+    def __init__(self, client):
+        self._client = client
+
+    def login(self, username="test", password="test"):
+        return self._client.post(
+            "/auth/login",
+            data={"username": username, "password": password}
+        )
+
+    def logout(self):
+        return self._client.get("/auth/logout")
 
 
-@pytest.fixture(scope='module')
-def new_floor():
-    floor = Floor(id=1, location_id=456, description="First floor")
-    return floor
-
+@pytest.fixture
+def auth(client):
+    return AuthActions(client)
