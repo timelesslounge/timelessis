@@ -1,4 +1,4 @@
-"""Auth module.
+"""Auth views module.
 @todo #5:30min Continue implementing login(), forgot_password() and activate()
  methods, once Employee model is available. Fetch the user using Employee model
  and check password hash using Employee.validate_password method. Update html

@@ -6,7 +6,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from timeless.companies import views as companies_views
-from timeless import auth
+from timeless.auth import views as auth_views
 
 
 DB = SQLAlchemy()
@@ -39,4 +39,4 @@ def initialize_extensions(app):
 
 def register_endpoints(app):
     app.register_blueprint(companies_views.bp)
-    app.register_blueprint(auth.bp)
+    app.register_blueprint(auth_views.bp)
