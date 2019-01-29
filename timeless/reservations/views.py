@@ -8,7 +8,7 @@ bp = Blueprint('reservations', __name__, url_prefix='/reservations')
 def base():
     """
     @todo #32:30min Continue implementing Settings page for Reservations,
-    it will be deployed on a different subdomain. Page should have set of
-    fields from ReservationSettings model.
+     it will be deployed on a different subdomain. Page should have set of
+     fields from ReservationSettings model.
     """
     return 'Settings API entry point'
