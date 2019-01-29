@@ -147,6 +147,9 @@ Very important for us in case of serious software/hardware failure. The system s
 
 * Always be as pythonic as possible;
 * [PEP-8](https://www.python.org/dev/peps/pep-0008/) is your friend;
+     * Strings are delimited by double quotes; use single quotes if you
+     need to represent a quoted text inside a String.
+
 * It's better to write clear code than good comments;
 * The right test cycle is:
   1. Write a test;
