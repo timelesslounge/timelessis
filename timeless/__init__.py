@@ -1,9 +1,8 @@
 """This file contains all functions needed to create
 a new Flask app for timeless
-@todo #48:30min Setup a pre-commit git hook, to forbid single-quoted
- Strings. Generally, the Strings in our codebase should be double-quoted
- (see README: https://github.com/timelesslounge/timelessis#development-guidelines)
- More on git hooks here: https://githooks.com/
+@todo #69:30min Enhance the "DoubleQuotesOnly" rule from checkstyle.sh,
+ to allow single-quoted strings as long as they are contained within
+ another double-quoted String.
 """
 
 import os

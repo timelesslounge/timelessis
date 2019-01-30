@@ -10,6 +10,8 @@ merge:
   script: |-
     pytest
     pdd -f /dev/null -v
+    chmod +x ./checkstyle.sh
+    ./checkstyle.sh
 deploy:
   script: |-
     echo "There is nothing to deploy"
