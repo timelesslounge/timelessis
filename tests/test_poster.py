@@ -1,5 +1,5 @@
 from tests.poster_mock import free_port, start_server
-from timeless.poster import Poster
+from timeless.poster.poster import Poster
 
 
 class TestPoster(object):

@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from timeless.companies.models import Company
+from timeless.customers.models import Customer
 from timeless.restaurants.models import Location
 from timeless.restaurants.models import Floor
 from timeless.restaurants.models import TableShape
@@ -79,4 +80,16 @@ def test_reservation_settings():
         reservation_settings.threshold_sms_time is None and
         reservation_settings.greeting_by_time == greeting_by_time and
         reservation_settings.sex == "M"
+    )
+
+
+def test_new_customer():
+    first_name="First"
+    last_name="Last"
+    phone_number="+3859136281"
+    company = Customer(first_name=first_name, last_name=last_name, phone_number=phone_number)
+    assert (
+        company.first_name == first_name and
+        company.last_name == last_name and
+        company.phone_number == phone_number
     )

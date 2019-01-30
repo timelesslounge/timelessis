@@ -1,5 +1,6 @@
 """File for models in restaurants module"""
 from timeless import DB
+from timeless.poster.models import SynchronizedMixin
 
 
 class TableShape(DB.Model):
@@ -17,13 +18,6 @@ class TableShape(DB.Model):
 
     def __repr__(self):
         return "<TableShape %r>" % self.picture
-
-
-class SynchronizedMixin(object):
-    """Mixin with fields needed for data synchronization with Poster.
-    """
-    poster_id = DB.Column(DB.Integer)
-    synchronized_on = DB.Column(DB.DateTime)
 
 
 class Floor(DB.Model):
