@@ -40,4 +40,4 @@ class Employee(DB.Model):
     company = DB.relationship("Company", back_populates="employees")
 
     def __repr__(self):
-        return "<Employee(username='%s')>" % self.username
+        return "<Employee(username=%s)>" % self.username

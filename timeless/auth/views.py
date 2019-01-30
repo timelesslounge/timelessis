@@ -24,13 +24,13 @@ def login():
         # fetch user using DB and Employee model
         # check that password hash matches
         # if user is None
-        #     error = 'Incorrect username.'
+        #     error = "Incorrect username."
         # elif not user.validate_password(password):
-        #      error = 'Incorrect password.'
+        #      error = "Incorrect password."
         # if error is None:
         #     session.clear()
-        #     session['user_id'] = user[id]
-        #     return redirect(url_for('index'))
+        #     session["user_id"] = user[id]
+        #     return redirect(url_for("index"))
         flash("Login not yet implemented")
 
     return render_template("auth/login.html")
@@ -39,7 +39,7 @@ def login():
 @bp.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('main'))
+    return redirect(url_for("main"))
 
 
 @bp.route("/forgotpassword", methods=("GET", "POST"))

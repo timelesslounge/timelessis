@@ -10,6 +10,11 @@ merge:
   script: |-
     pytest
     pdd -f /dev/null -v
+    if grep -n \'.*\' ./timeless/*/*.py; then
+        echo "Single-quotes are forbidden in .py files!"
+        grep -n \'.*\' ./timeless/*/*.py
+        exit 2;
+    fi
 deploy:
   script: |-
     echo "There is nothing to deploy"

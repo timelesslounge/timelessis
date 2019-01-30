@@ -7,7 +7,7 @@ from timeless import DB
 class ReservationSettings(DB.Model):
     """Settings model for Reservations"""
 
-    __tablename__ = 'reservation_settings'
+    __tablename__ = "reservation_settings"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     name = DB.Column(DB.String, unique=True)
