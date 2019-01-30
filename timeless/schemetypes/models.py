@@ -1,4 +1,4 @@
-from timeless import DB
+from timeless.db import DB
 from datetime import datetime
 
 

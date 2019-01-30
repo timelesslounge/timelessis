@@ -1,5 +1,5 @@
 """File for models in restaurants module"""
-from timeless import DB
+from timeless.db import DB
 
 
 class TableShape(DB.Model):

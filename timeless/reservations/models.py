@@ -1,6 +1,7 @@
 """File for models in reservations module"""
-from timeless import DB
 from datetime import datetime
+
+from timeless.db import DB
 
 
 class Comment(DB.Model):
