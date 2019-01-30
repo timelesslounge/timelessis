@@ -38,7 +38,7 @@ class Employee(DB.Model):
     updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
 
     company = DB.relationship("Company", back_populates="employees")
-    comments = DB.relationship("Comment", order_by=Comment.id, back_populates="employee")
+    comments = DB.relationship("Comment", order_by=Comment.created_on, back_populates="employee")
 
     def __repr__(self):
-        return "<Employee(username='%s')>" % self.username
+        return "<Employee(username=%s)>" % self.username

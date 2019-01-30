@@ -1,9 +1,8 @@
 from datetime import datetime
+
 from timeless.companies.models import Company
-from timeless.reservations.models import Comment
-from timeless.restaurants.models import Location
-from timeless.restaurants.models import Floor
-from timeless.reservations.models import ReservationSettings
+from timeless.reservations.models import ReservationSettings, Comment
+from timeless.restaurants.models import Location, Floor, TableShape
 
 
 def test_new_company():
@@ -14,22 +13,26 @@ def test_new_company():
     assert (new_company.name is not None
             and new_company.code is not None)
 
-
 def test_new_location():
     name = "Test location"
     code = "L"
     company_id = 123
-    new_location = Location(name=name, code=code, company_id=company_id)
+    poster_id = 100
+    synchronized_on = datetime.utcnow
+    new_location = Location(name=name, code=code, company_id=company_id, poster_id=poster_id,
+                            synchronized_on=synchronized_on)
     assert (new_location.name == name
             and new_location.code == code
-            and new_location.company_id == company_id)
+            and new_location.company_id == company_id
+            and new_location.poster_id == 100
+            and new_location.synchronized_on == synchronized_on)
 
 
 def test_new_comment():
-    description = "My comment"
+    body = "My comment"
     date = datetime.utcnow
-    comment = Comment(description=description, date=date)
-    assert (comment.description == description
+    comment = Comment(body=body, date=date)
+    assert (comment.body == body
             and comment.date == date)
 
 
@@ -43,12 +46,24 @@ def test_new_floor():
             and new_floor.description == description)
 
 
+def test_new_table_shape():
+    id = 1
+    description = "Round table"
+    picture = "/static/pictures/roundtable.png"
+    new_table_shape = TableShape(
+        id=id, description=description, picture=picture
+    )
+    assert (new_table_shape.id == id
+            and new_table_shape.description == description
+            and new_table_shape.picture == picture)
+
+
 def test_reservation_settings():
     greeting_by_time = {
-            "6": "Good morning",
-            "12": "Good afternoon",
-            "18": "Good morning",
-        }
+        "6": "Good morning",
+        "12": "Good afternoon",
+        "18": "Good morning",
+    }
 
     reservation_settings = ReservationSettings(
         id=1,

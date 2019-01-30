@@ -2,6 +2,30 @@
 from timeless import DB
 
 
+class TableShape(DB.Model):
+    """Model for a Table's Shape.
+    @todo #13:30min Continue implementation. Table Shape should have its
+     own management pages to list, create, edit and delete them. In the
+     index page it should be possible to sort and filter for every column.
+    """
+
+    __tablename__ = "table_shapes"
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    description = DB.Column(DB.String, nullable=True)
+    picture = DB.Column(DB.String, nullable=False)
+
+    def __repr__(self):
+        return "<TableShape %r>" % self.picture
+
+
+class SynchronizedMixin(object):
+    """Mixin with fields needed for data synchronization with Poster.
+    """
+    poster_id = DB.Column(DB.Integer)
+    synchronized_on = DB.Column(DB.DateTime)
+
+
 class Floor(DB.Model):
     """Model for floor business entity. A Location may have 1 or more floors.
     @todo #11:30min Continue implementation. Floors should have its own management pages to list, create,
@@ -19,7 +43,8 @@ class Floor(DB.Model):
     def __repr__(self):
         return "<Floor %r>" % self.id
 
-class Location(DB.Model):
+
+class Location(SynchronizedMixin, DB.Model):
     """Model for location business entity
     @todo #10:30min Continue implementation. Locations should have its own management pages to
      list, create, edit and delete them. In the index page it should

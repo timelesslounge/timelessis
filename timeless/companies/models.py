@@ -13,7 +13,7 @@ class Company(DB.Model):
      (http://flask-sqlalchemy.pocoo.org/2.3/customizing/). Change all the models
      to use this mixin instead of existing created_on and updated_on fields.
     """
-    __tablename__ = 'companies'
+    __tablename__ = "companies"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     name = DB.Column(DB.String, unique=True, nullable=False)

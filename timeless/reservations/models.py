@@ -14,7 +14,7 @@ class Comment(DB.Model):
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
 
     employee_id = DB.Column(DB.Integer, DB.ForeignKey('employees.id'))
-    description = DB.Column(DB.String, nullable=False)
+    body = DB.Column(DB.String, nullable=False)
     date = DB.Column(DB.DateTime, nullable=False)
     created_on = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
     updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
@@ -28,7 +28,7 @@ class Comment(DB.Model):
 class ReservationSettings(DB.Model):
     """Settings model for Reservations"""
 
-    __tablename__ = 'reservation_settings'
+    __tablename__ = "reservation_settings"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     name = DB.Column(DB.String, unique=True)
