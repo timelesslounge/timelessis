@@ -44,7 +44,9 @@ def test_new_table_shape():
     id = 1
     description = "Round table"
     picture = "/static/pictures/roundtable.png"
-    new_table_shape = TableShape(id=id, description=description, picture=picture)
+    new_table_shape = TableShape(
+        id=id, description=description, picture=picture
+    )
     assert (new_table_shape.id == id
             and new_table_shape.description == description
             and new_table_shape.picture == picture)
