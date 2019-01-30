@@ -19,6 +19,13 @@ class TableShape(DB.Model):
         return "<TableShape %r>" % self.picture
 
 
+class SynchronizedMixin(object):
+    """Mixin with fields needed for data synchronization with Poster.
+    """
+    poster_id = DB.Column(DB.Integer)
+    synchronized_on = DB.Column(DB.DateTime)
+
+
 class Floor(DB.Model):
     """Model for floor business entity. A Location may have 1 or more floors.
     @todo #11:30min Continue implementation. Floors should have its own management pages to list, create,
@@ -37,7 +44,7 @@ class Floor(DB.Model):
         return "<Floor %r>" % self.id
 
 
-class Location(DB.Model):
+class Location(SynchronizedMixin, DB.Model):
     """Model for location business entity
     @todo #10:30min Continue implementation. Locations should have its own management pages to
      list, create, edit and delete them. In the index page it should

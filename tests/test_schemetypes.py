@@ -9,7 +9,7 @@ def test_new_scheme_condition():
             and condition.priority == 2)
 
 
-def test_new_scheme_Type():
+def test_new_scheme_type():
     scheme_type = SchemeType(id=1, description="description", default_value="2", value_type="STRING")
     assert (scheme_type.id == 1
             and scheme_type.description == "description"
