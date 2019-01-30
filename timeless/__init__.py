@@ -1,5 +1,10 @@
 """This file contains all functions needed to create
-a new Flask app for timeless"""
+a new Flask app for timeless
+@todo #48:30min Setup a pre-commit git hook, to forbid single-quoted
+ Strings. Generally, the Strings in our codebase should be double-quoted
+ (see README: https://github.com/timelesslounge/timelessis#development-guidelines)
+ More on git hooks here: https://githooks.com/
+"""
 
 import os
 from flask import Flask
