@@ -12,6 +12,7 @@ merge:
     pdd -f /dev/null -v
     chmod +x ./checkstyle.sh
     ./checkstyle.sh
+    python check_pylint.py
 deploy:
   script: |-
     echo "There is nothing to deploy"
