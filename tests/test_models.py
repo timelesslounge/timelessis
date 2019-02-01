@@ -87,9 +87,10 @@ def test_new_customer():
     first_name="First"
     last_name="Last"
     phone_number="+3859136281"
-    company = Customer(first_name=first_name, last_name=last_name, phone_number=phone_number)
+    customer = Customer(first_name=first_name, last_name=last_name, phone_number=phone_number)
     assert (
-        company.first_name == first_name and
-        company.last_name == last_name and
-        company.phone_number == phone_number
+        customer.first_name == first_name and
+        customer.last_name == last_name and
+        customer.phone_number == phone_number
     )
+

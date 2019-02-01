@@ -1,6 +1,6 @@
 """File for models in restaurants module"""
 from timeless import DB
-from timeless.poster.models import SynchronizedMixin
+from timeless.poster.models import PosterSyncMixin
 
 
 class TableShape(DB.Model):
@@ -38,7 +38,7 @@ class Floor(DB.Model):
         return "<Floor %r>" % self.id
 
 
-class Location(SynchronizedMixin, DB.Model):
+class Location(PosterSyncMixin, DB.Model):
     """Model for location business entity
     @todo #10:30min Continue implementation. Locations should have its own management pages to
      list, create, edit and delete them. In the index page it should

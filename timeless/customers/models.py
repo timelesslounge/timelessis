@@ -1,13 +1,14 @@
 """File for models in customer module"""
 from datetime import datetime
 from timeless import DB
-from timeless.poster.models import SynchronizedMixin
+from timeless.poster.models import PosterSyncMixin
 
 
-class Customer(SynchronizedMixin, DB.Model):
+class Customer(PosterSyncMixin, DB.Model):
     """Model for customer business entity.
-    @todo #25:30min Continue implementation of Customer data synchronization with Poster application.
-     Create method in poster api that will fetch customer data and create cron job for synchronization.
+    @todo #25:30min Continue implementation of Customer data synchronization
+     with Poster application. Create method in poster api that will fetch
+     customer data and create cron job for synchronization.
     """
     __tablename__ = "customers"
 
