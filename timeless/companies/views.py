@@ -3,7 +3,7 @@ from flask import views
 from timeless.companies import models
 
 
-class CompanyViewSet(views.MethodView):
+class Resource(views.MethodView):
     def get(self, company_id):
         """
         @todo #39:30min Bring marshmallow lib for serializing/deserializing

@@ -41,6 +41,10 @@ def initialize_extensions(app):
 
 
 def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
+    """
+    This method was taken from official docs, more info by link
+    http://flask.pocoo.org/docs/1.0/views/#method-views-for-apis
+    """
     view_func = view.as_view(endpoint)
     app.add_url_rule(url, view_func=view_func, methods=["POST"])
     app.add_url_rule(
@@ -59,6 +63,7 @@ def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
 def register_endpoints(app):
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(reservations_views.bp)
+    app.add_url_rule()
     register_api(
         app,
         companies_views.CompanyViewSet,
