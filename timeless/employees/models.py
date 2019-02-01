@@ -1,9 +1,9 @@
 """File for models in employees module"""
-from datetime import datetime
 from timeless import DB
+from timeless.models import TimestampMixin
 
 
-class Employee(DB.Model):
+class Employee(TimestampMixin, DB.Model):
     """Model for employee business entity.
     @todo #4:30min Continue implementation. Employees should have its own
      management pages to list, create, edit and delete them. In the index page
@@ -34,8 +34,6 @@ class Employee(DB.Model):
     pin_code = DB.Column(DB.Integer, unique=True, nullable=False)
     comment = DB.Column(DB.String)
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
-    created_on = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
-    updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
 
     company = DB.relationship("Company", back_populates="employees")
 

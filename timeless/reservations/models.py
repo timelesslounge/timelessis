@@ -1,10 +1,9 @@
 """File for models in reservations module"""
-from datetime import datetime
-
+from timeless.models import TimestampMixin
 from timeless import DB
 
 
-class ReservationSettings(DB.Model):
+class ReservationSettings(TimestampMixin, DB.Model):
     """Settings model for Reservations"""
 
     __tablename__ = "reservation_settings"
@@ -17,6 +16,3 @@ class ReservationSettings(DB.Model):
     threshold_sms_time = DB.Column(DB.SmallInteger)
     greeting_by_time = DB.Column(DB.JSON)
     sex = DB.Column(DB.String)
-    created_on = DB.Column(
-        DB.DateTime, default=datetime.utcnow, nullable=False)
-    updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)

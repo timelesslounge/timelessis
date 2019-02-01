@@ -1,17 +1,13 @@
 """File for models in test_companies module"""
-from datetime import datetime
-
 from timeless import DB
+from timeless.models import TimestampMixin
 
 
-class Company(DB.Model):
+class Company(TimestampMixin, DB.Model):
     """Model for company business entity.
     @todo #3:30min Create management pages for Companies to list, create, edit
      and delete them. In the index page it should be possible to sort and filter
      for every column.
-    @todo #3:30min Implement TimestampMixin, like in the example
-     (http://flask-sqlalchemy.pocoo.org/2.3/customizing/). Change all the models
-     to use this mixin instead of existing created_on and updated_on fields.
     """
     __tablename__ = "companies"
 
@@ -19,8 +15,6 @@ class Company(DB.Model):
     name = DB.Column(DB.String, unique=True, nullable=False)
     code = DB.Column(DB.String, unique=True, nullable=False)
     address = DB.Column(DB.String)
-    created_on = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
-    updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
 
     locations = DB.relationship("Location", order_by="Location.id",
                                 back_populates="company")
