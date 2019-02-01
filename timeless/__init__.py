@@ -63,10 +63,9 @@ def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
 def register_endpoints(app):
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(reservations_views.bp)
-    app.add_url_rule()
     register_api(
         app,
-        companies_views.CompanyViewSet,
+        companies_views.Resource,
         "companies.api",
         "/api/companies/",
         pk="company_id"
