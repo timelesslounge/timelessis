@@ -45,11 +45,7 @@ class Floor(DB.Model):
 
 
 class Location(SynchronizedMixin, DB.Model):
-    """Model for location business entity
-    @todo #10:30min Continue implementation. Locations should have its own management pages to
-     list, create, edit and delete them. In the index page it should
-     be possible to sort and filter for every column.
-    """
+    """Model for location business entity"""
     __tablename__ = "locations"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)

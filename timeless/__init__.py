@@ -12,6 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 from timeless.companies import views as companies_views
 from timeless.auth import views as auth_views
 from timeless.reservations import views as reservations_views
+from timeless.restaurants.locations import views as locations_views
 
 
 DB = SQLAlchemy()
@@ -48,3 +49,4 @@ def register_endpoints(app):
     app.register_blueprint(companies_views.bp)
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(reservations_views.bp)
+    app.register_blueprint(locations_views.bp)
