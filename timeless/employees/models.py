@@ -33,12 +33,12 @@ class Employee(DB.Model):
     email = DB.Column(DB.String(300), nullable=False)
     password = DB.Column(DB.String(300), nullable=False)
     pin_code = DB.Column(DB.Integer, unique=True, nullable=False)
+    comment = DB.Column(DB.String)
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
     created_on = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
     updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
 
     company = DB.relationship("Company", back_populates="employees")
-    comments = DB.relationship("Comment", order_by=Comment.created_on, back_populates="employee")
 
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username

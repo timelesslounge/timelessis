@@ -18,8 +18,7 @@ class Comment(DB.Model):
     date = DB.Column(DB.DateTime, nullable=False)
     created_on = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
     updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
-
-    employee = DB.relationship("Employee", back_populates="comments")
+    employee = DB.Column(DB.Integer, DB.ForeignKey('employees.id'))
 
     def __repr__(self):
         return "<Comment %r>" % self.description
