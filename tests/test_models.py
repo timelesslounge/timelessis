@@ -1,10 +1,8 @@
 from datetime import datetime
 
 from timeless.companies.models import Company
-from timeless.restaurants.models import Location
-from timeless.restaurants.models import Floor
-from timeless.restaurants.models import TableShape
-from timeless.reservations.models import ReservationSettings
+from timeless.reservations.models import ReservationSettings, Comment
+from timeless.restaurants.models import Location, Floor, TableShape
 
 
 def test_new_company():
@@ -28,6 +26,14 @@ def test_new_location():
             and new_location.company_id == company_id
             and new_location.poster_id == 100
             and new_location.synchronized_on == synchronized_on)
+
+
+def test_new_comment():
+    body = "My comment"
+    date = datetime.utcnow
+    comment = Comment(body=body, date=date)
+    assert (comment.body == body
+            and comment.date == date)
 
 
 def test_new_floor():
