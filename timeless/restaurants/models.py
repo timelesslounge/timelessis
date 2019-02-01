@@ -72,3 +72,24 @@ class Location(SynchronizedMixin, DB.Model):
 
     def __repr__(self):
         return "<Location %r>" % self.name
+
+class Table(DB.Model):
+    """Model for a Table"""
+
+    __tablename__ = "tables"
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    name = DB.Column(DB.String, nullable=False)
+    floor_id = DB.Column(DB.Integer, DB.ForeignKey("floors.id"))
+    x = DB.Column(DB.Integer, nullable=False)
+    y = DB.Column(DB.Integer, nullable=False)
+    width = DB.Column(DB.Integer, nullable=False)
+    height = DB.Column(DB.Integer, nullable=False)
+    status = DB.Column(DB.Integer, nullable=False)
+    max_capacity = DB.Column(DB.Integer, nullable=False)
+    multiple = DB.Column(DB.Boolean, default=False)
+    playstation = DB.Column(DB.Boolean, default=False)
+    shape_id = DB.Column(DB.Integer, DB.ForeignKey("table_shapes.id"))
+
+    def __repr__(self):
+        return "<Table %r>" % self.name

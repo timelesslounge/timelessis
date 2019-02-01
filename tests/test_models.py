@@ -3,6 +3,7 @@ from datetime import datetime
 from timeless.companies.models import Company
 from timeless.restaurants.models import Location
 from timeless.restaurants.models import Floor
+from timeless.restaurants.models import Table
 from timeless.restaurants.models import TableShape
 from timeless.reservations.models import ReservationSettings
 
@@ -14,6 +15,7 @@ def test_new_company():
     new_company = Company(name="First company", code="C")
     assert (new_company.name is not None
             and new_company.code is not None)
+
 
 def test_new_location():
     name = "Test location"
@@ -51,7 +53,6 @@ def test_new_table_shape():
             and new_table_shape.description == description
             and new_table_shape.picture == picture)
 
-
 def test_reservation_settings():
     greeting_by_time = {
         "6": "Good morning",
@@ -79,4 +80,48 @@ def test_reservation_settings():
         reservation_settings.threshold_sms_time is None and
         reservation_settings.greeting_by_time == greeting_by_time and
         reservation_settings.sex == "M"
+    )
+
+
+def test_new_table():
+    id = 42
+    name = "Philosopher's Table"
+    floor_id=600,
+    x=40,
+    y=50,
+    width=320,
+    height=200,
+    status="available",
+    max_capacity=5,
+    multiple=False,
+    playstation=False,
+    shape_id=3
+
+    new_table = Table(
+        id=id,
+        name=name,
+        floor_id=floor_id,
+        x=x,
+        y=y,
+        width=width,
+        height=height,
+        status=status,
+        max_capacity=max_capacity,
+        multiple=multiple,
+        playstation=playstation,
+        shape_id=shape_id
+    )
+    assert (
+        new_table.id == id and
+        new_table.name == name and
+        new_table.floor_id == floor_id and
+        new_table.x == x and
+        new_table.y == y and
+        new_table.width == width and
+        new_table.height == height and
+        new_table.status == status and
+        new_table.max_capacity == max_capacity and
+        new_table.multiple == multiple and
+        new_table.playstation == playstation and
+        new_table.shape_id == shape_id
     )
