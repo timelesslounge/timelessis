@@ -4,9 +4,12 @@ import sys
 from pylint.lint import Run
 
 
-parser = argparse.ArgumentParser(description='Run py linter')
-parser.add_argument('threshold', type=int, nargs='?', default=8,
-                    help='a minimal threshold for quality score')
+parser = argparse.ArgumentParser(description='Run pylint')
+parser.add_argument(
+    'threshold', type=int, nargs='?', default=8,
+    help='Pls set up threshold for quality score, MAX is 10. '
+         'Script will exit with error if quality score is less then threshold.'
+)
 
 
 def run_pylint(threshold):
@@ -18,5 +21,6 @@ def run_pylint(threshold):
 
 
 if __name__ == "__main__":
+    """This script runs pylint checker with threshold value"""
     args = parser.parse_args()
     run_pylint(args.threshold)
