@@ -3,6 +3,7 @@ from datetime import datetime
 from timeless.companies.models import Company
 from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape
+from timeless.restaurants.models import Table
 
 
 def test_new_company():

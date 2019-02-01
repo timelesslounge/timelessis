@@ -91,5 +91,7 @@ class Table(DB.Model):
     playstation = DB.Column(DB.Boolean, default=False)
     shape_id = DB.Column(DB.Integer, DB.ForeignKey("table_shapes.id"))
 
+    DB.UniqueConstraint(u"name", u"floor_id")
+
     def __repr__(self):
         return "<Table %r>" % self.name
