@@ -34,4 +34,4 @@ def test_new_date():
     test_date = Date(id=1, date=datetime.strptime(month_year, date_format), scheme_condition_id=2)
     assert (test_date.id == 1
             and test_date.date == datetime.strptime(month_year, date_format)
-            and test_date.scheme_condition_id == 2)                       
+            and test_date.scheme_condition_id == 2)
