@@ -26,6 +26,8 @@ class Company(DB.Model):
                                 back_populates="company")
     employees = DB.relationship("Employee", order_by="Employee.id",
                                 back_populates="company")
+    roles = DB.relationship("Role", order_by="Role.id",
+                            back_populates="company")
 
     def __repr__(self):
         return "<Company %r>" % self.name
