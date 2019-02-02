@@ -12,6 +12,7 @@ from timeless.db import DB
 from timeless.companies import views as companies_views
 from timeless.auth import views as auth_views
 from timeless.reservations import views as reservations_views
+from timeless.restaurants.floors import views as floors_views
 
 
 def create_app(config):
@@ -25,6 +26,7 @@ def create_app(config):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
     @app.route("/")
     def main():
         return "Hello, World!"
@@ -70,3 +72,4 @@ def register_endpoints(app):
         "/api/companies/",
         pk="company_id"
     )
+    app.register_blueprint(floors_views.bp)
