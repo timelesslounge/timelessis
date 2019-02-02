@@ -15,7 +15,7 @@ class Resource(views.MethodView):
          It's necessary for our API ViewSets,
          it helps validate data from request and deserialize it from objects
          to response
-        @todo:39:30min Once marshmallow will be brought in puzzle above,
+        @todo #39:30min Once marshmallow will be brought in puzzle above,
          then continue the implementation, it should be possible to sort and
          filter for every column
         """
