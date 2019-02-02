@@ -11,7 +11,7 @@ merge:
     chmod +x ./checkstyle.sh
     ./checkstyle.sh
     python check_pylint.py
-    pytest
+    pytest -vv
     pdd -f /dev/null -v
 deploy:
   script: |-
