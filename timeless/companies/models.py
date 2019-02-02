@@ -6,9 +6,6 @@ from timeless.db import DB
 
 class Company(DB.Model):
     """Model for company business entity.
-    @todo #3:30min Create management pages for Companies to list, create, edit
-     and delete them. In the index page it should be possible to sort and filter
-     for every column.
     @todo #3:30min Implement TimestampMixin, like in the example
      (http://flask-sqlalchemy.pocoo.org/2.3/customizing/). Change all the models
      to use this mixin instead of existing created_on and updated_on fields.
