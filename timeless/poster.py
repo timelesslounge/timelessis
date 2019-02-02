@@ -38,6 +38,20 @@ class Poster(object):
         response.raise_for_status()
         return response
 
+
+class Authenticated(Poster):
+
+    origin = ""
+
+    def __init__(self, **kwargs):
+        self.origin = kwargs.get("origin", "")
+        self.acount = kwargs.get("client_id", 0)
+
+    def token(self):
+        if self.token == "":
+            self.auth()
+        return self.token
+
     def auth(self):
         """Authenticates user into poster API
         @todo #67:30min Implement auth process following the Poster API

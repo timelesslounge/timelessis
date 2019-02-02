@@ -1,5 +1,5 @@
 import unittest
-from timeless.poster import Poster
+from timeless.poster import Poster, Authenticated
 
 """Integration tests for Poster"""
 
@@ -14,6 +14,6 @@ class PosterITTests(unittest.TestCase):
 
     @unittest.skip("poster.auth not implemented yet")
     def test_auth(self):
-        poster = Poster(clientid="$0m3C1i3ntId")
-        poster.auth()
-        assert poster.token != "", "Poster did not authenticated user"
+        assert Authenticated(
+            Poster(clientid="$0m3C1i3ntId")
+        ).token() != "", "Poster did not authenticated user"
