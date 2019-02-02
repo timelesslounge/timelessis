@@ -6,8 +6,7 @@ from urllib.parse import urljoin
 
 class Poster(object):
     """Poster application API.
-    @todo #23:30min Create a job using cron that will synchronize location data from Poster with data in our database.
-     Data coming from Poster has priority upon data stored in our database.
+
     """
 
     __GET = "GET"
