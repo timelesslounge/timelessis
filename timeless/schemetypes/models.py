@@ -59,8 +59,8 @@ class Date(DB.Model):
 class SchemeCondition(DB.Model):
     """
     @todo #43:30min Continue implementation as in #18. The possibility to
-    create, edit, delete the conditions shall be made inside SchemeType page
-    for consistency.
+     create, edit, delete the conditions shall be made inside SchemeType page
+     for consistency.
     """
     __tablename__ = "scheme_conditions"
 
