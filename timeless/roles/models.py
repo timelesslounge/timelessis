@@ -11,7 +11,7 @@ class Role(DB.Model):
      After migrations are fixed in #50 add migration for this table.
     """
 
-    __tablename__ = "role"
+    __tablename__ = "roles"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     name = DB.Column(DB.String, unique=True)
