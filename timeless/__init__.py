@@ -3,6 +3,9 @@ a new Flask app for timeless
 @todo #69:30min Enhance the "DoubleQuotesOnly" rule from checkstyle.sh,
  to allow single-quoted strings as long as they are contained within
  another double-quoted String.
+@todo #50:30min Add execution of db upgrade script inside rultor so we can
+ validate that any new migrations are done correctly and are in sync with
+ master.
 """
 
 import os
