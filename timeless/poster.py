@@ -16,7 +16,7 @@ class Poster(object):
 
     def __init__(self, **kwargs):
         self.url = kwargs.get("url", "https://joinposter.com/api")
-        self.acount = kwargs.get("client_id", 0)
+        self.account = kwargs.get("client_id", 0)
 
     def locations(self):
         """Fetches location data
