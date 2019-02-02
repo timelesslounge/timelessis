@@ -8,10 +8,11 @@ install: |-
   sudo gem install pdd
 merge:
   script: |-
-    pytest
-    pdd -f /dev/null -v
     chmod +x ./checkstyle.sh
     ./checkstyle.sh
+    python check_pylint.py
+    pytest -vv
+    pdd -f /dev/null -v
 deploy:
   script: |-
     echo "There is nothing to deploy"

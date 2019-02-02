@@ -1,7 +1,7 @@
 """File for models in test_companies module"""
 from datetime import datetime
 
-from timeless import DB
+from timeless.db import DB
 
 
 class Company(DB.Model):
