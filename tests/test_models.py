@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from timeless.companies.models import Company
+from timeless.customers.models import Customer
 from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape, Table
 from timeless.roles.models import Role
@@ -102,7 +103,6 @@ def test_reservation_settings():
         reservation_settings.sex == "M"
     )
 
-
 def test_new_table():
     id = 42
     name = "Philosopher's Table"
@@ -150,4 +150,15 @@ def test_new_table():
         new_table.shape_id == shape_id,
         new_table.created == created,
         new_table.updated == updated
+    )
+
+def test_new_customer():
+    first_name="First"
+    last_name="Last"
+    phone_number="+3859136281"
+    customer = Customer(first_name=first_name, last_name=last_name, phone_number=phone_number)
+    assert (
+        customer.first_name == first_name and
+        customer.last_name == last_name and
+        customer.phone_number == phone_number
     )
