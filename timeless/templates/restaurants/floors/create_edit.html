@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Floors management - {% if action == 'create' %} Create {% else %} Edit {% endif %} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="location">Location</label>
+    <input name="location" id="location" required>
+    <br/>
+    <label for="description">Description</label>
+    <textarea name="description" id="description"></textarea>
+    <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
+    <a class="action" href="{{ url_for('floor.list_floors') }}">Cancel</a>
+  </form>
+{% endblock %}

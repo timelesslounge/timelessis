@@ -28,10 +28,7 @@ class SynchronizedMixin(object):
 
 class Floor(DB.Model):
     """Model for floor business entity. A Location may have 1 or more floors.
-    @todo #11:30min Continue implementation. Floors should have its own management pages to list, create,
-     edit and delete them. In the index page it should be possible to sort and filter for every column.
-     Floor management page should be accessed by the Location page.
-     """
+    """
     __tablename__ = "floors"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)

@@ -3,6 +3,9 @@ a new Flask app for timeless
 @todo #69:30min Enhance the "DoubleQuotesOnly" rule from checkstyle.sh,
  to allow single-quoted strings as long as they are contained within
  another double-quoted String.
+@todo #50:30min After #37 is completed add execution of one test with migrations
+ flag inside rultor so we can validate that any new migrations are done
+ correctly and are in sync with master.
 """
 
 import os
@@ -12,6 +15,7 @@ from timeless.db import DB
 from timeless.companies import views as companies_views
 from timeless.auth import views as auth_views
 from timeless.reservations import views as reservations_views
+from timeless.restaurants.floors import views as floors_views
 
 
 def create_app(config):
@@ -25,6 +29,7 @@ def create_app(config):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
     @app.route("/")
     def main():
         return "Hello, World!"
@@ -70,3 +75,4 @@ def register_endpoints(app):
         "/api/companies/",
         pk="company_id"
     )
+    app.register_blueprint(floors_views.bp)

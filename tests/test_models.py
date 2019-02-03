@@ -3,6 +3,7 @@ from datetime import datetime
 from timeless.companies.models import Company
 from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape, Table
+from timeless.roles.models import Role
 
 
 def test_new_company():
@@ -57,6 +58,20 @@ def test_new_table_shape():
     assert (new_table_shape.id == id
             and new_table_shape.description == description
             and new_table_shape.picture == picture)
+
+def test_new_roles():
+    id = 1
+    name = "Cleaner"
+    works_on_shifts = True
+    company_id = 10
+    new_table = Role(
+        id=id, name=name, works_on_shifts=works_on_shifts, company_id=company_id
+    )
+    assert (new_table.id == id
+            and new_table.name == name
+            and new_table.works_on_shifts == works_on_shifts
+            and new_table.company_id == company_id)
+
 
 def test_reservation_settings():
     greeting_by_time = {

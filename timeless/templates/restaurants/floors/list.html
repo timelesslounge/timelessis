@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Floors management - Main{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% for floor in floors %}
+        <article class="floor">
+        <header>
+            <div>
+            <h1>{{ floor['location'] }}</h1>
+            </div>
+            <a class="action" href="{{ url_for('floor.edit', id=floor['id']) }}">Edit</a>
+        </header>
+        <p class="description">{{ floor['description'] }}</p>
+        </article>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
