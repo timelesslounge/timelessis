@@ -16,9 +16,6 @@ from timeless.companies import views as companies_views
 from timeless.auth import views as auth_views
 from timeless.reservations import views as reservations_views
 from timeless.restaurants.locations import views as locations_views
-
-
-DB = SQLAlchemy()
 from timeless.restaurants.floors import views as floors_views
 
 
