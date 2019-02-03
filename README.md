@@ -215,6 +215,11 @@ export FLASK_ENV=testing
 pytest
 ```
 
+NOTE: To skip integration tests run:
+```
+pytest -k 'not it'
+```
+
 ### Generating migrations
 
 ```
