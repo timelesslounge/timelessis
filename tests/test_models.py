@@ -116,6 +116,8 @@ def test_new_table():
     multiple=False,
     playstation=False,
     shape_id=3
+    created = datetime.utcnow
+    updated = datetime.utcnow
 
     new_table = Table(
         id=id,
@@ -129,7 +131,9 @@ def test_new_table():
         max_capacity=max_capacity,
         multiple=multiple,
         playstation=playstation,
-        shape_id=shape_id
+        shape_id=shape_id,
+        cretaed=created,
+        updated=updated        
     )
     assert (
         new_table.id == id and
@@ -143,5 +147,7 @@ def test_new_table():
         new_table.max_capacity == max_capacity and
         new_table.multiple == multiple and
         new_table.playstation == playstation and
-        new_table.shape_id == shape_id
+        new_table.shape_id == shape_id,
+        new_table.created == created,
+        new_table.updated == updated
     )
