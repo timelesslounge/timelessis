@@ -90,6 +90,8 @@ class Table(DB.Model):
     multiple = DB.Column(DB.Boolean, default=False)
     playstation = DB.Column(DB.Boolean, default=False)
     shape_id = DB.Column(DB.Integer, DB.ForeignKey("table_shapes.id"))
+    created = DB.Column(DB.DateTime, nullable=False)
+    updated = DB.Column(DB.DateTime, nullable=False)
 
     DB.UniqueConstraint(u"name", u"floor_id")
 
