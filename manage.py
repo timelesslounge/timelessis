@@ -1,6 +1,7 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from timeless import create_app, DB
+from timeless import create_app
+from timeless.db import DB
 
 APP = create_app("config.DevelopmentConfig")
 

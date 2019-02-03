@@ -1,5 +1,5 @@
 """File for models in employees module"""
-from timeless import DB
+from timeless.db import DB
 from timeless.models import TimestampMixin
 
 

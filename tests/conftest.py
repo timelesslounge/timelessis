@@ -2,7 +2,6 @@ import os
 import tempfile
 
 import pytest
-from datetime import datetime
 from timeless import create_app
 
 @pytest.fixture
@@ -24,7 +23,7 @@ def runner(app):
     return app.test_cli_runner()
 
 
-class AuthActions(object):
+class AuthActions():
     def __init__(self, client):
         self._client = client
 

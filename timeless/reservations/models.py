@@ -1,6 +1,28 @@
 """File for models in reservations module"""
 from timeless.models import TimestampMixin
 from timeless import DB
+from datetime import datetime
+
+from timeless.db import DB
+
+
+class Comment(TimestampMixin, DB.Model):
+    """Model for comment business entity
+    @todo #26:30min Continue implementation. Comments should have its own management pages to
+     list, create, edit and delete them. In the index page it should
+     be possible to sort and filter for every column.
+    """
+    __tablename__ = "comments"
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+
+    employee_id = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
+    body = DB.Column(DB.String, nullable=False)
+    date = DB.Column(DB.DateTime, nullable=False)
+    employee = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
+
+    def __repr__(self):
+        return "<Comment %r>" % self.description
 
 
 class ReservationSettings(TimestampMixin, DB.Model):
