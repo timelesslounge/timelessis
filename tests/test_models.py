@@ -132,7 +132,7 @@ def test_new_table():
         multiple=multiple,
         playstation=playstation,
         shape_id=shape_id,
-        cretaed=created,
+        created=created,
         updated=updated        
     )
     assert (
