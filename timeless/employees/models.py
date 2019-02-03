@@ -1,9 +1,9 @@
 """File for models in employees module"""
 from timeless.db import DB
-from timeless.models import TimestampMixin
+from timeless.models import TimestampsMixin
 
 
-class Employee(TimestampMixin, DB.Model):
+class Employee(TimestampsMixin, DB.Model):
     """Model for employee business entity.
     @todo #4:30min Continue implementation. Employees should have its own
      management pages to list, create, edit and delete them. In the index page

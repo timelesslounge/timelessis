@@ -1,10 +1,10 @@
 """File for models in test_companies module"""
-from timeless.models import TimestampMixin
+from timeless.models import TimestampsMixin
 
 from timeless.db import DB
 
 
-class Company(TimestampMixin, DB.Model):
+class Company(TimestampsMixin, DB.Model):
     """Model for company business entity.
     @todo #3:30min Create management pages for Companies to list, create, edit
      and delete them. In the index page it should be possible to sort and filter
