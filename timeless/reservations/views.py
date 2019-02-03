@@ -1,5 +1,4 @@
-from flask import Blueprint
-
+from flask import Blueprint, views
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
@@ -12,3 +11,36 @@ def base():
      fields from ReservationSettings model.
     """
     return "Settings API entry point"
+
+
+class CommentView(views.MethodView):
+    """API Resource for comments /api/comments"""
+
+    def get(self, comment_id):
+        """Get method of CommentView
+        @todo #87:30min Continue implementation of view methods for get,
+         create, edit and delete. In the index page it should be possible
+         to sort and filter for every column.
+        """
+        if comment_id:
+            return "Detail get method of CommentViewSet", 200
+        return "Get method of CommentViewSet", 200
+
+    def post(self):
+        """Post method of CommentView"""
+        return "Post method of CommentViewSet", 201
+
+    def put(self, comment_id):
+        """Put method of CommentView"""
+        if comment_id:
+            return "Detail put method of CommentViewSet", 200
+        return "Put method of CommentViewSet", 200
+
+    def delete(self, comment_id):
+        """Delete method of CommentView"""
+        if comment_id:
+            return "Detail delete method of CommentViewSet", 204
+        return "Delete method of CommentViewSet", 204
+
+
+
