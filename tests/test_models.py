@@ -5,8 +5,12 @@ from timeless.customers.models import Customer
 from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape, Table
 from timeless.roles.models import Role
+<<<<<<< HEAD
 from timeless.schemetypes.models import SchemeType
 
+=======
+from timeless.items.models import Item
+>>>>>>> #15 Fixed conflicts
 
 def test_new_company():
     """
@@ -169,3 +173,21 @@ def test_new_customer():
         customer.last_name == last_name and
         customer.phone_number == phone_number
     )
+
+def test_new_item():
+    id=1
+    name="First Item"
+    stock_date=datetime.utcnow
+    comment="Commentary of the first item"
+    company_id=123
+    new_item = Item(
+        id=id, name=name,
+        stock_date=stock_date,
+        comment=comment,
+        company_id=company_id)
+    assert (
+        new_item.id == id and
+        new_item.name == name and
+        new_item.stock_date == stock_date and
+        new_item.comment == comment and
+        new_item.company_id == company_id)
