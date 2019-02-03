@@ -48,6 +48,7 @@ class Location(PosterSyncMixin, DB.Model):
     name = DB.Column(DB.String, unique=True, nullable=False)
     code = DB.Column(DB.String, unique=True, nullable=False)
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
+    scheme_type_id = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     country = DB.Column(DB.String, nullable=False)
     region = DB.Column(DB.String, nullable=False)
     city = DB.Column(DB.String, nullable=False)
@@ -60,6 +61,8 @@ class Location(PosterSyncMixin, DB.Model):
 
     company = DB.relationship("Company", back_populates="locations")
     floors = DB.relationship("Floor", order_by=Floor.id, back_populates="location")
+    working_hours = DB.relationship("SchemeType")
+    closed_days = DB.relationship("SchemeType")
 
     def __repr__(self):
         return "<Location %r>" % self.name
