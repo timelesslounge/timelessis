@@ -1,5 +1,6 @@
 """File for models in restaurants module"""
 from timeless.db import DB
+from timeless.poster.models import PosterSyncMixin
 
 
 class TableShape(DB.Model):
@@ -19,13 +20,6 @@ class TableShape(DB.Model):
         return "<TableShape %r>" % self.picture
 
 
-class SynchronizedMixin(object):
-    """Mixin with fields needed for data synchronization with Poster.
-    """
-    poster_id = DB.Column(DB.Integer)
-    synchronized_on = DB.Column(DB.DateTime)
-
-
 class Floor(DB.Model):
     """Model for floor business entity. A Location may have 1 or more floors.
     """
@@ -41,7 +35,7 @@ class Floor(DB.Model):
         return "<Floor %r>" % self.id
 
 
-class Location(SynchronizedMixin, DB.Model):
+class Location(PosterSyncMixin, DB.Model):
     """Model for location business entity
     @todo #10:30min Continue implementation. Locations should have its own management pages to
      list, create, edit and delete them. In the index page it should
@@ -69,3 +63,32 @@ class Location(SynchronizedMixin, DB.Model):
 
     def __repr__(self):
         return "<Location %r>" % self.name
+
+class Table(DB.Model):
+    """Model for a Table
+    @todo #12:30min Continue implementation for Tables. Tables should have its own management pages to
+     list, create, edit and delete them. In the index page it should be possible to sort and filter for every column.
+     Table management pages should be accessed by the Location and Floor pages.
+    """
+
+    __tablename__ = "tables"
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    name = DB.Column(DB.String, nullable=False)
+    floor_id = DB.Column(DB.Integer, DB.ForeignKey("floors.id"))
+    x = DB.Column(DB.Integer, nullable=False)
+    y = DB.Column(DB.Integer, nullable=False)
+    width = DB.Column(DB.Integer, nullable=False)
+    height = DB.Column(DB.Integer, nullable=False)
+    status = DB.Column(DB.Integer, nullable=False)
+    max_capacity = DB.Column(DB.Integer, nullable=False)
+    multiple = DB.Column(DB.Boolean, default=False)
+    playstation = DB.Column(DB.Boolean, default=False)
+    shape_id = DB.Column(DB.Integer, DB.ForeignKey("table_shapes.id"))
+    created = DB.Column(DB.DateTime, nullable=False)
+    updated = DB.Column(DB.DateTime, nullable=False)
+
+    DB.UniqueConstraint(u"name", u"floor_id")
+
+    def __repr__(self):
+        return "<Table %r>" % self.name

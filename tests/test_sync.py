@@ -4,7 +4,7 @@ import unittest
 from tests.poster_mock import free_port, start_server
 from timeless.companies.models import Company
 from timeless.employees.models import Employee
-from timeless.poster import Poster
+from timeless.poster.api import Poster
 from timeless.sync.sync import PosterSync
 from timeless.restaurants.models import Location
 
