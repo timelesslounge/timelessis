@@ -5,6 +5,7 @@ from timeless.customers.models import Customer
 from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape, Table
 from timeless.roles.models import Role
+from timeless.schemetypes.models import SchemeType
 
 
 def test_new_company():
@@ -118,6 +119,8 @@ def test_new_table():
     shape_id=3
     created = datetime.utcnow
     updated = datetime.utcnow
+    min_capacity = SchemeType()
+    deposit_hour = SchemeType()
 
     new_table = Table(
         id=id,
@@ -133,7 +136,9 @@ def test_new_table():
         playstation=playstation,
         shape_id=shape_id,
         created=created,
-        updated=updated        
+        updated=updated,
+        min_capacity=min_capacity.id,
+        deposit_hour=deposit_hour.id
     )
     assert (
         new_table.id == id and
@@ -149,7 +154,9 @@ def test_new_table():
         new_table.playstation == playstation and
         new_table.shape_id == shape_id,
         new_table.created == created,
-        new_table.updated == updated
+        new_table.updated == updated and
+        new_table.min_capacity == min_capacity.id and
+        new_table.deposit_hour == deposit_hour.id
     )
 
 def test_new_customer():
