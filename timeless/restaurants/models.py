@@ -81,6 +81,8 @@ class Table(DB.Model):
     multiple = DB.Column(DB.Boolean, default=False)
     playstation = DB.Column(DB.Boolean, default=False)
     shape_id = DB.Column(DB.Integer, DB.ForeignKey("table_shapes.id"))
+    min_capacity = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
+    deposit_hour = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     created = DB.Column(DB.DateTime, nullable=False)
     updated = DB.Column(DB.DateTime, nullable=False)
 
