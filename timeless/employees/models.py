@@ -1,4 +1,6 @@
 """File for models in employees module"""
+from datetime import datetime
+from passlib.hash import bcrypt_sha256
 from timeless.db import DB
 from timeless.models import TimestampsMixin
 
@@ -10,13 +12,6 @@ class Employee(TimestampsMixin, DB.Model):
      it should be possible to sort and filter for every column. Other possible
      actions are described in more detail in issue #4. Specific details about
      Employee default values are in another puzzle.
-    @todo #4:30min Create constructor for Employee model. Default
-     values for these variables should be set: registration_date, account_status
-     user_status, created_on and password. Password is special and it should be
-     hashed and salted - one can use bcrypt_sha256.hash() function. See more at:
-     https://pythonhosted.org/passlib/lib/passlib.hash.bcrypt_sha256.html
-     Also create a method to validate the password, using:
-     bcrypt_sha256.verify("password", h)
     """
     __tablename__ = "employees"
 
@@ -37,5 +32,26 @@ class Employee(TimestampsMixin, DB.Model):
 
     company = DB.relationship("Company", back_populates="employees")
 
+    def __init__(self, username, password, first_name, last_name, phone_number,
+                 birth_date, pin_code, email, comment=""):
+        super().__init__()
+        self.username = username
+        self.password = bcrypt_sha256.hash(password)
+        self.first_name = first_name
+        self.last_name = last_name
+        self.phone_number = phone_number
+        self.birth_date = birth_date
+        self.pin_code = pin_code
+        self.email = email
+        self.registration_date = datetime.utcnow()
+        self.account_status = "Not Activated"
+        self.user_status = "Working"
+        self.created_on = datetime.utcnow()
+        self.comment = comment
+
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username
+
+    def validate(self, password):
+        """ Validate user password """
+        return bcrypt_sha256.verify(password, self.password)
