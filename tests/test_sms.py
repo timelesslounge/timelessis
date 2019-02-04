@@ -6,7 +6,7 @@ from timeless.sms import RedSMS
 
 @mock.patch("timeless.sms.datetime")
 @mock.patch("timeless.sms.requests")
-def test_red_sms_provider(red_sms_mock, timestamp_mock):
+def test_red_sms_provider(requests_mock, timestamp_mock):
     login = "test_login"
     api_key = "api_key"
     timestamp = 1549208808.562239
@@ -27,7 +27,7 @@ def test_red_sms_provider(red_sms_mock, timestamp_mock):
     )
     sms.send()
 
-    red_sms_mock.post.assert_called_with(
+    requests_mock.post.assert_called_with(
         "https://cp.redsms.ru/api/message",
         data={
             "login": login,

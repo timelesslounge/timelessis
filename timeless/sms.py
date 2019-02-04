@@ -9,6 +9,7 @@ class SMS:
     """Interface for SMS"""
 
     def send(self):
+        """Abstract method send"""
         raise NotImplementedError
 
 
@@ -27,6 +28,7 @@ class RedSMS(SMS):
         self.sender = sender
 
     def make_base_payload(self):
+        """Make base payload with basic data for provider"""
         timestamp = datetime.now().timestamp()
         return {
             "login": self.login,
@@ -38,7 +40,7 @@ class RedSMS(SMS):
 
     def send(self):
         """
-        Sends sms via  provider
+        Sends sms via provider
         @todo #46:30min handle exceptional cases and maybe write a
          decorator, some kind of retrial mechanism
          (if the response is 404, the RedSMS api is down at the moment)
