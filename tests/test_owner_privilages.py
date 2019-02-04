@@ -11,3 +11,4 @@ def test_cant_access_unknown_resource():
     assert (
         has_privilege(method=Method.CREATE, resource="unknown") == False
     )
+

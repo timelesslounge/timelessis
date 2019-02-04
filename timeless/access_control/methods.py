@@ -7,3 +7,4 @@ class Method(Enum):
     CREATE = "post"
     UPDATE = "put"
     DELETE = "delete"
+

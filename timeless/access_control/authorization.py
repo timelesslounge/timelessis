@@ -12,3 +12,4 @@ def is_allowed(method=None, resource=None, **kwargs) -> bool:
 __roles = {
     "owner": owner_privileges
 }
+
