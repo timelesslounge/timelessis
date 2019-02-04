@@ -1,7 +1,7 @@
 import hashlib
 
 from unittest import mock
-from timeless.sms import RedSMS, SMS
+from timeless.sms import RedSMS
 
 
 @mock.patch("timeless.sms.datetime")
@@ -18,8 +18,14 @@ def test_red_sms_provider(red_sms_mock, timestamp_mock):
     sender = "sender"
     message = "message"
 
-    red_sms = RedSMS(login=login, api_key=api_key)
-    red_sms.send(recipient, message, sender)
+    sms = RedSMS(
+        login=login,
+        api_key=api_key,
+        recipient=recipient,
+        message=message,
+        sender=sender,
+    )
+    sms.send()
 
     red_sms_mock.post.assert_called_with(
         "https://cp.redsms.ru/api/message",
@@ -33,18 +39,3 @@ def test_red_sms_provider(red_sms_mock, timestamp_mock):
             "from": sender,
         }
     )
-
-
-def test_sms():
-    provider_mock = mock.Mock()
-    recipient = "recipient"
-    sender = "sender"
-    message = "message"
-    sms = SMS(
-        provider=provider_mock,
-        recipient=recipient,
-        sender=sender,
-        message=message
-    )
-    sms.send()
-    provider_mock.send.assert_called_with(recipient, message, sender)
