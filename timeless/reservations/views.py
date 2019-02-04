@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from flask import Blueprint, views
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
@@ -23,24 +25,24 @@ class CommentView(views.MethodView):
          to sort and filter for every column.
         """
         if comment_id:
-            return "Detail get method of CommentViewSet", 200
-        return "Get method of CommentViewSet", 200
+            return "Detail get method of CommentViewSet", HTTPStatus.OK
+        return "Get method of CommentViewSet", HTTPStatus.OK
 
     def post(self):
         """Post method of CommentView"""
-        return "Post method of CommentViewSet", 201
+        return "Post method of CommentViewSet", HTTPStatus.CREATED
 
     def put(self, comment_id):
         """Put method of CommentView"""
         if comment_id:
-            return "Detail put method of CommentViewSet", 200
-        return "Put method of CommentViewSet", 200
+            return "Detail put method of CommentViewSet", HTTPStatus.OK
+        return "Put method of CommentViewSet", HTTPStatus.OK
 
     def delete(self, comment_id):
         """Delete method of CommentView"""
         if comment_id:
-            return "Detail delete method of CommentViewSet", 204
-        return "Delete method of CommentViewSet", 204
+            return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
+        return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
 
 
 
