@@ -6,15 +6,8 @@ install: |-
   . venv/bin/activate
   pip install -r requirements.txt
   sudo gem install pdd
-  sudo -u postgres psql -c "CREATE USER timeless_user WITH 
-    SUPERUSER
-    CREATEDB
-    CREATEROLE
-    INHERIT
-    LOGIN
-    ENCRYPTED PASSWORD 'timeless_pwd';"
-  sudo -u postgres psql -c "CREATE DATABASE timelessdb_dev;"
-  sudo -u postgres psql -c "CREATE DATABASE timelessdb_test;"
+  chmod +x install_db.sh
+  ./install_db.sh
 merge:
   script: |-
     chmod +x ./checkstyle.sh
