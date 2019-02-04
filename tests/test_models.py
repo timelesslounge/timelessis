@@ -5,12 +5,8 @@ from timeless.customers.models import Customer
 from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape, Table
 from timeless.roles.models import Role
-<<<<<<< HEAD
 from timeless.schemetypes.models import SchemeType
-
-=======
 from timeless.items.models import Item
->>>>>>> #15 Fixed conflicts
 
 def test_new_company():
     """
