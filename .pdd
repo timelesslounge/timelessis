@@ -1,4 +1,4 @@
---source=timeless
+--source=.
 --verbose
 --exclude tests/**/*
 --exclude venv/**/*
