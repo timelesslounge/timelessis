@@ -1,18 +1,33 @@
 from http import HTTPStatus
 
-from flask import Blueprint, views
-
-bp = Blueprint("reservations", __name__, url_prefix="/reservations")
+from flask import views
 
 
-@bp.route("/settings")
-def base():
-    """
-    @todo #32:30min Continue implementing Settings page for Reservations,
-     it will be deployed on a different subdomain. Page should have set of
-     fields from ReservationSettings model.
-    """
-    return "Settings API entry point"
+class SettingsView(views.MethodView):
+
+    def get(self, id):
+        """
+        @todo #32:30min Continue implementing Settings page for Reservations,
+         it will be deployed on a different subdomain. Page should have set of
+         fields from ReservationSettings model.
+        """
+        return "Settings API entry point", HTTPStatus.OK
+
+    def post(self):
+        """Post method of CommentView"""
+        return "Post method of CommentViewSet", HTTPStatus.CREATED
+
+    def put(self, id):
+        """Put method of CommentView"""
+        if id:
+            return "Detail put method of CommentViewSet", HTTPStatus.OK
+        return "Put method of CommentViewSet", HTTPStatus.OK
+
+    def delete(self, id):
+        """Delete method of CommentView"""
+        if id:
+            return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
+        return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
 
 
 class CommentView(views.MethodView):
