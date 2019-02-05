@@ -24,7 +24,7 @@ class Company(TimestampsMixin, DB.Model):
     roles = DB.relationship("Role", order_by="Role.id",
                             back_populates="company")
     items = DB.relationship("Item", order_by="Item.id",
-                            back_populates="item")
+                            back_populates="company")
 
     def __repr__(self):
         return "<Company %r>" % self.name
