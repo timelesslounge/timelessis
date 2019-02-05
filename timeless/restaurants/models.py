@@ -76,6 +76,19 @@ class Location(PosterSyncMixin, DB.Model):
     def __repr__(self):
         return "<Location %r>" % self.name
 
+
+class TableReservation(DB.Model):
+    """Association table for reservations and tables"""
+
+    __tablename__ = 'table_reservations'
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    reservation_id = DB.Column(DB.Integer, DB.ForeignKey('reservations.id'))
+    table_id = DB.Column(DB.Integer, DB.ForeignKey('tables.id'))
+    table = DB.relationship("Table", back_populates="reservations")
+    reservation = DB.relationship("Reservation", back_populates="tables")
+
+
 class Table(DB.Model):
     """Model for a Table
     @todo #12:30min Continue implementation for Tables. Tables should have its own management pages to
@@ -100,29 +113,24 @@ class Table(DB.Model):
     created = DB.Column(DB.DateTime, nullable=False)
     updated = DB.Column(DB.DateTime, nullable=False)
 
+    reservations = DB.relationship("TableReservation", back_populates="table")
+
     DB.UniqueConstraint(u"name", u"floor_id")
 
     def __repr__(self):
         return "<Table %r>" % self.name
 
 
-class TableReservation(DB.Model):
-    """Association table for reservations and tables"""
-
-    __tablename__ = 'table_reservation'
-
-    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-    reservation_id = DB.Column(DB.Integer, DB.ForeignKey('reservations.id'))
-    table_id = DB.Column(DB.Integer, DB.ForeignKey('tables.id'))
-    tables = DB.relationship("Table")
-
-
 class Reservation(TimestampsMixin, DB.Model):
     """Model for a Reservation
-    @todo #27:30min Calculate duration in constructor using start_time and end_time, don't forget to call super
-     constructor. Then continue implementation of views. Index and a view page should be created to list all
-     reservations. In the index page there should be also a function to delete the reservation
-     (after confirmation). In the index page it should be possible to sort and filter for every column.
+    @todo #27:30min Calculate reservation duration in constructor
+     using start_time and end_time, don't forget to call super
+     constructor.
+    @todo #27:30min Continue implementation of views. Index and a
+     view page should be created to list all reservations. In the
+     index page there should be also a function to delete the reservation
+     (after confirmation). In the index page it should be possible
+     to sort and filter for every column.
     """
 
     __tablename__ = "reservations"
@@ -136,7 +144,7 @@ class Reservation(TimestampsMixin, DB.Model):
     comment = DB.Column(DB.String, nullable=False)
     status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
 
-    tables = DB.relationship("TableReservation")
+    tables = DB.relationship("TableReservation", back_populates="reservation")
 
     def __repr__(self):
         return "<Reservation %r>" % self.id
