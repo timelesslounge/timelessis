@@ -13,19 +13,19 @@ class Item(DB.Model):
     @todo #15:30min A new function to assign items to users should also be
      developed.
     """
-    __tablename__ = 'items'
+    __tablename__ = "items"
 
     id=DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     name=DB.Column(DB.String, nullable=False)
     stock_date=DB.Column(DB.DateTime, nullable=False)
     comment=DB.Column(DB.String, nullable=True)
-    company_id=DB.Column(DB.Integer, DB.ForeignKey('companies.id'))
+    company_id=DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
     created_on=DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
     updated_on=DB.Column(DB.DateTime, onupdate=datetime.utcnow)
 
-    company=DB.relationship('Company', back_populates='items')
+    company=DB.relationship("Company", back_populates="items")
 
     def __repr__(self):
         """Return object information - String"""
-        return '<Item %r>' % self.name
+        return "<Item %r>" % self.name
 
