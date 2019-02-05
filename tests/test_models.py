@@ -171,19 +171,22 @@ def test_new_customer():
     )
 
 def test_new_item():
-    id=1
-    name="First Item"
-    stock_date=datetime.utcnow
-    comment="Commentary of the first item"
-    company_id=123
+    id = 1
+    name = "First Item"
+    stock_date = datetime.utcnow
+    comment = "Commentary of the first item"
+    company_id = 123
     new_item = Item(
-        id=id, name=name,
+        id=id,
+        name=name,
         stock_date=stock_date,
         comment=comment,
-        company_id=company_id)
+        company_id=company_id
+    )
     assert (
         new_item.id == id and
         new_item.name == name and
         new_item.stock_date == stock_date and
         new_item.comment == comment and
-        new_item.company_id == company_id)
+        new_item.company_id == company_id
+    )
