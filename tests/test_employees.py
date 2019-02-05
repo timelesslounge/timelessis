@@ -10,4 +10,4 @@ def test_new_employee():
             employee.account_status == "Not Activated" and
             employee.user_status == "Working" and
             employee.created_on is not None and
-            employee.validate("coop1") is True)
+            employee.validate_password("coop1") is True)
