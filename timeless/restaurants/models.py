@@ -60,6 +60,8 @@ class Location(PosterSyncMixin, DB.Model):
 
     company = DB.relationship("Company", back_populates="locations")
     floors = DB.relationship("Floor", order_by=Floor.id, back_populates="location")
+    working_hours = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
+    closed_days = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
     def __repr__(self):
         return "<Location %r>" % self.name

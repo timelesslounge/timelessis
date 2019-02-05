@@ -23,13 +23,23 @@ def test_new_location():
     company_id = 123
     poster_id = 100
     synchronized_on = datetime.utcnow
-    new_location = Location(name=name, code=code, company_id=company_id, poster_id=poster_id,
-                            synchronized_on=synchronized_on)
-    assert (new_location.name == name
-            and new_location.code == code
-            and new_location.company_id == company_id
-            and new_location.poster_id == 100
-            and new_location.synchronized_on == synchronized_on)
+    working_hours = SchemeType()
+    closed_days = SchemeType()
+
+    new_location = Location(
+        name=name, code=code, company_id=company_id, poster_id=poster_id,
+        synchronized_on=synchronized_on, working_hours=working_hours.id,
+        closed_days=closed_days.id
+    )
+    assert (
+        new_location.name == name
+        and new_location.code == code
+        and new_location.company_id == company_id
+        and new_location.poster_id == 100
+        and new_location.synchronized_on == synchronized_on
+        and new_location.working_hours == working_hours.id
+        and new_location.closed_days == closed_days.id
+    )
 
 
 def test_new_comment():

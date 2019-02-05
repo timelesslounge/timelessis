@@ -7,7 +7,7 @@ install: |-
   pip install -r requirements.txt
   sudo gem install pdd
   chmod +x install_db.sh
-  ./install_db.sh  
+  sudo ./install_db.sh  
 merge:
   script: |-
     chmod +x ./checkstyle.sh
