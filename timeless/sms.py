@@ -38,8 +38,7 @@ class RedSMS(SMS):
             "login": self.login,
             "ts": timestamp,
             "secret": hashlib.sha512(
-                "{0}{1}".format(timestamp, self.api_key).encode()
-            ).hexdigest(),
+                f"{timestamp}{self.api_key}".encode()).hexdigest(),
             "route": "sms",
         }
 
