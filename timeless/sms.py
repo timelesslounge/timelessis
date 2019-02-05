@@ -28,13 +28,18 @@ class RedSMS(SMS):
         self.sender = sender
 
     def make_base_payload(self):
-        """Make base payload with basic data for provider"""
+        """Make base payload with basic data for provider
+        @todo #46:30min setup rultor settings to install python 3.6 (3.6.7
+         if is possible) according to project software environment.
+         After that we can use f-strings in python
+        """
         timestamp = datetime.now().timestamp()
         return {
             "login": self.login,
             "ts": timestamp,
             "secret": hashlib.sha512(
-                f"{timestamp}{self.api_key}".encode()).hexdigest(),
+                "{0}{1}".format(timestamp, self.api_key).encode()
+            ).hexdigest(),
             "route": "sms",
         }
 
