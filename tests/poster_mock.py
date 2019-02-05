@@ -18,11 +18,11 @@ def free_port():
     sock.close()
     return port
 
-def start_server(port, locations=None):
+def start_server(port, **kwargs):
     """Starts Poster mock server
-
     :param port: Port
-    :param locations: Location data
+    :param kwargs:
+        locations: Location data
     :return:
     """
     class PosterServerMock(BaseHTTPRequestHandler):
@@ -30,15 +30,24 @@ def start_server(port, locations=None):
 
         """
         LOCATIONS_PATTERN = re.compile(r"/clients.getLocations")
+        TABLES_PATTERN = re.compile(r"/clients.getTables")
 
         def do_GET(self):
             if re.search(self.LOCATIONS_PATTERN, self.path):
-                self.send_response(requests.codes.ok)
-                self.send_header("Content-Type", "application/json; charset=utf-8")
-                self.end_headers()
-                content = json.dumps(locations or {})
-                self.wfile.write(content.encode("utf-8"))
+                self.send("locations")
                 return
+            if re.search(self.TABLES_PATTERN, self.path):
+                self.send("tables")
+                return
+
+
+        def send(self, target_type=""):
+            self.send_response(requests.codes.ok)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers()
+            content = json.dumps(kwargs.get(target_type, {}))
+            self.wfile.write(content.encode("utf-8"))
+
 
     server = HTTPServer(("localhost", port), PosterServerMock)
     thread = Thread(target=server.serve_forever)
