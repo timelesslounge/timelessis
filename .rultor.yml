@@ -6,8 +6,8 @@ install: |-
   . venv/bin/activate
   pip install -r requirements.txt
   sudo gem install pdd
-  chmod +x install_db.sh
-  ./install_db.sh
+  sudo chmod +x install_db.sh
+  sudo ./install_db.sh
 merge:
   script: |-
     chmod +x ./checkstyle.sh
@@ -17,8 +17,8 @@ merge:
     pdd -f /dev/null -v
 deploy:
   script: |-
-    echo "There is nothing to deploy"
-    exit -1
+    chmod +x ./deploy.sh
+    ./deploy.sh 
 release:
   script: |-
     echo "There is nothing to release"
