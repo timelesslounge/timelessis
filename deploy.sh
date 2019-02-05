@@ -30,7 +30,7 @@ ssh user@staging-server << EOF
   sudo -u postgres psql -c "CREATE DATABASE timelessdb_dev;"
   echo "-- Creating database: timelessdb_test"  
   sudo -u postgres psql -c "CREATE DATABASE timelessdb_test;"
-  echo "-- TODO: add scripts in cron"
+  echo "-- REPLACE: add scripts to cron"
   cd /app
   echo "-- Running database migrations"
   python manage.py db upgrade
@@ -38,7 +38,7 @@ ssh user@staging-server << EOF
   export FLASK_APP=main.py
   export FLASK_ENV=development
   flask run &
-  echo "-- TODO: verify web application is running ok"
+  echo "-- REPLACE: verify web application is running ok"
 EOF
 
 
