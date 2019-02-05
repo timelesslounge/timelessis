@@ -1,33 +1,26 @@
 from http import HTTPStatus
 
 from flask import views
+from timeless.reservations.controllers import SettingsController
 
 
 class SettingsView(views.MethodView):
 
+    ctr = SettingsController();
+
     def get(self, id):
-        """
-        @todo #32:30min Continue implementing Settings page for Reservations,
-         it will be deployed on a different subdomain. Page should have set of
-         fields from ReservationSettings model.
-        """
-        return "Settings API entry point", HTTPStatus.OK
+        if id:
+            return self.ctr.get_settings_for_reservation(id), HTTPStatus.OK
+        return self.ctr.get_all_reservation_settings(), HTTPStatus.OK
 
     def post(self):
-        """Post method of CommentView"""
-        return "Post method of CommentViewSet", HTTPStatus.CREATED
+        return self.ctr.create_settings_for_reservation(self), HTTPStatus.CREATED
 
     def put(self, id):
-        """Put method of CommentView"""
-        if id:
-            return "Detail put method of CommentViewSet", HTTPStatus.OK
-        return "Put method of CommentViewSet", HTTPStatus.OK
+        return self.ctr.update_reservation_settings(self, id), HTTPStatus.OK
 
     def delete(self, id):
-        """Delete method of CommentView"""
-        if id:
-            return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
-        return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
+        return self.ctr.delete_reservation_settings(self, id), HTTPStatus.NO_CONTENT
 
 
 class CommentView(views.MethodView):
