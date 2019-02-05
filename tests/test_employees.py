@@ -3,8 +3,10 @@ from timeless.employees.models import Employee
 
 
 def test_new_employee():
-    employee = Employee("alice", "coop1", "Alice", "Cooper", "112233",
-                        datetime.utcnow(), 4567, "test@test.com")
+    employee = Employee(username="alice", password="coop1", first_name="Alice",
+                        last_name="Cooper", phone_number="112233",
+                        birth_date=datetime.utcnow(), pin_code=4567,
+                        email="test@test.com")
     assert (employee.first_name == "Alice" and
             employee.last_name == "Cooper" and
             employee.account_status == "Not Activated" and

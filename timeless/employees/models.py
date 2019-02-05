@@ -32,22 +32,14 @@ class Employee(TimestampsMixin, DB.Model):
 
     company = DB.relationship("Company", back_populates="employees")
 
-    def __init__(self, username, password, first_name, last_name, phone_number,
-                 birth_date, pin_code, email, comment=""):
-        super().__init__()
-        self.username = username
-        self.password = bcrypt_sha256.hash(password)
-        self.first_name = first_name
-        self.last_name = last_name
-        self.phone_number = phone_number
-        self.birth_date = birth_date
-        self.pin_code = pin_code
-        self.email = email
+    def __init__(self, **kwargs):
+        super(Employee, self).__init__(**kwargs)
+        if "password" in kwargs:
+            self.password = bcrypt_sha256.hash(kwargs.get("password"))
         self.registration_date = datetime.utcnow()
         self.account_status = "Not Activated"
         self.user_status = "Working"
         self.created_on = datetime.utcnow()
-        self.comment = comment
 
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username

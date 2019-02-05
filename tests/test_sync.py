@@ -53,8 +53,12 @@ class TestSync(unittest.TestCase):
             name="Any company",
             code="Cpny",
             employees=[
-                Employee("rmyers", "rm1", "Richard", "Myers", "112233",
-                         datetime.datetime.utcnow(), 4567, "test@test.com")
+                Employee(username="rmyers", password="rm1",
+                         first_name="Richard", last_name="Myers",
+                         phone_number="112233",
+                         birth_date=datetime.datetime.utcnow(), pin_code=4567,
+                         email="test@test.com"
+                         )
             ],
             locations=[
                 Location(
