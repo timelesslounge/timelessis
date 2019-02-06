@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Locations management - {% if action == 'create' %} Create {% else %} Edit {% endif %} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">Name</label>
+    <input name="name" id="name" required>
+    <br/>
+    <label for="code">Code</label>
+    <input name="code" id="code"/>
+    <br/>
+    <label for="country">Country</label>
+    <input name="country" id="country"/>
+    <br/>
+    <label for="region">Region</label>
+    <input name="region" id="region"/>
+    <br/>
+    <label for="city">City</label>
+    <input name="city" id="city"/>
+    <br/>
+    <label for="address">Address</label>
+    <textarea name="address" id="address"></textarea>
+    <br/>
+    <label for="longitude">Longitude</label>
+    <input name="longitude" id="longitude"/>
+    <br/>
+    <label for="latitude">Latitude</label>
+    <input name="latitude" id="latitude"/>
+    <br/>
+    <label for="type">Type</label>
+    <input name="type" id="type"/>
+    <br/>
+    <label for="status">Status</label>
+    <input name="status" id="status"/>
+    <br/>
+    <label for="comment">Comment</label>
+    <textarea name="comment" id="comment"></textarea>
+    <br/>
+    <label for="Company">Company</label>
+    <input name="company" id="company"/>
+    <br/>
+    <label for="floors">Floors</label>
+    <input name="floors" id="floors"/>
+
+    <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
+    <a class="action" href="{{ url_for('location.list_locations') }}">Cancel</a>
+  </form>
+{% endblock %}

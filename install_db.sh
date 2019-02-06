@@ -2,8 +2,11 @@
 
 # Scripts to install Postgres and init timelessis databases
 echo "Start Postgres server"
-sudo echo "listen_addresses = '*'" >> /etc/postgresql/10/main/postgresql.conf
-sudo /etc/init.d/postgresql start
+sudo -u postgres /etc/init.d/postgresql start
+until sudo -u postgres psql -U "postgres" -c '\q'; do
+  >&2 echo "Postgres is unavailable - sleeping"
+  sleep 1
+done
 echo "Creating user: timeless_user"
 sudo -u postgres psql -c "CREATE USER timeless_user WITH 
     SUPERUSER
