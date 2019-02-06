@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Locations management - Main{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% for role in roles %}
+        <article class="role">
+        <header>
+            <div>
+            <h1>{{ role['name'] }}</h1>
+            </div>
+            <a class="action" href="{{ url_for('role.edit', id=role['id']) }}">Edit</a>
+        </header>
+        <p class="works_on_shifts">{{ role['works_on_shifts'] }}</p>
+        <p class="company">{{ role['company'] }}</p>
+        </article>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

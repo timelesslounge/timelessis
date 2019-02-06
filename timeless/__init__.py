@@ -17,6 +17,7 @@ from timeless.auth import views as auth_views
 from timeless.reservations import views as reservations_views
 from timeless.restaurants.locations import views as locations_views
 from timeless.restaurants.floors import views as floors_views
+from timeless.roles import views as roles_views
 
 
 def create_app(config):
@@ -70,6 +71,7 @@ def register_endpoints(app):
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(reservations_views.bp)
     app.register_blueprint(locations_views.bp)
+    app.register_blueprint(roles_views.bp)
     register_api(
         app,
         companies_views.Resource,
