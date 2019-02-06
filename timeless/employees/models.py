@@ -36,6 +36,8 @@ class Employee(TimestampsMixin, DB.Model):
         super(Employee, self).__init__(**kwargs)
         if "password" in kwargs:
             self.password = bcrypt_sha256.hash(kwargs.get("password"))
+        if "pin_code" in kwargs:
+            self.pin_code = kwargs.get("pin_code")
         self.registration_date = datetime.utcnow()
         self.account_status = "Not Activated"
         self.user_status = "Working"

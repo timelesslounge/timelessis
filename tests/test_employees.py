@@ -12,4 +12,5 @@ def test_new_employee():
             employee.account_status == "Not Activated" and
             employee.user_status == "Working" and
             employee.created_on is not None and
+            employee.pin_code == 4567 and
             employee.validate_password("coop1") is True)
