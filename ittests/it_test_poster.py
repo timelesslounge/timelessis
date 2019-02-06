@@ -1,5 +1,5 @@
 import unittest
-from timeless.poster import Poster, Authenticated
+from timeless.poster.api import Poster, Authenticated
 
 """Integration tests for Poster"""
 

@@ -44,14 +44,20 @@ class Authenticated(Poster):
 
     def __init__(self, **kwargs):
         self.origin = kwargs.get("origin", "")
-        self.acount = kwargs.get("client_id", 0)
+        self.account = kwargs.get("client_id", 0)
 
-    def token(self):
-        if self.token == "":
-            self.auth()
-        return self.token
+    def access_token(self):
+        """Fetches authorization tokens
+
+
+        :return: Token retrieved from Poster api or error returned by poster pi
+        """
+        return self.origin.__send(method=self.__GET, action="/api/v2/auth/access_token").json()
+
 
     def auth(self):
+        print("authenticating...")
+        #return self.__send(method=self.__GET, action="auth/access_token").json()
         """Authenticates user into poster API
         @todo #67:30min Implement auth process following the Poster API
          https://dev.joinposter.com/en/docs/api#authorization-in-api and use
