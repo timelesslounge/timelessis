@@ -31,7 +31,7 @@ class TestSync(unittest.TestCase):
             "id":150,
             "name":"Central Perk",
             "code":"C",
-            "company_id":100,
+            "company_id":50,
             "country":"United States",
             "region":"Manhattan",
             "city":"New York",
@@ -57,16 +57,18 @@ class TestSync(unittest.TestCase):
             ],
             locations=[
                 Location(
+                    id=40,
                     name="Tapper",
                     code="T",
-                    company_id=1,
+                    company_id=50,
                     poster_id=2,
                     synchronized_on=datetime.datetime(1983, 5, 10)
                 ),
                 Location(
+                    id=150,
                     name="Hard Rock",
                     code="H",
-                    company_id=5,
+                    company_id=50,
                     poster_id=10,
                     synchronized_on=datetime.datetime(1983, 5, 10)
                 )
@@ -76,7 +78,25 @@ class TestSync(unittest.TestCase):
             url="http://localhost:{port}".format(port=cls.port)
         )
 
-    @unittest.skip("sync.sync_location not implemented yet")
+
     def test_sync_location(self):
         self.poster_sync.sync_location(self.poster, self.company)
-        assert (self.poster.locations() == self.company.locations)
+        for location in self.company.locations:
+            for loc in self.poster.locations():
+                if location.id == loc["id"]:
+                    assert (
+                        location.id == loc["id"] and
+                        location.name == loc["name"] and
+                        location.code == loc["code"] and
+                        location.company_id == loc["company_id"] and
+                        location.country == loc["country"] and
+                        location.region == loc["region"] and
+                        location.city == loc["city"] and
+                        location.address == loc["address"] and
+                        location.longitude == loc["longitude"] and
+                        location.latitude == loc["latitude"] and
+                        location.type == loc["type"] and
+                        location.status == loc["status"] and
+                        location.comment == loc["comment"]
+                    )
+
