@@ -63,11 +63,7 @@ class Location(PosterSyncMixin, DB.Model):
         return "<Location %r>" % self.name
 
 class Table(DB.Model):
-    """Model for a Table
-    @todo #12:30min Continue implementation for Tables. Tables should have its own management pages to
-     list, create, edit and delete them. In the index page it should be possible to sort and filter for every column.
-     Table management pages should be accessed by the Location and Floor pages.
-    """
+    """Model for a Table"""
 
     __tablename__ = "tables"
 

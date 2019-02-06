@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Tables management - {% if action == 'create' %} Create {% else %} Edit {% endif %} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">Name</label>
+    <input name="name" id="name" required>
+    <br/>
+    <label for="floor_id">Floor ID</label>
+    <input name="floor_id" id="floor_id"/>
+    <br/>
+    <label for="x">X</label>
+    <input name="x" id="x"/>
+    <br/>
+    <label for="y">Y</label>
+    <input name="y" id="y"/>
+    <br/>
+    <label for="width">Width</label>
+    <input name="width" id="width"/>
+    <br/>
+    <label for="height">Height</label>
+    <input name="height" id="height"/>
+    <br/>
+    <label for="status">Status</label>
+    <input name="status" id="status"/>
+    <br/>
+    <label for="max_capacity">Max Capacity</label>
+    <input name="max_capacity" id="max_capacity"/>
+    <br/>
+    <label for="min_capacity">Min Capacity</label>
+    <input name="min_capacity" id="min_capacity"/>
+    <br/>
+    <label for="multiple">Multiple</label>
+    <input name="multiple" id="multiple"/>
+    <br/>
+    <label for="playstation">Playstation</label>
+    <input name="playstation" id="playstation"/>
+    <br/>
+    <label for="shape_id">Shape ID</label>
+    <input name="shape_id" id="shape_id"/>
+    <br/>
+    <label for="deposit_hour">Deposit Hour</label>
+    <input name="deposit_hour" id="deposit_hour"/>
+    <br/>
+    <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
+    <a class="action" href="{{ url_for('table.list') }}">Cancel</a>
+  </form>
+{% endblock %}
