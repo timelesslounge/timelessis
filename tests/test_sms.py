@@ -1,5 +1,4 @@
 import hashlib
-from requests import Response
 
 from unittest import mock
 from timeless.sms import RedSMS
