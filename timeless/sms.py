@@ -1,5 +1,7 @@
 """Module for sms sending"""
+import functools
 import hashlib
+import time
 from datetime import datetime
 
 import requests
@@ -11,6 +13,28 @@ class SMS:
     def send(self):
         """Abstract method send"""
         raise NotImplementedError
+
+
+class RetrySendSMS:
+    """Decorator class for resending requests"""
+    def __init__(self, retry_count=5, timeout=1):
+        self.retry_count = retry_count
+        self.timeout = timeout
+        self.counter = 0
+
+    def __call__(self, fn):
+        @functools.wraps(fn)
+        def decorated(*args, **kwargs):
+            response = fn(*args, **kwargs)
+            response_status_code = response.status_code
+            while (response_status_code > 401 and
+                   self.counter < self.retry_count):
+                time.sleep(self.timeout)
+                response = fn(*args, **kwargs)
+                response_status_code = response.status_code
+                self.counter += 1
+            return response
+        return decorated
 
 
 class RedSMS(SMS):
@@ -29,26 +53,21 @@ class RedSMS(SMS):
 
     def make_base_payload(self):
         """Make base payload with basic data for provider
-        @todo #46:30min setup rultor settings to install python 3.6 (3.6.7
-         if is possible) according to project software environment.
-         After that we can use f-strings in python
         """
         timestamp = datetime.now().timestamp()
         return {
             "login": self.login,
             "ts": timestamp,
             "secret": hashlib.sha512(
-                "{0}{1}".format(timestamp, self.api_key).encode()
+                f"{timestamp}{self.api_key}".encode()
             ).hexdigest(),
             "route": "sms",
         }
 
+    @RetrySendSMS(retry_count=5, timeout=5)
     def send(self):
         """
         Sends sms via provider
-        @todo #46:30min handle exceptional cases and maybe write a
-         decorator, some kind of retrial mechanism
-         (if the response is 404, the RedSMS api is down at the moment)
         """
         base_payload = self.make_base_payload()
         return requests.post(self.api_url, data={
