@@ -77,4 +77,11 @@ def register_endpoints(app):
         "/api/companies/",
         pk="company_id"
     )
+    register_api(
+        app,
+        reservations_views.CommentView,
+        "comments.api",
+        "/api/comments/",
+        pk="comment_id"
+    )
     app.register_blueprint(floors_views.bp)

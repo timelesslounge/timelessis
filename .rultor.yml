@@ -15,8 +15,8 @@ merge:
     pdd -f /dev/null -v
 deploy:
   script: |-
-    echo "There is nothing to deploy"
-    exit -1
+    chmod +x ./deploy.sh
+    ./deploy.sh 
 release:
   script: |-
     echo "There is nothing to release"
