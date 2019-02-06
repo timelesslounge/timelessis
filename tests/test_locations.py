@@ -1,13 +1,16 @@
+from http import HTTPStatus
+
+
 def test_list(client):
-    assert client.get("/locations/").status_code == 200
+    assert client.get("/locations/").status_code == HTTPStatus.OK
 
 
 def test_create(client):
-    assert client.get("/locations/create").status_code == 200
+    assert client.get("/locations/create").status_code == HTTPStatus.OK
 
 
 def test_edit(client):
-    assert client.get("/locations/edit/1").status_code == 200
+    assert client.get("/locations/edit/1").status_code == HTTPStatus.OK
 
 
 def test_delete(client):
