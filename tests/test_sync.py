@@ -82,21 +82,21 @@ class TestSync(unittest.TestCase):
     def test_sync_location(self):
         self.poster_sync.sync_location(self.poster, self.company)
         for location in self.company.locations:
-            for loc in self.poster.locations():
-                if location.id == loc["id"]:
+            for poster_location in self.poster.locations():
+                if location.id == poster_location["id"]:
                     assert (
-                        location.id == loc["id"] and
-                        location.name == loc["name"] and
-                        location.code == loc["code"] and
-                        location.company_id == loc["company_id"] and
-                        location.country == loc["country"] and
-                        location.region == loc["region"] and
-                        location.city == loc["city"] and
-                        location.address == loc["address"] and
-                        location.longitude == loc["longitude"] and
-                        location.latitude == loc["latitude"] and
-                        location.type == loc["type"] and
-                        location.status == loc["status"] and
-                        location.comment == loc["comment"]
+                        location.id == poster_location["id"] and
+                        location.name == poster_location["name"] and
+                        location.code == poster_location["code"] and
+                        location.company_id == poster_location["company_id"] and
+                        location.country == poster_location["country"] and
+                        location.region == poster_location["region"] and
+                        location.city == poster_location["city"] and
+                        location.address == poster_location["address"] and
+                        location.longitude == poster_location["longitude"] and
+                        location.latitude == poster_location["latitude"] and
+                        location.type == poster_location["type"] and
+                        location.status == poster_location["status"] and
+                        location.comment == poster_location["comment"]
                     )
 

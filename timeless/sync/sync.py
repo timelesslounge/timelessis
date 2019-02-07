@@ -13,23 +13,23 @@ class PosterSync():
     def sync_location(poster, company):
         synced =[]
         for location in company.locations:
-            for loc in poster.locations():
-                if location.id == loc["id"]:
+            for poster_location in poster.locations():
+                if location.id == poster_location["id"]:
                     synced.append(
                         Location(
                             id=location.id,
-                            name=loc["name"],
-                            code=loc["code"],
+                            name=poster_location["name"],
+                            code=poster_location["code"],
                             company_id=location.company_id,
-                            country=loc["country"],
-                            region=loc["region"],
-                            city=loc["city"],
-                            address=loc["address"],
-                            longitude=loc["longitude"],
-                            latitude=loc["latitude"],
-                            type=loc["type"],
-                            status=loc["status"],
-                            comment=loc["comment"]
+                            country=poster_location["country"],
+                            region=poster_location["region"],
+                            city=poster_location["city"],
+                            address=poster_location["address"],
+                            longitude=poster_location["longitude"],
+                            latitude=poster_location["latitude"],
+                            type=poster_location["type"],
+                            status=poster_location["status"],
+                            comment=poster_location["comment"]
                         )
                     )
         company.locations = synced
