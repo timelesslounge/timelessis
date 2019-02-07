@@ -197,7 +197,7 @@ cd timelessis
 pip install -r requirements.txt
 ```
 
-### Setup PostgreSQL for Debian / Ubunty
+### Setup PostgreSQL for Debian / Ubuntu
 Debian / Ubuntu repositories include PostgreSQL by default. To install PostgreSQL, use the apt-get (or other apt-driving) command:
 ```
 apt-get update
