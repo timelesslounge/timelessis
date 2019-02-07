@@ -9,9 +9,6 @@ class Company(TimestampsMixin, DB.Model):
     @todo #3:30min Create management pages for Companies to list, create, edit
      and delete them. In the index page it should be possible to sort and filter
      for every column.
-    @todo #3:30min Implement TimestampMixin, like in the example
-     (http://flask-sqlalchemy.pocoo.org/2.3/customizing/). Change all the models
-     to use this mixin instead of existing created_on and updated_on fields.
     """
     __tablename__ = "companies"
 
@@ -25,6 +22,8 @@ class Company(TimestampsMixin, DB.Model):
     employees = DB.relationship("Employee", order_by="Employee.id",
                                 back_populates="company")
     roles = DB.relationship("Role", order_by="Role.id",
+                            back_populates="company")
+    items = DB.relationship("Item", order_by="Item.id",
                             back_populates="company")
 
     def __repr__(self):

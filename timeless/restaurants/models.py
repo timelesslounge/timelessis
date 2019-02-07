@@ -36,11 +36,7 @@ class Floor(DB.Model):
 
 
 class Location(PosterSyncMixin, DB.Model):
-    """Model for location business entity
-    @todo #10:30min Continue implementation. Locations should have its own management pages to
-     list, create, edit and delete them. In the index page it should
-     be possible to sort and filter for every column.
-    """
+    """Model for location business entity"""
     __tablename__ = "locations"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
@@ -60,12 +56,18 @@ class Location(PosterSyncMixin, DB.Model):
 
     company = DB.relationship("Company", back_populates="locations")
     floors = DB.relationship("Floor", order_by=Floor.id, back_populates="location")
+    working_hours = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
+    closed_days = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
     def __repr__(self):
         return "<Location %r>" % self.name
 
 class Table(DB.Model):
-    """Model for a Table"""
+    """Model for a Table
+    @todo #12:30min Continue implementation for Tables. Tables should have its own management pages to
+     list, create, edit and delete them. In the index page it should be possible to sort and filter for every column.
+     Table management pages should be accessed by the Location and Floor pages.
+    """
 
     __tablename__ = "tables"
 
@@ -81,6 +83,8 @@ class Table(DB.Model):
     multiple = DB.Column(DB.Boolean, default=False)
     playstation = DB.Column(DB.Boolean, default=False)
     shape_id = DB.Column(DB.Integer, DB.ForeignKey("table_shapes.id"))
+    min_capacity = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
+    deposit_hour = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     created = DB.Column(DB.DateTime, nullable=False)
     updated = DB.Column(DB.DateTime, nullable=False)
 

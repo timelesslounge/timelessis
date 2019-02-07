@@ -10,9 +10,6 @@
 # @todo #47:30min Implement google drive account communication. Backups must be
 #  saved to a google account modification after completed, and restores should
 #  use the same google drive account for retrieving backed up database
-# @todo #47:30min Run backup scripts in linux cron. Configure script
-#  pg_backup.sh to be executed in linux cron. The frequency of execution must be
-#  defined by the architect and put in the tickets comments.
 while [ $# -gt 0 ]; do
     case $1 in
         -c)

@@ -5,6 +5,8 @@ from timeless.customers.models import Customer
 from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape, Table
 from timeless.roles.models import Role
+from timeless.schemetypes.models import SchemeType
+from timeless.items.models import Item
 
 
 def test_new_company():
@@ -22,13 +24,23 @@ def test_new_location():
     company_id = 123
     poster_id = 100
     synchronized_on = datetime.utcnow
-    new_location = Location(name=name, code=code, company_id=company_id, poster_id=poster_id,
-                            synchronized_on=synchronized_on)
-    assert (new_location.name == name
-            and new_location.code == code
-            and new_location.company_id == company_id
-            and new_location.poster_id == 100
-            and new_location.synchronized_on == synchronized_on)
+    working_hours = SchemeType()
+    closed_days = SchemeType()
+
+    new_location = Location(
+        name=name, code=code, company_id=company_id, poster_id=poster_id,
+        synchronized_on=synchronized_on, working_hours=working_hours.id,
+        closed_days=closed_days.id
+    )
+    assert (
+        new_location.name == name
+        and new_location.code == code
+        and new_location.company_id == company_id
+        and new_location.poster_id == 100
+        and new_location.synchronized_on == synchronized_on
+        and new_location.working_hours == working_hours.id
+        and new_location.closed_days == closed_days.id
+    )
 
 
 def test_new_comment():
@@ -118,6 +130,8 @@ def test_new_table():
     shape_id=3
     created = datetime.utcnow
     updated = datetime.utcnow
+    min_capacity = SchemeType()
+    deposit_hour = SchemeType()
 
     new_table = Table(
         id=id,
@@ -133,7 +147,9 @@ def test_new_table():
         playstation=playstation,
         shape_id=shape_id,
         created=created,
-        updated=updated        
+        updated=updated,
+        min_capacity=min_capacity.id,
+        deposit_hour=deposit_hour.id
     )
     assert (
         new_table.id == id and
@@ -149,7 +165,9 @@ def test_new_table():
         new_table.playstation == playstation and
         new_table.shape_id == shape_id,
         new_table.created == created,
-        new_table.updated == updated
+        new_table.updated == updated and
+        new_table.min_capacity == min_capacity.id and
+        new_table.deposit_hour == deposit_hour.id
     )
 
 def test_new_customer():
@@ -161,4 +179,25 @@ def test_new_customer():
         customer.first_name == first_name and
         customer.last_name == last_name and
         customer.phone_number == phone_number
+    )
+
+def test_new_item():
+    id = 1
+    name = "First Item"
+    stock_date = datetime.utcnow
+    comment = "Commentary of the first item"
+    company_id = 123
+    new_item = Item(
+        id=id,
+        name=name,
+        stock_date=stock_date,
+        comment=comment,
+        company_id=company_id
+    )
+    assert (
+        new_item.id == id and
+        new_item.name == name and
+        new_item.stock_date == stock_date and
+        new_item.comment == comment and
+        new_item.company_id == company_id
     )

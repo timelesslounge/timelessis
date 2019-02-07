@@ -4,6 +4,11 @@ import tempfile
 import pytest
 from timeless import create_app
 
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
+
 @pytest.fixture
 def app():
     db_fd, db_path = tempfile.mkstemp()
@@ -40,3 +45,29 @@ class AuthActions():
 @pytest.fixture
 def auth(client):
     return AuthActions(client)
+
+
+@pytest.fixture(scope='session')
+def setup_test_app():
+    """
+    Create a Flask app context for the tests.
+    """
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_object("config.TestingConfig")
+
+    return app
+
+
+@pytest.fixture(scope='session')
+def _db(setup_test_app):
+    """
+    Provide the transactional fixtures with access to the database via a
+    Flask-SQLAlchemy database connection.
+    """
+    db = SQLAlchemy(app=setup_test_app)
+    Migrate(setup_test_app, db)
+    # apply any/all pending migrations.
+    with setup_test_app.app_context():
+        from flask_migrate import upgrade as _upgrade
+        _upgrade()
+    return db
