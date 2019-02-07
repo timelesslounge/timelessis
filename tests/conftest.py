@@ -68,7 +68,6 @@ def _db(setup_test_app):
     Migrate(setup_test_app, db)
     # apply any/all pending migrations.
     with setup_test_app.app_context():
-        db.init_app(setup_test_app)
         from flask_migrate import upgrade as _upgrade
         _upgrade()
     return db
