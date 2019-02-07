@@ -200,13 +200,13 @@ pip install -r requirements.txt
 ### Setup PostgreSQL for Debian / Ubuntu
 Debian / Ubuntu repositories include PostgreSQL by default. To install PostgreSQL, use the apt-get (or other apt-driving) command:
 ```
-apt-get update
-apt-get install postgresql-10
+sudo apt-get update
+sudo apt-get install postgresql-10
 ```
 If packages are not found, do the following steps:
 1. Create the file /etc/apt/sources.list.d/pgdg.list and add a line for the repository:
 ```
-deb http://apt.postgresql.org/pub/repos/apt/ {DEBION_OR_UBUNTU_VERSION}-pgdg main
+deb http://apt.postgresql.org/pub/repos/apt/ {DEBIAN_OR_UBUNTU_VERSION}-pgdg main
 ```
 2. Import the repository signing key, and update the package lists
 ```
