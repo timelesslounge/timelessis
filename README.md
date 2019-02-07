@@ -206,7 +206,7 @@ sudo apt-get install postgresql-10
 If packages are not found, do the following steps:
 1. Create the file /etc/apt/sources.list.d/pgdg.list and add a line for the repository:
 ```
-deb http://apt.postgresql.org/pub/repos/apt/ {DEBIAN_OR_UBUNTU_VERSION}-pgdg main
+sudo deb http://apt.postgresql.org/pub/repos/apt/ {DEBIAN_OR_UBUNTU_VERSION}-pgdg main
 ```
 2. Import the repository signing key, and update the package lists
 ```
