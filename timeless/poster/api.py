@@ -9,7 +9,8 @@ class Poster(object):
 
     """
 
-    __GET = "GET"
+    GET = "GET"
+    POST = "POST"
     client_id = 0
     token = ""
 
@@ -23,9 +24,9 @@ class Poster(object):
         :return:
             Location data
         """
-        return self.__send(method=self.__GET, action="clients.getLocations").json()
+        return self.send(method=self.GET, action="clients.getLocations").json()
 
-    def __send(self, **kwargs):
+    def send(self, **kwargs):
         """Sends http request for specific poster action
 
         :return: response
@@ -33,36 +34,34 @@ class Poster(object):
         response = requests.request(
             kwargs.get("method"),
             urljoin(self.url, kwargs.get("action", "")),
-            params={"format": kwargs.get("format", "json"), "token": kwargs.get("token", self.token)})
+            params=kwargs
+        )
         response.raise_for_status()
         return response
 
 
 class Authenticated(Poster):
 
-    origin = ""
-
     def __init__(self, **kwargs):
-        self.origin = kwargs.get("origin", "")
-        self.account = kwargs.get("client_id", 0)
+        super().__init__(**kwargs)
 
     def access_token(self):
         """Fetches authorization tokens
-
-
+        
         :return: Token retrieved from Poster api or error returned by poster pi
         """
-        return self.origin.__send(method=self.__GET, action="/api/v2/auth/access_token").json()
-
+        return self.send(
+            method=self.POST,
+            action="auth/access_token"
+        ).json()["access_token"]
 
     def auth(self):
-        print("authenticating...")
-        #return self.__send(method=self.__GET, action="auth/access_token").json()
         """Authenticates user into poster API
-        @todo #67:30min Implement auth process following the Poster API
+        @todo #101:30min Implement auth process following the Poster API
          https://dev.joinposter.com/en/docs/api#authorization-in-api and use
          real token for sending HTTP requests instead of an empty string. After
-         implementing uncomment test of poster auth in it_test_poster.py
+         implementing fix the test of poster auth in it_test_poster.py to
+         receive the correct paramters and uncomment it.
 
         """
         raise("poster.auth not implemented yet")

@@ -1,7 +1,7 @@
 import unittest
 
 from tests.poster_mock import free_port, start_server
-from timeless.poster.api import Poster, Authenticated
+from timeless.poster.api import Authenticated
 
 """
     Unit test for authentication related poster accesses.
@@ -32,11 +32,18 @@ class TestAuth(unittest.TestCase):
         start_server(cls.port, locations=cls.locations)
 
     """
-        Tests token retrieval from poster: poster should return a valid token   
+        Tests token retrieval from poster: poster should return a valid token 
+        @todo #101:30min Implement other test cases for poster token 
+         retrieval. The remaining test cases must be discovered, the error 
+         codes in https://dev.joinposter.com/en/docs/api#authorization-in-api 
+         are not specific enough.   
     """
-    def test_token_retrieval(self):
+    def test_can_retrieve_token(self):
+        self.setup_class()
         assert (
-            Authenticated(Poster()).access_token() != ""
+            Authenticated(
+                url="http://localhost:{port}".format(port=self.port)
+            ).access_token() == "861052:02391570ff9af128e93c5a771055ba88"
         )
 
 

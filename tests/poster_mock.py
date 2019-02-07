@@ -46,8 +46,9 @@ def start_server(port, locations=None):
                 content = json.dumps(locations or {})
                 self.wfile.write(content.encode("utf-8"))
                 return
-            elif re.search(self.TOKEN_PATTERN, self.path):
-                print(self.request)
+
+        def do_POST(self):
+            if re.search(self.TOKEN_PATTERN, self.path):
                 self.send_response(requests.codes.ok)
                 self.send_header("Content-Type", "application/json; charset=utf-8")
                 self.end_headers()

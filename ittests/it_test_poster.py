@@ -14,6 +14,4 @@ class PosterITTests(unittest.TestCase):
 
     @unittest.skip("poster.auth not implemented yet")
     def test_auth(self):
-        assert Authenticated(
-            Poster(clientid="$0m3C1i3ntId")
-        ).token() != "", "Poster did not authenticated user"
+        assert Authenticated(clientid="$0m3C1i3ntId").token() != "", "Poster did not authenticated user"
