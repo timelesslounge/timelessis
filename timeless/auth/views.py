@@ -15,23 +15,23 @@ from flask import (
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 
+from timeless.employees.models import Employee
+
 @bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        user = Employee.query.filter_by(username=username).first()
         error = None
-        # fetch user using DB and Employee model
-        # check that password hash matches
-        # if user is None
-        #     error = "Incorrect username."
-        # elif not user.validate_password(password):
-        #      error = "Incorrect password."
-        # if error is None:
-        #     session.clear()
-        #     session["user_id"] = user[id]
-        #     return redirect(url_for("index"))
-        flash("Login not yet implemented")
+        if user is None:
+            error = "Incorrect username."
+        elif not user.validate_password(password):
+            error = "Incorrect password."
+        if error is None:
+            session.clear()
+            session["user_id"] = user.id
+            return redirect(url_for("index"))
 
     return render_template("auth/login.html")
 
