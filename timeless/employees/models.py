@@ -1,6 +1,9 @@
 """File for models in employees module"""
+from datetime import datetime
+from random import randint
+from passlib.hash import bcrypt_sha256
 from timeless.db import DB
-from timeless.models import TimestampsMixin
+from timeless.models import TimestampsMixin, validate_required
 
 
 class Employee(TimestampsMixin, DB.Model):
@@ -10,13 +13,10 @@ class Employee(TimestampsMixin, DB.Model):
      it should be possible to sort and filter for every column. Other possible
      actions are described in more detail in issue #4. Specific details about
      Employee default values are in another puzzle.
-    @todo #4:30min Create constructor for Employee model. Default
-     values for these variables should be set: registration_date, account_status
-     user_status, created_on and password. Password is special and it should be
-     hashed and salted - one can use bcrypt_sha256.hash() function. See more at:
-     https://pythonhosted.org/passlib/lib/passlib.hash.bcrypt_sha256.html
-     Also create a method to validate the password, using:
-     bcrypt_sha256.verify("password", h)
+    @todo #4:30min Implement validate_required decorator for all the models in
+     the timeless app that require mandatory parameters check. See Employee
+     model as an example of how to use the decorator. Write tests to verify
+     all the mandatory fields are checked.
     """
     __tablename__ = "employees"
 
@@ -37,5 +37,20 @@ class Employee(TimestampsMixin, DB.Model):
 
     company = DB.relationship("Company", back_populates="employees")
 
+    @validate_required("username", "password", "first_name", "last_name",
+                       "phone_number", "birth_date", "email")
+    def __init__(self, **kwargs):
+        super(Employee, self).__init__(**kwargs)
+        self.password = bcrypt_sha256.hash(kwargs.get("password"))
+        self.pin_code = randint(1000, 9999)
+        self.registration_date = datetime.utcnow()
+        self.account_status = "Not Activated"
+        self.user_status = "Working"
+        self.created_on = datetime.utcnow()
+
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username
+
+    def validate_password(self, password):
+        """ Validate user password """
+        return bcrypt_sha256.verify(password, self.password)
