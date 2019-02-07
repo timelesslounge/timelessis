@@ -1,8 +1,7 @@
 """Auth views module.
-@todo #5:30min Continue implementing login(), forgot_password() and activate()
- methods, once Employee model is available. Fetch the user using Employee model
- and check password hash using Employee.validate_password method. Update html
- templates when methods are implemented. Create more tests for all methods.
+@todo #59:30min Continue implementing forgot_password() and activate() methods.
+ Update html templates when methods are implemented.
+ Create more tests for all methods.
 @todo #5:30min Implement before_app_request function that will get the user id
  from session, get user data from db and store it in g.user, which lasts for the
  length of the request. Also, create a decorator that will check, for each view
@@ -11,26 +10,18 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+from timeless.auth import auth
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 
-from timeless.employees.models import Employee
-
 @bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        user = Employee.query.filter_by(username=username).first()
-        error = None
-        if user is None:
-            error = "Incorrect username."
-        elif not user.validate_password(password):
-            error = "Incorrect password."
-        if error is None:
-            session.clear()
-            session["user_id"] = user.id
+        error = auth.login(
+            username=request.form["username"],
+            password=request.form["password"])
+        if error is not None:
             return redirect(url_for("index"))
 
     return render_template("auth/login.html")
