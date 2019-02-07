@@ -4,11 +4,7 @@ from timeless import DB
 
 
 class Comment(TimestampsMixin, DB.Model):
-    """Model for comment business entity
-    @todo #26:30min Continue implementation. Comments should have its own management pages to
-     list, create, edit and delete them. In the index page it should
-     be possible to sort and filter for every column.
-    """
+    """Model for comment business entity"""
     __tablename__ = "comments"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
