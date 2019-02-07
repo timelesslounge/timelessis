@@ -1,7 +1,7 @@
 """Auth views module.
-@todo #59:30min Continue implementing forgot_password() and activate() methods.
- Update html templates when methods are implemented.
- Create more tests for all methods.
+@todo #59:30min Create IT tests for login method. Continue implementing
+ forgot_password() and activate() methods. Update html templates when
+ methods are implemented. Create more tests for all methods.
 @todo #5:30min Implement before_app_request function that will get the user id
  from session, get user data from db and store it in g.user, which lasts for the
  length of the request. Also, create a decorator that will check, for each view
