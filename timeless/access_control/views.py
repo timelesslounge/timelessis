@@ -16,5 +16,5 @@ class SecuredView(views.MethodView):
     """
     def dispatch_request(self, *args, **kwargs):
         method = getattr(self, request.method.lower(), None)
-        assert method is not None, 'Unimplemented method %r' % request.method
+        assert method is not None, "Unimplemented method %r" % request.method
         super(SecuredView, self).dispatch_request(self, args, kwargs)
