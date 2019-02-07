@@ -2,7 +2,7 @@
 from datetime import datetime
 from passlib.hash import bcrypt_sha256
 from timeless.db import DB
-from timeless.models import TimestampsMixin
+from timeless.models import TimestampsMixin, validate_required
 
 
 class Employee(TimestampsMixin, DB.Model):
@@ -32,12 +32,11 @@ class Employee(TimestampsMixin, DB.Model):
 
     company = DB.relationship("Company", back_populates="employees")
 
+    @validate_required("username", "password", "first_name", "last_name",
+                       "phone_number", "birth_date", "pin_code", "email")
     def __init__(self, **kwargs):
         super(Employee, self).__init__(**kwargs)
-        if "password" in kwargs:
-            self.password = bcrypt_sha256.hash(kwargs.get("password"))
-        if "pin_code" in kwargs:
-            self.pin_code = kwargs.get("pin_code")
+        self.password = bcrypt_sha256.hash(kwargs.get("password"))
         self.registration_date = datetime.utcnow()
         self.account_status = "Not Activated"
         self.user_status = "Working"
