@@ -1,4 +1,3 @@
-
 """ Reservation settings controller."""
 from timeless.reservations.models import ReservationSettings
 
