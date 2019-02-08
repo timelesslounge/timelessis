@@ -1,8 +1,5 @@
 """This file contains all functions needed to create
 a new Flask app for timeless
-@todo #69:30min Enhance the "DoubleQuotesOnly" rule from checkstyle.sh,
- to allow single-quoted strings as long as they are contained within
- another double-quoted String.
 """
 
 import os
