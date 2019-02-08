@@ -5,7 +5,7 @@ from timeless.reservations.controllers import SettingsController
 
 
 class SettingsView(views.MethodView):
-
+    """ Reservation settings API """
     ctr = SettingsController();
 
     def get(self, id):
@@ -51,6 +51,3 @@ class CommentView(views.MethodView):
         if comment_id:
             return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
         return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
-
-
-
