@@ -1,0 +1,44 @@
+version: "3"
+services:
+  app:
+    build: .
+    command: bash -c 'python manage.py db upgrade && flask run --host 0.0.0.0'
+    environment:
+      FLASK_APP: main.py
+      FLASK_ENV: development
+      SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db/timelessdb_dev
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/usr/app
+    depends_on:
+      - db
+  db:
+    image: postgres:10.6
+    environment:
+      POSTGRES_DB: timelessdb_dev
+      POSTGRES_USER: timeless_user
+      POSTGRES_PASSWORD: timeless_pwd
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+  app_test:
+    build: .
+    command: pytest
+    environment:
+      FLASK_APP: main.py
+      FLASK_ENV: testing
+      SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db_test/timelessdb_test
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/usr/app
+    depends_on:
+      - db_test
+  db_test:
+    image: postgres:10.6
+    environment:
+      POSTGRES_DB: timelessdb_test
+      POSTGRES_USER: timeless_user
+      POSTGRES_PASSWORD: timeless_pwd
+volumes:
+  pgdata: null

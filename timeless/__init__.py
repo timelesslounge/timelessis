@@ -18,6 +18,7 @@ from timeless.reservations import views as reservations_views
 from timeless.restaurants.locations import views as locations_views
 from timeless.restaurants.tables import views as tables_views
 from timeless.restaurants.floors import views as floors_views
+from timeless.restaurants.table_shapes import views as table_shapes_views
 
 
 def create_app(config):
@@ -87,3 +88,4 @@ def register_endpoints(app):
         pk="comment_id"
     )
     app.register_blueprint(floors_views.bp)
+    app.register_blueprint(table_shapes_views.bp)
