@@ -197,8 +197,27 @@ cd timelessis
 pip install -r requirements.txt
 ```
 
-### Database Setup
+### Setup PostgreSQL for Debian / Ubuntu
+Debian / Ubuntu repositories include PostgreSQL by default. To install PostgreSQL, use the apt-get (or other apt-driving) command:
+```
+sudo apt-get update
+sudo apt-get install postgresql-10
+```
+If packages are not found, do the following steps:
+1. Create the file /etc/apt/sources.list.d/pgdg.list and add a line for the repository:
+```
+sudo deb http://apt.postgresql.org/pub/repos/apt/ {DEBIAN_OR_UBUNTU_VERSION}-pgdg main
+```
+NOTE: `DEBIAN_OR_UBUNTU_VERSION` is a code name, like `trusty` (ubuntu 14.01), `xenial` (16.04) and so on.
 
+2. Import the repository signing key, and update the package lists
+```
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+```
+and then repeat `apt-get update` and `apt-get install` commands.
+
+
+### Database Setup
 ```
 sudo -u postgres createuser --superuser timeless_user
 sudo -u postgres createdb timelessdb_dev
@@ -215,6 +234,11 @@ export FLASK_ENV=testing
 pytest
 ```
 
+NOTE: To skip integration tests run:
+```
+pytest -k 'not it'
+```
+
 ### Generating migrations
 
 ```
@@ -228,4 +252,21 @@ python manage.py db upgrade
 export FLASK_APP=main.py
 export FLASK_ENV=development
 flask run
+```
+
+
+### Running the webserver locally using Docker
+You should have `Docker` and `Docker Compose` installed. In other case go through official tutorial to install:
+1. https://www.docker.com/get-started
+2. https://docs.docker.com/compose/install/
+
+To start up the docker exec the following commands:
+```
+docker-compose build
+docker-compose up app
+```
+and check that `http://127.0.0.1:5000/` works.
+To run tests execute:
+```
+docker-compose run app_test
 ```
