@@ -255,7 +255,7 @@ flask run
 ```
 
 
-### Running the webserer locally using Docker
+### Running the webserver locally using Docker
 You should have `Docker` and `Docker Compose` installed. In other case go through official tutorial to install:
 1. https://www.docker.com/get-started
 2. https://docs.docker.com/compose/install/
