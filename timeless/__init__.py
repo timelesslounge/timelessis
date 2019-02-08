@@ -68,7 +68,6 @@ def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
 
 def register_endpoints(app):
     app.register_blueprint(auth_views.bp)
-    app.register_blueprint(reservations_views.bp)
     app.register_blueprint(locations_views.bp)
     register_api(
         app,
@@ -83,5 +82,11 @@ def register_endpoints(app):
         "comments.api",
         "/api/comments/",
         pk="comment_id"
+    )
+    register_api(
+        app,
+        reservations_views.SettingsView,
+        "settings.api",
+        "/reservations/settings/"
     )
     app.register_blueprint(floors_views.bp)

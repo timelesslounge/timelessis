@@ -1,18 +1,26 @@
 from http import HTTPStatus
 
-from flask import Blueprint, views
+from flask import views
+from timeless.reservations.controllers import SettingsController
 
-bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
+class SettingsView(views.MethodView):
 
-@bp.route("/settings")
-def base():
-    """
-    @todo #32:30min Continue implementing Settings page for Reservations,
-     it will be deployed on a different subdomain. Page should have set of
-     fields from ReservationSettings model.
-    """
-    return "Settings API entry point"
+    ctr = SettingsController();
+
+    def get(self, id):
+        if id:
+            return self.ctr.get_settings_for_reservation(id), HTTPStatus.OK
+        return self.ctr.get_all_reservation_settings(), HTTPStatus.OK
+
+    def post(self):
+        return self.ctr.create_settings_for_reservation(self), HTTPStatus.CREATED
+
+    def put(self, id):
+        return self.ctr.update_reservation_settings(self, id), HTTPStatus.OK
+
+    def delete(self, id):
+        return self.ctr.delete_reservation_settings(self, id), HTTPStatus.NO_CONTENT
 
 
 class CommentView(views.MethodView):
