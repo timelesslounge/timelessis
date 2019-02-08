@@ -253,3 +253,20 @@ export FLASK_APP=main.py
 export FLASK_ENV=development
 flask run
 ```
+
+
+### Running the webserer locally using Docker
+You should have `Docker` and `Docker Compose` installed. In other case go through official tutorial to install:
+1. https://www.docker.com/get-started
+2. https://docs.docker.com/compose/install/
+
+To start up the docker exec the following commands:
+```
+docker-compose build
+docker-compose up app
+```
+and check that `http://127.0.0.1:5000/` works.
+To run tests execute:
+```
+docker-compose run app_test
+```
