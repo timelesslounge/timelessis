@@ -5,6 +5,9 @@
  page should be accessed by the Location page. Update html templates when
  methods are implemented. Create more tests for all methods.
  Table management pages should be accessed by the Location and Floor pages.
+@todo #112:30min Modify this file and also all other views.py files so the
+ endpoints are registered inside timeless/__init__.py file in register_api
+ method. Just like it was done for companies management views.
 """
 import datetime
 
