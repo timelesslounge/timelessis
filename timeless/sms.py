@@ -3,6 +3,7 @@ import functools
 import hashlib
 import time
 from datetime import datetime
+from http import HTTPStatus
 
 import requests
 
@@ -17,20 +18,24 @@ class SMS:
 
 class RetrySendSMS:
     """Decorator class for resending requests"""
-    def __init__(self, retry_count=5, timeout=1):
+    def __init__(self, retry_count=3, timeout=1):
         self.retry_count = retry_count
         self.timeout = timeout
         self.counter = 0
+        self.unavailable_status_codes = [
+            HTTPStatus.NOT_FOUND,
+            HTTPStatus.INTERNAL_SERVER_ERROR
+        ]
 
-    def __call__(self, fn):
-        @functools.wraps(fn)
+    def __call__(self, send):
+        @functools.wraps(send)
         def decorated(*args, **kwargs):
-            response = fn(*args, **kwargs)
+            response = send(*args, **kwargs)
             response_status_code = response.status_code
-            while (response_status_code > 401 and
+            while (response_status_code in self.unavailable_status_codes and
                    self.counter < self.retry_count):
                 time.sleep(self.timeout)
-                response = fn(*args, **kwargs)
+                response = send(*args, **kwargs)
                 response_status_code = response.status_code
                 self.counter += 1
             return response
@@ -64,7 +69,7 @@ class RedSMS(SMS):
             "route": "sms",
         }
 
-    @RetrySendSMS(retry_count=5, timeout=5)
+    @RetrySendSMS()
     def send(self):
         """
         Sends sms via provider

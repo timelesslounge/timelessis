@@ -53,4 +53,4 @@ def test_retry_decorator_with_sms_sending(requests_mock):
     requests_mock.post.return_value = type(
         'Response', (), {'status_code': 500})
     sms.send()
-    assert requests_mock.post.call_count == 6
+    assert requests_mock.post.call_count == 4
