@@ -2,6 +2,7 @@
 from datetime import datetime
 from random import randint
 from passlib.hash import bcrypt_sha256
+
 from timeless.db import DB
 from timeless.models import TimestampsMixin, validate_required
 

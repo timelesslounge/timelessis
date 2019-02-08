@@ -6,14 +6,6 @@ import os
 from flask import Flask
 
 from timeless.db import DB
-from timeless.companies import views as companies_views
-from timeless.auth import views as auth_views
-from timeless.reservations import views as reservations_views
-from timeless.restaurants.locations import views as locations_views
-from timeless.restaurants.tables import views as tables_views
-from timeless.restaurants.floors import views as floors_views
-from timeless.roles import views as roles_views
-from timeless.restaurants.table_shapes import views as table_shapes_views
 
 
 def create_app(config):
@@ -40,7 +32,10 @@ def initialize_extensions(app):
     import timeless.schemetypes.models
     import timeless.restaurants.models
     import timeless.reservations.models
+    import timeless.roles.models
+    import timeless.items.models
     import timeless.employees.models
+    import timeless.companies.models
 
 
 def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
@@ -64,6 +59,15 @@ def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
 
 
 def register_endpoints(app):
+    from timeless.companies import views as companies_views
+    from timeless.auth import views as auth_views
+    from timeless.reservations import views as reservations_views
+    from timeless.restaurants.locations import views as locations_views
+    from timeless.restaurants.tables import views as tables_views
+    from timeless.restaurants.floors import views as floors_views
+    from timeless.roles import views as roles_views
+    from timeless.restaurants.table_shapes import views as table_shapes_views
+
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(tables_views.bp)
     app.register_blueprint(locations_views.bp)

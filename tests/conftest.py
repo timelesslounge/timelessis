@@ -2,11 +2,12 @@ import os
 import tempfile
 
 import pytest
-from timeless import create_app, DB
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+
+from timeless import create_app
+from timeless.db import DB
 
 
 @pytest.fixture
@@ -19,6 +20,15 @@ def app():
     yield app
     os.close(db_fd)
     os.unlink(db_path)
+
+
+@pytest.fixture(autouse=True)
+def app_test_context(app):
+    with app.test_request_context():
+        DB.create_all()
+        yield app
+        DB.session.remove()
+        DB.drop_all()
 
 
 @pytest.fixture
