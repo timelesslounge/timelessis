@@ -208,6 +208,8 @@ If packages are not found, do the following steps:
 ```
 sudo deb http://apt.postgresql.org/pub/repos/apt/ {DEBIAN_OR_UBUNTU_VERSION}-pgdg main
 ```
+NOTE: `DEBIAN_OR_UBUNTU_VERSION` is a code name, like `trusty` (ubuntu 14.01), `xenial` (16.04) and so on.
+
 2. Import the repository signing key, and update the package lists
 ```
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
