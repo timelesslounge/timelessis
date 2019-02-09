@@ -8,6 +8,7 @@
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
 )
+from timeless.auth import views as auth
 
 bp = Blueprint("floor", __name__, url_prefix="/floors")
 
@@ -25,6 +26,7 @@ def list_floors():
 
 
 @bp.route("/create", methods=("GET", "POST"))
+@auth.login_required
 def create():
     """ Create new floor """
     if request.method == "POST":
@@ -37,6 +39,7 @@ def create():
 
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
+@auth.login_required
 def edit(id):
     """ Edit floor with id """
     if request.method == "POST":
@@ -49,6 +52,7 @@ def edit(id):
 
 
 @bp.route("/delete", methods=["POST"])
+@auth.login_required
 def delete():
     """ Delete floor with id """
     flash("Delete not yet implemented")

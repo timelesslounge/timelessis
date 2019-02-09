@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Tables management - Main{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% for table in tables %}
+        <article class="table">
+        <header>
+            <div>
+            <h1>{{ table['name'] }}</h1>
+            </div>
+            <a class="action" href="{{ url_for('table.edit', id=table['id']) }}">Edit</a>
+        </header>
+        <p class="floor">{{ floors[table['floor_id']] }}</p>
+        <p class="x">{{ table['x'] }}</p>
+        <p class="y">{{ table['y'] }}</p>
+        <p class="width">{{ table['width'] }}</p>
+        <p class="height">{{ table['height'] }}</p>
+        <p class="status">{{ table['status'] }}</p>
+        <p class="max_capacity">{{ table['max_capacity'] }}</p>
+        <p class="min_capacity">{{ table['min_capacity'] }}</p>
+        <p class="multiple">{{ table['multiple'] }}</p>
+        <p class="playstation">{{ table['playstation'] }}</p>
+        <p class="shape">{{ shapes[table['shape_id']] }}</p>
+        <p class="deposit_hour">{{ table['deposit_hour'] }}</p>
+        </article>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
