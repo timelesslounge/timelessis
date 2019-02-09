@@ -2,7 +2,7 @@ from tests.poster_mock import free_port, start_server
 from timeless.poster.api import Poster
 
 
-class TestPoster(object):
+class TestPoster:
 
     @classmethod
     def setup_class(cls):
@@ -15,3 +15,6 @@ class TestPoster(object):
 
     def test_tables(self):
         assert (self.poster.tables()["data"] == "testTables")
+
+    def test_customers(self):
+        assert (self.poster.customers()["data"] == "testCustomers")
