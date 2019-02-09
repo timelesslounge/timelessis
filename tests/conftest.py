@@ -25,10 +25,15 @@ def app():
 @pytest.fixture(autouse=True)
 def app_test_context(app):
     with app.test_request_context():
-        DB.create_all()
         yield app
-        DB.session.remove()
-        DB.drop_all()
+
+
+@pytest.fixture(autouse=True)
+def cleanup_db(app_test_context):
+    DB.create_all()
+    yield
+    DB.session.remove()
+    DB.drop_all()
 
 
 @pytest.fixture

@@ -47,8 +47,8 @@ def create():
 def edit(id):
     """ Edit table shape with id """
     """
-    @todo #162:30min Implement edit() methods, using SQLAlchemy and
-    TableShape model and update template. Do not forget write tests.
+    @todo #162:30min Implement edit() method of TableShape model and
+    update template. Do not forget write tests.
     """
     if request.method == "POST":
         flash("Edit not yet implemented")
