@@ -94,4 +94,4 @@ def edit(id):
 @bp.route("/delete", methods=["POST"])
 def delete():
     flash("Delete not yet implemented")
-    return redirect(url_for("table.list"))
+    return redirect(url_for("table.list_tables"))
