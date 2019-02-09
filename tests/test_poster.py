@@ -8,7 +8,7 @@ class TestPoster(object):
     def setup_class(cls):
         cls.port = free_port()
         start_server(cls.port, locations={"data": "testData"}, tables={"data": "testTables"})
-        cls.poster = Poster(url="http://localhost:{port}".format(port=cls.port))
+        cls.poster = Poster(url=f"http://localhost:{cls.port}")
 
     def test_locations(self):
         assert (self.poster.locations()["data"] == "testData")

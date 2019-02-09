@@ -21,8 +21,6 @@ def free_port():
 def start_server(port, **kwargs):
     """Starts Poster mock server
     :param port: Port
-    :param kwargs:
-        locations: Location data
     :return:
     """
     class PosterServerMock(BaseHTTPRequestHandler):

@@ -1,5 +1,6 @@
 --source=.
 --verbose
+--exclude .idea/**/*
 --exclude tests/**/*
 --exclude venv/**/*
 --exclude migrations/**/*
