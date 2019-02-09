@@ -13,7 +13,7 @@
             </div>
             <a class="action" href="{{ url_for('table.edit', id=table['id']) }}">Edit</a>
         </header>
-        <p class="floor_id">{{ table['floor_id'] }}</p>
+        <p class="floor">{{ floors[table['floor_id']] }}</p>
         <p class="x">{{ table['x'] }}</p>
         <p class="y">{{ table['y'] }}</p>
         <p class="width">{{ table['width'] }}</p>
@@ -23,7 +23,7 @@
         <p class="min_capacity">{{ table['min_capacity'] }}</p>
         <p class="multiple">{{ table['multiple'] }}</p>
         <p class="playstation">{{ table['playstation'] }}</p>
-        <p class="shape_id">{{ table['shape_id'] }}</p>
+        <p class="shape">{{ shapes[table['shape_id']] }}</p>
         <p class="deposit_hour">{{ table['deposit_hour'] }}</p>
         </article>
         {% if not loop.last %}

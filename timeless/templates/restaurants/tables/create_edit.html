@@ -9,8 +9,12 @@
     <label for="name">Name</label>
     <input name="name" id="name" required>
     <br/>
-    <label for="floor_id">Floor ID</label>
-    <input name="floor_id" id="floor_id"/>
+    <label for="floor_id">Floor</label>
+    <select name="floor_id" id="floor_id">
+      {% for floor in floors %}
+          <option {% if floor.selected %}selected="selected"{% endif %} value="{{ floor.id }}">{{ floor.name}}</option>
+      {% endfor %}
+    </select>
     <br/>
     <label for="x">X</label>
     <input name="x" id="x"/>
@@ -34,18 +38,22 @@
     <input name="min_capacity" id="min_capacity"/>
     <br/>
     <label for="multiple">Multiple</label>
-    <input name="multiple" id="multiple"/>
+    <input type="checkbox" name="multiple" id="multiple"/>
     <br/>
     <label for="playstation">Playstation</label>
-    <input name="playstation" id="playstation"/>
+    <input type="checkbox" name="playstation" id="playstation"/>
     <br/>
-    <label for="shape_id">Shape ID</label>
-    <input name="shape_id" id="shape_id"/>
+    <label for="shape_id">Shape</label>
+    <select name="shape_id" id="shape_id">
+      {% for shape in shapes %}
+        <option {% if shape.selected %}selected="selected"{% endif %} value="{{ shape.id }}">{{ shape.name}}</option>
+      {% endfor %}
+    </select>
     <br/>
     <label for="deposit_hour">Deposit Hour</label>
     <input name="deposit_hour" id="deposit_hour"/>
     <br/>
     <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
-    <a class="action" href="{{ url_for('table.list') }}">Cancel</a>
+    <a class="action" href="{{ url_for('table.list_tables') }}">Cancel</a>
   </form>
 {% endblock %}
