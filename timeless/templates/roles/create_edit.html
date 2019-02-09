@@ -13,10 +13,15 @@
     <input type="checkbox" name="works_on_shifts" id="works_on_shifts"/>
     <br/>
     <br/>
-    <label for="company_id">Company ID</label>
+    <label for="company_id">Company</label>
+    <select name="company_id" id="company_id">
+      {% for company in companies %}
+        <option {% if company.selected %}selected="selected"{% endif %} value="{{ company.id }}">{{ company.name}}</option>
+      {% endfor %}
+    </select>
     <input name="company_id" id="company_id" required>
     <br/>
     <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
-    <a class="action" href="{{ url_for('role.list') }}">Cancel</a>
+    <a class="action" href="{{ url_for('role.list_roles') }}">Cancel</a>
   </form>
 {% endblock %}
