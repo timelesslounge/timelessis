@@ -16,3 +16,4 @@ def test_edit(client):
 def test_delete(client):
     response = client.post("/roles/delete", data={"id": 1})
     assert response.headers["Location"] == "http://localhost/roles/"
+
