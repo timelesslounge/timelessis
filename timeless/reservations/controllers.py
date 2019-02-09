@@ -4,9 +4,9 @@ from timeless.reservations.models import ReservationSettings
 
 class SettingsController:
     """
-      @todo #63:30min Continue implementing SettingsController:
-       CRUD operations should be implemented, as well as unit tests
-       and integration tests.
+      @todo #63:30min Continue with the implementation of SettingsController:
+       Create, Read, Update, Delete operations should be implemented,
+       as well as unit tests and integration tests.
     """
 
     def get_settings_for_reservation(self, reservation_id) -> ReservationSettings:
