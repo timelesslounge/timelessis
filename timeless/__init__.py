@@ -19,7 +19,7 @@ from timeless.restaurants.locations import views as locations_views
 from timeless.restaurants.floors import views as floors_views
 from timeless.restaurants.table_shapes import views as table_shapes_views
 
-from flask_cache import Cache
+from flask_caching import Cache
 
 
 def create_app(config):

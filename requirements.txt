@@ -56,4 +56,5 @@ typed-ast==1.2.0
 urllib3==1.24.1
 Werkzeug==0.14.1
 wrapt==1.11.1
-Flask-Cache==0.13.1
+flask-caching==1.4.0
+redis==3.1.0
