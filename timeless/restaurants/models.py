@@ -74,11 +74,11 @@ class Location(PosterSyncMixin, DB.Model):
 class TableReservation(DB.Model):
     """Association table for reservations and tables"""
 
-    __tablename__ = 'table_reservations'
+    __tablename__ = "table_reservations"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-    reservation_id = DB.Column(DB.Integer, DB.ForeignKey('reservations.id'))
-    table_id = DB.Column(DB.Integer, DB.ForeignKey('tables.id'))
+    reservation_id = DB.Column(DB.Integer, DB.ForeignKey("reservations.id"))
+    table_id = DB.Column(DB.Integer, DB.ForeignKey("tables.id"))
     table = DB.relationship("Table", back_populates="reservations")
     reservation = DB.relationship("Reservation", back_populates="tables")
 
