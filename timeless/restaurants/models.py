@@ -83,7 +83,7 @@ class TableReservation(DB.Model):
     reservation = DB.relationship("Reservation", back_populates="tables")
 
 
-class Table(DB.Model):
+class Table(PosterSyncMixin, DB.Model):
     """Model for a Table"""
 
     __tablename__ = "tables"
