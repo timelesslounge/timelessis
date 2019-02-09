@@ -13,6 +13,8 @@ from flask_migrate import Migrate
 def app():
     db_fd, db_path = tempfile.mkstemp()
     app = create_app("config.TestingConfig")
+    app_context = app.test_request_context()
+    app_context.push()
     yield app
     os.close(db_fd)
     os.unlink(db_path)
