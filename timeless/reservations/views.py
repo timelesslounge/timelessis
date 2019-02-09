@@ -1,3 +1,4 @@
+""" Views for reservations """
 from http import HTTPStatus
 
 from flask import views
@@ -6,20 +7,24 @@ from timeless.reservations.controllers import SettingsController
 
 class SettingsView(views.MethodView):
     """ Reservation settings API """
-    ctr = SettingsController();
+    ctr = SettingsController()
 
     def get(self, id):
+        """ GET method for reservation settings """
         if id:
             return self.ctr.get_settings_for_reservation(id), HTTPStatus.OK
         return self.ctr.get_all_reservation_settings(), HTTPStatus.OK
 
     def post(self):
+        """ POST method for reservation settings """
         return self.ctr.create_settings_for_reservation(self), HTTPStatus.CREATED
 
     def put(self, id):
+        """ PUT method for reservation settings """
         return self.ctr.update_reservation_settings(self, id), HTTPStatus.OK
 
     def delete(self, id):
+        """ DELETE method for reservation settings """
         return self.ctr.delete_reservation_settings(self, id), HTTPStatus.NO_CONTENT
 
 
