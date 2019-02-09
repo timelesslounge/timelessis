@@ -14,3 +14,4 @@ def login(username="", password=""):
         session.clear()
         session["user_id"] = user.id
     return error
+

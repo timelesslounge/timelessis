@@ -40,3 +40,4 @@ def test_authenticated(app):
         DB.session.commit()
         DB.session.remove()
         assert ( error is None)
+
