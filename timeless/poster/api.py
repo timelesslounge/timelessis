@@ -54,10 +54,10 @@ class Authenticated(Poster):
             method=self.POST,
             action="auth/access_token"
         )
-        if response.status_code != 200:
-            raise Exception("Problem acessing poster api")
-        token = response.json()["access_token"]
-        if (not token):
+        if not response.ok:
+            raise Exception("Problem accessing poster api")
+        token = response.json().get("access_token")
+        if not token:
             raise Exception("Token not found")
 
         return token
