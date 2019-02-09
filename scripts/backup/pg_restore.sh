@@ -1,4 +1,6 @@
 #!/bin/bash
+# @todo #114:30min Add a detailed description to both pg_restore and pg_backup
+#  scripts on what they do and how to properly execute them.
 
 ###########################
 ####### LOAD CONFIG #######
