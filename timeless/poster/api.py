@@ -54,8 +54,8 @@ class Authenticated(Poster):
         self.origin = kwargs.get("origin", "")
         self.acount = kwargs.get("client_id", 0)
 
-    def token(self):
-        if self.token == "":
+    def fetch_token(self):
+        if not self.token:
             self.auth()
         return self.token
 
@@ -67,4 +67,4 @@ class Authenticated(Poster):
          implementing uncomment test of poster auth in it_test_poster.py
 
         """
-        raise("poster.auth not implemented yet")
+        raise Exception("poster.auth not implemented yet")
