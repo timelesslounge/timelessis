@@ -42,7 +42,7 @@ class TestAuth(unittest.TestCase):
         self.setup_class()
         assert (
             Authenticated(
-                url="http://localhost:{port}".format(port=self.port)
+                f"http://localhost:{self.port}"
             ).access_token() == "861052:02391570ff9af128e93c5a771055ba88"
         )
 

@@ -54,26 +54,26 @@ def start_server(port, locations=None):
                 self.end_headers()
                 content = json.dumps(
                     {
-                        'access_token':'861052:02391570ff9af128e93c5a771055ba88',
-                        'account_number':'861052',
-                        'user':{
-                            'id':4,
-                            'name':'Mike Haggar',
-                            'email':'haggar@metrocity.com',
-                            'role_id':3
+                        "access_token":"861052:02391570ff9af128e93c5a771055ba88",
+                        "account_number":"861052",
+                        "user":{
+                            "id":4,
+                            "name":"Mike Haggar",
+                            "email":"haggar@metrocity.com",
+                            "role_id":3
                         },
-                        'ownerInfo':{
-                            'email':'haggar@metrocity.com',
-                            'phone':'+380684152664',
-                            'city':'Metro City',
-                            'country':'US',
-                            'name':'Mike Haggar',
-                            'company_name':'Metro City Administration'
+                        "ownerInfo":{
+                            "email":"haggar@metrocity.com",
+                            "phone":"+380684152664",
+                            "city":"Metro City",
+                            "country":"US",
+                            "name":"Mike Haggar",
+                            "company_name":"Metro City Administration"
                         },
-                        'tariff':{
-                            'key':'pricing-plan-1',
-                            'next_pay_date':'2020-05-31 11:52:41',
-                            'price':2
+                        "tariff":{
+                            "key":"pricing-plan-1",
+                            "next_pay_date":"2020-05-31 11:52:41",
+                            "price":2
                         }
                     }
                 )

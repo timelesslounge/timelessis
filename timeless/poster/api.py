@@ -50,10 +50,17 @@ class Authenticated(Poster):
         
         :return: Token retrieved from Poster api or error returned by poster pi
         """
-        return self.send(
+        response = self.send(
             method=self.POST,
             action="auth/access_token"
-        ).json()["access_token"]
+        )
+        if response.status_code != 200:
+            raise Exception("Problem acessing poster api")
+        token = response.json()["access_token"]
+        if (not token):
+            raise Exception("Token not found")
+
+        return token
 
     def auth(self):
         """Authenticates user into poster API
