@@ -16,7 +16,7 @@ def __location_access(method=None, *args):
     """
     @todo #22:30min Implement __location_access. Owner should
      Create / modify / delete Locations associated with owned Company.
-     Fetch owner from g.user (if it doesn't exist than fetch it's id from
+     Fetch owner from g.user (if it doesnt exist than fetch its id from
      session. Location id can be obtained from args.
     """
     permitted = False
