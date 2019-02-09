@@ -16,11 +16,7 @@ class ReservationStatus(enum.Enum):
     not_contacting = 7
 
 class TableShape(DB.Model):
-    """Model for a Table's Shape.
-    @todo #13:30min Continue implementation. Table Shape should have its
-     own management pages to list, create, edit and delete them. In the
-     index page it should be possible to sort and filter for every column.
-    """
+    """Model for a Table's Shape."""
 
     __tablename__ = "table_shapes"
 
@@ -88,11 +84,7 @@ class TableReservation(DB.Model):
 
 
 class Table(DB.Model):
-    """Model for a Table
-    @todo #12:30min Continue implementation for Tables. Tables should have its own management pages to
-     list, create, edit and delete them. In the index page it should be possible to sort and filter for every column.
-     Table management pages should be accessed by the Location and Floor pages.
-    """
+    """Model for a Table"""
 
     __tablename__ = "tables"
 

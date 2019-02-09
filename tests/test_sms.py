@@ -12,8 +12,7 @@ def test_red_sms_provider(requests_mock, timestamp_mock):
     timestamp = 1549208808.562239
     timestamp_mock.now.return_value = type(
         'Mock date', (), {'timestamp': lambda: timestamp})
-    secret = hashlib.sha512(
-        "{0}{1}".format(timestamp, api_key).encode()).hexdigest()
+    secret = hashlib.sha512(f"{timestamp}{api_key}".encode()).hexdigest()
     recipient = "recipient"
     route = "sms"
     sender = "sender"
@@ -40,3 +39,18 @@ def test_red_sms_provider(requests_mock, timestamp_mock):
             "from": sender,
         }
     )
+
+
+@mock.patch("timeless.sms.requests")
+def test_retry_decorator_with_sms_sending(requests_mock):
+    sms = RedSMS(
+        login="test_login",
+        api_key="api_key",
+        recipient="recipient",
+        message="message",
+        sender="sender",
+    )
+    requests_mock.post.return_value = type(
+        'Response', (), {'status_code': 500})
+    sms.send()
+    assert requests_mock.post.call_count == 4
