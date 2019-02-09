@@ -1,8 +1,4 @@
 """Auth views module.
-@todo #59:30min The backend should return only error codes for login procedure,
- not hardcoded messages. The codes should then be translated into (mapped to)
- Strings on the UI, so we can easily have internationalization or change
- error messages without having to rebuild + redeploy the backend.
 @todo #59:30min Create IT tests for login method and continue implementing
  forgot_password() and activate() methods. Update html templates when methods
  are implemented. Create more tests for all methods.
