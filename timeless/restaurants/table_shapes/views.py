@@ -30,7 +30,7 @@ def create():
     """ Create new table shape"""
     if request.method == "POST":
         flash("Create not yet implemented")
-    action = 'create'
+    action = "create"
     return render_template(
         "restaurants/table_shapes/create_edit.html",
         action=action
@@ -42,7 +42,7 @@ def edit(id):
     """ Edit table shape with id """
     if request.method == "POST":
         flash("Edit not yet implemented")
-    action = 'edit'
+    action = "edit"
     return render_template(
         "restaurants/table_shapes/create_edit.html",
         action=action
