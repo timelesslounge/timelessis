@@ -227,6 +227,12 @@ psql -U postgres -d timelessdb_dev
 psql -U timeless_user -d timelessdb_dev
 ```
 
+### Database backups
+Backup scripts (`pg_backup.sh` and `pg_restore.sh`) are used for save storage of
+database. Both of those scripts keep the configuration inside `pg_backup.config` file.
+Password for those scripts can be provided using standard Postgres methods like
+`PGPASSWORD` environment variable or `~/.pgpass` file.
+
 ### Running tests
 
 ```
