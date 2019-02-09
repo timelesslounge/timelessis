@@ -12,7 +12,8 @@ install: |-
   ./install_db.sh
 merge:
   script: |-
-    python checkstyle.py
+    chmod +x ./checkstyle.sh
+    ./checkstyle.sh
     python check_pylint.py
     pytest -vv
     pdd -f /dev/null -v
