@@ -1,3 +1,6 @@
+"""This file contains base form class which helps integrate WTF-Alchemy
+and Flask-WTF, since it doesn't work properly ot of the box."""
+
 import flask_wtf
 import wtforms_alchemy
 
@@ -13,5 +16,5 @@ class ModelForm(BaseModelForm):
     details."""
 
     @classmethod
-    def get_session(self):
+    def get_session(cls):
         return DB.session

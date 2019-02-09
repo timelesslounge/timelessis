@@ -16,8 +16,7 @@ bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
 @bp.route("/")
 def list():
-    """ List all table shapes"""
-    """
+    """List all table shapes
     @todo #162:30min Implement ordering and sorting of TableShape model for
     all columns. Do not forget write tests.
     """
@@ -45,8 +44,7 @@ def create():
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
-    """ Edit table shape with id """
-    """
+    """ Edit table shape with id
     @todo #162:30min Implement edit() method of TableShape model and
     update template. Do not forget write tests.
     """
