@@ -2,7 +2,7 @@
 from http import HTTPStatus
 
 from flask import views
-from timeless.reservations.controllers import SettingsController
+from timeless.reservations.controllers import SettingsController, CommentsController
 
 
 class SettingsView(views.MethodView):
@@ -25,11 +25,12 @@ class SettingsView(views.MethodView):
 
     def delete(self, id):
         """ DELETE method for reservation settings """
-        return self.ctr.delete_reservation_settings(self, id), HTTPStatus.NO_CONTENT
+        return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
 
 
 class CommentView(views.MethodView):
     """API Resource for comments /api/comments"""
+    ctr = CommentsController()
 
     def get(self, comment_id):
         """Get method of CommentView
@@ -38,21 +39,17 @@ class CommentView(views.MethodView):
          to sort and filter for every column.
         """
         if comment_id:
-            return "Detail get method of CommentViewSet", HTTPStatus.OK
-        return "Get method of CommentViewSet", HTTPStatus.OK
+            return self.ctr.get_comment(comment_id), HTTPStatus.OK
+        return self.ctr.get_all_comments(), HTTPStatus.OK
 
     def post(self):
         """Post method of CommentView"""
-        return "Post method of CommentViewSet", HTTPStatus.CREATED
+        return self.ctr.create_comment(comment=None), HTTPStatus.CREATED
 
     def put(self, comment_id):
         """Put method of CommentView"""
-        if comment_id:
-            return "Detail put method of CommentViewSet", HTTPStatus.OK
-        return "Put method of CommentViewSet", HTTPStatus.OK
+        return self.ctr.update_comment(comment_id=comment_id, comment=None), HTTPStatus.HTTPStatus.OK
 
     def delete(self, comment_id):
         """Delete method of CommentView"""
-        if comment_id:
-            return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
-        return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
+        return self.ctr.delete_comment(comment_id), HTTPStatus.HTTPStatus.NO_CONTENT

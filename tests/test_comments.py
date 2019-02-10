@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-
+"""
 def test_comments_endpoints(client):
     url = "/api/comments/"
     assert client.get(url).status_code == HTTPStatus.OK
@@ -14,5 +14,8 @@ def test_comments_endpoints(client):
     assert client.put(url).status_code == HTTPStatus.OK
 
     assert client.delete(url).status_code == HTTPStatus.NO_CONTENT
+"""
 
-
+def test_get_single_comment(client):
+    url = "/api/comments/1"
+    assert client.get(url).status_code == HTTPStatus.OK
