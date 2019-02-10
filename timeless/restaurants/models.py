@@ -130,13 +130,15 @@ class Reservation(TimestampsMixin, DB.Model):
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     start_time = DB.Column(DB.DateTime, nullable=False)
     end_time = DB.Column(DB.DateTime, nullable=False)
-    duration = DB.Column(DB.Time, nullable=False)
     customer_id = DB.Column(DB.Integer, DB.ForeignKey("customers.id"))
     num_of_persons = DB.Column(DB.DateTime, nullable=False)
     comment = DB.Column(DB.String, nullable=False)
     status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
+
+    def duration(self):
+        return self.end_time - self.start_time
 
     def __repr__(self):
         return "<Reservation %r>" % self.id
