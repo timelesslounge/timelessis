@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Reservation management - {% if action == 'create' %}  Create {% else %} Edit {% endif %} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="start_time">Start time</label>
+    <input name="start_time" id="start_time" required>
+    <br/>
+    <label for="end_time">End time</label>
+    <input name="end_time" id="end_time" required>
+    <br/>
+    <label for="customer_id">Customer</label>
+    <select name="customer_id" id="customer_id">
+      {% for customer in customers %}
+          <option {% if customer.selected %}selected="selected"{% endif %}
+          value="{{ customer.id }}">{{ customer.name}}</option>
+      {% endfor %}
+    </select>
+    <br/>
+    <label for="num_of_persons">Number of Persons</label>
+    <input name="num_of_persons" id="num_of_persons"/>
+    <br/>
+    <label for="comment">Comment</label>
+    <input name="comment" id="comment"/>
+    <br/>
+    <label for="status">Status</label>
+    <input name="status" id="status"/>
+    <br/>
+    <label for="tables">Tables</label>
+    <select name="tables" id="tables" multiple="true">
+      {% for shape in shapes %}
+        <option {% if table.selected %}selected="selected"{% endif %} value="{{
+        table.id }}">{{ table.name}}</option>
+      {% endfor %}
+    </select>
+    <br/>
+    <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
+    <a class="action" href="{{ url_for('reservations.list_reservations')
+    }}">Cancel</a>
+  </form>
+{% endblock %}
