@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block header %}
   <h1>{% block title %}Table shapes management - {% if action == 'create' %} Create {% else %} Edit {% endif %} {% endblock %}</h1>
@@ -6,12 +7,10 @@
 
 {% block content %}
   <form method="post">
-    <label for="description">Description</label>
-    <textarea name="description" id="description"></textarea>
-    <label for="picture">Picture</label>
-    <input type="file" name="picture" id="picture" required>
-    <br/>
-    <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
-    <a class="action" href="{{ url_for('table_shape.list') }}">Cancel</a>
+    {{ render_field(form.description) }}
+    {{ render_field(form.picture) }}
+    <p>
+      <button type="submit">Create</button>
+    </p>
   </form>
 {% endblock %}

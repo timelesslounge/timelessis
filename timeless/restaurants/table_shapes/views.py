@@ -1,7 +1,4 @@
-"""TableShape views module.
- @todo #162:30min Update html templates when all
- methods are implemented.
-"""
+"""TableShape views module."""
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
 )
@@ -18,7 +15,8 @@ bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 def list():
     """List all table shapes
     @todo #162:30min Implement ordering and sorting of TableShape model for
-    all columns. Do not forget write tests.
+     all columns. Update html templates if it's needed. Do not forget write
+     tests.
     """
     return render_template(
         "restaurants/table_shapes/list.html",
@@ -31,6 +29,14 @@ def create():
     form = forms.TableShapeForm(request.form)
 
     if request.method == 'POST' and form.validate():
+        """
+        @todo #162:30min Initialize CSRF token protection for app and add
+         token to this template. Implementation detail you can find by the
+         following page: https://flask-wtf.readthedocs.io/en/stable/csrf.html
+        @todo #162:30min This form currenly cannot save pictures. Need have a
+         look how WTF form processes files. Implement generic solution to use
+         it everywhere when it's needed.
+        """
         table_shape = models.TableShape()
         form.populate_obj(table_shape)
 
@@ -46,15 +52,14 @@ def create():
 def edit(id):
     """ Edit table shape with id
     @todo #162:30min Implement edit() method of TableShape model and
-    update template. Do not forget write tests.
+     update template. Use TableShapeForm for that, see how in works in
+     create function. Check and update html template if it's needed.
     """
     if request.method == "POST":
         flash("Edit not yet implemented")
-    action = "edit"
+    form = forms.TableShapeForm()
     return render_template(
-        "restaurants/table_shapes/create_edit.html",
-        action=action
-        )
+        "restaurants/table_shapes/create_edit.html", form=form)
 
 
 @bp.route("/delete/<int:id>", methods=["POST"])
