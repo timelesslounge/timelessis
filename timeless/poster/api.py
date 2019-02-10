@@ -32,7 +32,7 @@ class Poster(object):
         :return:
             Data about tables
         """
-        return self.send(method=self.__GET, action="clients.getTables").json()
+        return self.send(method=self.GET, action="clients.getTables").json()
 
     def send(self, **kwargs):
         """Sends http request for specific poster action
