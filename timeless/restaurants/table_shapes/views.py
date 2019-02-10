@@ -28,7 +28,7 @@ def create():
     """ Create new table shape"""
     form = forms.TableShapeForm(request.form)
 
-    if request.method == 'POST' and form.validate():
+    if request.method == "POST" and form.validate():
         """
         @todo #162:30min Initialize CSRF token protection for app and add
          token to this template. Implementation detail you can find by the
@@ -38,7 +38,7 @@ def create():
          it everywhere when it's needed.
         """
         form.save()
-        return redirect(url_for('table_shape.list'))
+        return redirect(url_for("table_shape.list"))
     return render_template(
         "restaurants/table_shapes/create_edit.html", form=form)
 

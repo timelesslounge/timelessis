@@ -16,7 +16,7 @@ class ModelForm(BaseModelForm):
     details."""
 
     def __init__(self, *args, **kwargs):
-        self.instance = kwargs.pop('instance', None)
+        self.instance = kwargs.pop("instance", None)
         super().__init__(*args, **kwargs)
 
     @classmethod
