@@ -13,5 +13,5 @@ from timeless.poster.api import Poster, Authenticated
 def test_auth():
     assert Authenticated(
         clientid="$0m3C1i3ntId"
-    ).fetch_token(), "Poster did not authenticate the user!"
+    ).access_token(), "Poster did not authenticate the user!"
 
