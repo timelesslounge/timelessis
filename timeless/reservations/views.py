@@ -2,7 +2,9 @@
 from http import HTTPStatus
 
 from flask import views
-from timeless.reservations.controllers import SettingsController, CommentsController
+
+from timeless.reservations.controllers import SettingsController
+from timeless.reservations.models import Comment
 
 
 class SettingsView(views.MethodView):
@@ -30,7 +32,6 @@ class SettingsView(views.MethodView):
 
 class CommentView(views.MethodView):
     """API Resource for comments /api/comments"""
-    ctr = CommentsController()
 
     def get(self, comment_id):
         """Get method of CommentView
@@ -39,7 +40,7 @@ class CommentView(views.MethodView):
          to sort and filter for every column.
         """
         if comment_id:
-            return self.ctr.get_comment(comment_id).body, HTTPStatus.OK
+            return Comment.query.filter(Comment.id==comment_id).one().body, HTTPStatus.OK
         return "Get all method of CommentViewSet", HTTPStatus.OK
 
     def post(self):

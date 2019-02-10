@@ -39,13 +39,3 @@ class SettingsController:
             "SettingsController#delete_reservation_settings not yet implemented"
         )
 
-
-class CommentsController:
-
-    def get_comment(self, comment_id) -> Comment:
-        comment = Comment.query.get(comment_id)
-        if comment is not None:
-            return comment
-        raise Exception(
-            f"Comment {comment_id} does not exits"
-        )
