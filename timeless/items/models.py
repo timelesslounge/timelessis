@@ -7,9 +7,6 @@ class Item(DB.Model):
     @todo #15:30min Continue the implementation. Items must have their own
      management pages to list, create, edit, and delete them. On the index
      page, you should be able to sort and filter for each column.
-    @todo #15:30min A new function to assign items to users should also be
-     developed. They should also store their historical data in a table, with
-     start and end times.
     """
     __tablename__ = "items"
 
@@ -21,7 +18,36 @@ class Item(DB.Model):
     created_on = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
     updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
     company = DB.relationship("Company", back_populates="items")
+    employee_id = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
+    empolyee = DB.relationship("Employee")
+
+    def assignTo(self, employee):
+        """ Assing the item to an employee
+        @todo #142:30min Continue implememntation of assining.
+         Should create a new record in ItemHistory.
+         Update the old ItemHistory record if current employee_id in not null.
+         ItemHistory should have the needed functions to continue this.
+        """
+        self.employee_id = employee.id
 
     def __repr__(self):
         """Return object information - String"""
         return "<Item %r>" % self.name
+
+class ItemHistory(DB.Model):
+    """Model for item assigning history
+    """
+    __tablename__ = "itemsHistory"
+
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    start_time = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
+    end_time = DB.Column(DB.DateTime)
+    employee_id = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
+    empolyee = DB.relationship("Employee")
+    item_id = DB.Column(DB.Integer, DB.ForeignKey("items.id"))
+    item = DB.relationship("Item")
+
+    def __repr__(self):
+        """Return object information - String"""
+        return "<Item %r>" % self.id
