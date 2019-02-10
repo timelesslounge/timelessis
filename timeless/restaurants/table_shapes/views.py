@@ -37,12 +37,7 @@ def create():
          look how WTF form processes files. Implement generic solution to use
          it everywhere when it's needed.
         """
-        table_shape = models.TableShape()
-        form.populate_obj(table_shape)
-
-        DB.session.add(table_shape)
-        DB.session.commit()
-
+        form.save()
         return redirect(url_for('table_shape.list'))
     return render_template(
         "restaurants/table_shapes/create_edit.html", form=form)
@@ -57,6 +52,7 @@ def edit(id):
     """
     if request.method == "POST":
         flash("Edit not yet implemented")
+
     form = forms.TableShapeForm()
     return render_template(
         "restaurants/table_shapes/create_edit.html", form=form)

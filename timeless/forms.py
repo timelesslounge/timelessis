@@ -15,6 +15,31 @@ class ModelForm(BaseModelForm):
     https://wtforms-alchemy.readthedocs.io/en/latest/advanced.html for
     details."""
 
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.pop('instance', None)
+        super().__init__(*args, **kwargs)
+
     @classmethod
     def get_session(cls):
         return DB.session
+
+    def create(self, session):
+        self.instance = self.Meta.model()
+        self.populate_obj(self.instance)
+        session.add(self.instance)
+
+    def update(self):
+        raise NotImplementedError
+
+    def save(self, commit=True):
+        session = self.get_session()
+
+        if self.instance:
+            self.update()
+        else:
+            self.create(session)
+
+        if commit:
+            session.commit()
+
+        return self.instance

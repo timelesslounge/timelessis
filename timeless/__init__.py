@@ -1,7 +1,9 @@
 """This file contains all functions needed to create
 a new Flask app for timeless
 """
-
+# Since if import models / views inside methods, pylint complains
+# about cyclic imports.
+# pylint: disable=R0401
 import os
 from flask import Flask
 
