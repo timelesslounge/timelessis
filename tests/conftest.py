@@ -2,7 +2,7 @@ import os
 import tempfile
 
 import pytest
-from timeless import create_app
+from timeless import create_app, DB
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -15,6 +15,7 @@ def app():
     app = create_app("config.TestingConfig")
     app_context = app.test_request_context()
     app_context.push()
+    Migrate(app, DB)
     yield app
     os.close(db_fd)
     os.unlink(db_path)
