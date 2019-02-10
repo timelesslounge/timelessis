@@ -9,7 +9,8 @@ class Poster(object):
 
     """
 
-    __GET = "GET"
+    GET = "GET"
+    POST = "POST"
     client_id = 0
     token = ""
 
@@ -23,9 +24,17 @@ class Poster(object):
         :return:
             Location data
         """
-        return self.__send(method=self.__GET, action="clients.getLocations").json()
+        return self.send(method=self.GET, action="clients.getLocations").json()
 
-    def __send(self, **kwargs):
+    def tables(self):
+        """Fetches data about tables
+
+        :return:
+            Data about tables
+        """
+        return self.send(method=self.GET, action="clients.getTables").json()
+
+    def send(self, **kwargs):
         """Sends http request for specific poster action
 
         :return: response
@@ -33,30 +42,41 @@ class Poster(object):
         response = requests.request(
             kwargs.get("method"),
             urljoin(self.url, kwargs.get("action", "")),
-            params={"format": kwargs.get("format", "json"), "token": kwargs.get("token", self.token)})
+            params=kwargs
+        )
         response.raise_for_status()
         return response
 
 
 class Authenticated(Poster):
 
-    origin = ""
-
     def __init__(self, **kwargs):
-        self.origin = kwargs.get("origin", "")
-        self.acount = kwargs.get("client_id", 0)
+        super().__init__(**kwargs)
 
-    def token(self):
-        if self.token == "":
-            self.auth()
-        return self.token
+    def access_token(self):
+        """Fetches authorization tokens
+
+        :return: Token retrieved from Poster api or error returned by poster pi
+        """
+        response = self.send(
+            method=self.POST,
+            action="auth/access_token"
+        )
+        if not response.ok:
+            raise Exception("Problem accessing poster api")
+        token = response.json().get("access_token")
+        if not token:
+            raise Exception("Token not found")
+
+        return token
 
     def auth(self):
         """Authenticates user into poster API
-        @todo #67:30min Implement auth process following the Poster API
+        @todo #101:30min Implement auth process following the Poster API
          https://dev.joinposter.com/en/docs/api#authorization-in-api and use
          real token for sending HTTP requests instead of an empty string. After
-         implementing uncomment test of poster auth in it_test_poster.py
+         implementing fix the test of poster auth in it_test_poster.py to
+         receive the correct paramters and uncomment it.
 
         """
         raise("poster.auth not implemented yet")

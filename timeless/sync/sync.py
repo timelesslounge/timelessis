@@ -1,14 +1,19 @@
 from timeless.restaurants.models import Location
+
 """
     Syncs Poster with database.
 
+    @todo #24:30min Implement synchronization between Poster and Database for
+     Tables. Data coming from Poster has priority upon data stored in our
+     database. Do not forget to create periodic script and
+     put int into scripts folder to make this sync periodically.
 """
 
 
 class PosterSync:
 
     def sync_location(poster, company):
-        synced =[]
+        synced = []
         for location in company.locations:
             for poster_location in poster.locations():
                 if location.id == poster_location["id"]:

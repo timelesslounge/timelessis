@@ -4,12 +4,7 @@ from timeless import DB
 
 
 class Role(DB.Model):
-    """Settings model for Role.
-    @todo #9:30min Continue implementation. Roles should have its own management
-     pages to list, create, edit and delete them. In the index page it should be
-     possible to sort and filter for every column.
-     After migrations are fixed in #50 add migration for this table.
-    """
+    """Settings model for Role."""
 
     __tablename__ = "roles"
 
