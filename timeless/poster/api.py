@@ -67,4 +67,4 @@ class Authenticated(Poster):
          implementing uncomment test of poster auth in it_test_poster.py
 
         """
-        raise Exception("poster.auth not implemented yet")
+        raise NotImplementedError("poster.auth not implemented yet")
