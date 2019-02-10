@@ -115,9 +115,6 @@ class Table(PosterSyncMixin, DB.Model):
 
 class Reservation(TimestampsMixin, DB.Model):
     """Model for a Reservation
-    @todo #27:30min Calculate reservation duration in constructor
-     by subtracting start_time and end_time. Don't forget to call super
-     constructor in order not to override DB.Model functionality.
     @todo #27:30min Continue implementation of views. Index and a
      view page should be created to list all reservations. In the
      index page there should be also a function to delete the reservation
