@@ -1,9 +1,10 @@
 from datetime import datetime
 from functools import wraps
+
 from timeless import DB
 
 
-class TimestampsMixin(object):
+class TimestampsMixin:
     """Mixin for adding created_on and updated_on attributes
      to any models that need to keep track of their updates.
     """

@@ -14,8 +14,7 @@ install: |-
   ./scripts/install/installRedis.sh
 merge:
   script: |-
-    chmod +x ./checkstyle.sh
-    ./checkstyle.sh
+    python checkstyle.py
     python check_pylint.py
     pytest -vv
     pdd -f /dev/null -v

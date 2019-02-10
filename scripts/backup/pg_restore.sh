@@ -1,11 +1,10 @@
 #!/bin/bash
+# @todo #114:30min Add a detailed description to both pg_restore and pg_backup
+#  scripts on what they do and how to properly execute them.
 
 ###########################
 ####### LOAD CONFIG #######
 ###########################
-# @todo #47:30min Implement google drive account communication. Backups must be
-#  saved to a google account modification after completed, and restores should
-#  use the same google drive account for retrieving backed up database
 while [ $# -gt 0 ]; do
     case $1 in
         -c)
@@ -17,12 +16,22 @@ while [ $# -gt 0 ]; do
                 exit 1
             fi
             ;;
+        -d)
+            if [ -d "$2" ]; then
+                RESTORE_DIR="$2"
+                shift 2
+            else
+                echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Unreadable directory \"$2\"" 1>&2
+                exit 1
+            fi
+            ;;
         *)
             echo " [ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Unknown Option \"$1\"" 1>&2
             exit 2
             ;;
     esac
 done
+echo "FFF $RESTORE_DIR"
 
 if [ $# = 0 ]; then
     SCRIPTPATH=$(cd ${0%/*} && pwd -P)
@@ -30,12 +39,22 @@ if [ $# = 0 ]; then
 fi;
 
 ###########################
-#### PRE-BACKUP CHECKS ####
+#### PRE-RESTORE CHECKS ####
 ###########################
 
 # Make sure we're running as the required backup user
 if [ "$BACKUP_USER" != "" -a "$(id -un)" != "$BACKUP_USER" ]; then
 	echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] This script must be run as $BACKUP_USER. Exiting." 1>&2
+	exit 1;
+fi;
+
+if [ -z $RESTORE_DIR ]; then
+	echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Backup not provided, please use -d option." 1>&2
+	exit 1;
+fi
+
+if [ $(find $RESTORE_DIR -type f | wc -l) -ne 1 ]; then
+	echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Backup directory contains more than one file." 1>&2
 	exit 1;
 fi;
 
@@ -54,31 +73,18 @@ fi;
 
 
 ###########################
-#### START THE BACKUPS ####
-###########################
-
-
-FINAL_BACKUP_DIR=$BACKUP_DIR"`date +\%Y-\%m-\%d`/"
-
-echo "Making backup directory in $FINAL_BACKUP_DIR"
-
-if ! mkdir -p $FINAL_BACKUP_DIR; then
-	echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Cannot create backup directory in $FINAL_BACKUP_DIR. Go and fix it!" 1>&2
-	exit 1;
-fi;
-
-###########################
 ###### FULL BACKUP #######
 ###########################
 
-echo -e "\n\nPerforming full backup"
+RESTORE_FILE=$(find $RESTORE_DIR -type f)
+
+echo -e "\n\nPerforming restore from $RESTORE_FILE"
 echo -e "--------------------------------------------\n"
 
-echo "Plain backup of $DATABASE"
-if ! pg_dump -Fp -h "$HOSTNAME" -U "$USR" "$DATABASE" | gzip > $FINAL_BACKUP_DIR"$DATABASE".sql.gz.in_progress; then
-	echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Failed to produce plain backup database $DATABASE" 1>&2
-else
-	mv $FINAL_BACKUP_DIR"$DATABASE".sql.gz.in_progress $FINAL_BACKUP_DIR"$DATABASE".sql.gz
+echo "Restore $DATABASE"
+if ! zcat $RESTORE_FILE | psql -h "$HOSTNAME" -U "$USR" "$DATABASE"; then
+	echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Failed to restore backup from $RESTORE_FILE to database $DATABASE" 1>&2
 fi
 
-echo -e "\nAll database backups complete!"
+echo -e "\nDatabase restore complete!"
+

@@ -1,37 +1,50 @@
 """Auth views module.
-@todo #5:30min Continue implementing login(), forgot_password() and activate()
- methods, once Employee model is available. Fetch the user using Employee model
- and check password hash using Employee.validate_password method. Update html
- templates when methods are implemented. Create more tests for all methods.
+@todo #59:30min Create IT tests for login method and continue implementing
+ forgot_password() and activate() methods. Update html templates when methods
+ are implemented. Create more tests for all methods.
 @todo #5:30min Implement before_app_request function that will get the user id
  from session, get user data from db and store it in g.user, which lasts for the
  length of the request. Also, create a decorator that will check, for each view
  if g.user exists and if not, redirect user to login page.
 """
+from functools import wraps
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+from timeless.auth import auth
+from timeless.employees.models import Employee
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
+
+
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get("user_id")
+    if not user_id:
+        g.user = None
+    else:
+        g.user = Employee.query.get(user_id)
+
+
+def login_required(view):
+    @wraps(view)
+    def wrapped_view(**kwargs):
+        if not g.user:
+            return redirect(url_for("auth.login"))
+
+        return view(**kwargs)
+
+    return wrapped_view
 
 
 @bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        error = None
-        # fetch user using DB and Employee model
-        # check that password hash matches
-        # if user is None
-        #     error = "Incorrect username."
-        # elif not user.validate_password(password):
-        #      error = "Incorrect password."
-        # if error is None:
-        #     session.clear()
-        #     session["user_id"] = user[id]
-        #     return redirect(url_for("index"))
-        flash("Login not yet implemented")
+        error = auth.login(
+            username=request.form["username"],
+            password=request.form["password"])
+        if error is not None:
+            return redirect(url_for("auth.login"))
 
     return render_template("auth/login.html")
 

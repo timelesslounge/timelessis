@@ -2,20 +2,38 @@ import os
 import tempfile
 
 import pytest
-from timeless import create_app
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+
+from timeless import create_app
+from timeless.db import DB
 
 
 @pytest.fixture
 def app():
     db_fd, db_path = tempfile.mkstemp()
     app = create_app("config.TestingConfig")
+    app_context = app.test_request_context()
+    app_context.push()
+    Migrate(app, DB)
     yield app
     os.close(db_fd)
     os.unlink(db_path)
+
+
+@pytest.fixture(autouse=True)
+def app_test_context(app):
+    with app.test_request_context():
+        yield app
+
+
+@pytest.fixture(autouse=True)
+def cleanup_db(app_test_context):
+    DB.create_all()
+    yield
+    DB.session.remove()
+    DB.drop_all()
 
 
 @pytest.fixture
