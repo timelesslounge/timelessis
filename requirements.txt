@@ -2,7 +2,9 @@ alembic==1.0.6
 astroid==2.0.4
 atomicwrites==1.2.1
 attrs==18.2.0
+bcrypt==3.1.6
 certifi==2018.11.29
+cffi==1.11.5
 chardet==3.0.4
 Click==7.0
 codecov==2.0.15
@@ -23,12 +25,14 @@ Mako==1.0.7
 MarkupSafe==1.1.0
 mccabe==0.6.1
 more-itertools==5.0.0
+passlib==1.7.1
 pep8-naming==0.4.1
 pluggy==0.8.1
 psycopg2==2.7.6.1
 psycopg2-binary==2.7.7
 py==1.7.0
 pycodestyle==2.4.0
+pycparser==2.19
 pydocstyle==3.0.0
 pyflakes==1.6.0
 pylint==2.1.1

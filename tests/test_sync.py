@@ -31,7 +31,7 @@ class TestSync(unittest.TestCase):
             "id":150,
             "name":"Central Perk",
             "code":"C",
-            "company_id":100,
+            "company_id":50,
             "country":"United States",
             "region":"Manhattan",
             "city":"New York",
@@ -53,20 +53,27 @@ class TestSync(unittest.TestCase):
             name="Any company",
             code="Cpny",
             employees=[
-                Employee(first_name="Richard", last_name="Myers")
+                Employee(username="rmyers", password="rm1",
+                         first_name="Richard", last_name="Myers",
+                         phone_number="112233",
+                         birth_date=datetime.datetime.utcnow(), pin_code=4567,
+                         email="test@test.com"
+                         )
             ],
             locations=[
                 Location(
+                    id=40,
                     name="Tapper",
                     code="T",
-                    company_id=1,
+                    company_id=50,
                     poster_id=2,
                     synchronized_on=datetime.datetime(1983, 5, 10)
                 ),
                 Location(
+                    id=150,
                     name="Hard Rock",
                     code="H",
-                    company_id=5,
+                    company_id=50,
                     poster_id=10,
                     synchronized_on=datetime.datetime(1983, 5, 10)
                 )
@@ -77,7 +84,25 @@ class TestSync(unittest.TestCase):
             url="http://localhost:{port}".format(port=cls.port)
         )
 
-    @unittest.skip("sync.sync_location not implemented yet")
+
     def test_sync_location(self):
         self.poster_sync.sync_location(self.poster, self.company)
-        assert (self.poster.locations() == self.company.locations)
+        for location in self.company.locations:
+            for poster_location in self.poster.locations():
+                if location.id == poster_location["id"]:
+                    assert (
+                        location.id == poster_location["id"] and
+                        location.name == poster_location["name"] and
+                        location.code == poster_location["code"] and
+                        location.company_id == poster_location["company_id"] and
+                        location.country == poster_location["country"] and
+                        location.region == poster_location["region"] and
+                        location.city == poster_location["city"] and
+                        location.address == poster_location["address"] and
+                        location.longitude == poster_location["longitude"] and
+                        location.latitude == poster_location["latitude"] and
+                        location.type == poster_location["type"] and
+                        location.status == poster_location["status"] and
+                        location.comment == poster_location["comment"]
+                    )
+

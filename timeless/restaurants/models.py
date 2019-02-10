@@ -1,14 +1,22 @@
 """File for models in restaurants module"""
+import enum
+
 from timeless.db import DB
+from timeless.models import TimestampsMixin
 from timeless.poster.models import PosterSyncMixin
 
+class ReservationStatus(enum.Enum):
+    """Reservation status"""
+    unconfirmed = 1
+    confirmed = 2
+    started = 3
+    finished = 4
+    canceled = 5
+    late = 6
+    not_contacting = 7
 
 class TableShape(DB.Model):
-    """Model for a Table's Shape.
-    @todo #13:30min Continue implementation. Table Shape should have its
-     own management pages to list, create, edit and delete them. In the
-     index page it should be possible to sort and filter for every column.
-    """
+    """Model for a Table's Shape."""
 
     __tablename__ = "table_shapes"
 
@@ -62,12 +70,21 @@ class Location(PosterSyncMixin, DB.Model):
     def __repr__(self):
         return "<Location %r>" % self.name
 
-class Table(DB.Model):
-    """Model for a Table
-    @todo #12:30min Continue implementation for Tables. Tables should have its own management pages to
-     list, create, edit and delete them. In the index page it should be possible to sort and filter for every column.
-     Table management pages should be accessed by the Location and Floor pages.
-    """
+
+class TableReservation(DB.Model):
+    """Association table for reservations and tables"""
+
+    __tablename__ = "table_reservations"
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    reservation_id = DB.Column(DB.Integer, DB.ForeignKey("reservations.id"))
+    table_id = DB.Column(DB.Integer, DB.ForeignKey("tables.id"))
+    table = DB.relationship("Table", back_populates="reservations")
+    reservation = DB.relationship("Reservation", back_populates="tables")
+
+
+class Table(PosterSyncMixin, DB.Model):
+    """Model for a Table"""
 
     __tablename__ = "tables"
 
@@ -88,7 +105,40 @@ class Table(DB.Model):
     created = DB.Column(DB.DateTime, nullable=False)
     updated = DB.Column(DB.DateTime, nullable=False)
 
+    reservations = DB.relationship("TableReservation", back_populates="table")
+
     DB.UniqueConstraint(u"name", u"floor_id")
 
     def __repr__(self):
         return "<Table %r>" % self.name
+
+
+class Reservation(TimestampsMixin, DB.Model):
+    """Model for a Reservation
+    @todo #27:30min Calculate reservation duration in constructor
+     by subtracting start_time and end_time. Don't forget to call super
+     constructor in order not to override DB.Model functionality.
+    @todo #27:30min Continue implementation of views. Index and a
+     view page should be created to list all reservations. In the
+     index page there should be also a function to delete the reservation
+     (after confirmation). In the index page it should be possible
+     to sort and filter for every column.
+    """
+
+    __tablename__ = "reservations"
+
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    start_time = DB.Column(DB.DateTime, nullable=False)
+    end_time = DB.Column(DB.DateTime, nullable=False)
+    duration = DB.Column(DB.Time, nullable=False)
+    customer_id = DB.Column(DB.Integer, DB.ForeignKey("customers.id"))
+    num_of_persons = DB.Column(DB.DateTime, nullable=False)
+    comment = DB.Column(DB.String, nullable=False)
+    status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
+
+    tables = DB.relationship("TableReservation", back_populates="reservation")
+
+    def __repr__(self):
+        return "<Reservation %r>" % self.id
+
+

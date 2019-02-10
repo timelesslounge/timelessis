@@ -18,8 +18,7 @@ def free_port():
     sock.close()
     return port
 
-def start_server(port, locations=None):
-
+def start_server(port, **kwargs):
     """Starts Poster mock server
 
     :param port: Port
@@ -36,16 +35,24 @@ def start_server(port, locations=None):
              location data setting in test_sync.py have to be moved for LocationServerMock.
         """
         LOCATIONS_PATTERN = re.compile(r"/clients.getLocations")
+        TABLES_PATTERN = re.compile(r"/clients.getTables")
         TOKEN_PATTERN = re.compile(r"/auth/access_token")
 
         def do_GET(self):
             if re.search(self.LOCATIONS_PATTERN, self.path):
-                self.send_response(requests.codes.ok)
-                self.send_header("Content-Type", "application/json; charset=utf-8")
-                self.end_headers()
-                content = json.dumps(locations or {})
-                self.wfile.write(content.encode("utf-8"))
+                self.send("locations")
                 return
+            if re.search(self.TABLES_PATTERN, self.path):
+                self.send("tables")
+                return
+
+        def send(self, target_type=""):
+            self.send_response(requests.codes.ok)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers()
+            content = json.dumps(kwargs.get(target_type, {}))
+            self.wfile.write(content.encode("utf-8"))
+
 
         def do_POST(self):
             if re.search(self.TOKEN_PATTERN, self.path):

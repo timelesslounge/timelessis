@@ -26,6 +26,14 @@ class Poster(object):
         """
         return self.send(method=self.GET, action="clients.getLocations").json()
 
+    def tables(self):
+        """Fetches data about tables
+
+        :return:
+            Data about tables
+        """
+        return self.send(method=self.__GET, action="clients.getTables").json()
+
     def send(self, **kwargs):
         """Sends http request for specific poster action
 
@@ -47,7 +55,7 @@ class Authenticated(Poster):
 
     def access_token(self):
         """Fetches authorization tokens
-        
+
         :return: Token retrieved from Poster api or error returned by poster pi
         """
         response = self.send(

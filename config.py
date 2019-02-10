@@ -1,4 +1,6 @@
 import os
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -24,9 +26,13 @@ class StagingConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev"
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "SQLALCHEMY_DATABASE_URI",
+        "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
 
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_test"
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "SQLALCHEMY_DATABASE_URI",
+        "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_test")

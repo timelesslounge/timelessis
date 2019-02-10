@@ -1,11 +1,5 @@
 """This file contains all functions needed to create
 a new Flask app for timeless
-@todo #69:30min Enhance the "DoubleQuotesOnly" rule from checkstyle.sh,
- to allow single-quoted strings as long as they are contained within
- another double-quoted String.
-@todo #50:30min After #37 is completed add execution of one test with migrations
- flag inside rultor so we can validate that any new migrations are done
- correctly and are in sync with master.
 """
 
 import os
@@ -16,7 +10,10 @@ from timeless.companies import views as companies_views
 from timeless.auth import views as auth_views
 from timeless.reservations import views as reservations_views
 from timeless.restaurants.locations import views as locations_views
+from timeless.restaurants.tables import views as tables_views
 from timeless.restaurants.floors import views as floors_views
+from timeless.roles import views as roles_views
+from timeless.restaurants.table_shapes import views as table_shapes_views
 
 
 def create_app(config):
@@ -68,8 +65,9 @@ def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
 
 def register_endpoints(app):
     app.register_blueprint(auth_views.bp)
-    app.register_blueprint(reservations_views.bp)
+    app.register_blueprint(tables_views.bp)
     app.register_blueprint(locations_views.bp)
+    app.register_blueprint(roles_views.bp)
     register_api(
         app,
         companies_views.Resource,
@@ -84,4 +82,11 @@ def register_endpoints(app):
         "/api/comments/",
         pk="comment_id"
     )
+    register_api(
+        app,
+        reservations_views.SettingsView,
+        "settings.api",
+        "/reservations/settings/"
+    )
     app.register_blueprint(floors_views.bp)
+    app.register_blueprint(table_shapes_views.bp)
