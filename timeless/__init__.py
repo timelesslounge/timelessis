@@ -27,7 +27,7 @@ def create_app(config):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
     # @todo #21:30min install redis in the docker and add it to the readme file for complete installation
-    cache = Cache(app, config={'CACHE_TYPE': 'redis'})
+    cache = Cache(app, config={"CACHE_TYPE": "redis"})
     initialize_extensions(app)
     register_endpoints(app)
     # ensure the instance folder exists
