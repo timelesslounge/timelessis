@@ -49,27 +49,3 @@ class CommentsController:
         raise Exception(
             f"Comment {comment_id} does not exits"
         )
-
-    def get_all_comments(self):
-        """ Fetch all comment """
-        raise Exception(
-            "CommentsController#get_all_comments not yet implemented"
-        )
-
-    def create_comment(self, comment):
-        """ Post comment """
-        raise Exception(
-            "CommentsController#post_comment not yet implemented"
-        )
-
-    def update_comment(self, comment_id, comment):
-        """ Edit comment """
-        raise Exception(
-            "CommentsController#edit_comment not yet implemented"
-        )
-
-    def delete_comment(self, comment_id):
-        """ Delete comment """
-        raise Exception(
-            "CommentsController#delete_comment not yet implemented"
-        )

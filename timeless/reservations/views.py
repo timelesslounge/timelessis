@@ -34,22 +34,26 @@ class CommentView(views.MethodView):
 
     def get(self, comment_id):
         """Get method of CommentView
-        @todo #87:30min Continue implementation of view methods for get,
+        @todo #123:30min Continue implementation of view methods for get,
          create, edit and delete. In the index page it should be possible
          to sort and filter for every column.
         """
         if comment_id:
-            return self.ctr.get_comment(comment_id), HTTPStatus.OK
-        return self.ctr.get_all_comments(), HTTPStatus.OK
+            return self.ctr.get_comment(comment_id).body, HTTPStatus.OK
+        return "Get all method of CommentViewSet", HTTPStatus.OK
 
     def post(self):
         """Post method of CommentView"""
-        return self.ctr.create_comment(comment=None), HTTPStatus.CREATED
+        return "Post method of CommentViewSet", HTTPStatus.CREATED
 
     def put(self, comment_id):
         """Put method of CommentView"""
-        return self.ctr.update_comment(comment_id=comment_id, comment=None), HTTPStatus.HTTPStatus.OK
+        if comment_id:
+            return "Detail put method of CommentViewSet", HTTPStatus.OK
+        return "Put method of CommentViewSet", HTTPStatus.OK
 
     def delete(self, comment_id):
         """Delete method of CommentView"""
-        return self.ctr.delete_comment(comment_id), HTTPStatus.HTTPStatus.NO_CONTENT
+        if comment_id:
+            return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
+        return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
