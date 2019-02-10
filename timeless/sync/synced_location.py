@@ -4,7 +4,7 @@ from timeless.sync.sync import PosterSync
 """
     Location synced to database.
     
-    @todo #157:30min Implement synchronization between Poster and Databse for
+    @todo #157:30min Implement synchronization between Poster and Database for
      Locations. Data coming from Poster has priority upon data stored in our
      database. 
 """

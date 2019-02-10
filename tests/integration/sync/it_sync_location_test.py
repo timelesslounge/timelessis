@@ -1,7 +1,5 @@
-import unittest
 
 import pytest
-from six import unichr
 
 from tests.poster_mock import free_port, start_server
 from timeless.companies.models import Company
@@ -9,16 +7,13 @@ from timeless.restaurants.models import Location
 from timeless.sync.synced_location import SyncedLocation
 from timeless.poster.api import Poster
 
-"""Integration tests for Location Sync with database"""
-
-
-"""
-    Tests for poster sync with database.
+"""Integration tests for Location Sync with database
 
 """
 
 
-@unittest.skip("sync for location not implemented yet")
+
+@pytest.mark.skip("sync for location not implemented yet")
 def test_sync_location(db_session):
     port = free_port()
     start_server(port,
@@ -72,17 +67,17 @@ def test_sync_location(db_session):
     )
     row = db_session.query(Location).get(synced_location.id)
     assert(
-            row.id == 100 and
-            row.name == "Coco Bongo" and
-            row.code == "C" and
-            row.company_id == 50 and
-            row.country == "United States" and
-            row.region == "East Coast" and
-            row.city == "Edge City" and
-            row.address == "Blvd. Kukulcan Km 9.5 #30, Plaza Forum" and
-            row.longitude == 21.1326063 and
-            row.latitude == -86.7473191 and
-            row.type == "L" and
-            row.status == "open" and
-            row.comment == "Nightclub from a famous movie"
+        row.id == 100 and
+        row.name == "Coco Bongo" and
+        row.code == "C" and
+        row.company_id == 50 and
+        row.country == "United States" and
+        row.region == "East Coast" and
+        row.city == "Edge City" and
+        row.address == "Blvd. Kukulcan Km 9.5 #30, Plaza Forum" and
+        row.longitude == 21.1326063 and
+        row.latitude == -86.7473191 and
+        row.type == "L" and
+        row.status == "open" and
+        row.comment == "Nightclub from a famous movie"
     )
