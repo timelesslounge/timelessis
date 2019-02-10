@@ -142,5 +142,3 @@ class Reservation(TimestampsMixin, DB.Model):
 
     def __repr__(self):
         return "<Reservation %r>" % self.id
-
-
