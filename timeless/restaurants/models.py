@@ -134,6 +134,7 @@ class Reservation(TimestampsMixin, DB.Model):
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
 
+    """Calculates the duration of the reservation"""
     def duration(self):
         return self.end_time - self.start_time
 
