@@ -24,11 +24,11 @@ class Item(DB.Model):
     def assignTo(self, employee):
         """ Assing the item to an employee
         @todo #142:30min Continue implememntation of assining.
-         Should create a new record in ItemHistory.
          Update the old ItemHistory record if current employee_id in not null.
          ItemHistory should have the needed functions to continue this.
         """
         self.employee_id = employee.id
+        item_history = ItemHistory(employee_id=self.employee_id, item_id=self.id)
 
     def __repr__(self):
         """Return object information - String"""

@@ -7,6 +7,7 @@ from timeless.restaurants.models import Location, Floor, TableShape, Table, Rese
 from timeless.roles.models import Role
 from timeless.schemetypes.models import SchemeType
 from timeless.items.models import Item
+from timeless.items.models import ItemHistory
 
 
 def test_new_company():
@@ -227,4 +228,14 @@ def test_new_item():
         new_item.stock_date == stock_date and
         new_item.comment == comment and
         new_item.company_id == company_id
+    )
+
+def test_new_item_history():
+    """ Test creation of new ItemHistory """
+    emp_id = 2
+    item_id = 1
+    item_history = ItemHistory(employee_id=emp_id, item_id=item_id)
+    assert (
+        item_history.employee_id == emp_id and
+        item_history.item_id == item_id
     )
