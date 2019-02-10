@@ -5,6 +5,7 @@ from timeless.db import DB
 from timeless.models import TimestampsMixin
 from timeless.poster.models import PosterSyncMixin
 
+
 class ReservationStatus(enum.Enum):
     """Reservation status"""
     unconfirmed = 1
@@ -14,6 +15,7 @@ class ReservationStatus(enum.Enum):
     canceled = 5
     late = 6
     not_contacting = 7
+
 
 class TableShape(DB.Model):
     """Model for a Table's Shape."""

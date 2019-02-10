@@ -1,7 +1,6 @@
 """File for models in test_companies module"""
-from timeless.models import TimestampsMixin
-
 from timeless.db import DB
+from timeless.models import TimestampsMixin
 
 
 class Company(TimestampsMixin, DB.Model):

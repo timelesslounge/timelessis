@@ -8,10 +8,8 @@ install: |-
   . venv/bin/activate
   pip install -r requirements.txt
   sudo gem install pdd
-  chmod +x scripts/install/install_db.sh
-  ./scripts/install/install_db.sh
-  chmod +x scripts/install/installRedis.sh
-  ./scripts/install/installRedis.sh
+  chmod +x install_db.sh
+  ./install_db.sh
 merge:
   script: |-
     python checkstyle.py

@@ -63,4 +63,3 @@ def edit(id):
 def delete():
     flash("Delete not yet implemented")
     return redirect(url_for("role.list_roles"))
-
