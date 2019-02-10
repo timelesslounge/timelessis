@@ -5,6 +5,7 @@ from flask import views
 
 from timeless.reservations.controllers import SettingsController
 from timeless.reservations.models import Comment
+from timeless.views import CrudView
 
 
 class SettingsView(views.MethodView):
@@ -30,18 +31,13 @@ class SettingsView(views.MethodView):
         return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
 
 
-class CommentView(views.MethodView):
-    """API Resource for comments /api/comments"""
-
-    def get(self, comment_id):
-        """Get method of CommentView
-        @todo #123:30min Continue implementation of view methods for get,
-         create, edit and delete. In the index page it should be possible
-         to sort and filter for every column.
-        """
-        if comment_id:
-            return Comment.query.filter(Comment.id==comment_id).one().body, HTTPStatus.OK
-        return "Get all method of CommentViewSet", HTTPStatus.OK
+class CommentView(CrudView):
+    """API Resource for comments /api/comments
+    @todo  # 123:30min After CrudView implementation is finished
+    create necessary templates for the CommentView to operate on.
+    See CrudView description for more details about its usage.
+    """
+    model = Comment
 
     def post(self):
         """Post method of CommentView"""
