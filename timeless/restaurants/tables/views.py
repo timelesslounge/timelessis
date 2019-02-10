@@ -23,6 +23,7 @@ bp = Blueprint("table", __name__, url_prefix="/tables")
 
 @bp.route("/")
 def list_tables():
+    """ Returns list of tables """
     # remove this dummy tables object and use db
     floors = {
         1: "Test location",
@@ -51,6 +52,7 @@ def create():
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
+    """ Edit existing table """
     table = models.Table.query.get(id)
     if not table:
         return redirect(url_for("tables.list"))
@@ -68,5 +70,7 @@ def edit(id):
 def delete(id):
     """ Delete table shape with id """
     table = models.Table.query.get(id)
-    DB.session.delete(table)
+    if table:
+        DB.session.delete(table)
+        DB.session.commit()
     return redirect(url_for("table.list_tables"))
