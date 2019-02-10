@@ -44,7 +44,7 @@ def login():
             username=request.form["username"],
             password=request.form["password"])
         if error is not None:
-            return redirect(url_for("index"))
+            return redirect(url_for("auth.login"))
 
     return render_template("auth/login.html")
 

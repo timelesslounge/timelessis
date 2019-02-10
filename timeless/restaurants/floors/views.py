@@ -31,7 +31,7 @@ def create():
     """ Create new floor """
     if request.method == "POST":
         flash("Create not yet implemented")
-    action = 'create'
+    action = "create"
     return render_template(
         "restaurants/floors/create_edit.html",
         action=action
@@ -44,7 +44,7 @@ def edit(id):
     """ Edit floor with id """
     if request.method == "POST":
         flash("Edit not yet implemented")
-    action = 'edit'
+    action = "edit"
     return render_template(
         "restaurants/floors/create_edit.html",
         action=action
