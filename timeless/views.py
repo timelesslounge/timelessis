@@ -14,7 +14,8 @@ class CrudAPIView(views.MethodView):
          url_lookup = "comment_id"
 
     @todo #123:30min Continue with the implementation of CrudAPIView.
-     Implement post, put and delete methods.
+     Implement post, put and delete methods. We should return json
+     representation of object model in methods.
     """
     model = None
     url_lookup = None
