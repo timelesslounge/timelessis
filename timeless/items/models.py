@@ -20,8 +20,9 @@ class Item(DB.Model):
     company = DB.relationship("Company", back_populates="items")
     employee_id = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
     empolyee = DB.relationship("Employee", back_populates="items")
+    history = DB.relationship("ItemHistory", back_populates="item")
 
-    def assignTo(self, employee):
+    def assign(self, employee):
         """ Assing the item to an employee
         @todo #142:30min Continue implememntation of assining.
          Update the old ItemHistory record if current employee_id in not null.
@@ -39,15 +40,14 @@ class ItemHistory(DB.Model):
     """
     __tablename__ = "itemsHistory"
 
-
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     start_time = DB.Column(DB.DateTime, default=datetime.utcnow, nullable=False)
     end_time = DB.Column(DB.DateTime)
     employee_id = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
-    empolyee = DB.relationship("Employee")
+    employee = DB.relationship("Employee", back_populates="history")
     item_id = DB.Column(DB.Integer, DB.ForeignKey("items.id"))
-    item = DB.relationship("Item")
+    item = DB.relationship("Item", back_populates="history")
 
     def __repr__(self):
         """Return object information - String"""
-        return "<Item %r>" % self.id
+        return f"<Item {self.id}>"
