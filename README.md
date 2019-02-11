@@ -233,6 +233,12 @@ database. Both of those scripts keep the configuration inside `pg_backup.config`
 Password for those scripts can be provided using standard Postgres methods like
 `PGPASSWORD` environment variable or `~/.pgpass` file.
 
+Database backups are uploaded to Google Drive. Note that in order to do backup
+(and restore), you have to install [GDrive](https://github.com/prasmussen/gdrive#downloads)
+and configure [Service Account](https://github.com/prasmussen/gdrive#service-account)
+credentials. Set `SERVICE_ACCOUNT_CREDENTIALS` in `pg_backup.config` to the
+location of your service account credentials JSON file.
+
 ### Running tests
 
 ```
