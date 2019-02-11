@@ -3,7 +3,11 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, views
 )
 from http import HTTPStatus
+from flask import views
+
 from timeless.reservations.controllers import SettingsController
+from timeless.reservations.models import Comment
+from timeless.views import CrudAPIView
 
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
@@ -29,21 +33,17 @@ class SettingsView(views.MethodView):
 
     def delete(self, id):
         """ DELETE method for reservation settings """
-        return self.ctr.delete_reservation_settings(self, id), HTTPStatus.NO_CONTENT
+        return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
 
 
-class CommentView(views.MethodView):
-    """API Resource for comments /api/comments"""
-
-    def get(self, comment_id):
-        """Get method of CommentView
-        @todo #87:30min Continue implementation of view methods for get,
-         create, edit and delete. In the index page it should be possible
-         to sort and filter for every column.
-        """
-        if comment_id:
-            return "Detail get method of CommentViewSet", HTTPStatus.OK
-        return "Get method of CommentViewSet", HTTPStatus.OK
+class CommentView(CrudAPIView):
+    """API Resource for comments /api/comments
+    @todo #123:30min After CrudView implementation is finished
+     create necessary templates for the CommentView to operate on.
+     See CrudAPIView description for more details about its usage.
+    """
+    model = Comment
+    url_lookup = "comment_id"
 
     def post(self):
         """Post method of CommentView"""
