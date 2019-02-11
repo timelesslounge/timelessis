@@ -4,6 +4,8 @@
 from datetime import datetime
 
 from timeless.items.models import Item, ItemHistory
+from timeless.restaurants.models import Location
+from timeless.roles.models import Role
 
 def test_new_item():
     """ Test creation on new Item """

@@ -19,7 +19,7 @@ class Item(DB.Model):
     updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
     company = DB.relationship("Company", back_populates="items")
     employee_id = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
-    empolyee = DB.relationship("Employee")
+    empolyee = DB.relationship("Employee", back_populates="items")
 
     def assignTo(self, employee):
         """ Assing the item to an employee

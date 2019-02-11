@@ -36,6 +36,7 @@ class Employee(TimestampsMixin, DB.Model):
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
 
     company = DB.relationship("Company", back_populates="employees")
+    items = DB.relationship("Item", back_populates="empolyee")
 
     @validate_required("username", "password", "first_name", "last_name",
                        "phone_number", "birth_date", "email")
