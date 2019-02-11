@@ -1,9 +1,9 @@
 architect:
   - emilianodellacasa
 decrypt:
-  credentials.json: "timelessis/credentials/credentials.json.asc"
-  staging.id_rsa: "timelessis/credentials/staging.id_rsa.asc"
-  staging.id_rsa.pub: "timelessis/credentials/staging.id_rsa.pub.asc"
+  credentials.json: "credentials/credentials.json.asc"
+  staging.id_rsa: "credentials/staging.id_rsa.asc"
+  staging.id_rsa.pub: "credentials/staging.id_rsa.pub.asc"
 install: |-
   sudo add-apt-repository -y ppa:jonathonf/python-3.6
   sudo apt-get update
