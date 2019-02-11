@@ -28,14 +28,15 @@ class ModelForm(BaseModelForm):
         self.populate_obj(self.instance)
         session.add(self.instance)
 
-    def update(self):
-        raise NotImplementedError
+    def update(self, session):
+        self.populate_obj(self.instance)
+        session.merge(self.instance)
 
     def save(self, commit=True):
         session = self.get_session()
 
         if self.instance:
-            self.update()
+            self.update(session)
         else:
             self.create(session)
 

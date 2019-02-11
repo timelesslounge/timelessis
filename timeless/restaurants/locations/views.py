@@ -1,9 +1,10 @@
 """locations views module.
-@todo #42:30min Continue implementing list_locations(), create(), edit() and
+@todo #133:30min Continue implementing list_locations(), create(), edit() and
  delete() methods, using SQLAlchemy and Location model. In the index page it
- should be possible to sort and filter for every column. Location management page
- should be accessed by the Location page. Update html templates when methods
- are implemented. Create more tests for all methods.
+ should be possible to sort and filter for every column. Location management
+ page should be accessed by the Location page. Update html templates when
+ methods are implemented. Location integration tests are aready created,
+ create more tests for all methods.
 @todo #42:30min We should create generic logic in other models. Let's create
  generic classes for list_<model>, create, edit, and delete. Let's implement
  something like https://docs.djangoproject.com/en/2.1/ref/class-based-views/generic-display/

@@ -3,6 +3,7 @@
 --exclude .idea/**/*
 --exclude tests/**/*
 --exclude venv/**/*
+--exclude redis-stable/**/*
 --exclude migrations/**/*
 --exclude instance/**/*
 --exclude pylintrc

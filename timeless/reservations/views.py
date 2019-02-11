@@ -1,11 +1,16 @@
 """ Views for reservations """
+from flask import (
+    Blueprint, flash, redirect, render_template, request, url_for, views
+)
 from http import HTTPStatus
-
 from flask import views
 
 from timeless.reservations.controllers import SettingsController
 from timeless.reservations.models import Comment
 from timeless.views import CrudView
+
+
+bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
 class SettingsView(views.MethodView):
@@ -54,3 +59,47 @@ class CommentView(CrudView):
         if comment_id:
             return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
         return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
+
+
+@bp.route("/")
+def list_reservations(reservations):
+    """
+        @todo #172:30min Refactor this after the implementation of GenericViews.
+         Take a look at puzzles #134 and #173 where the requirements of generic
+         views are described. Don't forget to cover the generated code with
+         tests
+
+    :param reservations:
+    :return:
+    """
+    flash("List not yet implemented")
+    return render_template(
+        "restaurants/tables/list.html", reservations=reservations
+    )
+
+
+@bp.route("/create", methods=("GET", "POST"))
+def create(reservation):
+    if request.method == "POST":
+        flash("Create not yet implemented")
+
+    return render_template(
+        "restaurants/tables/create_edit.html", action="create",
+        reservation=reservation
+    )
+
+
+@bp.route("/edit/<int:id>", methods=("GET", "POST"))
+def edit(id):
+    if request.method == "POST":
+        flash("Edit not yet implemented")
+    return render_template(
+        "restaurants/tables/create_edit.html", action="edit",
+        id=id
+    )
+
+
+@bp.route("/delete", methods=["POST"])
+def delete():
+    flash("Delete not yet implemented")
+    return redirect(url_for("reservations.list_reservations"))
