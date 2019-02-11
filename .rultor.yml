@@ -1,5 +1,7 @@
 architect:
   - emilianodellacasa
+decrypt:
+  credentials.json: "timelessis/credentials/credentials.json.asc"
 install: |-
   sudo add-apt-repository -y ppa:jonathonf/python-3.6
   sudo apt-get update
@@ -21,9 +23,8 @@ merge:
 deploy:
   script: |-
     chmod +x ./deploy.sh
-    ./deploy.sh 
+    ./deploy.sh
 release:
   script: |-
     echo "There is nothing to release"
     exit -1
-
