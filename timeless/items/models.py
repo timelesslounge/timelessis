@@ -1,6 +1,8 @@
 """File for models in items module"""
 from datetime import datetime
+
 from timeless import DB
+
 
 class Item(DB.Model):
     """Model for item entity

@@ -276,3 +276,54 @@ To run tests execute:
 ```
 docker-compose run app_test
 ```
+
+### Credential files
+
+The file credentials/credentials.json.asc is a JSON file containing all the
+credentials for the external services used in Timeless IS. This file is
+decrypted during deploy phase by rultor.
+
+This is the sample file:
+
+```
+{
+  "credentials": {
+    "server": {
+      "staging": {
+        "address": "...",
+        "username": "...",
+        "password": "..."
+      }
+    },
+    "postgres": {
+      "staging": {
+        "username": "..."
+        "password": "..."
+      }
+    },
+    "googledrive": {
+      "staging": {
+        "username": "...",
+        "password": "..."
+      }
+    },
+    "redsms": {
+      "staging": {
+        "username": "...",
+        "password": "..."
+      }
+    },
+    "poster": {
+      "staging": {
+        "domain": "...",
+        "username": "...",
+        "password": "...",
+        "token": "..."
+      }
+    }
+  }
+}
+```
+
+See [Rultor manual](http://doc.rultor.com/reference.html) on how to use it
+decrypted files
