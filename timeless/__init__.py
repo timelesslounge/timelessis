@@ -1,25 +1,26 @@
 """This file contains all functions needed to create
 a new Flask app for timeless
 """
-
+# Since if import models / views inside methods, pylint complains
+# about cyclic imports.
+# pylint: disable=R0401
+# pylint: disable=W0612
 import os
 from flask import Flask
-
+from flask_caching import Cache
 from timeless.db import DB
-from timeless.companies import views as companies_views
-from timeless.auth import views as auth_views
-from timeless.reservations import views as reservations_views
-from timeless.restaurants.locations import views as locations_views
-from timeless.restaurants.tables import views as tables_views
-from timeless.restaurants.floors import views as floors_views
-from timeless.roles import views as roles_views
-from timeless.restaurants.table_shapes import views as table_shapes_views
 
 
 def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
+    """
+    @todo #21:30min Install redis in the docker.
+     Also, Add Redis installation to the readme file for complete installation.
+     Redis installation script can be taken from the scripts/install folder.
+    """
+    cache = Cache(app, config={"CACHE_TYPE": "redis"})
     initialize_extensions(app)
     register_endpoints(app)
     # ensure the instance folder exists
@@ -37,10 +38,14 @@ def create_app(config):
 def initialize_extensions(app):
     """Initialize extensions for the app"""
     DB.init_app(app)
+    import timeless.customers.models
     import timeless.schemetypes.models
     import timeless.restaurants.models
     import timeless.reservations.models
+    import timeless.roles.models
+    import timeless.items.models
     import timeless.employees.models
+    import timeless.companies.models
 
 
 def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
@@ -64,6 +69,15 @@ def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
 
 
 def register_endpoints(app):
+    from timeless.companies import views as companies_views
+    from timeless.auth import views as auth_views
+    from timeless.reservations import views as reservations_views
+    from timeless.restaurants.locations import views as locations_views
+    from timeless.restaurants.tables import views as tables_views
+    from timeless.restaurants.floors import views as floors_views
+    from timeless.roles import views as roles_views
+    from timeless.restaurants.table_shapes import views as table_shapes_views
+
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(tables_views.bp)
     app.register_blueprint(locations_views.bp)
@@ -90,3 +104,5 @@ def register_endpoints(app):
     )
     app.register_blueprint(floors_views.bp)
     app.register_blueprint(table_shapes_views.bp)
+    app.register_blueprint(reservations_views.bp)
+

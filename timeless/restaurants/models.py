@@ -5,6 +5,7 @@ from timeless.db import DB
 from timeless.models import TimestampsMixin
 from timeless.poster.models import PosterSyncMixin
 
+
 class ReservationStatus(enum.Enum):
     """Reservation status"""
     unconfirmed = 1
@@ -14,6 +15,7 @@ class ReservationStatus(enum.Enum):
     canceled = 5
     late = 6
     not_contacting = 7
+
 
 class TableShape(DB.Model):
     """Model for a Table's Shape."""
@@ -115,9 +117,6 @@ class Table(PosterSyncMixin, DB.Model):
 
 class Reservation(TimestampsMixin, DB.Model):
     """Model for a Reservation
-    @todo #27:30min Calculate reservation duration in constructor
-     by subtracting start_time and end_time. Don't forget to call super
-     constructor in order not to override DB.Model functionality.
     @todo #27:30min Continue implementation of views. Index and a
      view page should be created to list all reservations. In the
      index page there should be also a function to delete the reservation
@@ -130,7 +129,6 @@ class Reservation(TimestampsMixin, DB.Model):
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     start_time = DB.Column(DB.DateTime, nullable=False)
     end_time = DB.Column(DB.DateTime, nullable=False)
-    duration = DB.Column(DB.Time, nullable=False)
     customer_id = DB.Column(DB.Integer, DB.ForeignKey("customers.id"))
     num_of_persons = DB.Column(DB.DateTime, nullable=False)
     comment = DB.Column(DB.String, nullable=False)
@@ -138,7 +136,9 @@ class Reservation(TimestampsMixin, DB.Model):
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
 
+    """Calculates the duration of the reservation"""
+    def duration(self):
+        return self.end_time - self.start_time
+
     def __repr__(self):
         return "<Reservation %r>" % self.id
-
-
