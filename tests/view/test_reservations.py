@@ -1,8 +1,9 @@
 import datetime
 import pytest
+
 from timeless.customers.models import Customer
 from timeless.restaurants.models import Reservation
-from timeless.restaurants.reservations import views
+from timeless.reservations import views
 
 
 """

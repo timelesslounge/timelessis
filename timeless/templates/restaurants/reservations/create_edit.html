@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block header %}
   <h1>{% block title %}Reservation management - {% if action == 'create' %}  Create {% else %} Edit {% endif %} {% endblock %}</h1>
@@ -6,12 +7,18 @@
 
 {% block content %}
   <form method="post">
-    <label for="start_time">Start time</label>
-    <input name="start_time" id="start_time" required>
-    <br/>
-    <label for="end_time">End time</label>
-    <input name="end_time" id="end_time" required>
-    <br/>
+    {{ render_field(form.start_time) }}
+    {{ render_field(form.end_time) }}
+    <select name="customer_id" id="customer_id">
+      {% for customer in customers %}
+          <option {% if customer.selected %}selected="selected"{% endif %}
+          value="{{ customer.id }}">{{ customer.name}}</option>
+      {% endfor %}
+    </select>
+    {{ render_field(form.num_of_persons) }}
+    {{ render_field(form.comment) }}
+    {{ render_field(form.status) }}
+    {{ render_field(form.multiple) }}
     <label for="customer_id">Customer</label>
     <select name="customer_id" id="customer_id">
       {% for customer in customers %}
@@ -20,14 +27,6 @@
       {% endfor %}
     </select>
     <br/>
-    <label for="num_of_persons">Number of Persons</label>
-    <input name="num_of_persons" id="num_of_persons"/>
-    <br/>
-    <label for="comment">Comment</label>
-    <input name="comment" id="comment"/>
-    <br/>
-    <label for="status">Status</label>
-    <input name="status" id="status"/>
     <br/>
     <label for="tables">Tables</label>
     <select name="tables" id="tables" multiple="true">
