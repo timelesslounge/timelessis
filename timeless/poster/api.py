@@ -55,7 +55,6 @@ class Authenticated(Poster):
 
     def access_token(self):
         """Fetches authorization tokens
-
         :return: Token retrieved from Poster api or error returned by poster pi
         """
         response = self.send(
@@ -79,4 +78,4 @@ class Authenticated(Poster):
          receive the correct paramters and uncomment it.
 
         """
-        raise("poster.auth not implemented yet")
+        raise NotImplementedError("poster.auth not implemented yet")
