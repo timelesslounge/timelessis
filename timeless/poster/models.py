@@ -2,7 +2,7 @@
 from timeless import DB
 
 
-class PosterSyncMixin(object):
+class PosterSyncMixin:
     """Mixin with fields needed for data synchronization with Poster.
     """
     poster_id = DB.Column(DB.Integer)
