@@ -4,28 +4,23 @@ from flask import views
 from werkzeug.exceptions import abort
 
 
-class CrudView(views.MethodView):
+class CrudAPIView(views.MethodView):
     """View that supports generic crud operations.
-      @todo #123:30min Continue with the implementation of CrudView.
-       Implement post, put and delete methods.
-       This view should render templates specified by user.
-       Example of using CrudView:
+    Example of using CrudAPIView:
 
-       class CommentView(CrudView):
+    class CommentView(CrudView):
 
-            model = Comment
+         model = Comment
+         url_lookup = "comment_id"
 
-            templates = {
-                "create":"create.html",
-                "edit":"edit.html",
-                "list":"list.html",
-                "delete:"delete.html"
-            }
+    @todo #123:30min Continue with the implementation of CrudAPIView.
+     Implement post, put and delete methods.
     """
     model = None
+    url_lookup = None
 
     def get(self, *args, **kwargs):
-        object_id = next(iter(kwargs.values()))
+        object_id = kwargs.get(self.url_lookup)
         if object_id:
             result = self.model.query.get(object_id)
             if result is None:

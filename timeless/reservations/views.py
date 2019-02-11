@@ -7,7 +7,7 @@ from flask import views
 
 from timeless.reservations.controllers import SettingsController
 from timeless.reservations.models import Comment
-from timeless.views import CrudView
+from timeless.views import CrudAPIView
 
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
@@ -36,13 +36,14 @@ class SettingsView(views.MethodView):
         return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
 
 
-class CommentView(CrudView):
+class CommentView(CrudAPIView):
     """API Resource for comments /api/comments
     @todo  # 123:30min After CrudView implementation is finished
     create necessary templates for the CommentView to operate on.
-    See CrudView description for more details about its usage.
+    See CrudAPIView description for more details about its usage.
     """
     model = Comment
+    url_lookup = "comment_id"
 
     def post(self):
         """Post method of CommentView"""
