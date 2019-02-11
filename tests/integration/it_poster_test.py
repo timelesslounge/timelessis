@@ -1,5 +1,3 @@
-import unittest
-
 import pytest
 
 from timeless.poster.api import Poster, Authenticated
