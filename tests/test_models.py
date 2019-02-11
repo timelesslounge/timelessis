@@ -6,8 +6,6 @@ from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape, Table, ReservationStatus, Reservation
 from timeless.roles.models import Role
 from timeless.schemetypes.models import SchemeType
-from timeless.items.models import Item
-from timeless.items.models import ItemHistory
 
 
 def test_new_company():
@@ -207,35 +205,4 @@ def test_new_reservation():
         new_reservation.num_of_persons == num_of_persons and
         new_reservation.comment == comment and
         new_reservation.status == status
-    )
-
-def test_new_item():
-    id = 1
-    name = "First Item"
-    stock_date = datetime.utcnow
-    comment = "Commentary of the first item"
-    company_id = 123
-    new_item = Item(
-        id=id,
-        name=name,
-        stock_date=stock_date,
-        comment=comment,
-        company_id=company_id
-    )
-    assert (
-        new_item.id == id and
-        new_item.name == name and
-        new_item.stock_date == stock_date and
-        new_item.comment == comment and
-        new_item.company_id == company_id
-    )
-
-def test_new_item_history():
-    """ Test creation of new ItemHistory """
-    emp_id = 2
-    item_id = 1
-    item_history = ItemHistory(employee_id=emp_id, item_id=item_id)
-    assert (
-        item_history.employee_id == emp_id and
-        item_history.item_id == item_id
     )
