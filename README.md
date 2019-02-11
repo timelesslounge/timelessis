@@ -325,5 +325,8 @@ This is the sample file:
 }
 ```
 
+Under staging.id_rsa and staging.id_rsa.pub are stored the keys to log into the
+staging server without username and password
+
 See [Rultor manual](http://doc.rultor.com/reference.html) on how to use it
 decrypted files
