@@ -181,33 +181,6 @@ def test_new_customer():
         customer.phone_number == phone_number
     )
 
-def test_new_reservation():
-    start_time = datetime.utcnow()
-    end_time = datetime.utcnow()
-    duration = datetime.utcnow().time()
-    customer_id = 1
-    num_of_persons = 4
-    comment = "My comment"
-    status = ReservationStatus.confirmed
-    new_reservation = Reservation(
-        start_time=start_time,
-        end_time=end_time,
-        duration=duration,
-        customer_id=customer_id,
-        num_of_persons=num_of_persons,
-        comment=comment,
-        status=status
-    )
-    assert (
-        new_reservation.start_time == start_time and
-        new_reservation.end_time == end_time and
-        new_reservation.duration == duration and
-        new_reservation.customer_id == customer_id and
-        new_reservation.num_of_persons == num_of_persons and
-        new_reservation.comment == comment and
-        new_reservation.status == status
-    )
-
 def test_new_item():
     id = 1
     name = "First Item"
