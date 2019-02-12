@@ -6,7 +6,6 @@ from timeless.reservations.models import ReservationSettings, Comment
 from timeless.restaurants.models import Location, Floor, TableShape, Table, ReservationStatus, Reservation
 from timeless.roles.models import Role
 from timeless.schemetypes.models import SchemeType
-from timeless.items.models import Item
 
 
 def test_new_company():
@@ -179,52 +178,4 @@ def test_new_customer():
         customer.first_name == first_name and
         customer.last_name == last_name and
         customer.phone_number == phone_number
-    )
-
-def test_new_reservation():
-    start_time = datetime.utcnow()
-    end_time = datetime.utcnow()
-    duration = datetime.utcnow().time()
-    customer_id = 1
-    num_of_persons = 4
-    comment = "My comment"
-    status = ReservationStatus.confirmed
-    new_reservation = Reservation(
-        start_time=start_time,
-        end_time=end_time,
-        duration=duration,
-        customer_id=customer_id,
-        num_of_persons=num_of_persons,
-        comment=comment,
-        status=status
-    )
-    assert (
-        new_reservation.start_time == start_time and
-        new_reservation.end_time == end_time and
-        new_reservation.duration == duration and
-        new_reservation.customer_id == customer_id and
-        new_reservation.num_of_persons == num_of_persons and
-        new_reservation.comment == comment and
-        new_reservation.status == status
-    )
-
-def test_new_item():
-    id = 1
-    name = "First Item"
-    stock_date = datetime.utcnow
-    comment = "Commentary of the first item"
-    company_id = 123
-    new_item = Item(
-        id=id,
-        name=name,
-        stock_date=stock_date,
-        comment=comment,
-        company_id=company_id
-    )
-    assert (
-        new_item.id == id and
-        new_item.name == name and
-        new_item.stock_date == stock_date and
-        new_item.comment == comment and
-        new_item.company_id == company_id
     )

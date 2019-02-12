@@ -1,5 +1,5 @@
 """ Reservation settings controller."""
-from timeless.reservations.models import ReservationSettings
+from timeless.reservations.models import ReservationSettings, Comment
 
 
 class SettingsController:
@@ -38,3 +38,4 @@ class SettingsController:
         raise Exception(
             "SettingsController#delete_reservation_settings not yet implemented"
         )
+

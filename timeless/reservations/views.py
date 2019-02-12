@@ -1,8 +1,16 @@
 """ Views for reservations """
+from flask import (
+    Blueprint, flash, redirect, render_template, request, url_for, views
+)
 from http import HTTPStatus
-
 from flask import views
+
 from timeless.reservations.controllers import SettingsController
+from timeless.reservations.models import Comment
+from timeless.views import CrudAPIView
+
+
+bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
 class SettingsView(views.MethodView):
@@ -25,21 +33,17 @@ class SettingsView(views.MethodView):
 
     def delete(self, id):
         """ DELETE method for reservation settings """
-        return self.ctr.delete_reservation_settings(self, id), HTTPStatus.NO_CONTENT
+        return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
 
 
-class CommentView(views.MethodView):
-    """API Resource for comments /api/comments"""
-
-    def get(self, comment_id):
-        """Get method of CommentView
-        @todo #87:30min Continue implementation of view methods for get,
-         create, edit and delete. In the index page it should be possible
-         to sort and filter for every column.
-        """
-        if comment_id:
-            return "Detail get method of CommentViewSet", HTTPStatus.OK
-        return "Get method of CommentViewSet", HTTPStatus.OK
+class CommentView(CrudAPIView):
+    """API Resource for comments /api/comments
+    @todo #123:30min After CrudView implementation is finished
+     create necessary templates for the CommentView to operate on.
+     See CrudAPIView description for more details about its usage.
+    """
+    model = Comment
+    url_lookup = "comment_id"
 
     def post(self):
         """Post method of CommentView"""
@@ -56,3 +60,47 @@ class CommentView(views.MethodView):
         if comment_id:
             return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
         return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
+
+
+@bp.route("/")
+def list_reservations(reservations):
+    """
+        @todo #172:30min Refactor this after the implementation of GenericViews.
+         Take a look at puzzles #134 and #173 where the requirements of generic
+         views are described. Don't forget to cover the generated code with
+         tests
+
+    :param reservations:
+    :return:
+    """
+    flash("List not yet implemented")
+    return render_template(
+        "restaurants/tables/list.html", reservations=reservations
+    )
+
+
+@bp.route("/create", methods=("GET", "POST"))
+def create(reservation):
+    if request.method == "POST":
+        flash("Create not yet implemented")
+
+    return render_template(
+        "restaurants/tables/create_edit.html", action="create",
+        reservation=reservation
+    )
+
+
+@bp.route("/edit/<int:id>", methods=("GET", "POST"))
+def edit(id):
+    if request.method == "POST":
+        flash("Edit not yet implemented")
+    return render_template(
+        "restaurants/tables/create_edit.html", action="edit",
+        id=id
+    )
+
+
+@bp.route("/delete", methods=["POST"])
+def delete():
+    flash("Delete not yet implemented")
+    return redirect(url_for("reservations.list_reservations"))

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% cache 600 %}
 {% block header %}
   <h1>{% block title %}Log In{% endblock %}</h1>
 {% endblock %}
@@ -13,3 +14,4 @@
     <input type="submit" value="Log In">
   </form>
 {% endblock %}
+{% endcache %}

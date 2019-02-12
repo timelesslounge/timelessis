@@ -4,9 +4,10 @@ a new Flask app for timeless
 # Since if import models / views inside methods, pylint complains
 # about cyclic imports.
 # pylint: disable=R0401
+# pylint: disable=W0612
 import os
 from flask import Flask
-
+from flask_caching import Cache
 from timeless.db import DB
 
 
@@ -14,6 +15,12 @@ def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
+    """
+    @todo #21:30min Install redis in the docker.
+     Also, Add Redis installation to the readme file for complete installation.
+     Redis installation script can be taken from the scripts/install folder.
+    """
+    cache = Cache(app, config={"CACHE_TYPE": "redis"})
     initialize_extensions(app)
     register_endpoints(app)
     # ensure the instance folder exists
@@ -31,6 +38,7 @@ def create_app(config):
 def initialize_extensions(app):
     """Initialize extensions for the app"""
     DB.init_app(app)
+    import timeless.customers.models
     import timeless.schemetypes.models
     import timeless.restaurants.models
     import timeless.reservations.models
@@ -96,3 +104,5 @@ def register_endpoints(app):
     )
     app.register_blueprint(floors_views.bp)
     app.register_blueprint(table_shapes_views.bp)
+    app.register_blueprint(reservations_views.bp)
+
