@@ -10,7 +10,11 @@ from timeless.schemetypes.models import SchemeType
 
 def test_new_company():
     """
-    @todo #31:30min Move tests to related module tests folder
+    @todo #31:30min We need to move tests in this file 
+     to the appropriate module tests folder, for example
+     test_companies test_locations test_tables and so on
+    """
+    """
      Test creating new company
     """
     new_company = Company(name="First company", code="C")
