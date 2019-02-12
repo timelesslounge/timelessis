@@ -10,10 +10,11 @@ from timeless.customers.models import Customer
      forget to cover all code added with tests.
 """
 
-class SyncedCustomer(Customer):
 
-    def __init__(self, poster_sync):
+class SyncedCustomer:
+
+    def __init__(self, poster_sync, customer):
         pass
 
-    def sync(self, poster_sync):
-        raise Exception("sync for location not implemented yet")
+    def sync(self):
+        raise Exception("sync for customer not implemented yet")

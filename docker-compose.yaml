@@ -40,5 +40,7 @@ services:
       POSTGRES_DB: timelessdb_test
       POSTGRES_USER: timeless_user
       POSTGRES_PASSWORD: timeless_pwd
+  sync_worker:
+    command: bash -c 'celery -A timeless.sync.celery worker'
 volumes:
   pgdata: null
