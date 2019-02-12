@@ -1,4 +1,4 @@
-from flask import g
+import flask
 
 from timeless.access_control.methods import Method
 
@@ -26,14 +26,13 @@ def __location_access(method=None, *args, **kwargs):
 
 
 def __employee_access(method=None, *args, **kwargs):
-    permitted = False
-    user = g.pop("user", None)
+    permitted, user = False, flask.g.get("user")
     employee_id = kwargs.get("employee_id")
     if method == Method.READ and user:
-        if not employee_id:
-            permitted = True
+        if employee_id:
+            permitted = employee_id == user.id
         else:
-            permitted = method == Method.READ and employee_id == user.id
+            permitted = True
     return permitted
 
 
