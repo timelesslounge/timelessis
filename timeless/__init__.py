@@ -48,7 +48,7 @@ def initialize_extensions(app):
     import timeless.employees.models
     import timeless.companies.models
     #initialize celery
-    make_celery(app)
+    app.celery = make_celery(app)
 
 
 def register_api(app, view, endpoint, url, pk="id", pk_type="int"):

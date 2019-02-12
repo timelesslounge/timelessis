@@ -40,7 +40,14 @@ services:
       POSTGRES_DB: timelessdb_test
       POSTGRES_USER: timeless_user
       POSTGRES_PASSWORD: timeless_pwd
-  sync_worker:
-    command: bash -c 'celery -A timeless.sync.celery worker'
+sync_worker:
+    build: .
+    command: bash -c 'celery -A timeless.celery worker'
+    environment:
+      FLASK_APP: main.py
+      FLASK_ENV: development
+      SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db/timelessdb_dev
+    volumes:
+      - .:/usr/app
 volumes:
   pgdata: null
