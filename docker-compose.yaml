@@ -13,6 +13,7 @@ services:
       - .:/usr/app
     depends_on:
       - db
+      - redis
   db:
     image: postgres:10.6
     environment:
@@ -41,7 +42,8 @@ services:
       POSTGRES_USER: timeless_user
       POSTGRES_PASSWORD: timeless_pwd
   redis:
-    build: .
-    command: bash -c 'scripts/installRedis.sh'
+    image: 'redis:3.2'
+    ports:
+      - '6379:6379'
 volumes:
   pgdata: null
