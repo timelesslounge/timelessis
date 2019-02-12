@@ -8,21 +8,15 @@ from timeless.employees.models import Employee
 
 
 def test_can_access_location():
-    assert (
-            has_privilege(method=Method.CREATE, resource="location")
-    )
+    assert has_privilege(method=Method.CREATE, resource="location")
 
 
 def test_cant_access_unknown_resource():
-    assert (
-            has_privilege(method=Method.CREATE, resource="unknown") is False
-    )
+    assert not has_privilege(method=Method.CREATE, resource="unknown")
 
 
 def test_cant_access_his_profile():
-    assert (
-            has_privilege(method=Method.READ, resource="employee", employee_id=1) is False
-    )
+    assert not has_privilege(method=Method.READ, resource="employee", employee_id=1)
 
 
 def test_can_access_his_profile():
@@ -31,9 +25,7 @@ def test_can_access_his_profile():
                       birth_date=datetime.utcnow(),
                       registration_date=datetime.utcnow(),
                       email="test@test.com", password="bla")
-    assert (
-            has_privilege(method=Method.READ, resource="employee", employee_id=1)
-    )
+    assert has_privilege(method=Method.READ, resource="employee", employee_id=1)
 
 
 def test_can_access_own_employees():
@@ -46,5 +38,5 @@ def test_can_access_own_employees():
                       birth_date=datetime.utcnow(),
                       registration_date=datetime.utcnow(),
                       email="test@test.com", password="bla")
-    assert (has_privilege(method=Method.READ, resource="employee"))
+    assert has_privilege(method=Method.READ, resource="employee")
 
