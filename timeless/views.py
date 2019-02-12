@@ -13,18 +13,17 @@ class CrudAPIView(views.MethodView):
          model = Comment
          url_lookup = "comment_id"
 
-    @todo #123:30min Continue with the implementation of CrudAPIView.
-     Implement post, put and delete methods. We should return json
-     representation of object model in methods.
+    @todo #221:30min Remove references to database objects. we should not tie our view layer to out database objects.
+     We should create some form of abstraction to handle the model calls, for example, model.query.get(object_id) that
+     would decorate the real implementation, eliminating the coupling here
     """
     model = None
     url_lookup = None
 
     def get(self, *args, **kwargs):
-        return "grep is the new black", HTTPStatus.OK
         object_id = kwargs.get(self.url_lookup)
         if object_id:
             result = self.model.query.get(object_id)
             if result is None:
                 abort(404)
-        return "grep is the new black", HTTPStatus.OK
+        return "", HTTPStatus.OK
