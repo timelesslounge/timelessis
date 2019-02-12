@@ -11,7 +11,7 @@ from timeless.schemetypes.models import SchemeType
 def test_new_company():
     """
     @todo #31:30min Move tests to related module tests folder
-    Test creating new company"""
+     Test creating new company"""
     new_company = Company(name="First company", code="C")
     assert (new_company.name is not None
             and new_company.code is not None)
