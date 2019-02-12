@@ -1,6 +1,8 @@
 #!/bin/bash
 # @todo #114:30min Add a detailed description to both pg_restore and pg_backup
 #  scripts on what they do and how to properly execute them.
+# @todo #115:30min Implement retrieval of database backup from Google account.
+#  It should be from the same Google account and location as in pg_backup.sh.
 
 ###########################
 ####### LOAD CONFIG #######

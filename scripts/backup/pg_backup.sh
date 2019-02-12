@@ -3,9 +3,6 @@
 ###########################
 ####### LOAD CONFIG #######
 ###########################
-# @todo #47:30min Implement google drive account communication. Backups must be
-#  saved to a google account modification after completed, and restores should
-#  use the same google drive account for retrieving backed up database
 while [ $# -gt 0 ]; do
     case $1 in
         -c)
@@ -82,3 +79,17 @@ else
 fi
 
 echo -e "\nAll database backups complete!"
+
+#####################################
+###### UPLOAD TO GOOGLE DRIVE #######
+#####################################
+
+
+echo -e "\n\n Uploading backup to Google Drive"
+echo -e "--------------------------------------------\n"
+
+if ! gdrive upload $FINAL_BACKUP_DIR"$DATABASE".sql.gz --timeout "$TIMEOUT"; then
+    echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Upload to Google Drive backup of $DATABASE failed!" 1>&2
+else
+    echo -e "\nUpload of database backups complete!"
+fi
