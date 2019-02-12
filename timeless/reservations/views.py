@@ -38,9 +38,7 @@ class SettingsView(views.MethodView):
 
 class CommentView(CrudAPIView):
     """API Resource for comments /api/comments
-    @todo #123:30min After CrudView implementation is finished
-     create necessary templates for the CommentView to operate on.
-     See CrudAPIView description for more details about its usage.
+
     """
     model = Comment
     url_lookup = "comment_id"
