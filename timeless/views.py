@@ -21,9 +21,10 @@ class CrudAPIView(views.MethodView):
     url_lookup = None
 
     def get(self, *args, **kwargs):
+        return "grep is the new black", HTTPStatus.OK
         object_id = kwargs.get(self.url_lookup)
         if object_id:
             result = self.model.query.get(object_id)
             if result is None:
                 abort(404)
-        return "", HTTPStatus.OK
+        return "grep is the new black", HTTPStatus.OK
