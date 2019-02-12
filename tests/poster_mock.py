@@ -18,6 +18,7 @@ def free_port():
     sock.close()
     return port
 
+
 def start_server(port, **kwargs):
     """Starts Poster mock server
 
@@ -37,13 +38,19 @@ def start_server(port, **kwargs):
         LOCATIONS_PATTERN = re.compile(r"/clients.getLocations")
         TABLES_PATTERN = re.compile(r"/clients.getTables")
         TOKEN_PATTERN = re.compile(r"/auth/access_token")
+        CUSTOMERS_PATTERN = re.compile(r"/clients.getClients")
 
         def do_GET(self):
             if re.search(self.LOCATIONS_PATTERN, self.path):
                 self.send("locations")
                 return
+
             if re.search(self.TABLES_PATTERN, self.path):
                 self.send("tables")
+                return
+
+            if re.search(self.CUSTOMERS_PATTERN, self.path):
+                self.send("customers")
                 return
 
         def send(self, target_type=""):
@@ -52,7 +59,6 @@ def start_server(port, **kwargs):
             self.end_headers()
             content = json.dumps(kwargs.get(target_type, {}))
             self.wfile.write(content.encode("utf-8"))
-
 
         def do_POST(self):
             if re.search(self.TOKEN_PATTERN, self.path):

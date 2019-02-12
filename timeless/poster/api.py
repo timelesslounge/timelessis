@@ -34,6 +34,14 @@ class Poster(object):
         """
         return self.send(method=self.GET, action="clients.getTables").json()
 
+    def customers(self):
+        """Fetches data about customers
+
+        :return:
+            Data about customers
+        """
+        return self.send(method=self.GET, action="clients.getClients").json()
+
     def send(self, **kwargs):
         """Sends http request for specific poster action
 
