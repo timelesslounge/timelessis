@@ -29,6 +29,8 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
+    result_backend = 'redis://localhost:6379'
+    broker_url = 'redis://localhost:6379'
 
 
 class TestingConfig(Config):
@@ -37,3 +39,5 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_test")
+    result_backend = 'redis://localhost:6379'
+    broker_url = 'redis://localhost:6379'
