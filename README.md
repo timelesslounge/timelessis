@@ -227,6 +227,17 @@ psql -U postgres -d timelessdb_dev
 psql -U timeless_user -d timelessdb_dev
 ```
 
+### Redis Installation
+We use Redis for cache storage. For installing Redis:
+```
+sudo apt install make gcc libc6-dev tcl
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+sudo make install
+src/redis-server > /dev/null &
+```
+
 ### Database backups
 Backup scripts (`pg_backup.sh` and `pg_restore.sh`) are used for save storage of
 database. Both of those scripts keep the configuration inside `pg_backup.config` file.

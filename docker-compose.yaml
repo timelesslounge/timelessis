@@ -40,5 +40,8 @@ services:
       POSTGRES_DB: timelessdb_test
       POSTGRES_USER: timeless_user
       POSTGRES_PASSWORD: timeless_pwd
+  redis:
+    build: .
+    command: bash -c 'scripts/installRedis.sh'
 volumes:
   pgdata: null
