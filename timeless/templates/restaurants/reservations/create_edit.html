@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% from "_formhelpers.html" import render_field %}
 
-
-{% cache 600 %}
 {% block header %}
   <h1>{% block title %}Reservation management - {% if action == 'create' %}  Create {% else %} Edit {% endif %} {% endblock %}</h1>
 {% endblock %}
@@ -43,4 +41,3 @@
     }}">Cancel</a>
   </form>
 {% endblock %}
-{% endcache%}
