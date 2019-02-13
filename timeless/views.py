@@ -13,9 +13,11 @@ class CrudAPIView(views.MethodView):
          model = Comment
          url_lookup = "comment_id"
 
-    @todo #221:30min Remove references to database objects. we should not tie our view layer to out database objects.
-     We should create some form of abstraction to handle the model calls, for example, model.query.get(object_id) that
-     would decorate the real implementation, eliminating the coupling here
+    @todo #221:30min Remove references to database objects. we should not tie
+     our view layer to our database objects. We should create some form of
+    abstraction to handle the model calls, for example,
+    model.query.get(object_id) that would decorate the real implementation,
+    eliminating the coupling here.
     """
     model = None
     url_lookup = None
