@@ -15,6 +15,7 @@ def test_create(client):
     })
     assert response.location.endswith(url_for('role.list_roles'))
     assert Role.query.count() == 1
+    assert Role.query.get(1).name == "owner"
 
 
 def test_edit(client):
