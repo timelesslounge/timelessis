@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-{% cache 600 %}
 {% block header %}
     <h1>{% block title %}Floors management - Main{% endblock %}</h1>
 {% endblock %}
@@ -21,4 +20,3 @@
         {% endif %}
     {% endfor %}
 {% endblock %}
-{% endcache %}
