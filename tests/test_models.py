@@ -10,8 +10,13 @@ from timeless.schemetypes.models import SchemeType
 
 def test_new_company():
     """
-    @todo #31:30min Move tests to related module tests folder
-    Test creating new company"""
+    @todo #31:30min We need to move tests in this file 
+     to the appropriate module tests folder, for example
+     test_companies test_locations test_tables and so on
+    """
+    """
+     Test creating new company
+    """
     new_company = Company(name="First company", code="C")
     assert (new_company.name is not None
             and new_company.code is not None)
