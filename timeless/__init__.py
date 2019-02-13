@@ -16,11 +16,6 @@ def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
-    """
-    @todo #21:30min Install redis in the docker.
-     Also, Add Redis installation to the readme file for complete installation.
-     Redis installation script can be taken from the scripts/install folder.
-    """
     cache = Cache(app, config={"CACHE_TYPE": "redis"})
     initialize_extensions(app)
     register_endpoints(app)

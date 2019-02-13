@@ -13,6 +13,7 @@ services:
       - .:/usr/app
     depends_on:
       - db
+      - redis
   db:
     image: postgres:10.6
     environment:
@@ -40,6 +41,10 @@ services:
       POSTGRES_DB: timelessdb_test
       POSTGRES_USER: timeless_user
       POSTGRES_PASSWORD: timeless_pwd
+  redis:
+    image: 'redis:3.2'
+    ports:
+      - '6379:6379'
 sync_worker:
     build: .
     command: bash -c 'celery -A timeless.celery worker'
