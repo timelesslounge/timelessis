@@ -7,20 +7,20 @@ from timeless.db import DB
 from timeless.restaurants import models
 from timeless.restaurants.table_shapes import forms
 
-
 bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
 
 @bp.route("/")
 def list():
     """List all table shapes
-    @todo #162:30min Implement ordering and sorting of TableShape model for
-     all columns. Update html templates if it's needed. Do not forget write
-     tests.
     """
+    order_fields = request.args.getlist("order_by")
+    query = models.TableShape.query
+    if order_fields:
+        query = order_by(query, order_fields)
     return render_template(
         "restaurants/table_shapes/list.html",
-        table_shapes=models.TableShape.query.all())
+        table_shapes=query.all())
 
 
 @bp.route("/create", methods=("GET", "POST"))
@@ -64,3 +64,7 @@ def delete(id):
     table_shape = models.TableShape.query.get(id)
     DB.session.delete(table_shape)
     return redirect(url_for("table_shape.list"))
+
+
+def order_by(query, params):
+    return query.order_by(*[param.replace(":", " ") for param in params])
