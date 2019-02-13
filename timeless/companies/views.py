@@ -1,10 +1,12 @@
 """Company views module."""
-from flask import views
 
-from timeless.companies import models
+from timeless.access_control.views import SecuredView
 
 
-class Resource(views.MethodView):
+class Resource(SecuredView):
+
+    resource = "companies"
+
     """API Resource for companies /api/companies"""
     def get(self, company_id):
         """

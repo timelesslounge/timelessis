@@ -38,5 +38,8 @@ def __employee_access(method=None, *args, **kwargs):
 
 __resources = {
     "location": __location_access,
-    "employee": __employee_access
+    "employee": __employee_access,
+    "companies": __employee_access,
+    "reservation_settings": __employee_access,
+    "reservation_comment": __employee_access
 }
