@@ -14,8 +14,8 @@ from timeless.restaurants.models import Location
 """
 
 
+@pytest.mark.skip
 def test_get_found_object():
-
     expected = Location(
         name="Los Pollos Hermanos Flagship Restaurant",
         code="FR",
