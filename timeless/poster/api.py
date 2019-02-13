@@ -4,6 +4,8 @@ import requests
 
 from urllib.parse import urljoin
 
+from timeless.poster import exceptions
+
 
 class Poster:
     """Poster application API.
@@ -68,8 +70,9 @@ class PosterAuthData:
 
 class Authenticated:
     """ Poster Auth class """
+    auth_url = "https://joinposter.com/api/v2/auth/access_token"
+
     def __init__(self, auth_data: PosterAuthData, **kwargs):
-        self.auth_url = "https://joinposter.com/api/v2/auth/access_token"
         self.auth_data = auth_data
 
     def auth(self):
@@ -80,7 +83,7 @@ class Authenticated:
         auth_data = {
             "application_id": self.auth_data.application_id,
             "application_secret": self.auth_data.application_secret,
-            "grant_type": 'authorization_code',
+            "grant_type": "authorization_code",
             "redirect_uri": self.auth_data.redirect_uri,
             "code": self.auth_data.code,
         }
@@ -88,11 +91,11 @@ class Authenticated:
         response = requests.post(self.auth_url, data=auth_data)
 
         if not response.ok:
-            raise Exception("Problem accessing poster api")
+            raise exceptions.PosterAPIError("Problem accessing poster api")
 
         token = response.json().get("access_token")
 
         if not token:
-            raise Exception("Token not found")
+            raise exceptions.PosterAPIError("Token not found")
 
         return token
