@@ -29,7 +29,8 @@ def test_can_access_his_profile():
 
 
 def test_can_access_own_employees():
-    """@todo #180:30min We need to clean global object after test finish
+    """
+    @todo #180:30min We need to clean global object after test finish
      its execution to prevent collision with other tests. Probably we need
      to make a pytest fixture for this.
     """
