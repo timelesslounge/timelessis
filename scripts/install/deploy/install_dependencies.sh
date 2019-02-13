@@ -6,7 +6,7 @@ srcdir="scripts/install/deploy"
 
 chmod +x $srcdir/install_python.sh
 . $srcdir/install_python.sh
-echo `python --version`
+
 chmod +x $srcdir/install_db.sh
 . $srcdir/install_db.sh
 
