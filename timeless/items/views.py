@@ -1,5 +1,5 @@
 """ Views module for Items.
-    @todo Continue implementation of views class.
+    @todo #141:30min Continue implementation of views class.
      Use the database to get the data instead of dummy data.
      Also, templates should be finished.
 """
