@@ -13,18 +13,17 @@ def test_auth(requests_mock):
         redirect_uri="test_uri",
         code="test_code",
     )
-    auth_token = "861052:02391570ff9af128e93c5a771055ba88"
-    json_object = mock.Mock()
-    json_object.return_value = {"access_token": auth_token}
 
-    requests_mock.post.return_value = type(
-        'Mock date',
-        (),
-        {
-            'ok': True,
-            'json': json_object,
-        }
-    )
+    class Response:
+        auth_token = "861052:02391570ff9af128e93c5a771055ba88"
+
+        def ok(self):
+            return True
+
+        def json(self):
+            return {"access_token": self.auth_token}
+
+    requests_mock.post.return_value = Response()
 
     auth_token = Authenticated(auth_data).auth()
-    assert auth_token == auth_token
+    assert auth_token == Response.auth_token
