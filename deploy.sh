@@ -8,10 +8,6 @@
 #  environment (either staging or production) and read environment credentials
 #  in order to deploy to correct environment. Rultor needs to be called like 
 #  this: @rultor deploy 0.0.1 staging
-# @todo #126:30min Extend the script to check if environment is properly setup
-#  before executing commands on the server. This means there has to be checks 
-#  for python, postgres, redis and others. If not, these programs have to be 
-#  installed. Also create python virtual environment in /app/venv directory.
 
 echo "-- Run tests"
 pytest
@@ -31,6 +27,8 @@ scp -i $STAGING_KEY -r . $STAGING_USER@$STAGING_SERVER:/app
 # add scripts in cron (like the one created in #47)
 # verify the webapplication is running
 ssh -i $STAGING_KEY $STAGING_USER@$STAGING_SERVER << EOF
+  chmod +x app/scripts/install/deploy/install_dependencies.sh
+  . app/scripts/install/deploy/install_dependencies.sh
   echo "-- Creating database user: $PG_STAGING_USER"
   sudo -u postgres psql -c "CREATE USER $PG_STAGING_USER WITH 
     SUPERUSER
@@ -45,6 +43,7 @@ ssh -i $STAGING_KEY $STAGING_USER@$STAGING_SERVER << EOF
   sudo -u postgres psql -c "CREATE DATABASE timelessdb_test;"
   echo "-- REPLACE: add scripts to cron"
   cd /app
+  python -m venv venv
   echo "-- Enabling virtual environment"
   . venv/bin/activate
   echo "-- Installing dependent libraries"
