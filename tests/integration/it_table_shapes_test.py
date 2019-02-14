@@ -25,7 +25,7 @@ def test_ordered_list(client):
     ).status_code == HTTPStatus.OK
 
 
-def test_create(client, app):
+def test_create(client, db_session):
     response = client.post(flask.url_for("table_shape.create"), data={
         "description": "It's new shape",
         "picture": "http://...."
