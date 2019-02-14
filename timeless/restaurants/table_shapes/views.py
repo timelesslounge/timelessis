@@ -6,6 +6,7 @@ from flask import (
 from timeless.db import DB
 from timeless.restaurants import models
 from timeless.restaurants.table_shapes import forms
+from timeless.templates.views import order_by
 
 bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
@@ -13,6 +14,9 @@ bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 @bp.route("/")
 def list():
     """List all table shapes
+    @todo #203:30min Implement filtering of TableShape model for
+     all columns. Update html templates if its needed. Do not forget
+     to write tests.
     """
     order_fields = request.args.getlist("order_by")
     query = models.TableShape.query
@@ -65,6 +69,3 @@ def delete(id):
     DB.session.delete(table_shape)
     return redirect(url_for("table_shape.list"))
 
-
-def order_by(query, params):
-    return query.order_by(*[param.replace(":", " ") for param in params])

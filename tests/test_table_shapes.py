@@ -9,7 +9,6 @@ from timeless.restaurants.table_shapes.views import order_by
 
 def test_order_by_description(db_session):
     db_session.add(TableShape(id=1, description="B", picture="pic"))
-    db_session.commit()
     db_session.add(TableShape(id=2, description="A", picture="pic"))
     db_session.commit()
     shapes = order_by(TableShape.query, ["description:asc"]).all()
