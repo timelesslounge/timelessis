@@ -31,6 +31,7 @@ class CrudAPIView(views.MethodView):
 
 
 class GenericView(views.View):
+    """ Docs http://flask.pocoo.org/docs/1.0/views/ """
     def dispatch_request(self):
         """Subclasses have to override this method to implement the
         actual view function code.  This method is called with all
