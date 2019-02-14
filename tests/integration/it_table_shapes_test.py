@@ -1,7 +1,6 @@
-import flask
 from http import HTTPStatus
+import flask
 
-from timeless.db import DB
 from timeless.restaurants import models
 from timeless.restaurants.models import TableShape
 from timeless.restaurants.table_shapes.views import order_by
@@ -39,12 +38,12 @@ def test_edit(client):
     assert client.get("/table_shapes/edit/1").status_code == HTTPStatus.OK
 
 
-def test_delete(client):
+def test_delete(client, db_session):
     table_shape = models.TableShape(
         description="Shape for deleting", picture="test")
-    DB.session.add(table_shape)
-    DB.session.commit()
-    DB.session.refresh(table_shape)
+    db_session.add(table_shape)
+    db_session.commit()
+    db_session.refresh(table_shape)
 
     client.post(flask.url_for('table_shape.delete', id=table_shape.id))
     assert not models.TableShape.query.count()
