@@ -12,7 +12,7 @@ BP = Blueprint("items", __name__, url_prefix="/items")
 @BP.route("/")
 def list_items():
     """ List the items """
-    items = [{'id':1}, {'id':2}]
+    items = [{"id":1}, {"id":2}]
     return render_template("items/list.html", items=items)
 
 @BP.route("/create", methods=("GET", "POST"))
