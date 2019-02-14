@@ -11,7 +11,7 @@ if [ "$?" -gt "0" ]; then
   sudo apt-get -y install postgresql postgresql-contrib
   echo "Done installing Postgres"
 else
-  echo "Postgres installed"
+  echo "Postgres already installed"
 fi
 
  service postgresql status
@@ -20,5 +20,5 @@ fi
    service postgresql start
    echo "Postgres launched"
  else
-   echo "Postgres launched"
+   echo "Postgres already running"
  fi

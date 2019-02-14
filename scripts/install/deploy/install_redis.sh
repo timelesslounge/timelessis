@@ -1,8 +1,26 @@
 #!/bin/sh
 
-# @todo #240:30min Implement redis availability check and install flows. In case
-#  Redis is not available lets install it and launch.
-#  In case it is installed but not among current process it should be launched only.
-#  Please also check if all the dependency checks are in place besides redis and implement rest if any.
+# Script for Redis availability check, installation and launch
 
-echo "Implement redis availability check"
+which redis-cli
+if [ "$?" -gt "0" ]; then
+  echo "Redis Not installed, installing"
+  sudo apt install make gcc libc6-dev tcl
+  wget http://download.redis.io/redis-stable.tar.gz
+  tar xvzf redis-stable.tar.gz
+  cd redis-stable
+  sudo make install
+  echo "Done installing Redis"
+else
+  echo "Redis already installed"
+fi
+
+echo "Redis PING"
+redis-cli ping
+if [ "$?" -gt "0" ]; then
+  echo "Redis Not running, launching"
+  src/redis-server > /dev/null &
+  echo "Redis launched"
+else
+  echo "Redis already running"
+fi
