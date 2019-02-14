@@ -2,10 +2,11 @@ from celery import Celery
 
 
 def make_celery(app):
+    print(app.config)
     celery = Celery(
         app.import_name,
-        backend=app.config["result_backend"],
-        broker=app.config["broker_url"]
+        backend=app.config["RESULT_BACKEND"],
+        broker=app.config["BROKER_URL"]
     )
     celery.conf.update(app.config)
 

@@ -17,6 +17,8 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb")
+    RESULT_BACKEND = "redis://localhost:6379"
+    BROKER_URL = "redis://localhost:6379"
 
 
 class StagingConfig(Config):
@@ -25,6 +27,8 @@ class StagingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
+    RESULT_BACKEND = "redis://localhost:6379"
+    BROKER_URL = "redis://localhost:6379"
 
 
 class DevelopmentConfig(Config):
@@ -33,15 +37,17 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
-    result_backend = 'redis://localhost:6379'
-    broker_url = 'redis://localhost:6379'
+    RESULT_BACKEND = "redis://localhost:6379"
+    BROKER_URL = "redis://localhost:6379"
+
 
 
 class TestingConfig(Config):
+    RESULT_BACKEND = "redis://localhost:6379"
+    BROKER_URL = "redis://localhost:6379"
     TESTING = True
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_test")
-    result_backend = 'redis://localhost:6379'
-    broker_url = 'redis://localhost:6379'
+
