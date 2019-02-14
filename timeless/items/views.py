@@ -1,27 +1,31 @@
 """ Views module for Items.
+    @todo Continue implementation of views class.
+     Use the database to get the data instead of dummy data.
+     Also, templates should be finished.
 """
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for
+    Blueprint, redirect, render_template, url_for
 )
 
-bp = Blueprint("items", __name__, url_prefix="/items")
+BP = Blueprint("items", __name__, url_prefix="/items")
 
-@bp.route("/")
+@BP.route("/")
 def list_items():
-    flash("Create not yet implemented")
-    #return render_template("items/list", items=items)
+    """ List the items """
+    items = [{'id':1}, {'id':2}]
+    return render_template("items/list.html", items=items)
 
-@bp.route("/create", methods=("GET", "POST"))
+@BP.route("/create", methods=("GET", "POST"))
 def create():
-    flash("Create not yet implemented")
-    #return render_template("items/create.html")
+    """ Create new item """
+    return render_template("items/create.html")
 
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
-def edit(id):
-    flash("Edit not yet implemented")
-    #return render_template("items/edit.html")
-  
-@bp.route("/delete", methods=["POST"])
+@BP.route("/edit", methods=("GET", "POST"))
+def edit():
+    """ Edit an item by id """
+    return render_template("items/edit.html")
+
+@BP.route("/delete", methods=["POST"])
 def delete():
-    flash("Delete not yet implemented")
+    """ Delete an item by id """
     return redirect(url_for("items.list_items"))

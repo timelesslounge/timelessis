@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Items{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% for item in items %}
+        <article class="item">
+        <header>
+            <div>
+            <h1>{{ item['id'] }}</h1>
+            </div>
+            <a class="action" href="{{ url_for('items.edit', id=item['id']) }}">Edit</a>
+            <a class="action" href="{{ url_for('items.delete', id=item['id']) }}">Delete</a>
+        </header>
+        </article>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -1,11 +1,34 @@
 """ Tests for the items.
 """
 
+# pylint: disable=unused-import
 from datetime import datetime
-
+from http import HTTPStatus
 from timeless.items.models import Item, ItemHistory
 from timeless.restaurants.models import Location
 from timeless.roles.models import Role
+
+
+
+def test_list(client):
+    """ Test list is okay """
+    assert client.get("/items/").status_code == HTTPStatus.OK
+
+
+def test_create(client):
+    """ Test create is okay """
+    assert client.get("/items/create").status_code == HTTPStatus.OK
+
+
+def test_edit(client):
+    """ Test edit is okay """
+    assert client.get("/items/edit").status_code == HTTPStatus.OK
+
+
+def test_delete(client):
+    """ Test delete is okay """
+    response = client.post("/items/delete", data={"id": 1})
+    assert response.headers["Location"] == "http://localhost/items/"
 
 def test_new_item():
     """ Test creation on new Item """
