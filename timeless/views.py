@@ -20,10 +20,14 @@ class CrudAPIView(views.MethodView):
     model = None
     url_lookup = None
 
-    def get(self, *args, **kwargs):
-        object_id = kwargs.get(self.url_lookup)
-        if object_id:
-            result = self.model.query.get(object_id)
-            if result is None:
-                abort(404)
-        return "", HTTPStatus.OK
+    def get(self):
+        pass
+
+    def post(self):
+        pass
+
+    def put(self):
+        pass
+
+    def delete(self):
+        pass
