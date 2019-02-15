@@ -26,13 +26,8 @@ class Item(DB.Model):
     history = DB.relationship("ItemHistory", back_populates="item")
 
     @validate_required("name", "stock_date", "comment", "created_on")
-
     def __init__(self, **kwargs):
         super(Item, self).__init__(**kwargs)
-        self.name = "Item Name"
-        self.stock_date = datetime.utcnow()
-        self.comment = "Comment"
-        self.created_on = datetime.utcnow()
 
     def assign(self, employee):
         """ Assing the item to an employee
@@ -61,10 +56,8 @@ class ItemHistory(DB.Model):
     item = DB.relationship("Item", back_populates="history")
 
     @validate_required("start_time")
-
     def __init__(self, **kwargs):
         super(ItemHistory, self).__init__(**kwargs)
-        self.start_time = datetime.utcnow()
 
     def __repr__(self):
         """Return object information - String"""

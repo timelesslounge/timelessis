@@ -21,13 +21,8 @@ class Customer(PosterSyncMixin, DB.Model):
     updated_on = DB.Column(DB.DateTime, onupdate=datetime.utcnow)
 
     @validate_required("first_name", "last_name", "phone_number", "created_on")
-
     def __init__(self, **kwargs):
         super(Customer, self).__init__(**kwargs)
-        self.first_name = "Customer First Name"
-        self.last_name = "Customer Last Name"
-        self.phone_number = "99 9999-9999"
-        self.created_on = datetime.utcnow()
 
     def __repr__(self):
         return "<Customer(name=%s %s)>" % (self.first_name, self.last_name)

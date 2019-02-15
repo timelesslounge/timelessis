@@ -26,11 +26,8 @@ class Company(TimestampsMixin, DB.Model):
                             back_populates="company")
 
     @validate_required("name", "code")
-
     def __init__(self, **kwargs):
         super(Company, self).__init__(**kwargs)
-        self.name = "Company Name"
-        self.code = "Company Code"
 
     def __repr__(self):
         return "<Company %r>" % self.name

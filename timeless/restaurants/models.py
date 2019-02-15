@@ -27,10 +27,8 @@ class TableShape(DB.Model):
     picture = DB.Column(DB.String, nullable=False)
 
     @validate_required("picture")
-
     def __init__(self, **kwargs):
         super(TableShape, self).__init__(**kwargs)
-        self.picture = "Picture"
 
     def __repr__(self):
         return "<TableShape %r>" % self.picture
@@ -77,19 +75,8 @@ class Location(PosterSyncMixin, DB.Model):
 
     @validate_required("name", "code", "country", "region", "city", "type",
                        "address", "longitude", "latitude", "status")
-
     def __init__(self, **kwargs):
         super(Location, self).__init__(**kwargs)
-        self.name = "Name"
-        self.code = "Code"
-        self.country = "Country"
-        self.region = "Region"
-        self.city = "City"
-        self.type = "Type"
-        self.address = "Address"
-        self.longitude = "Longitude"
-        self.latitude = "Latitude"
-        self.status = "Status"
 
     def __repr__(self):
         return "<Location %r>" % self.name
@@ -136,20 +123,8 @@ class Table(PosterSyncMixin, DB.Model):
     @validate_required("name", "x", "y", "width", "height", "status",
                        "max_capacity", "multiple", "playstation", "created",
                        "updated")
-
     def __init__(self, **kwargs):
         super(Table, self).__init__(**kwargs)
-        self.name = "Name"
-        self.x = 100
-        self.y = 200
-        self.width = 50
-        self.height = 80
-        self.status = 1
-        self.max_capacity = 5
-        self.multiple = True
-        self.playstation = False
-        self.created = datetime.utcnow()
-        self.updated = datetime.utcnow()
 
     def __repr__(self):
         return "<Table %r>" % self.name
@@ -174,14 +149,8 @@ class Reservation(TimestampsMixin, DB.Model):
 
     @validate_required("start_time", "end_time", "num_of_persons", "comment",
                        "status")
-
     def __init__(self, **kwargs):
         super(Reservation, self).__init__(**kwargs)
-        self.start_time = datetime.utcnow()
-        self.end_time = datetime.utcnow()
-        self.num_of_persons = datetime.utcnow()
-        self.comment = "Comment"
-        self.status = 2
 
     def duration(self):
         return self.end_time - self.start_time
