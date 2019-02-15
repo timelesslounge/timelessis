@@ -25,17 +25,23 @@ class Item(DB.Model):
     history = DB.relationship("ItemHistory", back_populates="item")
 
     def assign(self, employee):
-        """ Assing the item to an employee
-        @todo #142:30min Continue implememntation of assining.
-         Update the old ItemHistory record if current employee_id in not null.
-         ItemHistory should have the needed functions to continue this.
-        """
+        """ Assigning the item to an employee """
         self.employee_id = employee.id
         item_history = ItemHistory(employee_id=self.employee_id, item_id=self.id)
+
+    def item_history(self):
+        """ Returns item history
+        @todo #217:30min Implement function to return item history.
+         history() function must return item assignement history, a list of
+         ItemHistory with all the items assignment history. Then remove skip
+         annotation from test_items.test_item_assign
+        """
+        pass
 
     def __repr__(self):
         """Return object information - String"""
         return "<Item %r>" % self.name
+
 
 class ItemHistory(DB.Model):
     """Model for item assigning history
