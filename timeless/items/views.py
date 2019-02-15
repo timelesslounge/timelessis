@@ -10,21 +10,25 @@ from flask import (
 
 BP = Blueprint("items", __name__, url_prefix="/items")
 
+
 @BP.route("/")
 def list_items():
     """ List the items """
-    items = [{"id":1}, {"id":2}]
+    items = [{"id": 1}, {"id": 2}]
     return render_template("items/list.html", items=items)
+
 
 @BP.route("/create", methods=("GET", "POST"))
 def create():
     """ Create new item """
     return render_template("items/create.html")
 
+
 @BP.route("/edit", methods=("GET", "POST"))
 def edit():
     """ Edit an item by id """
     return render_template("items/edit.html")
+
 
 @BP.route("/delete", methods=["POST"])
 def delete():
