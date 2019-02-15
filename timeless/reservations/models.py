@@ -16,6 +16,11 @@ class Comment(TimestampsMixin, DB.Model):
 
     @validate_required("body", "date")
 
+    def __init__(self, **kwargs):
+        super(Comment, self).__init__(**kwargs)
+        self.body = "Body"
+        self.date = datetime.utcnow()
+
     def __repr__(self):
         return "<Comment %r>" % self.description
 

@@ -19,6 +19,10 @@ class WeekDay(DB.Model):
 
     @validate_required("weekday")
 
+    def __init__(self, **kwargs):
+        super(WeekDay, self).__init__(**kwargs)
+        self.weekday = 3
+
     def __repr__(self):
         return "<Weekday %r>" % self.id
 
@@ -39,6 +43,10 @@ class MonthDay(DB.Model):
 
     @validate_required("monthday")
 
+    def __init__(self, **kwargs):
+        super(MonthDay, self).__init__(**kwargs)
+        self.monthday = 2
+
     def __repr__(self):
         return "<MonthDay %r>" % self.id
 
@@ -58,6 +66,10 @@ class Date(DB.Model):
         )
 
     @validate_required("date")
+
+    def __init__(self, **kwargs):
+        super(Date, self).__init__(**kwargs)
+        self.date = datetime.utcnow()
 
     def __repr__(self):
         return "<Date %r>" % self.id
@@ -102,6 +114,13 @@ class SchemeCondition(DB.Model):
 
     @validate_required("value", "priority", "start_time", "end_time")
 
+    def __init__(self, **kwargs):
+        super(SchemeCondition, self).__init__(**kwargs)
+        self.value = "Value"
+        self.priority = 2
+        self.start_time = datetime.utcnow()
+        self.end_time = datetime.utcnow()
+
     def __repr__(self):
         return "<SchemeCondition %r>" % self.id
 
@@ -125,6 +144,12 @@ class SchemeType(DB.Model):
         )
 
     @validate_required("description", "default_value", "value_type")
+
+    def __init__(self, **kwargs):
+        super(SchemeCondition, self).__init__(**kwargs)
+        self.description = "Description"
+        self.default_value = "Default Value"
+        self.value_type = "Value Type"
 
     def __repr__(self):
         return "<SchemeType %r>" % self.id
