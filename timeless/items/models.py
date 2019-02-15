@@ -6,9 +6,6 @@ from timeless import DB
 
 class Item(DB.Model):
     """Model for item entity
-    @todo #15:30min Continue the implementation. Items must have their own
-     management pages to list, create, edit, and delete them. On the index
-     page, you should be able to sort and filter for each column.
     """
     __tablename__ = "items"
 
