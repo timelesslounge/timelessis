@@ -32,7 +32,7 @@ created_comment = {
 }
 
 
-class FakeComment(Comment):
+class FakeComment():
     def get(comment_id):
         if comment_id == 5:
             return found_comment, HTTPStatus.OK
