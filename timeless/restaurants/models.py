@@ -2,7 +2,7 @@
 import enum
 
 from timeless.db import DB
-from timeless.models import TimestampsMixin
+from timeless.models import TimestampsMixin, validate_required
 from timeless.poster.models import PosterSyncMixin
 
 

@@ -2,6 +2,7 @@
 from datetime import datetime
 
 from timeless import DB
+from timeless.models import validate_required
 
 
 class Item(DB.Model):

@@ -1,5 +1,5 @@
 """File for models in reservations module"""
-from timeless.models import TimestampsMixin
+from timeless.models import TimestampsMixin, validate_required
 from timeless import DB
 
 

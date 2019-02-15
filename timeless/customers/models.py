@@ -2,6 +2,7 @@
 from datetime import datetime
 from timeless import DB
 from timeless.poster.models import PosterSyncMixin
+from timeless.models import validate_required
 
 
 class Customer(PosterSyncMixin, DB.Model):
