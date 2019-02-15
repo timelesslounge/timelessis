@@ -1,5 +1,5 @@
 """roles views module.
-@todo #95:30min Continue implementing list(), create(), edit() and
+@todo #192:30min Continue implementing edit() and
  delete() methods, using SQLAlchemy and Location model. In the index page it
  should be possible to sort and filter for every column. Location management
  page should be accessed by the Location page. Update html templates when
@@ -9,39 +9,26 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
 )
 
+from timeless.roles.forms import RoleForm
+from timeless.roles.models import Role
 
 bp = Blueprint("role", __name__, url_prefix="/roles")
 
 
-@bp.route("/")
+@bp.route("/", methods=["GET"])
 def list_roles():
-    # remove this dummy roles object and use db
-    roles = [{
-        "id": 1,
-        "name": "Intern",
-        "works_on_shifts": True,
-        "company_id": 3
-        }]
-    companies = {
-        1: "Foo Inc.",
-        3: "Foomatic Co.",
-    }
-    return render_template("roles/list.html", roles=roles, companies=companies)
+    return render_template("roles/list.html", roles=Role.query.all())
 
 
 @bp.route("/create", methods=("GET", "POST"))
 def create():
-    if request.method == "POST":
-        flash("Create not yet implemented")
-    action = "create"
-    companies = [
-        {"id": 1, "name": "Foo Inc.", "selected": False},
-        {"id": 3, "name": "Foomatic Co.", "selected": True},
-    ]
+    """ Create new table shape"""
+    form = RoleForm(request.form)
+    if request.method == "POST" and form.validate():
+        form.save()
+        return redirect(url_for("role.list_roles"))
     return render_template(
-        "roles/create_edit.html", action=action,
-        companies=companies
-    )
+        "roles/create_edit.html", form=form)
 
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))

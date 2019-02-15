@@ -6,9 +6,7 @@ from timeless.poster.models import PosterSyncMixin
 
 class Customer(PosterSyncMixin, DB.Model):
     """Model for customer business entity.
-    @todo #102:30min Set up celery to project which will provide async
-     jobs. Docs is here - http://flask.pocoo.org/docs/1.0/patterns/celery/
-     Create celery task for customer synchronization.
+
     """
     __tablename__ = "customers"
 

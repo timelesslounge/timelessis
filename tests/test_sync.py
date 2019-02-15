@@ -4,7 +4,7 @@ import unittest
 from tests.poster_mock import free_port, start_server
 from timeless.companies.models import Company
 from timeless.employees.models import Employee
-from timeless.poster.api import Poster, Authenticated
+from timeless.poster.api import Poster, Authenticated, PosterAuthData
 from timeless.sync.sync import PosterSync
 from timeless.restaurants.models import Location
 
@@ -46,7 +46,8 @@ class TestSync(unittest.TestCase):
     ]
 
     @classmethod
-    def setup_class(cls):
+    @unittest.mock.patch.object(Authenticated, 'auth')
+    def setup_class(cls, mocked_auth):
         cls.port = free_port()
         start_server(cls.port, locations=cls.locations)
         cls.company = Company(
@@ -78,12 +79,16 @@ class TestSync(unittest.TestCase):
                     synchronized_on=datetime.datetime(1983, 5, 10)
                 )
             ])
-        auth_poster = Authenticated()
+        access_token = Authenticated(PosterAuthData(
+            application_id="test_application_id",
+            application_secret="test_application_secret",
+            redirect_uri="test_redirect_uri",
+            code="test_code",
+        ))
         cls.poster_sync = PosterSync
         cls.poster = Poster(
             url="http://localhost:{port}".format(port=cls.port)
         )
-
 
     def test_sync_location(self):
         self.poster_sync.sync_location(self.poster, self.company)
