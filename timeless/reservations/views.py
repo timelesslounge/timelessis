@@ -38,7 +38,7 @@ class SettingsView(SecuredView):
         return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
 
 
-class CommentView(CrudAPIView, SecuredView):
+class CommentView(SecuredView, CrudAPIView):
     """API Resource for comments /api/comments
     @todo #123:30min After CrudView implementation is finished
      create necessary templates for the CommentView to operate on.
