@@ -144,7 +144,6 @@ class Reservation(TimestampsMixin, DB.Model):
     @validate_required("start_time", "end_time", "num_of_persons", "comment",
                        "status")
 
-    """Calculates the duration of the reservation"""
     def duration(self):
         return self.end_time - self.start_time
 

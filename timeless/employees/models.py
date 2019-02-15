@@ -38,6 +38,7 @@ class Employee(TimestampsMixin, DB.Model):
 
     @validate_required("username", "password", "first_name", "last_name",
                        "phone_number", "birth_date", "email")
+                       
     def __init__(self, **kwargs):
         super(Employee, self).__init__(**kwargs)
         self.password = bcrypt_sha256.hash(kwargs.get("password"))
