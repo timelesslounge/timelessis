@@ -72,7 +72,7 @@ class Location(PosterSyncMixin, DB.Model):
     closed_days = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
     @validate_required("name", "code", "country", "region", "city", "type",
-                        "address", "longitude", "latitude", "status")
+                       "address", "longitude", "latitude", "status")
 
     def __repr__(self):
         return "<Location %r>" % self.name
@@ -117,8 +117,8 @@ class Table(PosterSyncMixin, DB.Model):
     DB.UniqueConstraint(u"name", u"floor_id")
 
     @validate_required("name", "x", "y", "width", "height", "status",
-                        "max_capacity", "multiple", "playstation", "created",
-                        "updated")
+                       "max_capacity", "multiple", "playstation", "created",
+                       "updated")
 
     def __repr__(self):
         return "<Table %r>" % self.name
@@ -142,7 +142,7 @@ class Reservation(TimestampsMixin, DB.Model):
     tables = DB.relationship("TableReservation", back_populates="reservation")
 
     @validate_required("start_time", "end_time", "num_of_persons", "comment",
-                        "status")
+                       "status")
 
     """Calculates the duration of the reservation"""
     def duration(self):
