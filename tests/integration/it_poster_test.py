@@ -1,34 +1,26 @@
-from unittest import mock
+from tests.poster_mock import free_port, start_server
+from timeless.poster.api import Poster
 
-from timeless.poster.api import Authenticated, PosterAuthData
 
-"""Integration tests for Poster"""
+class TestPoster:
 
-"""
-@todo #113:30min Implement auth process for Poster API.
- client_id is required for authentication process, this id is the public key
- provided by the poster service to identify the applications
-"""
+    @classmethod
+    def setup_class(cls):
+        cls.port = free_port()
+        start_server(
+            cls.port,
+            locations={"data": "test_data"},
+            tables={"data": "test_data"},
+            customers={"data": "test_data"}
 
-@mock.patch("timeless.poster.api.requests")
-def test_auth(requests_mock):
-    auth_data = PosterAuthData(
-        application_id="test_id",
-        application_secret="test_secret",
-        redirect_uri="test_uri",
-        code="test_code",
-    )
+        )
+        cls.poster = Poster(url=f"http://localhost:{cls.port}")
 
-    class Response:
-        auth_token = "861052:02391570ff9af128e93c5a771055ba88"
+    def test_locations(self):
+        assert (self.poster.locations()["data"] == "test_data")
 
-        def ok(self):
-            return True
+    def test_tables(self):
+        assert (self.poster.tables()["data"] == "test_data")
 
-        def json(self):
-            return {"access_token": self.auth_token}
-
-    requests_mock.post.return_value = Response()
-
-    auth_token = Authenticated(auth_data).auth()
-    assert auth_token == Response.auth_token
+    def test_customers(self):
+        assert (self.poster.customers()["data"] == "test_data")
