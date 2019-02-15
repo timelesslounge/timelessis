@@ -12,7 +12,7 @@ def test_incorrect_username(db_session):
     """Do not remove db_session dependency. It is injected
     in order to trigger db migration.
     """
-    assert (login("unknown", "unknown") == "Incorrect username.")
+    assert (login("unknown", "unknown") == "login.failed")
 
 
 def test_incorrect_password(db_session):
@@ -24,7 +24,7 @@ def test_incorrect_password(db_session):
     db_session.add(employee)
     db_session.commit()
     error = login("vgv", "unknown")
-    assert (error == "Incorrect password.")
+    assert (error == "login.failed")
 
 
 def test_login(db_session):
