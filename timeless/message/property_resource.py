@@ -17,4 +17,3 @@ class PropertyResource(MessageResource):
 
     def get(self, key, locale):
         raise Exception("PropertyResources not implement yet!")
-

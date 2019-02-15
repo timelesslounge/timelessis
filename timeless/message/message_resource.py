@@ -6,4 +6,3 @@ class MessageResource:
 
     def get(self, key, locale):
         raise Exception("Message Resource does not implement methods!")
-
