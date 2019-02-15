@@ -1,3 +1,4 @@
+""" Integration tests for Comment """
 from datetime import datetime
 from http import HTTPStatus
 
@@ -7,6 +8,11 @@ from flask import url_for
 
 from timeless.reservations.models import Comment
 
+"""
+@todo #222:30min Correct comments its_tests. After #222 Comments had the logic
+ changed and its tests are broken. Correct them and remove pytest.mark.skip
+ annotation
+"""
 
 @pytest.mark.skip
 def test_comments_endpoints(client):
