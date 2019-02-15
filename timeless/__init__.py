@@ -9,17 +9,13 @@ import os
 from flask import Flask
 from flask_caching import Cache
 from timeless.db import DB
+from timeless.sync.celery import make_celery
 
 
 def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
-    """
-    @todo #21:30min Install redis in the docker.
-     Also, Add Redis installation to the readme file for complete installation.
-     Redis installation script can be taken from the scripts/install folder.
-    """
     cache = Cache(app, config={"CACHE_TYPE": "redis"})
     initialize_extensions(app)
     register_endpoints(app)
@@ -46,6 +42,8 @@ def initialize_extensions(app):
     import timeless.items.models
     import timeless.employees.models
     import timeless.companies.models
+    #initialize celery
+    app.celery = make_celery(app)
 
 
 def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
