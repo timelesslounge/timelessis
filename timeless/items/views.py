@@ -1,6 +1,7 @@
 """ Views module for Items.
     @todo #141:30min Continue implementation of views class.
      Use the database to get the data instead of dummy data.
+     Add authenticationannotation.
      Also, templates should be finished.
 """
 from flask import (
