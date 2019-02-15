@@ -14,10 +14,6 @@ class Employee(TimestampsMixin, DB.Model):
      it should be possible to sort and filter for every column. Other possible
      actions are described in more detail in issue #4. Specific details about
      Employee default values are in another puzzle.
-    @todo #4:30min Implement validate_required decorator for all the models in
-     the timeless app that require mandatory parameters check. See Employee
-     model as an example of how to use the decorator. Write tests to verify
-     all the mandatory fields are checked.
     """
     __tablename__ = "employees"
 

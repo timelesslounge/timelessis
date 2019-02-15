@@ -24,6 +24,8 @@ class Item(DB.Model):
     empolyee = DB.relationship("Employee", back_populates="items")
     history = DB.relationship("ItemHistory", back_populates="item")
 
+    @validate_required("name", "stock_date", "comment", "created_on")
+
     def assign(self, employee):
         """ Assing the item to an employee
         @todo #142:30min Continue implememntation of assining.
@@ -49,6 +51,8 @@ class ItemHistory(DB.Model):
     employee = DB.relationship("Employee", back_populates="history")
     item_id = DB.Column(DB.Integer, DB.ForeignKey("items.id"))
     item = DB.relationship("Item", back_populates="history")
+
+    @validate_required("start_time")
 
     def __repr__(self):
         """Return object information - String"""

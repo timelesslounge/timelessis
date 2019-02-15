@@ -16,6 +16,8 @@ class WeekDay(DB.Model):
         back_populates="weekdays"
         )
 
+    @validate_required("weekday")
+
     def __repr__(self):
         return "<Weekday %r>" % self.id
 
@@ -34,6 +36,8 @@ class MonthDay(DB.Model):
         back_populates="monthdays"
         )
 
+    @validate_required("monthday")
+
     def __repr__(self):
         return "<MonthDay %r>" % self.id
 
@@ -51,6 +55,8 @@ class Date(DB.Model):
         "SchemeCondition",
         back_populates="dates"
         )
+
+    @validate_required("date")
 
     def __repr__(self):
         return "<Date %r>" % self.id
@@ -93,6 +99,8 @@ class SchemeCondition(DB.Model):
 
     scheme_type = DB.relationship("SchemeType", back_populates="conditions")
 
+    @validate_required("value", "priority", "start_time", "end_time")
+
     def __repr__(self):
         return "<SchemeCondition %r>" % self.id
 
@@ -114,6 +122,8 @@ class SchemeType(DB.Model):
         order_by=SchemeCondition.id,
         back_populates="scheme_type"
         )
+
+    @validate_required("description", "default_value", "value_type")
 
     def __repr__(self):
         return "<SchemeType %r>" % self.id

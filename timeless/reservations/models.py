@@ -14,6 +14,8 @@ class Comment(TimestampsMixin, DB.Model):
     date = DB.Column(DB.DateTime, nullable=False)
     employee = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
 
+    @validate_required("body", "date")
+
     def __repr__(self):
         return "<Comment %r>" % self.description
 

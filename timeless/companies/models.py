@@ -25,5 +25,7 @@ class Company(TimestampsMixin, DB.Model):
     items = DB.relationship("Item", order_by="Item.id",
                             back_populates="company")
 
+    @validate_required("name", "code")
+
     def __repr__(self):
         return "<Company %r>" % self.name

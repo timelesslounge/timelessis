@@ -26,6 +26,8 @@ class TableShape(DB.Model):
     description = DB.Column(DB.String, nullable=True)
     picture = DB.Column(DB.String, nullable=False)
 
+    @validate_required("picture")
+
     def __repr__(self):
         return "<TableShape %r>" % self.picture
 
@@ -69,6 +71,9 @@ class Location(PosterSyncMixin, DB.Model):
     working_hours = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     closed_days = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
+    @validate_required("name", "code", "country", "region", "city", "type",
+                        "address", "longitude", "latitude", "status")
+
     def __repr__(self):
         return "<Location %r>" % self.name
 
@@ -111,6 +116,10 @@ class Table(PosterSyncMixin, DB.Model):
 
     DB.UniqueConstraint(u"name", u"floor_id")
 
+    @validate_required("name", "x", "y", "width", "height", "status",
+                        "max_capacity", "multiple", "playstation", "created",
+                        "updated")
+
     def __repr__(self):
         return "<Table %r>" % self.name
 
@@ -131,6 +140,9 @@ class Reservation(TimestampsMixin, DB.Model):
     status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
+
+    @validate_required("start_time", "end_time", "num_of_persons", "comment",
+                        "status")
 
     """Calculates the duration of the reservation"""
     def duration(self):
