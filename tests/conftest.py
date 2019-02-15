@@ -10,30 +10,18 @@ from timeless import create_app
 from timeless.db import DB
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def app():
     db_fd, db_path = tempfile.mkstemp()
     app = create_app("config.TestingConfig")
     app_context = app.test_request_context()
     app_context.push()
-    Migrate(app, DB)
-    yield app
-    os.close(db_fd)
-    os.unlink(db_path)
-
-
-@pytest.fixture(autouse=True)
-def app_test_context(app):
-    with app.test_request_context():
-        yield app
-
-
-@pytest.fixture(autouse=True)
-def cleanup_db(app_test_context):
     DB.create_all()
-    yield
+    yield app
     DB.session.remove()
     DB.drop_all()
+    os.close(db_fd)
+    os.unlink(db_path)
 
 
 @pytest.fixture
@@ -66,26 +54,9 @@ def auth(client):
 
 
 @pytest.fixture(scope='session')
-def setup_test_app():
-    """
-    Create a Flask app context for the tests.
-    """
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object("config.TestingConfig")
-
-    return app
-
-
-@pytest.fixture(scope='session')
-def _db(setup_test_app):
+def _db(app):
     """
     Provide the transactional fixtures with access to the database via a
     Flask-SQLAlchemy database connection.
     """
-    db = SQLAlchemy(app=setup_test_app)
-    Migrate(setup_test_app, db)
-    # apply any/all pending migrations.
-    with setup_test_app.app_context():
-        from flask_migrate import upgrade as _upgrade
-        _upgrade()
-    return db
+    return DB

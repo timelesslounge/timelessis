@@ -9,6 +9,7 @@ import os
 from flask import Flask
 from flask_caching import Cache
 from timeless.db import DB
+from timeless.sync.celery import make_celery
 
 
 def create_app(config):
@@ -41,6 +42,8 @@ def initialize_extensions(app):
     import timeless.items.models
     import timeless.employees.models
     import timeless.companies.models
+    #initialize celery
+    app.celery = make_celery(app)
 
 
 def register_api(app, view, endpoint, url, pk="id", pk_type="int"):

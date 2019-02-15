@@ -6,22 +6,9 @@
 
 {% block content %}
   <form method="post">
-    <label for="name">Name</label>
-    <input name="name" id="name" required>
-    <br/>
-    <label for="works_on_shifts">Works on shifts</label>
-    <input type="checkbox" name="works_on_shifts" id="works_on_shifts"/>
-    <br/>
-    <br/>
-    <label for="company_id">Company</label>
-    <select name="company_id" id="company_id">
-      {% for company in companies %}
-        <option {% if company.selected %}selected="selected"{% endif %} value="{{ company.id }}">{{ company.name}}</option>
-      {% endfor %}
-    </select>
-    <input name="company_id" id="company_id" required>
-    <br/>
-    <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
-    <a class="action" href="{{ url_for('role.list_roles') }}">Cancel</a>
+    {{ form }}
+    <p>
+      <button type="submit">Create</button>
+    </p>
   </form>
 {% endblock %}
