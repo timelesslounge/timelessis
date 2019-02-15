@@ -10,6 +10,8 @@ if [ "$?" -gt "0" ]; then
   tar xvzf redis-stable.tar.gz
   cd redis-stable
   sudo make install
+  cd ..
+  sudo rm -rf redis-stable.tar.gz redis-stable/
   echo "Done installing Redis"
 else
   echo "Redis already installed"
@@ -19,7 +21,7 @@ echo "Redis PING"
 redis-cli ping
 if [ "$?" -gt "0" ]; then
   echo "Redis Not running, launching"
-  src/redis-server > /dev/null &
+  redis-server > /dev/null &
   echo "Redis launched"
 else
   echo "Redis already running"
