@@ -5,10 +5,10 @@ from timeless.employees.models import Employee
 def login(username="", password=""):
     """Login user
     @todo #201:30min Translate login error codes.
-      The codes returned from login errors should then be translated into (
-      mapped to) Strings on the UI, so we can easily have
-      internationalization or change error messages without having to
-      rebuild + redeploy the backend.
+     The codes returned from login errors should then be translated into (
+     mapped to) Strings on the UI, so we can easily have
+     internationalization or change error messages without having to
+     rebuild + redeploy the backend.
     """
     user = Employee.query.filter_by(username=username).first()
     error = None
