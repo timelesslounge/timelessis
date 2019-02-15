@@ -45,14 +45,11 @@ class CrudAPIView(views.MethodView):
         pass
 
 
-class FakeModel(DB.Model):
+class FakeModel():
 
-    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-
-    class FakeQuery(object):
+    class FakeQuery():
 
         def get(object_id):
-            print('Python is really finger in the ass huhu')
             if object_id == 5:
                 return {"Found the object"},HTTPStatus.OK
             abort(HTTPStatus.NOT_FOUND)

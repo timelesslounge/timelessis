@@ -17,8 +17,8 @@ def test_get_found_object(app):
         '/test/crudapitest',
         data = {'some_id':5}
     ):
-        apiview = FakeAPIView
-        result = apiview.get(apiview)
+        apiview = FakeAPIView()
+        result = apiview.get()
     assert result[0] == { "some_id" : 5}, "Wrong result returned from CrudeAPI view"
     assert result[1] == HTTPStatus.OK, "Wrong response from CrudeAPI view"
 
@@ -26,10 +26,10 @@ def test_get_found_object(app):
 @pytest.mark.skip
 def test_get_not_found_object(app):
     with app.test_request_context(
-            '/api/crudeapi',
+            '/api/crudapi',
             data = {'some_id':5}
     ):
-        apiview = FakeAPIView
+        apiview = FakeAPIView()
         with pytest.raises(NotFound, message="Fake object not found"):
-            apiview.get(apiview)
+            apiview.get()
 
