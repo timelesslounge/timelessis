@@ -49,17 +49,20 @@ def create():
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
-    """ Edit table shape with id
-    @todo #162:30min Implement edit() method of TableShape model and
-     update template. Use TableShapeForm for that, see how in works in
-     create function. Check and update html template if it's needed.
-    """
-    if request.method == "POST":
-        flash("Edit not yet implemented")
+    """Edit table shape with id"""
+    table = models.TableShape.query.get(id)
+    if not table:
+        return redirect(url_for("tables.list"))
 
-    form = forms.TableShapeForm()
+    form = forms.TableShapeForm(request.form, instance=table)
+    if request.method == "POST" and form.validate():
+        form.save()
+        return redirect(url_for("table_shape.list"))
+
+    form = forms.TableShapeForm(instance=table)
     return render_template(
-        "restaurants/table_shapes/create_edit.html", form=form)
+        "restaurants/table_shapes/create_edit.html", form=form
+    )
 
 
 @bp.route("/delete/<int:id>", methods=["POST"])
@@ -67,5 +70,6 @@ def delete(id):
     """ Delete table shape with id """
     table_shape = models.TableShape.query.get(id)
     DB.session.delete(table_shape)
+    DB.session.commit()
     return redirect(url_for("table_shape.list"))
 
