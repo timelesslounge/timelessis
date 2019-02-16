@@ -39,15 +39,8 @@ class Employee(TimestampsMixin, DB.Model):
     @validate_required("username", "password", "first_name", "last_name",
                        "phone_number", "birth_date", "email", "pin_code",
                        "registration_date", "account_status", "user_status")
-
     def __init__(self, **kwargs):
         super(Employee, self).__init__(**kwargs)
-        self.password = bcrypt_sha256.hash(kwargs.get("password"))
-        self.pin_code = randint(1000, 9999)
-        self.registration_date = datetime.utcnow()
-        self.account_status = "Not Activated"
-        self.user_status = "Working"
-        self.created_on = datetime.utcnow()
 
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username
