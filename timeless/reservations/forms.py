@@ -12,4 +12,4 @@ class SettingsForm(forms.BaseModelForm):
          Need to research how to fix this case and fix it.
         """
         model = models.ReservationSettings
-        exclude = ['greeting_by_time']
+        exclude = ["greeting_by_time"]
