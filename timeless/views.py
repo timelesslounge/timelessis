@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """View that supports generic crud operations.
 Example of using CrudAPIView:
 
@@ -13,9 +14,9 @@ class CommentView(CrudView):
  eliminating the coupling here.
 """
 from http import HTTPStatus
-from flask import views
 from werkzeug.exceptions import abort
-from flask import views, render_template, request
+
+from flask import views, render_template, request, redirect, url_for
 
 
 class CrudAPIView(views.MethodView):
@@ -47,6 +48,7 @@ class CrudAPIView(views.MethodView):
     def delete(self):
         """Calls the DELETE method."""
         pass
+
 
 
 class GenericView(views.View):
@@ -87,51 +89,113 @@ class GenericView(views.View):
 
 class ListView(GenericView):
     """ Example:
-        pls add here example of usage, when it will be
+        class SettingsListView(views.ListView):
+            template_name = "restaurants/tables/list.html"
+
+            def get_query(self):
+                return models.Table.query.all()
     """
-    def get_objects(self):
-        """ Method for fetching list of objects from db"""
+
+    def get_query(self):
+        """ Method determines query"""
         raise NotImplementedError()
 
-    def get(self, *args, **kwargs):
-        """ Method for fetching object from db"""
-        raise NotImplementedError()
+    def get(self):
+        """ Fetch list of objects and pass it to template"""
+        objects_list = self.get_query()
+        return self.render_template({"object_list": objects_list})
 
 
-class DetailView(GenericView):
+class SingleObjectMixin:
+    model = None
+
+    def get_object(self, id=None):
+        """ Method fetch object from given model by id """
+        assert self.model, "Model is not provided"
+        return self.model.query.get(id)
+
+
+class DetailView(SingleObjectMixin, GenericView):
     """
     Example:
-        class TableView(DetailView):
-            def get(self, pk=None, *args, **kwargs):
-                if pk:
-                    table = models.Table.query.get(id)
-                    if not table:
-                        return redirect(url_for("tables.list"))
-                    form = forms.TableForm(request.form, instance=table)
-                else:
-                    form = forms.TableForm(request.form)
-                return render_template(
-                    "restaurants/tables/create_edit.html", form=form)
-
-            def post(self, pk=None, *args, **kwargs):
-                form = forms.TableForm(request.form)
-                if form.validate():
-                    form.save()
-                    return redirect(url_for("tables.list"))
-                return render_template(
-                    "restaurants/tables/create_edit.html", form=form)
+        class SettingsDetailView(views.DetailView):
+            model = models.ReservationSettings
+            template_name = "restaurants/tables/create_edit.html"
+            success_url_name = "reservation_settings_list"
+            not_found_url_name = "reservation_settings_list"
     """
-    def get_object(self):
-        """ Method for fetching object from db"""
-        raise NotImplementedError()
+    not_found_url_name = None
+    success_url_name = None
 
-    def get(self, *args, **kwargs):
-        """ Get method implementation """
-        raise NotImplementedError()
+    def get(self, id=None):
+        """
+        Get method fetch object from db and render it into template
+        """
+        assert self.not_found_url_name, "not_found_url_name is required"
 
-    def post(self, *args, **kwargs):
-        """ Post method implementation"""
-        raise NotImplementedError()
+        instance = self.get_object(id)
+        if not instance:
+            return redirect(url_for(self.not_found_url_name))
+
+        return self.render_template({"instance": instance})
+
+
+class CreateUpdateView(SingleObjectMixin, GenericView):
+    """Example
+        class SettingsCreateUpdateViewView(views.CreateUpdateView):
+            template_name = "restaurants/tables/create_edit.html"
+            success_url_name = "reservation_settings_list"
+            form = forms.SettingsForm
+    """
+    form = None
+    success_url_name = None
+    not_found_url_name = None
+
+    def get(self, id=None):
+        """Get method render create template """
+        assert self.form, "Form is required"
+        form = self.form()
+        if id:
+            instance = self.get_object(id)
+            if not instance:
+                return redirect(url_for(self.not_found_url_name))
+            form = self.form.TableForm(instance=instance)
+
+        return self.render_template({"form": form})
+
+    def post(self, id=None):
+        """
+        Post method checks form validation,
+        save into db and redirect to success_url
+        """
+        assert self.form, "Form is required"
+        assert self.success_url_name, "Success_url_name is required"
+        form = self.form(request.form)
+        if form.validate():
+            form.save()
+        return redirect(url_for(self.success_url_name))
+
+
+class DeleteView(SingleObjectMixin, GenericView):
+    """
+    Example:
+    class SettingsDeleteView(views.DeleteView):
+        success_url_name = "reservation_settings_list"
+    """
+    success_url_name = None
+
+    def delete(self, id=None):
+        """
+        Calls the delete() method on the fetched object and then
+        redirects to the success URL.
+        """
+        instance = self.get_object(id)
+        instance.delete()
+        return redirect(url_for(self.success_url_name))
+
+    def post(self, id=None):
+        """ Post method for object delete"""
+        return self.delete(id)
 
 
 class FakeModel():

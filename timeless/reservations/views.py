@@ -1,48 +1,55 @@
 """ Views for reservations """
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for, views
+    Blueprint, flash, redirect, render_template, request, url_for
 )
-from http import HTTPStatus
 
+from timeless import views
 from timeless.access_control.views import SecuredView
-from timeless.reservations.controllers import SettingsController
-from timeless.reservations.models import Comment
-from timeless.views import CrudAPIView
+from timeless.reservations import forms
+from timeless.reservations import models
 
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
-class SettingsView(SecuredView):
-    """ Reservation settings API """
+class SettingsListView(views.ListView):
+    """
+    List view set for Reservation Settings
+    @todo #186:30min For SettingsListView, SettingsCreateView,
+     SettingsDetailView, SettingsDeleteView create and set up correct templates
+     for list, create/detail actions and create tests as well.
+    """
+    template_name = "restaurants/tables/list.html"
 
-    resource = "reservation_settings"
-    ctr = SettingsController()
-
-    def get(self, id):
-        """ GET method for reservation settings """
-        if id:
-            return self.ctr.get_settings_for_reservation(id), HTTPStatus.OK
-        return self.ctr.get_all_reservation_settings(), HTTPStatus.OK
-
-    def post(self):
-        """ POST method for reservation settings """
-        return self.ctr.create_settings_for_reservation(self), HTTPStatus.CREATED
-
-    def put(self, id):
-        """ PUT method for reservation settings """
-        return self.ctr.update_reservation_settings(self, id), HTTPStatus.OK
-
-    def delete(self, id):
-        """ DELETE method for reservation settings """
-        return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
+    def get_query(self):
+        """Method determines query for list of reservation settings"""
+        return models.ReservationSettings.query.all()
 
 
-class CommentView(SecuredView, CrudAPIView):
+class SettingsCreateView(views.CreateView):
+    """ Reservation settings create view """
+    template_name = "restaurants/tables/create_edit.html"
+    success_url_name = "reservation_settings_list"
+    form = forms.SettingsForm
+
+
+class SettingsDetailView(views.DetailView):
+    """ Reservation settings detail view"""
+    model = models.ReservationSettings
+    template_name = "restaurants/tables/create_edit.html"
+    success_url_name = "reservation_settings_list"
+    not_found_url_name = "reservation_settings_list"
+
+
+class SettingsDeleteView(views.DeleteView):
+    success_url_name = "reservation_settings_list"
+
+
+class CommentView(SecuredView, views.CrudAPIView):
     """API Resource for comments /api/comments
 
     """
-    model = Comment
+    model = models.Comment
     url_lookup = "comment_id"
     list_reservations = "reservation_comment"
 
