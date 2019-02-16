@@ -40,7 +40,7 @@ class GenericView(views.View):
         """This method is called with all the arguments from the URL rule."""
         http_method = request.method.lower()
         if http_method not in self.methods:
-            raise Exception("Method is not allowed2")
+            raise Exception("Method is not allowed")
 
         if not self.check_permissions():
             raise Exception("Permissions weren't passed")
