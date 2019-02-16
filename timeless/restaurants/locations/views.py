@@ -5,9 +5,6 @@
  page should be accessed by the Location page. Update html templates when
  methods are implemented. Location integration tests are aready created,
  create more tests for all methods.
-@todo #42:30min We should create generic logic in other models. Let's create
- generic classes for list_<model>, create, edit, and delete. Let's implement
- something like https://docs.djangoproject.com/en/2.1/ref/class-based-views/generic-display/
 """
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
