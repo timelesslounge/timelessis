@@ -134,7 +134,7 @@ class SchemeType(DB.Model):
 
     @validate_required("description", "default_value", "value_type")
     def __init__(self, **kwargs):
-        super(SchemeCondition, self).__init__(**kwargs)
+        super(SchemeType, self).__init__(**kwargs)
 
     def __repr__(self):
         return "<SchemeType %r>" % self.id

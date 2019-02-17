@@ -10,7 +10,7 @@ from timeless.schemetypes.models import SchemeType
 
 def test_new_company():
     """
-    @todo #31:30min We need to move tests in this file 
+    @todo #31:30min We need to move tests in this file
      to the appropriate module tests folder, for example
      test_companies test_locations test_tables and so on
     """
@@ -25,16 +25,26 @@ def test_new_company():
 def test_new_location():
     name = "Test location"
     code = "L"
+    country = "Country"
+    region = "Region"
+    city = "City"
+    type = "Type"
+    address = "Address"
+    longitude = "11223344"
+    latitude = "44332211"
+    status = "T"
     company_id = 123
     poster_id = 100
     synchronized_on = datetime.utcnow
-    working_hours = SchemeType()
-    closed_days = SchemeType()
+    scheme_type = SchemeType(id=1, description="description",
+                                default_value="2", value_type="STRING")
 
     new_location = Location(
         name=name, code=code, company_id=company_id, poster_id=poster_id,
-        synchronized_on=synchronized_on, working_hours=working_hours.id,
-        closed_days=closed_days.id
+        country=country, region=region, city=city, type=type, address=address,
+        longitude=longitude, latitude=latitude, status=status,
+        synchronized_on=synchronized_on, working_hours=scheme_type.id,
+        closed_days=scheme_type.id
     )
     assert (
         new_location.name == name
@@ -42,8 +52,16 @@ def test_new_location():
         and new_location.company_id == company_id
         and new_location.poster_id == 100
         and new_location.synchronized_on == synchronized_on
-        and new_location.working_hours == working_hours.id
-        and new_location.closed_days == closed_days.id
+        and new_location.working_hours == scheme_type.id
+        and new_location.closed_days == scheme_type.id
+        and new_location.country == country
+        and new_location.region == region
+        and new_location.city == city
+        and new_location.type == type
+        and new_location.address == address
+        and new_location.longitude == longitude
+        and new_location.latitude == latitude
+        and new_location.status == status
     )
 
 
@@ -134,8 +152,12 @@ def test_new_table():
     shape_id=3
     created = datetime.utcnow
     updated = datetime.utcnow
-    min_capacity = SchemeType()
-    deposit_hour = SchemeType()
+
+    scheme_type = SchemeType(id=1, description="description",
+                                default_value="2", value_type="STRING")
+
+    min_capacity = scheme_type
+    deposit_hour = scheme_type
 
     new_table = Table(
         id=id,
@@ -178,9 +200,15 @@ def test_new_customer():
     first_name="First"
     last_name="Last"
     phone_number="+3859136281"
-    customer = Customer(first_name=first_name, last_name=last_name, phone_number=phone_number)
+    created_on=datetime.utcnow
+    updated_on=datetime.utcnow
+    customer = Customer(first_name=first_name, last_name=last_name,
+                        phone_number=phone_number, created_on=created_on,
+                        updated_on=updated_on)
     assert (
         customer.first_name == first_name and
         customer.last_name == last_name and
-        customer.phone_number == phone_number
+        customer.phone_number == phone_number and
+        customer.created_on == created_on and
+        customer.updated_on == updated_on
     )

@@ -21,9 +21,9 @@ def test_cant_access_his_profile():
 
 def test_can_access_his_profile():
     flask.g.user = Employee(id=1, first_name="Alice", last_name="Cooper",
-                      username="alice", phone_number="1",
-                      birth_date=datetime.utcnow(),
-                      registration_date=datetime.utcnow(),
+                      username="alice", phone_number="1", account_status="T",
+                      birth_date=datetime.utcnow(), pin_code=1234,
+                      registration_date=datetime.utcnow(), user_status="T",
                       email="test@test.com", password="bla")
     assert has_privilege(method=Method.READ, resource="employee", employee_id=1)
 
@@ -35,9 +35,8 @@ def test_can_access_own_employees():
      to make a pytest fixture for this.
     """
     flask.g.user = Employee(id=1, first_name="Alice", last_name="Cooper",
-                      username="alice", phone_number="1",
-                      birth_date=datetime.utcnow(),
-                      registration_date=datetime.utcnow(),
+                      username="alice", phone_number="1", account_status="T",
+                      birth_date=datetime.utcnow(), pin_code=1234,
+                      registration_date=datetime.utcnow(), user_status="T",
                       email="test@test.com", password="bla")
     assert has_privilege(method=Method.READ, resource="employee")
-
