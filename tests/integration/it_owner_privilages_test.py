@@ -36,11 +36,6 @@ def test_can_access_his_profile(clean_app):
 
 
 def test_can_access_own_employees(clean_app):
-    """
-    @todo #180:30min We need to clean global object after test finish
-     its execution to prevent collision with other tests. Probably we need
-     to make a pytest fixture for this.
-    """
     flask.g.user = Employee(id=1, first_name="Alice", last_name="Cooper",
                       username="alice", phone_number="1",
                       birth_date=datetime.utcnow(),
