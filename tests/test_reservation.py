@@ -1,5 +1,6 @@
 from datetime import datetime
 from http import HTTPStatus
+
 from timeless.restaurants.models import ReservationStatus, Reservation
 
 """Tests for Reservation 
@@ -47,7 +48,10 @@ def test_reservation_duration():
     )
     assert new_reservation.duration() == end_time - start_time
 
-def test_retrieve(client):
-    response = client.post("/reservations/retrieve", data={"location" : 1, "date" : datetime(1, 1, 1)})
-    assert (response.status_code == HTTPStatus.OK
-        and response.is_json)
+def test_retrieve_status(client):
+    response = client.post("/api/reservations/", data={"location" : 1, "date" : datetime(1, 1, 1)})
+    assert response.status_code == HTTPStatus.OK
+
+def test_retrieve_returns_json(client):
+    response = client.post("/api/reservations/", data={"location" : 1, "date" : datetime(1, 1, 1)})
+    assert response.is_json

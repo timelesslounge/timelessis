@@ -89,6 +89,13 @@ def register_endpoints(app):
     )
     register_api(
         app,
+        reservations_views.JsonView,
+        "reservations.api",
+        "/api/reservations/",
+        pk="company_id"
+    )
+    register_api(
+        app,
         reservations_views.CommentView,
         "comments.api",
         "/api/comments/",

@@ -64,6 +64,31 @@ class CommentView(CrudAPIView):
         return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
 
 
+class JsonView(views.MethodView):
+    """ Reservation JSON API """
+
+    def post(self):
+        """Retrieve reservations based on login, location, and date.
+            @todo #28:30min Implement actual fetching of reservations. We need to
+             return a JSON list, filtered by reservations based on location and
+             date. We also need to password protect this API, and filter only
+             those belonging to the specific company,
+        :param company_id:
+        :return:
+        """
+        reservations_json = {
+            "1": {
+                "start_time" : datetime(1, 1, 1),
+                "end_time" : datetime(1, 1, 1),
+                "customer_id" : 1,
+                "num_of_persons" : 1,
+                "comment" : "Test",
+                "status" : 2
+            }
+        }
+        return jsonify(reservations_json)
+
+
 @bp.route("/")
 def list_reservations(reservations):
     """
@@ -80,25 +105,6 @@ def list_reservations(reservations):
         "restaurants/tables/list.html", reservations=reservations
     )
 
-@bp.route("/retrieve", methods=("GET", "POST"))
-def retrieve_reservations():
-    """Retrieve reservations based on login, location, and date.
-        @todo #28:30min Implement actual fetching of reservations. We need to
-         return a JSON list, filtered by reservations based on location and
-         date. We also need to password protect this API, and filter only
-         those belonging to the specific company,
-    """
-    reservations_json = {
-        "1": {
-            "start_time" : datetime(1, 1, 1),
-            "end_time" : datetime(1, 1, 1),
-            "customer_id" : 1,
-            "num_of_persons" : 1,
-            "comment" : "Test",
-            "status" : 2
-        }
-    }
-    return jsonify(reservations_json)
 
 @bp.route("/create", methods=("GET", "POST"))
 def create(reservation):
