@@ -1,17 +1,20 @@
+""" Tests for privilage of user.
+"""
+
 from datetime import datetime
 
 import flask
-
+import pytest
 from timeless.access_control.methods import Method
 from timeless.access_control.owner_privileges import has_privilege
 from timeless.employees.models import Employee
-import pytest
 
 
 @pytest.fixture
 def clean_app(app):
+    """ Fixture for cleaning global variables in tests. """
     user = getattr(flask.g, "user", None)
-    if(user != None):
+    if user is not None:
         flask.g.user = None
 
 def test_can_access_location(clean_app):
