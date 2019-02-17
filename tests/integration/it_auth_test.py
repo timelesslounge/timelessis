@@ -25,7 +25,12 @@ def test_incorrect_password(db_session):
     db_session.commit()
     assert (login("unknown", "unknown") == "login.failed")
 
-
+"""
+@todo #149:30min Continue implementation of the login function. The
+ login("vgv", "pass") is returning ValueError: not a valid bcrypt_sha256 hash.
+ Information from https://passlib.readthedocs.io/en/stable/index.html can be
+ used to help.
+"""
 def test_login(db_session):
     employee = Employee(first_name="Alice", last_name="Cooper",
                         username="vgv", phone_number="1", account_status="A",
@@ -35,11 +40,11 @@ def test_login(db_session):
     db_session.add(employee)
     db_session.commit()
     """error = login("vgv", "pass")"""
-    error = None
+    error = login("unknown", "unknown");
     db_session.delete(employee)
     db_session.commit()
     db_session.remove()
-    assert (error is None)
+    assert (error == "login.failed")
 
 
 def test_forgot_password(client):

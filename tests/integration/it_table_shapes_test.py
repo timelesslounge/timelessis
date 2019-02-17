@@ -21,7 +21,7 @@ def test_list(client):
 
 def test_ordered_list(client):
     assert client.get(
-        flask.url_for('table_shape.list')
+        flask.url_for('table_shape.list', order_by=["id:asc", "description"])
     ).status_code == HTTPStatus.OK
 
 
