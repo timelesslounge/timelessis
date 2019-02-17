@@ -1,6 +1,3 @@
-from timeless.access_control.methods import Method
-
-
 def has_privilege(method=None, resource=None, *args, **kwargs) -> bool:
     """Check if user with Administrator role can access a particular resource.
     """
