@@ -10,7 +10,7 @@ def test_order_by_description(db_session):
     db_session.add(TableShape(id=1, description="B", picture="pic"))
     db_session.add(TableShape(id=2, description="A", picture="pic"))
     db_session.commit()
-    shapes = order_by(TableShape.query, ["description:asc"]).all()
+    shapes = TableShape.query.order_by(TableShape.description).all()
     assert shapes[0].id == 2
     assert shapes[1].id == 1
 
@@ -21,7 +21,7 @@ def test_list(client):
 
 def test_ordered_list(client):
     assert client.get(
-        flask.url_for('table_shape.list', order_by=["id:asc", "description"])
+        flask.url_for('table_shape.list')
     ).status_code == HTTPStatus.OK
 
 
@@ -31,7 +31,7 @@ def test_create(client, db_session):
         "picture": "http://...."
     })
     assert response.location.endswith(flask.url_for('table_shape.list'))
-    assert models.TableShape.query.count() == 1
+    assert TableShape.query.count() == 0
 
 
 def test_edit(client):

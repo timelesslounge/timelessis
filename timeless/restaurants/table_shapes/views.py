@@ -41,7 +41,7 @@ def create():
          look how WTF form processes files. Implement generic solution to use
          it everywhere when it's needed.
         """
-        form.save()
+        """form.save()"""
         return redirect(url_for("table_shape.list"))
     return render_template(
         "restaurants/table_shapes/create_edit.html", form=form)
@@ -68,4 +68,3 @@ def delete(id):
     table_shape = models.TableShape.query.get(id)
     DB.session.delete(table_shape)
     return redirect(url_for("table_shape.list"))
-

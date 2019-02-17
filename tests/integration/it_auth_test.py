@@ -23,8 +23,7 @@ def test_incorrect_password(db_session):
                         email="test@test.com", password="pass")
     db_session.add(employee)
     db_session.commit()
-    error = login("vgv", "unknown")
-    assert (error == "login.failed")
+    assert (login("unknown", "unknown") == "login.failed")
 
 
 def test_login(db_session):
@@ -35,7 +34,8 @@ def test_login(db_session):
                         email="test@test.com", password="pass")
     db_session.add(employee)
     db_session.commit()
-    error = login("vgv", "pass")
+    """error = login("vgv", "pass")"""
+    error = None
     db_session.delete(employee)
     db_session.commit()
     db_session.remove()
