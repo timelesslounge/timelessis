@@ -1,4 +1,4 @@
-from timeless.access_control import owner_privileges
+from timeless.access_control import owner_privileges, administrator_privileges
 
 
 def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
@@ -11,9 +11,13 @@ def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
      hardcoded value. User can be fetched from g.user. Make sure
      that access is not allowed for unknown role.
     """
-    return __roles.get("owner").has_privilege(method=method, resource=resource, args=args, kwargs=kwargs)
+    return __roles.get("owner").has_privilege(
+        method=method, resource=resource, args=args, kwargs=kwargs
+    )
+
 
 __roles = {
-    "owner": owner_privileges
+    "owner": owner_privileges,
+    "administrator": administrator_privileges,
 }
 
