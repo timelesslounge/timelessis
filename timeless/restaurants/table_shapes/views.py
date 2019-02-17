@@ -1,6 +1,8 @@
 """TableShape views module."""
+from http import HTTPStatus
+
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for
+    Blueprint, redirect, abort, render_template, request, url_for
 )
 
 from timeless.db import DB
@@ -52,14 +54,18 @@ def edit(id):
     """Edit table shape with id"""
     table = models.TableShape.query.get(id)
     if not table:
-        return redirect(url_for("tables.list"))
+        return abort(HTTPStatus.NOT_FOUND)
 
-    form = forms.TableShapeForm(request.form, instance=table)
-    if request.method == "POST" and form.validate():
-        form.save()
-        return redirect(url_for("table_shape.list"))
+    if request.method == "POST":
+        form = forms.TableShapeForm(request.form, instance=table)
+        if form.validate():
+            form.save()
+            return redirect(url_for("table_shape.list"))
+        else:
+            return abort(HTTPStatus.BAD_REQUEST)
+    else:
+        form = forms.TableShapeForm(instance=table)
 
-    form = forms.TableShapeForm(instance=table)
     return render_template(
         "restaurants/table_shapes/create_edit.html", form=form
     )
