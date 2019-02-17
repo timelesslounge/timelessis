@@ -17,9 +17,9 @@ def test_incorrect_username(db_session):
 
 def test_incorrect_password(db_session):
     employee = Employee(first_name="Alice", last_name="Cooper",
-                        username="vgv", phone_number="1",
-                        birth_date=datetime.utcnow(),
-                        registration_date=datetime.utcnow(),
+                        username="vgv", phone_number="1", account_status="A",
+                        birth_date=datetime.utcnow(), pin_code=4567,
+                        registration_date=datetime.utcnow(), user_status="U",
                         email="test@test.com", password="pass")
     db_session.add(employee)
     db_session.commit()
@@ -29,9 +29,9 @@ def test_incorrect_password(db_session):
 
 def test_login(db_session):
     employee = Employee(first_name="Alice", last_name="Cooper",
-                        username="vgv", phone_number="1",
-                        birth_date=datetime.utcnow(),
-                        registration_date=datetime.utcnow(),
+                        username="vgv", phone_number="1", account_status="A",
+                        birth_date=datetime.utcnow(), pin_code=4567,
+                        registration_date=datetime.utcnow(), user_status="U",
                         email="test@test.com", password="pass")
     db_session.add(employee)
     db_session.commit()
