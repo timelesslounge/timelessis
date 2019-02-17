@@ -40,28 +40,10 @@ class SettingsView(views.MethodView):
 
 class CommentView(CrudAPIView):
     """API Resource for comments /api/comments
-    @todo #123:30min After CrudView implementation is finished
-     create necessary templates for the CommentView to operate on.
-     See CrudAPIView description for more details about its usage.
+
     """
     model = Comment
     url_lookup = "comment_id"
-
-    def post(self):
-        """Post method of CommentView"""
-        return "Post method of CommentViewSet", HTTPStatus.CREATED
-
-    def put(self, comment_id):
-        """Put method of CommentView"""
-        if comment_id:
-            return "Detail put method of CommentViewSet", HTTPStatus.OK
-        return "Put method of CommentViewSet", HTTPStatus.OK
-
-    def delete(self, comment_id):
-        """Delete method of CommentView"""
-        if comment_id:
-            return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
-        return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
 
 
 class JsonView(views.MethodView):
