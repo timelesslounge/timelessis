@@ -1,10 +1,10 @@
 """ Views for reservations """
 from datetime import datetime
+from http import HTTPStatus
 
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, jsonify
 )
-from http import HTTPStatus
 from flask import views
 
 from timeless.reservations.controllers import SettingsController
@@ -46,28 +46,39 @@ class CommentView(CrudAPIView):
     url_lookup = "comment_id"
 
 
-class JsonView(views.MethodView):
-    """ Reservation JSON API """
+class ReservationsListView(views.MethodView):
+    """ Reservation JSON API /api/reservations
 
-    def post(self):
+    """
+
+    def get(self, company_id):
         """Retrieve reservations based on login, location, and date.
             @todo #28:30min Implement actual fetching of reservations. We need to
              return a JSON list, filtered by reservations based on location and
              date. We also need to password protect this API, and filter only
-             those belonging to the specific company,
+             those belonging to the specific company, Let's implement the
+             serialization and deserialization of JSON based on this API:
+             https://flask-marshmallow.readthedocs.io/en/latest/
+
+        :param self:
         :param company_id:
         :return:
         """
         reservations_json = {
-            "1": {
-                "start_time" : datetime(1, 1, 1),
-                "end_time" : datetime(1, 1, 1),
-                "customer_id" : 1,
-                "num_of_persons" : 1,
-                "comment" : "Test",
-                "status" : 2
-            }
+            "items": [
+                {
+                    "id": 1,
+                    "start_time" : datetime(1, 1, 1),
+                    "end_time" : datetime(1, 1, 1),
+                    "customer_id" : 1,
+                    "num_of_persons" : 1,
+                    "comment" : "Test",
+                    "status" : 2
+                }
+            ]
         }
+        if company_id:
+            reservations_json["company_id"] = company_id
         return jsonify(reservations_json)
 
 
