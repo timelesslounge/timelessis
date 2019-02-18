@@ -141,7 +141,7 @@ class Reservation(TimestampsMixin, DB.Model):
     start_time = DB.Column(DB.DateTime, nullable=False)
     end_time = DB.Column(DB.DateTime, nullable=False)
     customer_id = DB.Column(DB.Integer, DB.ForeignKey("customers.id"))
-    num_of_persons = DB.Column(DB.DateTime, nullable=False)
+    num_of_persons = DB.Column(DB.Integer, nullable=False)
     comment = DB.Column(DB.String, nullable=False)
     status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
 

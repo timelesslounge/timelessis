@@ -13,7 +13,7 @@ def test_create(client):
     response = client.post(url_for("role.create"), data={
         "name": "owner"
     })
-    assert response.location.endswith(url_for('role.list_roles'))
+    assert response.location.endswith(url_for("role.list_roles"))
     assert Role.query.count() == 1
     assert Role.query.get(1).name == "owner"
 

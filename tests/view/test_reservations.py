@@ -8,7 +8,7 @@ from timeless.reservations import views
 
 """
     Tests for Reservations view.
-    @todo #172:30min Continue implementation of views. Index and a
+    @todo #235:30min Continue implementation of views. Index and a
      view page should be created to list all reservations. In the
      index page there should be also a function to delete the reservation
      (after confirmation). In the index page it should be possible
