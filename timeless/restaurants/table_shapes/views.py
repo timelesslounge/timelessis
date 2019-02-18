@@ -61,14 +61,13 @@ def edit(id):
 
     if request.method == "POST":
         form = forms.TableShapeForm(request.form, instance=table)
-        if form.validate():
-            form.save()
-            return redirect(url_for("table_shape.list"))
-        else:
+        if not form.validate():
             return abort(HTTPStatus.BAD_REQUEST)
-    else:
-        form = forms.TableShapeForm(instance=table)
 
+        form.save()
+        return redirect(url_for("table_shape.list"))
+
+    form = forms.TableShapeForm(instance=table)
     return render_template(
         "restaurants/table_shapes/create_edit.html", form=form
     )

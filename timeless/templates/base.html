@@ -1,3 +1,4 @@
+{% cache 600 %}
 <!doctype html>
 <title>{% block title %}{% endblock %} - Timlessis</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -22,3 +23,4 @@
   {% endfor %}
   {% block content %}{% endblock %}
 </section>
+{% cache 600 %}
