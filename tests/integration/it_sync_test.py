@@ -56,9 +56,10 @@ class TestSync(unittest.TestCase):
             employees=[
                 Employee(username="rmyers", password="rm1",
                          first_name="Richard", last_name="Myers",
-                         phone_number="112233",
+                         phone_number="112233", user_status="U",
                          birth_date=datetime.datetime.utcnow(), pin_code=4567,
-                         email="test@test.com"
+                         email="test@test.com", account_status="A",
+                         registration_date=datetime.datetime(2019, 1, 1)
                          )
             ],
             locations=[
@@ -68,6 +69,14 @@ class TestSync(unittest.TestCase):
                     code="T",
                     company_id=50,
                     poster_id=2,
+                    country="United States",
+                    region="Nay",
+                    city="South",
+                    type="L",
+                    address="Delta Park, 145",
+                    longitude=640,
+                    latitude=480,
+                    status="open",
                     synchronized_on=datetime.datetime(1983, 5, 10)
                 ),
                 Location(
@@ -76,6 +85,14 @@ class TestSync(unittest.TestCase):
                     code="H",
                     company_id=50,
                     poster_id=10,
+                    country="United States",
+                    region="Manhattan",
+                    city="New York",
+                    type="C",
+                    address="5th Avenue 145",
+                    longitude=1024,
+                    latitude=720,
+                    status="open",
                     synchronized_on=datetime.datetime(1983, 5, 10)
                 )
             ])
@@ -110,4 +127,3 @@ class TestSync(unittest.TestCase):
                         location.status == poster_location["status"] and
                         location.comment == poster_location["comment"]
                     )
-
