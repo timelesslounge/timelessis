@@ -5,9 +5,9 @@ from timeless.employees.models import Employee
 def test_insert_employee(db_session):
     """Integration test for adding and selecting Employee"""
     employee = Employee(first_name="Alice", last_name="Cooper",
-                        username="alice", phone_number="1",
-                        birth_date=datetime.utcnow(),
-                        registration_date=datetime.utcnow(),
+                        username="alice", phone_number="1", account_status="1",
+                        birth_date=datetime.utcnow(), pin_code=1234,
+                        registration_date=datetime.utcnow(), user_status="1",
                         email="test@test.com", password="bla")
     db_session.add(employee)
     db_session.commit()
