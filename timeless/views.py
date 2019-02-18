@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """View that supports generic crud operations.
 Example of using CrudAPIView:
 
