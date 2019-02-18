@@ -3,10 +3,10 @@ from datetime import datetime
 from http import HTTPStatus
 
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for, jsonify
+    Blueprint, flash, redirect, render_template, request, url_for, views, jsonify
 )
-from flask import views
 
+from timeless.access_control.views import SecuredView
 from timeless.reservations.controllers import SettingsController
 from timeless.reservations.models import Comment
 from timeless.views import CrudAPIView
@@ -15,8 +15,10 @@ from timeless.views import CrudAPIView
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
-class SettingsView(views.MethodView):
+class SettingsView(SecuredView):
     """ Reservation settings API """
+
+    resource = "reservation_settings"
     ctr = SettingsController()
 
     def get(self, id):
@@ -38,12 +40,13 @@ class SettingsView(views.MethodView):
         return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
 
 
-class CommentView(CrudAPIView):
+class CommentView(SecuredView, CrudAPIView):
     """API Resource for comments /api/comments
 
     """
     model = Comment
     url_lookup = "comment_id"
+    list_reservations = "reservation_comment"
 
 
 class ReservationsListView(views.MethodView):
