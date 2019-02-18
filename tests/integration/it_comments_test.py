@@ -14,18 +14,19 @@ from timeless.reservations.models import Comment
  annotation
 """
 
+
 @pytest.mark.skip
 def test_comments_endpoints(client):
     url = url_for("/api/comments/")
-    assert client.get().status_code == HTTPStatus.OK
-
-    assert client.post().status_code == HTTPStatus.CREATED
+    assert client.get(url).status_code == HTTPStatus.OK
+    assert client.post(url).status_code == HTTPStatus.CREATED
 
     # detail resource
     url = url_for("/api/comments/", comment_id=3)
-    assert client.put().status_code == HTTPStatus.OK
+    assert client.put(url).status_code == HTTPStatus.OK
 
-    assert client.delete().status_code == HTTPStatus.NO_CONTENT
+    assert client.delete(url).status_code == HTTPStatus.NO_CONTENT
+
 
 @pytest.mark.skip
 def test_get_single_comment(client, db_session):
@@ -34,6 +35,7 @@ def test_get_single_comment(client, db_session):
     db_session.commit()
     url = url_for("/api/comments/", comment_id=1)
     assert client.get().status_code == HTTPStatus.OK
+
 
 @pytest.mark.xfail(raises=Exception)
 def test_comment_not_found(client):
