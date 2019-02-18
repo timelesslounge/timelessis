@@ -21,15 +21,19 @@ def __employee_access(method=None, *args, **kwargs):
     employee_id = kwargs.get("employee_id")
     if user:
         if employee_id:
-            if employee_id == user.id and method == Method.READ:
-                permitted = True
-            else:
-                me = Employee.query.get(user.id)
-                other = Employee.query.get(employee_id)
-                permitted = me.company_id == other.company_id
+            permitted = check_employee(employee_id, method, user)
         else:
             permitted = True
     return permitted
+
+
+def check_employee(employee_id, method, user):
+    if employee_id == user.id and method == Method.READ:
+        return True
+    else:
+        me = Employee.query.get(user.id)
+        other = Employee.query.get(employee_id)
+        return me.company_id == other.company_id
 
 
 __resources = {
