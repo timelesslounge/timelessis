@@ -49,9 +49,9 @@ def delete():
     return redirect(url_for("floor.list_floors"))
 
 
-class FloorList(ListView):
+class List(ListView):
     "List all floors"
     template_name = "restaurants/floors/list.html"
     model = Floor
 
-FloorList.register(bp, "/")
+List.register(bp, "/")
