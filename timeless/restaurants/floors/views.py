@@ -9,20 +9,18 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
 )
 from timeless.auth import views as auth
+from timeless.views import ListView
+from timeless.restaurants.models import Floor
 
 bp = Blueprint("floor", __name__, url_prefix="/floors")
 
 
-@bp.route("/")
-def list_floors():
-    """ List all floors """
-    # remove this dummy floors object and use db
-    floors = [{
-        "id": 1,
-        "location": "Test location",
-        "description": "This is a test"
-        }]
-    return render_template("restaurants/floors/list.html", floors=floors)
+class FloorList(ListView):
+    "List all floors"
+    template_name = "restaurants/floors/list.html"
+    model = Floor
+
+FloorList.register(bp, "/")
 
 
 @bp.route("/create", methods=("GET", "POST"))

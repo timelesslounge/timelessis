@@ -19,32 +19,33 @@ class SettingsListView(views.ListView):
      SettingsDetailView, SettingsDeleteView create correct templates
      for list, create/detail actions. When templates will be done, pls change
      `template_name` value in every View Class.
+    @todo #173:30min Refactor (and uncomment) views below to use new
+     base views once when they are avaiable. Current implementation is not
+     generic enough.
     """
+    model = models.ReservationSettings
     template_name = "restaurants/tables/list.html"
 
-    def get_query(self):
-        """Method determines query for list of reservation settings"""
-        return models.ReservationSettings.query.all()
+SettingsListView.register(bp, "/settings/")
+
+# class SettingsCreateUpdateView(views.CreateUpdateView):
+#     """ Reservation settings create view """
+#     template_name = "restaurants/tables/create_edit.html"
+#     success_url_name = "reservation_settings_list"
+#     form = forms.TableForm
+#     model = models.ReservationSettings
 
 
-class SettingsCreateUpdateView(views.CreateUpdateView):
-    """ Reservation settings create view """
-    template_name = "restaurants/tables/create_edit.html"
-    success_url_name = "reservation_settings_list"
-    form = forms.TableForm
-    model = models.ReservationSettings
+# class SettingsDetailView(views.DetailView):
+#     """ Reservation settings detail view"""
+#     model = models.ReservationSettings
+#     template_name = "restaurants/tables/create_edit.html"
+#     success_url_name = "reservation_settings_list"
+#     not_found_url_name = "reservation_settings_list"
 
 
-class SettingsDetailView(views.DetailView):
-    """ Reservation settings detail view"""
-    model = models.ReservationSettings
-    template_name = "restaurants/tables/create_edit.html"
-    success_url_name = "reservation_settings_list"
-    not_found_url_name = "reservation_settings_list"
-
-
-class SettingsDeleteView(views.DeleteView):
-    success_url_name = "reservation_settings_list"
+# class SettingsDeleteView(views.DeleteView):
+#     success_url_name = "reservation_settings_list"
 
 
 class CommentView(SecuredView, views.CrudAPIView):

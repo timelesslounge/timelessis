@@ -98,30 +98,4 @@ def register_endpoints(app):
     )
     app.register_blueprint(floors_views.bp)
     app.register_blueprint(table_shapes_views.bp)
-    app.register_blueprint(reservations_views.bp)
-    app.add_url_rule(
-        "/reservations/settings/",
-        view_func=reservations_views.SettingsListView.as_view(
-            "reservation_settings_list")
-    )
-    app.add_url_rule(
-        "/reservations/settings/create/",
-        view_func=reservations_views.SettingsCreateUpdateView.as_view(
-            "reservation_settings_create")
-    )
-    app.add_url_rule(
-        "/reservations/settings/<int:id>",
-        view_func=reservations_views.SettingsDetailView.as_view(
-            "reservation_settings_detail")
-    )
-    app.add_url_rule(
-        "/reservations/settings/<int:id>/edit",
-        view_func=reservations_views.SettingsCreateUpdateView.as_view(
-            "reservation_settings_edit")
-    )
-    app.add_url_rule(
-        "/reservations/settings/<int:id>/delete",
-        view_func=reservations_views.SettingsDeleteView.as_view(
-            "reservation_settings_delete")
-    )
-
+    app.register_blueprint(reservations_views.bp)    

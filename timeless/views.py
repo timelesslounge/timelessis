@@ -1,4 +1,18 @@
-"""View that supports generic crud operations.
+"""Generic classes for API views and Template views.
+@todo #173:30min Continue implementing FormView, CreateView, UpdateView and
+ DeleteView from Gist: https://gist.github.com/timster/e13ed61674bb11474e4a
+ Implement an example for each view by refactoring one of the existing
+ blueprints (see restaurants/floors/views.py). Also reuse FlashMessageMixin.
+@todo #173:30min Refactor all blueprint views to use ListView for getting the
+ list of objects from db using model. Also, make sure list.html template is
+ made generic to allow all other views to use it. Feel free to add more puzzles
+ since there are a lot of views.
+@todo #173:30min Once CreateView is implemented, refactor all blueprint views
+ to use it for validating the form and storing the record in the database.
+@todo #173:30min Once UpdateView is implemented, refactor all blueprint views
+ to use it for validating the form and updating the record in the database.
+@todo #173:30min Once DeleteView is implemented, refactor all blueprint views
+ to use it for validating the form and deleting the record in the database.
 Example of using CrudAPIView:
 
 class CommentView(CrudView):
@@ -12,10 +26,12 @@ class CommentView(CrudView):
  model.query.get(object_id) that would decorate the real implementation,
  eliminating the coupling here.
 """
+import re
 from http import HTTPStatus
 from werkzeug.exceptions import abort
+from flask import views, render_template
 
-from flask import views, render_template, request, redirect, url_for
+camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
 
 class CrudAPIView(views.MethodView):
@@ -49,151 +65,151 @@ class CrudAPIView(views.MethodView):
         pass
 
 
-class GenericView(views.View):
+class GenericView(views.MethodView):
     """ Generic view with common logic """
     template_name = None
     methods = ["get", "post"]
-    permissions = ()
+
+    @classmethod
+    def register(cls, blueprint, route, name=None):
+        """
+        A shortcut method for registering this view to an app or blueprint.
+        Assuming we have a blueprint and a CompanyCreate view, then these two
+        lines are identical in functionality:
+            views.add_url_rule('/companies/create',
+                               view_func=CompanyCreate.as_view(
+                                   'company_create')
+                               )
+            CompanyCreate.register(views, '/companies/create',
+                                   'company_create')
+        """
+        if not name:
+            # Convert "ViewName" to "view_name" and use it
+            name = camel_to_underscore.sub(r"_\1", cls.__name__).lower()
+            blueprint.add_url_rule(route, view_func=cls.as_view(name))
+
+    def dispatch(self):
+        """
+        Hook for a subclass to call before dispatch actually happens.
+        """
+        pass
 
     def dispatch_request(self, *args, **kwargs):
-        """This method is called with all the arguments from the URL rule."""
-        http_method = request.method.lower()
-        if http_method not in self.methods:
-            raise Exception("Method is not allowed")
+        """
+        Save args and kwargs, then dispatch the request as a normal MethodView,
+        calling get() or post().
+        """
+        self.args = args
+        self.kwargs = kwargs
 
-        if not self.check_permissions():
-            raise Exception("Permissions weren't passed")
-
-        method = getattr(self, http_method, None)
-        if not method:
-            raise Exception(f"Provide {http_method} method")
-
-        return method(*args, **kwargs)
-
-    def check_permissions(self):
-        """ Method for permissions checking """
-        for permission in self.permissions:
-            permission.check()
-        return True
+        # If dispatch returns a value, use it. This most likely means it was a
+        # redirect, or a custom result entirely.
+        return self.dispatch() or super().dispatch_request(*args, **kwargs)
 
     def get_template_name(self):
-        """ Setup of template name """
+        """
+        Get the template_name. If this method is not overwritten, then a
+        template_name variable must be declared.
+        """
+        if not self.template_name:
+            raise NotImplementedError(f"{self.__class__.__name__} must define "
+                                      f"either 'template_name' or "
+                                      f"'get_template_names()'")
         return self.template_name
 
-    def render_template(self, context):
-        """ Render template and provide context """
-        return render_template(self.get_template_name(), **context)
+    def get_default_context(self):
+        """
+        Get the default context, which contains this view instance along with
+        the kwargs.
+        """
+        context = {
+            "view": self,
+            "kwargs": self.kwargs,
+        }
+        context.update(self.get_context())
+        return context
+
+    def get_context(self):
+        """
+        Hook for a sublcass to add variables to request context.
+        """
+        return {}
+
+    def get(self, *args, **kwargs):
+        """
+        Simply render the template with the context.
+        """
+        return render_template(self.get_template_name(),
+                               **self.get_default_context())
 
 
 class ListView(GenericView):
-    """ Example:
-        class SettingsListView(views.ListView):
-            template_name = "restaurants/tables/list.html"
-
-            def get_query(self):
-                return models.Table.query.all()
+    """
+    A view that will render a template with a list of objects.
     """
 
-    def get_query(self):
-        """ Method determines query"""
-        raise NotImplementedError()
-
-    def get(self):
-        """ Fetch list of objects and pass it to template"""
-        objects_list = self.get_query()
-        return self.render_template({"object_list": objects_list})
-
-
-class SingleObjectMixin:
     model = None
+    context_object_list_name = "object_list"
 
-    def get_object(self, id=None):
-        """ Method fetch object from given model by id """
-        assert self.model, "Model is not provided"
-        return self.model.query.get(id)
+    def get_context_object_list_name(self):
+        """
+        Get context_object_list_name.
+        """
+        return self.context_object_list_name
+
+    def get_object_list(self):
+        """
+        Get the list of objects. If this method is not overwritten, then a
+        model variable must be declared, and it must have query.all().
+        """
+        if self.model is None:
+            raise NotImplementedError(f"{self.__class__.__name__} must define "
+                                      f"either 'model' or 'get_object_list()'")
+        return self.model.query.all()
+
+    def get_default_context(self):
+        """
+        Add the object list to the context.
+        """
+        context = super().get_default_context()
+        context[self.get_context_object_list_name()] = self.get_object_list()
+        return context
 
 
-class DetailView(SingleObjectMixin, GenericView):
+class DetailView(GenericView):
     """
-    Example:
-        class SettingsDetailView(views.DetailView):
-            model = models.ReservationSettings
-            template_name = "restaurants/tables/create_edit.html"
-            success_url_name = "reservation_settings_list"
-            not_found_url_name = "reservation_settings_list"
+    A view that will display details in a template for a single object.
     """
-    not_found_url_name = None
-    success_url_name = None
+    context_object_name = "object"
 
-    def get(self, id=None):
+    def get_context_object_name(self):
         """
-        Get method fetch object from db and render it into template
+        Get context_object_name.
         """
-        assert self.not_found_url_name, "not_found_url_name is required"
+        return self.context_object_name
 
-        instance = self.get_object(id)
-        if not instance:
-            return redirect(url_for(self.not_found_url_name))
-
-        return self.render_template({"instance": instance})
-
-
-class CreateUpdateView(SingleObjectMixin, GenericView):
-    """Example
-        class SettingsCreateUpdateViewView(views.CreateUpdateView):
-            template_name = "restaurants/tables/create_edit.html"
-            success_url_name = "reservation_settings_list"
-            form = forms.SettingsForm
-    """
-    form = None
-    success_url_name = None
-    not_found_url_name = None
-
-    def get(self, id=None):
-        """Get method render create template """
-        assert self.form, "Form is required"
-        form = self.form()
-        if id:
-            instance = self.get_object(id)
-            if not instance:
-                return redirect(url_for(self.not_found_url_name))
-            form = self.form.TableForm(instance=instance)
-
-        return self.render_template({"form": form})
-
-    def post(self, id=None):
+    def get_object(self):
         """
-        Post method checks form validation,
-        save into db and redirect to success_url
+        Get the object. We don't make any assumptions, so this must be
+        overwritten by the subclass.
         """
-        assert self.form, "Form is required"
-        assert self.success_url_name, "Success_url_name is required"
-        form = self.form(request.form)
-        if form.validate():
-            form.save()
-        return redirect(url_for(self.success_url_name))
+        raise NotImplementedError(f"self.__class__.__name__ must define "
+                                  f"'get_object()'")
 
-
-class DeleteView(SingleObjectMixin, GenericView):
-    """
-    Example:
-    class SettingsDeleteView(views.DeleteView):
-        success_url_name = "reservation_settings_list"
-    """
-    success_url_name = None
-
-    def delete(self, id=None):
+    def get_default_context(self):
         """
-        Calls the delete() method on the fetched object and then
-        redirects to the success URL.
+        Add the object to the context.
         """
-        instance = self.get_object(id)
-        instance.delete()
-        return redirect(url_for(self.success_url_name))
+        context = super().get_default_context()
+        context[self.get_context_object_name()] = self.get_object()
+        return context
 
-    def post(self, id=None):
-        """ Post method for object delete"""
-        return self.delete(id)
+    def get(self, *args, **kwargs):
+        """
+        Set the object to an instance variable, then process as normal.
+        """
+        self.object = self.get_object()
+        return super().get(*args, **kwargs)
 
 
 class FakeModel():
