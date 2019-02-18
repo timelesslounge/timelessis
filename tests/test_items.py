@@ -48,30 +48,83 @@ def test_item_assign():
         comment="Medikit with nano particles",
         company_id=223
     )
-    employee_id=15
+
+    new_employee = Item(
+        id=15,
+        first_name="Johnny",
+        last_name="Cash",
+        username="meninblack",
+        phone_number="555-5555",
+        birth_date=datetime.utcnow(),
+        registration_date=datetime.utcnow(),
+        account_status="active",
+        user_status="active",
+        email="meninblack@johnncash.com",
+        password="carterjune",
+        pin_code=55,
+        comment="A famous american country singer",
+        company_id=223
+    )
+
     assert not new_item.employee_id
-    new_item.assign(emp_id=employee_id)
-    assert (new_item.employee_id == employee_id,
+    new_item.assign(employee=new_employee)
+    assert (new_item.employee_id == new_employee.employee_id,
             "Item assigned to wrong employee" )
-    assert (new_item.item_history()[0].employee_id == employee_id,
+    assert (new_item.item_history()[0].employee_id == new_employee.employee_id,
             "ItemHistory with wrong employee")
 
 
 @pytest.mark.skip(reason="Item.history() not implemented")
 def test_item_assign_history():
     """ Test item assign history """
-    first_employee_id=15
-    second_employee_id=60
+    first_employee = Item(
+        id=20,
+        first_name="Elvis",
+        last_name="Presley",
+        username="king",
+        phone_number="555-5555",
+        birth_date=datetime.utcnow(),
+        registration_date=datetime.utcnow(),
+        account_status="active",
+        user_status="active",
+        email="theking@king.com",
+        password="theking",
+        pin_code=100,
+        comment="Famous artist known as The King of Rock and Roll",
+        company_id=223
+    )
+
+    second_employee = Item(
+        id=60,
+        first_name="Frank",
+        last_name="Sinatra",
+        username="blueeyes",
+        phone_number="555-5555",
+        birth_date=datetime.utcnow(),
+        registration_date=datetime.utcnow(),
+        account_status="active",
+        user_status="active",
+        email="blueeyes@sinatra.com",
+        password="nancy",
+        pin_code=55,
+        comment="One of the most popular musical artists of the 20th century",
+        company_id=223
+    )
+
     new_item = Item(
         id=1,
         name="Duck Eggs",
         stock_date=datetime.utcnow,
         comment="Eggs from ducks",
         company_id=223,
-        employee_id=first_employee_id
+        employee_id=first_employee.employee_id
     )
-    new_item.assign(emp_id=second_employee_id)
-    assert (new_item.item_history()[0].employe_id == second_employee_id,
-            "Last ItemHistory with wrong employee")
-    assert (new_item.item_history()[1].employe_id == first_employee_id,
-            "First ItemHistory with wrong employee")
+    new_item.assign(employee=second_employee)
+    assert (
+        new_item.item_history()[0].employe_id == second_employee.employee_id,
+        "Last ItemHistory with wrong employee"
+    )
+    assert (
+        new_item.item_history()[1].employe_id == first_employee.employee_id,
+        "First ItemHistory with wrong employee"
+    )
