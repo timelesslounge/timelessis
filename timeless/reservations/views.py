@@ -72,8 +72,6 @@ def create():
     """ Create new reservation """
     form = ReservationForm(request.form)
     form.validate()
-    print(form.start_time)
-    print ("Form valid: ", form.errors)
     if request.method == "POST" and form.validate():
         form.save()
         return redirect(url_for("reservations.list_reservations"))

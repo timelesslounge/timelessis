@@ -14,3 +14,4 @@ class TableShapeFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = models.TableShape
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = 'commit'
+
