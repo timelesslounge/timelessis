@@ -8,6 +8,15 @@ from timeless.companies.models import Company
 from timeless.employees.models import Employee
 
 
+def test_can_access_if_no_profile(app):
+    flask.g.user = Employee(id=1, first_name="Alice", last_name="Cooper",
+                            username="alice", phone_number="1",
+                            birth_date=datetime.utcnow(),
+                            registration_date=datetime.utcnow(),
+                            email="test@test.com", password="bla")
+    assert has_privilege(method=Method.READ, resource="employee")
+
+
 def test_can_access_his_profile(app):
     flask.g.user = Employee(id=1, first_name="Alice", last_name="Cooper",
                       username="alice", phone_number="1",

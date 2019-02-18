@@ -24,9 +24,8 @@ def __employee_access(method=None, *args, **kwargs):
             if employee_id == user.id and method == Method.READ:
                 permitted = True
             else:
-                me = Employee.query.get(user.id)
                 other = Employee.query.get(employee_id)
-                permitted = me.company_id == other.company_id
+                permitted = user.company_id == other.company_id
         else:
             permitted = True
     return permitted
