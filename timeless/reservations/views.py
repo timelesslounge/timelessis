@@ -3,8 +3,8 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, views
 )
 from http import HTTPStatus
-from flask import views
 
+from timeless.access_control.views import SecuredView
 from timeless.reservations.controllers import SettingsController
 from timeless.reservations.models import Comment
 from timeless.views import CrudAPIView
@@ -13,8 +13,10 @@ from timeless.views import CrudAPIView
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
-class SettingsView(views.MethodView):
+class SettingsView(SecuredView):
     """ Reservation settings API """
+
+    resource = "reservation_settings"
     ctr = SettingsController()
 
     def get(self, id):
@@ -36,30 +38,13 @@ class SettingsView(views.MethodView):
         return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
 
 
-class CommentView(CrudAPIView):
+class CommentView(SecuredView, CrudAPIView):
     """API Resource for comments /api/comments
-    @todo #123:30min After CrudView implementation is finished
-     create necessary templates for the CommentView to operate on.
-     See CrudAPIView description for more details about its usage.
+
     """
     model = Comment
     url_lookup = "comment_id"
-
-    def post(self):
-        """Post method of CommentView"""
-        return "Post method of CommentViewSet", HTTPStatus.CREATED
-
-    def put(self, comment_id):
-        """Put method of CommentView"""
-        if comment_id:
-            return "Detail put method of CommentViewSet", HTTPStatus.OK
-        return "Put method of CommentViewSet", HTTPStatus.OK
-
-    def delete(self, comment_id):
-        """Delete method of CommentView"""
-        if comment_id:
-            return "Detail delete method of CommentViewSet", HTTPStatus.NO_CONTENT
-        return "Delete method of CommentViewSet", HTTPStatus.NO_CONTENT
+    list_reservations = "reservation_comment"
 
 
 @bp.route("/")

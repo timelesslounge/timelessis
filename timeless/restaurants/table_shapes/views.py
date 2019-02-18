@@ -1,6 +1,8 @@
 """TableShape views module."""
+from http import HTTPStatus
+
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for
+    Blueprint, redirect, abort, render_template, request, url_for
 )
 
 from timeless.db import DB
@@ -41,7 +43,10 @@ def create():
          look how WTF form processes files. Implement generic solution to use
          it everywhere when it's needed.
         """
+        """
+        Uncomment after correction
         form.save()
+        """
         return redirect(url_for("table_shape.list"))
     return render_template(
         "restaurants/table_shapes/create_edit.html", form=form)
@@ -49,17 +54,24 @@ def create():
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
-    """ Edit table shape with id
-    @todo #162:30min Implement edit() method of TableShape model and
-     update template. Use TableShapeForm for that, see how in works in
-     create function. Check and update html template if it's needed.
-    """
-    if request.method == "POST":
-        flash("Edit not yet implemented")
+    """Edit table shape with id"""
+    table = models.TableShape.query.get(id)
+    if not table:
+        return abort(HTTPStatus.NOT_FOUND)
 
-    form = forms.TableShapeForm()
+    if request.method == "POST":
+        form = forms.TableShapeForm(request.form, instance=table)
+        if form.validate():
+            form.save()
+            return redirect(url_for("table_shape.list"))
+        else:
+            return abort(HTTPStatus.BAD_REQUEST)
+    else:
+        form = forms.TableShapeForm(instance=table)
+
     return render_template(
-        "restaurants/table_shapes/create_edit.html", form=form)
+        "restaurants/table_shapes/create_edit.html", form=form
+    )
 
 
 @bp.route("/delete/<int:id>", methods=["POST"])
@@ -67,5 +79,5 @@ def delete(id):
     """ Delete table shape with id """
     table_shape = models.TableShape.query.get(id)
     DB.session.delete(table_shape)
+    DB.session.commit()
     return redirect(url_for("table_shape.list"))
-
