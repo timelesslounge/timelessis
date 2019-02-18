@@ -50,7 +50,6 @@ class CrudAPIView(views.MethodView):
         pass
 
 
-
 class GenericView(views.View):
     """ Generic view with common logic """
     template_name = None

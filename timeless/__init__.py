@@ -106,12 +106,17 @@ def register_endpoints(app):
     )
     app.add_url_rule(
         "/reservations/settings/create/",
-        view_func=reservations_views.SettingsCreateView.as_view(
+        view_func=reservations_views.SettingsCreateUpdateView.as_view(
             "reservation_settings_create")
     )
     app.add_url_rule(
         "/reservations/settings/<int:id>",
         view_func=reservations_views.SettingsDetailView.as_view(
+            "reservation_settings_detail")
+    )
+    app.add_url_rule(
+        "/reservations/settings/<int:id>/edit",
+        view_func=reservations_views.SettingsCreateUpdateView.as_view(
             "reservation_settings_detail")
     )
     app.add_url_rule(

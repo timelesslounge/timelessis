@@ -27,7 +27,7 @@ class SettingsListView(views.ListView):
         return models.ReservationSettings.query.all()
 
 
-class SettingsCreateView(views.CreateView):
+class SettingsCreateUpdateView(views.CreateUpdateView):
     """ Reservation settings create view """
     template_name = "restaurants/tables/create_edit.html"
     success_url_name = "reservation_settings_list"
