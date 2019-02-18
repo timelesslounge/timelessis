@@ -16,8 +16,9 @@ class TestPropertyResource():
         """ Test if PropertyResource can return a value that exists"""
         assert (
             PropertyResource(
-                 directory=self.directory
-            ).get(self, "foundkey", "en_US") == "thevalue"
+                 directory=self.directory,
+                 locale="en_US"
+            ).get(self, "foundkey") == "thevalue"
         )
 
     @pytest.mark.skip(reason="PropertyResource not implemented yet")
@@ -27,8 +28,9 @@ class TestPropertyResource():
         """
         with pytest.raises(Exception, "Value not found for key"):
             PropertyResource(
-                directory=self.directory
-            ).get(self, "notfoundkey", "en_US")
+                directory=self.directory,
+                locale="en_US"
+            ).get(self, "notfoundkey",)
 
     @pytest.mark.skip(reason="PropertyResource not implemented yet")
     def test_get_found(self):
@@ -37,6 +39,7 @@ class TestPropertyResource():
         """
         assert (
             PropertyResource(
-                directory=self.directory
-            ).get(self, "foundkey", "pt_BR") == "ovalor"
+                directory=self.directory,
+                locale="pt_BR"
+            ).get(self, "foundkey") == "ovalor"
         )
