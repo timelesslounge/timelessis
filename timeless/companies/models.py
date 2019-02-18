@@ -1,6 +1,6 @@
 """File for models in test_companies module"""
 from timeless.db import DB
-from timeless.models import TimestampsMixin
+from timeless.models import TimestampsMixin, validate_required
 
 
 class Company(TimestampsMixin, DB.Model):
@@ -24,6 +24,10 @@ class Company(TimestampsMixin, DB.Model):
                             back_populates="company")
     items = DB.relationship("Item", order_by="Item.id",
                             back_populates="company")
+
+    @validate_required("name", "code")
+    def __init__(self, **kwargs):
+        super(Company, self).__init__(**kwargs)
 
     def __repr__(self):
         return "<Company %r>" % self.name
