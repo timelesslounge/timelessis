@@ -15,14 +15,6 @@ from timeless.restaurants.models import Floor
 bp = Blueprint("floor", __name__, url_prefix="/floors")
 
 
-class FloorList(ListView):
-    "List all floors"
-    template_name = "restaurants/floors/list.html"
-    model = Floor
-
-FloorList.register(bp, "/")
-
-
 @bp.route("/create", methods=("GET", "POST"))
 @auth.login_required
 def create():
@@ -55,3 +47,11 @@ def delete():
     """ Delete floor with id """
     flash("Delete not yet implemented")
     return redirect(url_for("floor.list_floors"))
+
+
+class FloorList(ListView):
+    "List all floors"
+    template_name = "restaurants/floors/list.html"
+    model = Floor
+
+FloorList.register(bp, "/")

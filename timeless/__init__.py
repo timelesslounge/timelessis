@@ -42,7 +42,7 @@ def initialize_extensions(app):
     import timeless.items.models
     import timeless.employees.models
     import timeless.companies.models
-    #initialize celery
+    # initialize celery
     app.celery = make_celery(app)
 
 
@@ -82,6 +82,9 @@ def register_endpoints(app):
     app.register_blueprint(locations_views.bp)
     app.register_blueprint(roles_views.bp)
     app.register_blueprint(items_views.BP)
+    app.register_blueprint(floors_views.bp)
+    app.register_blueprint(table_shapes_views.bp)
+    app.register_blueprint(reservations_views.bp)
     register_api(
         app,
         companies_views.Resource,
