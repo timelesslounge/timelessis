@@ -31,9 +31,7 @@ def check_employee(employee_id, method, user):
     if employee_id == user.id and method == Method.READ:
         return True
     else:
-        me = Employee.query.get(user.id)
-        other = Employee.query.get(employee_id)
-        return me.company_id == other.company_id
+        return user.company_id == Employee.query.get(employee_id).company_id
 
 
 __resources = {

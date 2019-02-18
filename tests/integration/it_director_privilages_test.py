@@ -2,8 +2,8 @@ from datetime import datetime
 
 import flask
 
-from timeless.access_control.methods import Method
 from timeless.access_control.director_privileges import has_privilege
+from timeless.access_control.methods import Method
 from timeless.companies.models import Company
 from timeless.employees.models import Employee
 

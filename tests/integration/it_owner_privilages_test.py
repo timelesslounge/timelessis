@@ -16,6 +16,7 @@ def test_cant_access_unknown_resource(app):
 
 
 def test_cant_access_his_profile(app):
+    flask.g.user = None
     assert not has_privilege(method=Method.READ, resource="employee", employee_id=1)
 
 
