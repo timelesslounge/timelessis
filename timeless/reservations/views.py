@@ -55,16 +55,15 @@ class ReservationsListView(views.MethodView):
     """
 
     def get(self, company_id):
-        """Retrieve reservations based on login, location, and date.
-            @todo #28:30min Implement actual fetching of reservations. We need to
-             return a JSON list, filtered by reservations based on location and
-             date. We also need to password protect this API, and filter only
-             those belonging to the specific company, Let's implement the
+        """Retrieve reservations based on location, and date.
+            @todo #28:30min Implement actual fetching of reservations. We need
+             to return a JSON list, filtered by reservations based on location
+             and date. We also need to password protect this API, and filter
+             those belonging to the specific company ID. Let's implement the
              serialization and deserialization of JSON based on this API:
              https://flask-marshmallow.readthedocs.io/en/latest/
 
         :param self:
-        :param company_id:
         :return:
         """
         reservations_json = {
@@ -80,8 +79,6 @@ class ReservationsListView(views.MethodView):
                 }
             ]
         }
-        if company_id:
-            reservations_json["company_id"] = company_id
         return jsonify(reservations_json)
 
 
