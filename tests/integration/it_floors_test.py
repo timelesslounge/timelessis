@@ -7,7 +7,6 @@ from timeless.restaurants.models import Floor
 def test_list(client, db_session):
     db_session.add(Floor(location_id=None, description="Test floor"))
     db_session.commit()
-
     floors = client.get("/floors/")
     assert floors.status_code == HTTPStatus.OK
     assert b"Test floor" in floors.data
