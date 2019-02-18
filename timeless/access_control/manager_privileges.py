@@ -15,7 +15,8 @@ def __employee_access(method=None, *args, **kwargs):
     """
     @todo #176:30min Add role to the employee model and check that Manager
      can only access/modify employees that have role of master or
-     interns.
+     interns. And modify the test test_cant_access_other_company_employees so
+     it will be executed on the appropriate employee roles.
     """
     permitted, user = False, flask.g.get("user")
     employee_id = kwargs.get("employee_id")
