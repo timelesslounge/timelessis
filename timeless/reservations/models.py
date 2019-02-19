@@ -1,5 +1,5 @@
 """File for models in reservations module"""
-from timeless.models import TimestampsMixin
+from timeless.models import TimestampsMixin, validate_required
 from timeless import DB
 
 
@@ -13,6 +13,10 @@ class Comment(TimestampsMixin, DB.Model):
     body = DB.Column(DB.String, nullable=False)
     date = DB.Column(DB.DateTime, nullable=False)
     employee = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
+
+    @validate_required("body", "date")
+    def __init__(self, **kwargs):
+        super(Comment, self).__init__(**kwargs)
 
     def __repr__(self):
         return "<Comment %r>" % self.description
