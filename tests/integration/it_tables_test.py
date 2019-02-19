@@ -4,7 +4,7 @@
  does not pass form data parameters to model constructor properly.
  Parameters are passed through *args but ModelForm works uses **kwargs
  to instantiate model. Once this is fixed, remove skip annotations
- form tests.
+ from tests.
 """
 import pytest
 
