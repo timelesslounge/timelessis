@@ -28,7 +28,9 @@ class SecuredView(views.MethodView):
             abort(HTTPStatus.FORBIDDEN)
 
     def dispatch_request(self, *args, **kwargs):
-        self.check_permissions(*args, **kwargs)
+        if self.resource:
+            self.check_permissions(*args, **kwargs)
+
         method = getattr(self, request.method.lower(), None)
         if not method:
             abort(HTTPStatus.NOT_IMPLEMENTED)
