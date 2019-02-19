@@ -18,16 +18,10 @@ class SecuredView(views.MethodView):
      and block the user if he hasn't privileges to access it.
     """
 
-    def check_permissions(self, *args, **kwargs):
-        """It raises exception if user has no permission"""
-        is_allowed = authorization.is_allowed(
-            method=request.method.lower(), resource=self.resource,
-            *args, **kwargs)
-
-        if not is_allowed:
-            abort(HTTPStatus.FORBIDDEN)
-
     def dispatch_request(self, *args, **kwargs):
-        if self.resource:
-            self.check_permissions(*args, **kwargs)
-        return super(SecuredView, self).dispatch_request(*args, **kwargs)
+        if self.resource and not authorization.is_allowed(
+            method=request.method.lower(), resource=self.resource,
+            *args, **kwargs
+        ):
+            abort(HTTPStatus.FORBIDDEN)
+        return super().dispatch_request(*args, **kwargs)
