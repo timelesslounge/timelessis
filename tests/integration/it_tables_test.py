@@ -1,5 +1,6 @@
 """
-@todo #234:30min Timeless ModelForm is not working properly. It
+@todo #234:30min Timeless ModelForm is not working properly, the
+ Table form in test_create cannot be saved. The problem is that it
  does not pass form data parameters to model constructor properly.
  Parameters are passed through *args but ModelForm works uses **kwargs
  to instantiate model. Once this is fixed, remove skip annotations
