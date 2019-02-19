@@ -31,6 +31,7 @@ class Employee(TimestampsMixin, DB.Model):
     pin_code = DB.Column(DB.Integer, unique=True, nullable=False)
     comment = DB.Column(DB.String)
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
+    role_id = DB.Column(DB.Integer, DB.ForeignKey("roles.id"), nullable=True)
 
     company = DB.relationship("Company", back_populates="employees")
     items = DB.relationship("Item", back_populates="empolyee")
