@@ -15,7 +15,10 @@ bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
 @bp.route("/")
 def list():
-    """List all table shapes"""
+    """List all table shapes
+    @todo #260:30min Implement filtering of table shapes from the UI. It
+     should be possible to filter for every column.
+    """
     order_fields = request.args.getlist("order_by")
     filter_fields = request.args.getlist("filter_by")
     query = models.TableShape.query
