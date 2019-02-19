@@ -1,8 +1,32 @@
 #!/bin/sh
 
-# @todo #240:30min Implement redis availability check and install flows. In case
-#  Redis is not available lets install it and launch.
-#  In case it is installed but not among current process it should be launched only.
-#  Please also check if all the dependency checks are in place besides redis and implement rest if any.
+# @todo #248:30min Implement a service for Redis. Redis should be up and running
+#  after host restart. Lets create and install a service for Redis and make sure it is
+#  started and running.
 
-echo "Implement redis availability check"
+# Script for Redis availability check, installation and launch
+
+which redis-cli
+if [ "$?" -gt "0" ]; then
+  echo "Redis Not installed, installing"
+  sudo apt install make gcc libc6-dev tcl
+  wget http://download.redis.io/redis-stable.tar.gz
+  tar xvzf redis-stable.tar.gz
+  cd redis-stable
+  sudo make install
+  cd ..
+  sudo rm -rf redis-stable.tar.gz redis-stable/
+  echo "Done installing Redis"
+else
+  echo "Redis already installed"
+fi
+
+echo "Redis PING"
+redis-cli ping
+if [ "$?" -gt "0" ]; then
+  echo "Redis Not running, launching"
+  redis-server > /dev/null &
+  echo "Redis launched"
+else
+  echo "Redis already running"
+fi

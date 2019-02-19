@@ -250,6 +250,17 @@ and configure [Service Account](https://github.com/prasmussen/gdrive#service-acc
 credentials. Set `SERVICE_ACCOUNT_CREDENTIALS` in `pg_backup.config` to the
 location of your service account credentials JSON file.
 
+Note that the Google Drive API needs a file ID, not file name. After database
+upload, you need to set the `FILE_ID` parameter in `pg_backup.config`, e.g.
+
+```
+FILE_ID=0B-Iak7O9SfIpYk9zTjZvY2xreVU
+```
+
+@todo #224:30min We need a more user friendly way to find out the file ID from
+ Google Drive. Perhaps do "gdrive list" with the file name as query and set
+ file ID from there.
+
 ### Running tests
 
 ```
