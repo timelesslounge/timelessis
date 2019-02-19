@@ -17,9 +17,10 @@ class Poster:
     client_id = 0
     token = ""
 
-    def __init__(self, **kwargs):
+    def __init__(self, auth_token=None, **kwargs):
         self.url = kwargs.get("url", "https://joinposter.com/api")
         self.account = kwargs.get("client_id", 0)
+        self.auth_token = auth_token
 
     def locations(self):
         """Fetches location data
