@@ -26,6 +26,7 @@ class SettingsList(views.ListView):
     model = models.ReservationSettings
     template_name = "restaurants/tables/list.html"
 
+
 SettingsList.register(bp, "/settings/")
 
 # class SettingsCreateUpdateView(views.CreateUpdateView):

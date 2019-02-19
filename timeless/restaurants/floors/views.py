@@ -54,4 +54,5 @@ class List(ListView):
     template_name = "restaurants/floors/list.html"
     model = Floor
 
+
 List.register(bp, "/")

@@ -3,6 +3,12 @@
  DeleteView from Gist: https://gist.github.com/timster/e13ed61674bb11474e4a
  Implement an example for each view by refactoring one of the existing
  blueprints (see restaurants/floors/views.py). Also reuse FlashMessageMixin.
+@todo #173:30min Implement checking for permissions (like is user logged in or
+ is user in role) using decorators for view. For that, create new view which
+ all other views will extend. Example would be:
+ class AdminView(View):
+ ....decorators = [auth.admin_required, auth.login_required]
+ class UserView(AdminView):
 @todo #173:30min Refactor all blueprint views to use ListView for getting the
  list of objects from db using model. Also, make sure list.html template is
  made generic to allow all other views to use it. Feel free to add more puzzles
@@ -11,8 +17,10 @@
  to use it for validating the form and storing the record in the database.
 @todo #173:30min Once UpdateView is implemented, refactor all blueprint views
  to use it for validating the form and updating the record in the database.
+ Reuse SingleObjectMixin to provide simple solution to fetch by id.
 @todo #173:30min Once DeleteView is implemented, refactor all blueprint views
  to use it for validating the form and deleting the record in the database.
+ Reuse SingleObjectMixin to provide simple solution to fetch by id.
 
 Example of using CrudAPIView:
 
@@ -175,6 +183,16 @@ class ListView(GenericView):
         context = super().get_default_context()
         context[self.get_context_object_list_name()] = self.get_object_list()
         return context
+
+
+class SingleObjectMixin:
+    """ Fetch model from database using id """
+    model = None
+
+    def get_object(self, id=None):
+        """ Method fetch object from given model by id """
+        assert self.model, "Model is not provided"
+        return self.model.query.get(id)
 
 
 class DetailView(GenericView):

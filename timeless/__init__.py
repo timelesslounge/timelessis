@@ -101,4 +101,3 @@ def register_endpoints(app):
         "/api/comments/",
         pk="comment_id"
     )
-   
