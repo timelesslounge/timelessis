@@ -14,10 +14,10 @@ def sync_tables():
      Create fixture and mock response from poster, and check how it will be
      saved in DB. API docs - https://dev.joinposter.com/en/docs/api
     @todo #187:30min Set up scheduler for celery,
-      docs - http://docs.celeryproject.org/en/
-      latest/userguide/periodic-tasks.html#id5
-      Also should make small refactoring: celery.py should situated in
-      timelessis/celery.py not in timelessis/sync/celery.py
+     docs - http://docs.celeryproject.org/en/
+     latest/userguide/periodic-tasks.html#id5
+     Also should make small refactoring: celery.py should situated in
+     timelessis/celery.py not in timelessis/sync/celery.py
     """
     auth_data = PosterAuthData(
         application_id=os.environ.get("poster_application_id"),

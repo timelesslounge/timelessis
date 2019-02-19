@@ -1,8 +1,8 @@
 from timeless.restaurants.models import Location
 
 """
-@todo #187:30min Move this logic from sync_location method to 
- timelessis/poster/tasks, there is already done sync_tables function as 
+@todo #187:30min Move this logic from sync_location method to
+ timelessis/poster/tasks, there is already done sync_tables function as
  example. Also should refactor sync_location, seems it will not work
 """
 
