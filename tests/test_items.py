@@ -20,7 +20,8 @@ def test_new_item():
         name=name,
         stock_date=stock_date,
         comment=comment,
-        company_id=company_id
+        company_id=company_id,
+        created_on=datetime.utcnow
     )
     assert new_item.id == id
     assert new_item.name == name
@@ -33,7 +34,11 @@ def test_new_item_history():
     """ Test creation of new ItemHistory """
     emp_id = 2
     item_id = 1
-    item_history = ItemHistory(employee_id=emp_id, item_id=item_id)
+    item_history = ItemHistory(
+        employee_id=emp_id,
+        item_id=item_id,
+        start_time=datetime.utcnow
+    )
     assert item_history.employee_id == emp_id
     assert item_history.item_id == item_id
 
