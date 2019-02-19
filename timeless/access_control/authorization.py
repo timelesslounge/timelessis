@@ -25,4 +25,3 @@ __roles = {
     "director": director_privileges,
     "administrator": administrator_privileges,
 }
-
