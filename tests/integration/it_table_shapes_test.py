@@ -2,9 +2,9 @@ from http import HTTPStatus
 import flask
 import pytest
 
-from timeless.restaurants.table_shapes.views import order_by, filter_by
 from timeless.restaurants import models
 from timeless.restaurants.models import TableShape
+from timeless.restaurants.table_shapes.views import order_by, filter_by
 
 
 def test_order_by_description(db_session):
