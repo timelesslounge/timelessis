@@ -9,10 +9,6 @@ from timeless.employees.models import Employee
 from timeless.restaurants.models import Location
 
 
-def test_can_access_location(app):
-    assert has_privilege(method=Method.CREATE, resource="location")
-
-
 def test_cant_access_unknown_resource(app):
     assert not has_privilege(method=Method.CREATE, resource="unknown")
 
