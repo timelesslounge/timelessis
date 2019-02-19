@@ -30,8 +30,4 @@ class SecuredView(views.MethodView):
     def dispatch_request(self, *args, **kwargs):
         if self.resource:
             self.check_permissions(*args, **kwargs)
-
-        method = getattr(self, request.method.lower(), None)
-        if not method:
-            abort(HTTPStatus.NOT_IMPLEMENTED)
         return super(SecuredView, self).dispatch_request(*args, **kwargs)

@@ -16,23 +16,22 @@ def test_owner_can_access_location():
 
 
 @pytest.fixture
-def secured_view():
+def secured_view(app):
     view = SecuredView()
     view.resource = "test-resource"
-    return view
+    with app.test_request_context("/", method="POST"):
+        yield view
 
 
 @unittest.mock.patch("timeless.access_control.authorization.is_allowed")
 def test_secured_view_access_ok(mocked_is_allowed, secured_view, app):
     mocked_is_allowed.return_value = True
-    with app.test_request_context("/", method="POST"):
-        with pytest.raises(werkzeug.exceptions.NotImplemented):
-            secured_view.dispatch_request()
+    with pytest.raises(AssertionError):
+        secured_view.dispatch_request()
 
 
 @unittest.mock.patch("timeless.access_control.authorization.is_allowed")
 def test_secured_view_access_forbidden(mocked_is_allowed, secured_view, app):
     mocked_is_allowed.return_value = False
-    with app.test_request_context("/", method="POST"):
-        with pytest.raises(werkzeug.exceptions.Forbidden):
-            secured_view.dispatch_request()
+    with pytest.raises(werkzeug.exceptions.Forbidden):
+        secured_view.dispatch_request()
