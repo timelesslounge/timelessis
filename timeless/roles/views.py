@@ -1,14 +1,17 @@
 """roles views module.
-@todo #192:30min Continue implementing edit() and
- delete() methods, using SQLAlchemy and Location model. In the index page it
+@todo #255:30min Continue implementing edit() method,
+ using SQLAlchemy and Location model. In the index page it
  should be possible to sort and filter for every column. Location management
  page should be accessed by the Location page. Update html templates when
- methods are implemented. Create more tests for all methods.
+ methods are implemented. Create more tests for edit() route.
 """
-from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for
-)
+from http import HTTPStatus
 
+from flask import (
+    Blueprint, flash, redirect, render_template, request, url_for,
+    abort)
+
+from timeless import DB
 from timeless.roles.forms import RoleForm
 from timeless.roles.models import Role
 
@@ -33,7 +36,13 @@ def create():
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
+    table = Role.query.get(id)
+    if not table:
+        return abort(HTTPStatus.NOT_FOUND)
     if request.method == "POST":
+        form = RoleForm(request.form, instance=table)
+        if not form.validate():
+            return abort(HTTPStatus.BAD_REQUEST)
         flash("Edit not yet implemented")
     action = "edit"
     companies = [
@@ -46,7 +55,12 @@ def edit(id):
     )
 
 
-@bp.route("/delete", methods=["POST"])
-def delete():
-    flash("Delete not yet implemented")
+@bp.route("/delete/<int:id>", methods=["POST"])
+def delete(id):
+    roles = Role.query.get(id)
+    if not roles:
+        return abort(HTTPStatus.NOT_FOUND)
+    roles = Role.query.get(id)
+    DB.session.delete(roles)
+    DB.session.commit()
     return redirect(url_for("role.list_roles"))
