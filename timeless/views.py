@@ -13,6 +13,7 @@
  to use it for validating the form and updating the record in the database.
 @todo #173:30min Once DeleteView is implemented, refactor all blueprint views
  to use it for validating the form and deleting the record in the database.
+
 Example of using CrudAPIView:
 
 class CommentView(CrudView):
@@ -203,13 +204,6 @@ class DetailView(GenericView):
         context = super().get_default_context()
         context[self.get_context_object_name()] = self.get_object()
         return context
-
-    def get(self, *args, **kwargs):
-        """
-        Set the object to an instance variable, then process as normal.
-        """
-        self.object = self.get_object()
-        return super().get(*args, **kwargs)
 
 
 class FakeModel():
