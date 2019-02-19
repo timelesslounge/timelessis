@@ -17,7 +17,8 @@ bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 def list():
     """List all table shapes
     @todo #260:30min Implement filtering of table shapes from the UI. It
-     should be possible to filter for every column.
+     should be possible to filter for every column from the UI. Currently
+     it is possible to filter using browser address bar only.
     """
     order_fields = request.args.getlist("order_by")
     filter_fields = request.args.getlist("filter_by")
