@@ -48,7 +48,7 @@ fi;
 
 if [ -z $RESTORE_DIR ]; then
     echo -e "\nRestore directory is empty, retrieving from Google Drive backup"
-    if ! gdrive download "$DATABASE".sql.gz --timeout "$TIMEOUT"; then
+    if ! gdrive download --timeout "$TIMEOUT" --path "$BACKUP_PATH" "$FILE_ID"; then
         echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Download from Google Drive backup of $DATABASE failed!" 1>&2
     else
         echo -e "\nDownload of database backups complete!"
