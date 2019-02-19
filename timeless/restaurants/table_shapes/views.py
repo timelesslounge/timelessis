@@ -8,22 +8,21 @@ from flask import (
 from timeless.db import DB
 from timeless.restaurants import models
 from timeless.restaurants.table_shapes import forms
-from timeless.templates.views import order_by
+from timeless.templates.views import order_by, filter_by
 
 bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
 
 @bp.route("/")
 def list():
-    """List all table shapes
-    @todo #203:30min Implement filtering of TableShape model for
-     all columns. Update html templates if its needed. Do not forget
-     to write tests.
-    """
+    """List all table shapes"""
     order_fields = request.args.getlist("order_by")
+    filter_fields = request.args.getlist("filter_by")
     query = models.TableShape.query
     if order_fields:
         query = order_by(query, order_fields)
+    if filter_fields:
+        query = filter_by(query, filter_fields)
     return render_template(
         "restaurants/table_shapes/list.html",
         table_shapes=query.all())
