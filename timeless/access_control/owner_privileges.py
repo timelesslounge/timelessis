@@ -16,10 +16,7 @@ def has_privilege(method=None, resource=None, *args, **kwargs) -> bool:
 def __location_access(method=None, *args, **kwargs):
     user_company = flask.g.get("user").company_id
     location_company = Location.query.get(kwargs.get("id")).company_id
-    if method in (Method.READ, Method.CREATE, Method.UPDATE, Method.DELETE) \
-            and user_company == location_company:
-        return True
-    return False
+    return user_company == location_company
 
 
 def __employee_access(method=None, *args, **kwargs):
