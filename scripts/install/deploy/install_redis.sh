@@ -3,6 +3,7 @@
 # @todo #248:30min Implement a service for Redis. Redis should be up and running
 #  after host restart. Lets create and install a service for Redis and make sure it is
 #  started and running.
+
 # Script for Redis availability check, installation and launch
 
 which redis-cli
