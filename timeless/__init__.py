@@ -15,13 +15,9 @@ def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
-    redis_config = {
-        "CACHE_TYPE": "redis",
-        "CACHE_REDIS_URL": app.config.get("REDIS_HOST")
-    }
     CACHE.init_app(
         app,
-        config=redis_config
+        config=app.config.get("CACHE_SETTINGS")
     )
     initialize_extensions(app)
     register_endpoints(app)

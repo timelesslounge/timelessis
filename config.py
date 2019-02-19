@@ -20,6 +20,10 @@ class ProductionConfig(Config):
     REDIS_HOST = "redis://localhost:6379"
     RESULT_BACKEND = REDIS_HOST
     BROKER_URL = REDIS_HOST
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
 
 
 class StagingConfig(Config):
@@ -31,6 +35,10 @@ class StagingConfig(Config):
     REDIS_HOST = "redis://localhost:6379"
     RESULT_BACKEND = REDIS_HOST
     BROKER_URL = REDIS_HOST
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
 
 
 class DevelopmentConfig(Config):
@@ -42,6 +50,10 @@ class DevelopmentConfig(Config):
     REDIS_HOST = "redis://localhost:6379"
     RESULT_BACKEND = REDIS_HOST
     BROKER_URL = REDIS_HOST
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
 
 
 class TestingConfig(Config):
@@ -54,4 +66,7 @@ class TestingConfig(Config):
     REDIS_HOST = "redis://localhost:6379"
     RESULT_BACKEND = REDIS_HOST
     BROKER_URL = REDIS_HOST
-    
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
