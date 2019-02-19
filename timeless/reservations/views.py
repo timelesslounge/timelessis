@@ -12,7 +12,7 @@ from timeless.reservations import models
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
-class SettingsListView(views.ListView):
+class SettingsList(views.ListView):
     """
     List view set for Reservation Settings
     @todo #186:30min For SettingsListView, SettingsCreateView,
@@ -26,7 +26,7 @@ class SettingsListView(views.ListView):
     model = models.ReservationSettings
     template_name = "restaurants/tables/list.html"
 
-SettingsListView.register(bp, "/settings/")
+SettingsList.register(bp, "/settings/")
 
 # class SettingsCreateUpdateView(views.CreateUpdateView):
 #     """ Reservation settings create view """
