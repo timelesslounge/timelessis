@@ -1,6 +1,4 @@
 #!/bin/bash
-# @todo #115:30min Implement retrieval of database backup from Google account.
-#  It should be from the same Google account and location as in pg_backup.sh.
 
 ###########################
 ####### LOAD CONFIG #######
@@ -49,8 +47,12 @@ if [ "$BACKUP_USER" != "" -a "$(id -un)" != "$BACKUP_USER" ]; then
 fi;
 
 if [ -z $RESTORE_DIR ]; then
-	echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Backup not provided, please use -d option." 1>&2
-	exit 1;
+    echo -e "\nRestore directory is empty, retrieving from Google Drive backup"
+    if ! gdrive download --timeout "$TIMEOUT" --path "$BACKUP_PATH" "$FILE_ID"; then
+        echo "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Download from Google Drive backup of $DATABASE failed!" 1>&2
+    else
+        echo -e "\nDownload of database backups complete!"
+    fi
 fi
 
 if [ $(find $RESTORE_DIR -type f | wc -l) -ne 1 ]; then

@@ -1,11 +1,8 @@
-import datetime
-
 import pytest
 from werkzeug.exceptions import abort, NotFound
 
 from http import HTTPStatus
 from timeless.reservations.views import CommentView
-from timeless.reservations.views import Comment
 
 """
     Tests for CommentView

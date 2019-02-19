@@ -8,7 +8,7 @@ from flask import (
 from timeless.db import DB
 from timeless.restaurants import models
 from timeless.restaurants.table_shapes import forms
-from timeless.templates.views import order_by
+from timeless.templates.views import order_by, filter_by
 
 bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
@@ -16,14 +16,17 @@ bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 @bp.route("/")
 def list():
     """List all table shapes
-    @todo #203:30min Implement filtering of TableShape model for
-     all columns. Update html templates if its needed. Do not forget
-     to write tests.
+    @todo #260:30min Implement filtering of table shapes from the UI. It
+     should be possible to filter for every column from the UI. Currently
+     it is possible to filter using browser address bar only.
     """
     order_fields = request.args.getlist("order_by")
+    filter_fields = request.args.getlist("filter_by")
     query = models.TableShape.query
     if order_fields:
         query = order_by(query, order_fields)
+    if filter_fields:
+        query = filter_by(query, filter_fields)
     return render_template(
         "restaurants/table_shapes/list.html",
         table_shapes=query.all())
@@ -61,14 +64,13 @@ def edit(id):
 
     if request.method == "POST":
         form = forms.TableShapeForm(request.form, instance=table)
-        if form.validate():
-            form.save()
-            return redirect(url_for("table_shape.list"))
-        else:
+        if not form.validate():
             return abort(HTTPStatus.BAD_REQUEST)
-    else:
-        form = forms.TableShapeForm(instance=table)
 
+        form.save()
+        return redirect(url_for("table_shape.list"))
+
+    form = forms.TableShapeForm(instance=table)
     return render_template(
         "restaurants/table_shapes/create_edit.html", form=form
     )
