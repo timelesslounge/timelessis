@@ -6,6 +6,9 @@ import pytest
 from datetime import datetime
 
 from timeless.items.models import Item, ItemHistory
+from timeless.companies.models import Company
+from timeless.employees.models import Employee
+from timeless.restaurants.models import Location
 
 
 def test_new_item():
@@ -43,18 +46,48 @@ def test_new_item_history():
     assert item_history.item_id == item_id
 
 
-@pytest.mark.skip(reason="Item.history() not implemented")
+
 def test_item_assign():
     """ Test item assign """
-    new_item = Item(
-        id=1,
-        name="Nanomedikit",
-        stock_date=datetime.utcnow,
-        comment="Medikit with nano particles",
-        company_id=223
+
+    company = Company(
+        id=223,
+        name="Bad Company",
+        code="Bad Cmpny",
+        address="addr"
     )
 
-    new_employee = Item(
+    location = Location(
+        id=104,
+        name="Test location",
+        code="L",
+        country="Country",
+        region="Region",
+        city="City",
+        type="Type",
+        address="Address",
+        longitude="11223344",
+        latitude="44332211",
+        status="T",
+        company_id=223,
+        poster_id=100,
+        synchronized_on=datetime.utcnow,
+        working_hours=1,
+        closed_days=2
+    )
+
+    new_item = Item(
+        id=1,
+        name="Duck Eggs",
+        stock_date=datetime.utcnow,
+        comment="Eggs from ducks",
+        company_id=company.id,
+        created_on=datetime.utcnow,
+        updated_on=datetime.utcnow,
+        company=company
+    )
+
+    new_employee = Employee(
         id=15,
         first_name="Johnny",
         last_name="Cash",
@@ -73,16 +106,42 @@ def test_item_assign():
 
     assert not new_item.employee_id
     new_item.assign(employee=new_employee)
-    assert (new_item.employee_id == new_employee.employee_id,
+    assert (new_item.employee_id == new_employee.id,
             "Item assigned to wrong employee" )
-    assert (new_item.item_history()[0].employee_id == new_employee.employee_id,
+    assert (new_item.item_history()[0].employee_id == new_employee.id,
             "ItemHistory with wrong employee")
 
 
-@pytest.mark.skip(reason="Item.history() not implemented")
 def test_item_assign_history():
     """ Test item assign history """
-    first_employee = Item(
+
+    company = Company(
+        id=223,
+        name="Bad Company",
+        code="Bad Cmpny",
+        address="addr"
+    )
+    
+    location = Location(
+        id=104,
+        name="Test location",
+        code="L",
+        country="Country",
+        region="Region",
+        city="City",
+        type="Type",
+        address="Address",
+        longitude="11223344",
+        latitude="44332211",
+        status="T",
+        company_id=223,
+        poster_id=100,
+        synchronized_on=datetime.utcnow,
+        working_hours=1,
+        closed_days=2
+    )
+
+    first_employee = Employee(
         id=20,
         first_name="Elvis",
         last_name="Presley",
@@ -96,10 +155,10 @@ def test_item_assign_history():
         password="theking",
         pin_code=100,
         comment="Famous artist known as The King of Rock and Roll",
-        company_id=223
+        company_id=company.id
     )
 
-    second_employee = Item(
+    second_employee = Employee(
         id=60,
         first_name="Frank",
         last_name="Sinatra",
@@ -113,7 +172,7 @@ def test_item_assign_history():
         password="nancy",
         pin_code=55,
         comment="One of the most popular musical artists of the 20th century",
-        company_id=223
+        company_id=company.id
     )
 
     new_item = Item(
@@ -121,15 +180,19 @@ def test_item_assign_history():
         name="Duck Eggs",
         stock_date=datetime.utcnow,
         comment="Eggs from ducks",
-        company_id=223,
-        employee_id=first_employee.employee_id
+        company_id=company.id,
+        employee_id=first_employee.id,
+        created_on=datetime.utcnow,
+        updated_on=datetime.utcnow,
+        company=company
     )
+    new_item.assign(employee=first_employee)
     new_item.assign(employee=second_employee)
     assert (
-        new_item.item_history()[0].employe_id == second_employee.employee_id,
+        new_item.item_history()[0].employee_id == second_employee,
         "Last ItemHistory with wrong employee"
     )
     assert (
-        new_item.item_history()[1].employe_id == first_employee.employee_id,
+        new_item.item_history()[1].employee_id == first_employee.id,
         "First ItemHistory with wrong employee"
     )
