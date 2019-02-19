@@ -19,6 +19,7 @@ class ProductionConfig(Config):
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb")
     RESULT_BACKEND = "redis://localhost:6379"
     BROKER_URL = "redis://localhost:6379"
+    REDIS_HOST = "localhost"
 
 
 class StagingConfig(Config):
@@ -29,6 +30,7 @@ class StagingConfig(Config):
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
     RESULT_BACKEND = "redis://localhost:6379"
     BROKER_URL = "redis://localhost:6379"
+    REDIS_HOST = "localhost"
 
 
 class DevelopmentConfig(Config):
@@ -39,6 +41,7 @@ class DevelopmentConfig(Config):
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
     RESULT_BACKEND = "redis://localhost:6379"
     BROKER_URL = "redis://localhost:6379"
+    REDIS_HOST = "localhost"
 
 
 
@@ -47,6 +50,7 @@ class TestingConfig(Config):
     BROKER_URL = "redis://localhost:6379"
     TESTING = True
     WTF_CSRF_ENABLED = False
+    REDIS_HOST = "localhost"
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_test")

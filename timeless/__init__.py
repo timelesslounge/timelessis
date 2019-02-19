@@ -20,7 +20,7 @@ def create_app(config):
         app,
         config={
             "CACHE_TYPE": "redis",
-            "CACHE_REDIS_HOST": "localhost"
+            "CACHE_REDIS_HOST": app.config.get("REDIS_HOST")
         }
     )
     initialize_extensions(app)
