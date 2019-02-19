@@ -11,9 +11,6 @@ from timeless.cache import CACHE
 from timeless.db import DB
 from timeless.sync.celery import make_celery
 
-cache = Cache()
-
-
 def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
