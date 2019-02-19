@@ -149,8 +149,6 @@ def test_new_table():
     multiple=False,
     playstation=False,
     shape_id=3
-    created = datetime.utcnow
-    updated = datetime.utcnow
     min_capacity = 1
     deposit_hour = 2
     new_table = Table(
@@ -166,8 +164,6 @@ def test_new_table():
         multiple=multiple,
         playstation=playstation,
         shape_id=shape_id,
-        created=created,
-        updated=updated,
         min_capacity=min_capacity,
         deposit_hour=deposit_hour)
     assert (
@@ -183,8 +179,6 @@ def test_new_table():
         new_table.multiple == multiple and
         new_table.playstation == playstation and
         new_table.shape_id == shape_id,
-        new_table.created == created,
-        new_table.updated == updated and
         new_table.min_capacity == min_capacity and
         new_table.deposit_hour == deposit_hour
     )

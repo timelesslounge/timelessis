@@ -44,8 +44,9 @@ def create():
     """ Create new table """
     form = forms.TableForm(request.form)
     if request.method == "POST" and form.validate():
+        print("FORM", form.data)
         form.save()
-        return redirect(url_for("tables.list"))
+        return redirect(url_for("tables.list_tables"))
     return render_template(
         "restaurants/tables/create_edit.html", form=form)
 
@@ -60,7 +61,7 @@ def edit(id):
     form = forms.TableForm(request.form, instance=table)
     if request.method == "POST" and form.validate():
         form.save()
-        return redirect(url_for("tables.list"))
+        return redirect(url_for("tables.list_tables"))
 
     return render_template(
         "restaurants/tables/create_edit.html", form=form)
