@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# @todo #248:30min Implement a service for Postgres. Postgres should be up and running
+#  after host restart. Lets create and install a service for Postgres and make sure it is
+#  started and running.
 # Script for Postgres availability check, installation, launch
 which psql
 if [ "$?" -gt "0" ]; then
