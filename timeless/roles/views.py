@@ -40,9 +40,6 @@ def edit(id):
     if not table:
         return abort(HTTPStatus.NOT_FOUND)
     if request.method == "POST":
-        form = RoleForm(request.form, instance=table)
-        if not form.validate():
-            return abort(HTTPStatus.BAD_REQUEST)
         flash("Edit not yet implemented")
     action = "edit"
     companies = [
