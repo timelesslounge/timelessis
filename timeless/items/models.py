@@ -37,7 +37,6 @@ class Item(DB.Model):
             )
         )
 
-
     def item_history(self):
         """ Returns item history
 
