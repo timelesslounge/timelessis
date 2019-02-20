@@ -5,11 +5,6 @@ from timeless.restaurants.models import Floor
 
 
 def test_list(client, db_session):
-    """ Test getting list of Floors objects
-    @todo #173:30min Once issue with cache (#273) is resolved, remove
-     clear_cache fixture and make sure that test runs ok. Also remove it from
-     if they use it.
-    """
     db_session.add(Floor(location_id=None, description="Test floor"))
     db_session.commit()
     floors = client.get("/floors/")

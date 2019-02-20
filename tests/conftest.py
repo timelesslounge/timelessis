@@ -57,9 +57,3 @@ def _db(app):
     Flask-SQLAlchemy database connection.
     """
     return DB
-
-
-@pytest.fixture
-def clear_cache(app):
-    with app.app_context():
-        cache.clear()
