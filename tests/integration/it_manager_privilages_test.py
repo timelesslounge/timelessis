@@ -98,7 +98,7 @@ def test_can_access_same_company_employees(app, db_session):
         user_status="on",
         registration_date=datetime.utcnow(),
         company_id=my_company.id,
-        email="test@test.com", password="bla",role_id=manager_role.id
+        email="test@test.com", password="bla", role_id=manager_role.id
     )
     db_session.add(me)
     flask.g.user = me
@@ -122,9 +122,9 @@ def test_can_access_same_company_employees(app, db_session):
 @pytest.mark.skip
 def test_manager_cant_access_director(app, db_session):
     """
-    @todo #298:30min Add role to the employee model and check that Manager
-     can only access/modify employees that have role of master or
-     interns. Then remove skip annotation from this test.
+    @todo #298:30min Add check that users with Manager role can only access or
+     modify employees that have role of master or interns. Then remove skip
+     annotation from this test.
     """
     my_company = Company(
         id=1, name="Acme Inc.", code="code1", address="addr"
@@ -149,7 +149,7 @@ def test_manager_cant_access_director(app, db_session):
         user_status="on",
         registration_date=datetime.utcnow(),
         company_id=my_company.id,
-        email="test@test.com", password="bla",role_id=manager_role.id
+        email="test@test.com", password="bla", role_id=manager_role.id
     )
     db_session.add(me)
     flask.g.user = me
