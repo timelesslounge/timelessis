@@ -17,18 +17,28 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb")
-    RESULT_BACKEND = "redis://localhost:6379"
-    BROKER_URL = "redis://localhost:6379"
+    REDIS_HOST = "redis://localhost:6379"
+    RESULT_BACKEND = REDIS_HOST
+    BROKER_URL = REDIS_HOST
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
 
 
 class StagingConfig(Config):
     DEVELOPMENT = True
-    DEBUG = True
+    DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
-    RESULT_BACKEND = "redis://localhost:6379"
-    BROKER_URL = "redis://localhost:6379"
+    REDIS_HOST = "redis://localhost:6379"
+    RESULT_BACKEND = REDIS_HOST
+    BROKER_URL = REDIS_HOST
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
 
 
 class DevelopmentConfig(Config):
@@ -37,17 +47,26 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
-    RESULT_BACKEND = "redis://localhost:6379"
-    BROKER_URL = "redis://localhost:6379"
+    REDIS_HOST = "redis://localhost:6379"
+    RESULT_BACKEND = REDIS_HOST
+    BROKER_URL = REDIS_HOST
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
 
 
 class TestingConfig(Config):
-    RESULT_BACKEND = "redis://localhost:6379"
-    BROKER_URL = "redis://localhost:6379"
     TESTING = True
     WTF_CSRF_ENABLED = False
     CACHE_TYPE = None
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_test")
-
+    REDIS_HOST = "redis://localhost:6379"
+    RESULT_BACKEND = REDIS_HOST
+    BROKER_URL = REDIS_HOST
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
