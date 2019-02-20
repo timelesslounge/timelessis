@@ -11,12 +11,14 @@ from flask_caching import Cache
 from timeless.db import DB
 from timeless.sync.celery import make_celery
 
+cache = Cache()
+
 
 def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
-    cache = Cache(app, config={"CACHE_TYPE": "redis"})
+    cache.init_app(app, config={"CACHE_TYPE": "redis"})
     initialize_extensions(app)
     register_endpoints(app)
     # ensure the instance folder exists
@@ -42,7 +44,7 @@ def initialize_extensions(app):
     import timeless.items.models
     import timeless.employees.models
     import timeless.companies.models
-    #initialize celery
+    # initialize celery
     app.celery = make_celery(app)
 
 
@@ -82,6 +84,9 @@ def register_endpoints(app):
     app.register_blueprint(locations_views.bp)
     app.register_blueprint(roles_views.bp)
     app.register_blueprint(items_views.BP)
+    app.register_blueprint(floors_views.bp)
+    app.register_blueprint(table_shapes_views.bp)
+    app.register_blueprint(reservations_views.bp)
     register_api(
         app,
         companies_views.Resource,
@@ -103,13 +108,3 @@ def register_endpoints(app):
         "/api/comments/",
         pk="comment_id"
     )
-    register_api(
-        app,
-        reservations_views.SettingsView,
-        "settings.api",
-        "/reservations/settings/"
-    )
-    app.register_blueprint(floors_views.bp)
-    app.register_blueprint(table_shapes_views.bp)
-    app.register_blueprint(reservations_views.bp)
-

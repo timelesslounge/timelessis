@@ -1,50 +1,60 @@
 """ Views for reservations """
 from datetime import datetime
-from http import HTTPStatus
 
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for, views, jsonify
+    Blueprint, flash, redirect, render_template, request, url_for, jsonify
 )
 
+from timeless import views
 from timeless.access_control.views import SecuredView
-from timeless.reservations.controllers import SettingsController
-from timeless.reservations.models import Comment
-from timeless.views import CrudAPIView
+from timeless.reservations import models
 
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
-class SettingsView(SecuredView):
-    """ Reservation settings API """
-
-    resource = "reservation_settings"
-    ctr = SettingsController()
-
-    def get(self, id):
-        """ GET method for reservation settings """
-        if id:
-            return self.ctr.get_settings_for_reservation(id), HTTPStatus.OK
-        return self.ctr.get_all_reservation_settings(), HTTPStatus.OK
-
-    def post(self):
-        """ POST method for reservation settings """
-        return self.ctr.create_settings_for_reservation(self), HTTPStatus.CREATED
-
-    def put(self, id):
-        """ PUT method for reservation settings """
-        return self.ctr.update_reservation_settings(self, id), HTTPStatus.OK
-
-    def delete(self, id):
-        """ DELETE method for reservation settings """
-        return self.ctr.delete_reservation_settings(id), HTTPStatus.NO_CONTENT
+class SettingsList(views.ListView):
+    """
+    List view set for Reservation Settings
+    @todo #186:30min For SettingsListView, SettingsCreateView,
+     SettingsDetailView, SettingsDeleteView create correct templates
+     for list, create/detail actions. When templates will be done, pls change
+     `template_name` value in every View Class.
+    @todo #173:30min Refactor (and uncomment) views below to use new
+     base views once when they are avaiable. Current implementation is not
+     generic enough.
+    """
+    model = models.ReservationSettings
+    template_name = "restaurants/tables/list.html"
 
 
-class CommentView(SecuredView, CrudAPIView):
+SettingsList.register(bp, "/settings/")
+
+# class SettingsCreateUpdateView(views.CreateUpdateView):
+#     """ Reservation settings create view """
+#     template_name = "restaurants/tables/create_edit.html"
+#     success_url_name = "reservation_settings_list"
+#     form = forms.TableForm
+#     model = models.ReservationSettings
+
+
+# class SettingsDetailView(views.DetailView):
+#     """ Reservation settings detail view"""
+#     model = models.ReservationSettings
+#     template_name = "restaurants/tables/create_edit.html"
+#     success_url_name = "reservation_settings_list"
+#     not_found_url_name = "reservation_settings_list"
+
+
+# class SettingsDeleteView(views.DeleteView):
+#     success_url_name = "reservation_settings_list"
+
+
+class CommentView(SecuredView, views.CrudAPIView):
     """API Resource for comments /api/comments
 
     """
-    model = Comment
+    model = models.Comment
     url_lookup = "comment_id"
     list_reservations = "reservation_comment"
 
@@ -70,12 +80,12 @@ class ReservationsListView(views.MethodView):
             "items": [
                 {
                     "id": 1,
-                    "start_time" : datetime(1, 1, 1),
-                    "end_time" : datetime(1, 1, 1),
-                    "customer_id" : 1,
-                    "num_of_persons" : 1,
-                    "comment" : "Test",
-                    "status" : 2
+                    "start_time": datetime(1, 1, 1),
+                    "end_time": datetime(1, 1, 1),
+                    "customer_id": 1,
+                    "num_of_persons": 1,
+                    "comment": "Test",
+                    "status": 2
                 }
             ]
         }

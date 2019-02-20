@@ -2,7 +2,7 @@
 import enum
 
 from timeless.db import DB
-from timeless.models import TimestampsMixin
+from timeless.models import TimestampsMixin, validate_required
 from timeless.poster.models import PosterSyncMixin
 
 
@@ -25,6 +25,10 @@ class TableShape(DB.Model):
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     description = DB.Column(DB.String, nullable=True)
     picture = DB.Column(DB.String, nullable=False)
+
+    @validate_required("picture")
+    def __init__(self, **kwargs):
+        super(TableShape, self).__init__(**kwargs)
 
     def __repr__(self):
         return "<TableShape %r>" % self.picture
@@ -69,6 +73,11 @@ class Location(PosterSyncMixin, DB.Model):
     working_hours = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     closed_days = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
+    @validate_required("name", "code", "country", "region", "city", "type",
+                       "address", "longitude", "latitude", "status")
+    def __init__(self, **kwargs):
+        super(Location, self).__init__(**kwargs)
+
     def __repr__(self):
         return "<Location %r>" % self.name
 
@@ -111,6 +120,12 @@ class Table(PosterSyncMixin, DB.Model):
 
     DB.UniqueConstraint(u"name", u"floor_id")
 
+    @validate_required("name", "x", "y", "width", "height", "status",
+                       "max_capacity", "multiple", "playstation", "created",
+                       "updated")
+    def __init__(self, **kwargs):
+        super(Table, self).__init__(**kwargs)
+
     def __repr__(self):
         return "<Table %r>" % self.name
 
@@ -132,7 +147,11 @@ class Reservation(TimestampsMixin, DB.Model):
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
 
-    """Calculates the duration of the reservation"""
+    @validate_required("start_time", "end_time", "num_of_persons", "comment",
+                       "status")
+    def __init__(self, **kwargs):
+        super(Reservation, self).__init__(**kwargs)
+
     def duration(self):
         return self.end_time - self.start_time
 
