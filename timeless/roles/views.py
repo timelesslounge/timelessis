@@ -14,7 +14,6 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for,
     abort)
 
-from timeless import DB
 from timeless.roles.forms import RoleForm
 from timeless.roles.models import Role
 
@@ -64,14 +63,12 @@ def edit(id):
 @bp.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     """
-    @todo #255:30min Get rid of DB usage from the view.
-     Please refer to timeless/companies/views.py
-     file to see how it should be implemented
+    Role delete route
+    :param id: Role id
+    :return: List roles view
     """
     roles = Role.query.get(id)
     if not roles:
         return abort(HTTPStatus.NOT_FOUND)
-    roles = Role.query.get(id)
-    DB.session.delete(roles)
-    DB.session.commit()
+    Role.query.filter_by(id=id).delete()
     return redirect(url_for("role.list_roles"))
