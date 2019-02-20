@@ -4,6 +4,9 @@
  should be possible to sort and filter for every column. Location management
  page should be accessed by the Location page. Update html templates when
  methods are implemented. Create more tests for edit() route.
+ Remember not to use DB layer directly. Please refer to
+ timeless/companies/views.py as an example on how routes
+ should be implemented.
 """
 from http import HTTPStatus
 
@@ -56,8 +59,8 @@ def edit(id):
 def delete(id):
     """
     @todo #255:30min Get rid of DB usage from the view.
-     See how `CrudAPIView` is used in other places, that one was
-     implemented to decouple DB from the views.
+     Please refer to timeless/companies/views.py
+     file to see how it should be implemented
     """
     roles = Role.query.get(id)
     if not roles:
