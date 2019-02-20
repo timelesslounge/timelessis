@@ -1,3 +1,4 @@
+"""Celery tasks for poster module"""
 import os
 
 from celery import shared_task
@@ -32,8 +33,9 @@ def sync_tables():
 
         if table:
             new_table = Table.merge_with_poster(table, poster_table)
+            DB.session.add(new_table)
         else:
             new_table = Table.create_by_poster(poster_table)
+            DB.session.merge(new_table)
 
-        DB.session.add(new_table)
-        DB.session.flush()
+        DB.session.commit()

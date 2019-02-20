@@ -10,6 +10,11 @@ class Config(object):
     CSRF_ENABLED = True
     SECRET_KEY = "timele$$i$"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # poster settings
+    POSTER_APPLICATION_ID = ""
+    POSTER_APPLICATION_SECRET = ""
+    POSTER_REDIRECT_URI = ""
+    POSTER_CODE = ""
 
 
 class ProductionConfig(Config):
