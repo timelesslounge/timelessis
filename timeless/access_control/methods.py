@@ -8,5 +8,3 @@ class Method(Enum):
     READ = "read"
     UPDATE = "put"
     DELETE = "delete"
-
-
