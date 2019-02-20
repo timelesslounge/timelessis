@@ -3,7 +3,7 @@ import tempfile
 
 import pytest
 
-from timeless import create_app, cache
+from timeless import create_app, CACHE
 from timeless.db import DB
 
 
@@ -62,4 +62,4 @@ def _db(app):
 @pytest.fixture
 def clear_cache(app):
     with app.app_context():
-        cache.clear()
+        CACHE.clear()

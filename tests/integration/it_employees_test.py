@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from datetime import datetime
 from timeless.employees.models import Employee
 
@@ -55,3 +56,17 @@ def create_employee():
         user_status="Working", email="test@test.com", password="bla",
         pin_code=1234
     )
+
+
+def test_list(client, db_session):
+    """ List all employees """
+    employee = Employee(first_name="Alice", last_name="Cooper",
+                        username="alice", phone_number="1", account_status="1",
+                        birth_date=datetime.utcnow(), pin_code=1234,
+                        registration_date=datetime.utcnow(), user_status="1",
+                        email="test@test.com", password="bla")
+    db_session.add(employee)
+    db_session.commit()
+    employees = client.get("/employees/")
+    assert employees.status_code == HTTPStatus.OK
+    assert b"Alice Cooper" in employees.data
