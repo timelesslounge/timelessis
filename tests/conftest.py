@@ -2,11 +2,8 @@ import os
 import tempfile
 
 import pytest
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 
-from timeless import create_app
+from timeless import create_app, cache
 from timeless.db import DB
 
 
@@ -60,3 +57,9 @@ def _db(app):
     Flask-SQLAlchemy database connection.
     """
     return DB
+
+
+@pytest.fixture
+def clear_cache(app):
+    with app.app_context():
+        cache.clear()

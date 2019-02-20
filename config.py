@@ -41,12 +41,12 @@ class DevelopmentConfig(Config):
     BROKER_URL = "redis://localhost:6379"
 
 
-
 class TestingConfig(Config):
     RESULT_BACKEND = "redis://localhost:6379"
     BROKER_URL = "redis://localhost:6379"
     TESTING = True
     WTF_CSRF_ENABLED = False
+    CACHE_TYPE = None
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_test")
