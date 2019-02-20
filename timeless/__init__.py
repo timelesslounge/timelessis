@@ -7,18 +7,19 @@ a new Flask app for timeless
 # pylint: disable=W0612
 import os
 from flask import Flask
-from flask_caching import Cache
+from timeless.cache import CACHE
 from timeless.db import DB
 from timeless.sync.celery import make_celery
-
-cache = Cache()
 
 
 def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
-    cache.init_app(app, config={"CACHE_TYPE": "redis"})
+    CACHE.init_app(
+        app,
+        config=app.config.get("CACHE_SETTINGS")
+    )
     initialize_extensions(app)
     register_endpoints(app)
     # ensure the instance folder exists
