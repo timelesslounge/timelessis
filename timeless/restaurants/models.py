@@ -132,6 +132,8 @@ class Table(PosterSyncMixin, DB.Model):
     @classmethod
     def merge_with_poster(cls, table, poster_table: dict):
         """
+        Method should return Table object with merged data from table entity
+        and poster table dict
         @todo #187:30min Implement two class methods merge_with_poster and
          create_by_poster. merge_with_poster will merge entry entity with
          poster entity, we should make right fields mapping, as result
@@ -143,6 +145,11 @@ class Table(PosterSyncMixin, DB.Model):
 
     @classmethod
     def create_by_poster(cls, poster_table: dict):
+        """
+        Method should return Table object with given data from
+        poster_table dict
+        """
+        poster_table
         return cls()
 
 
