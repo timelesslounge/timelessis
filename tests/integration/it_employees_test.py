@@ -1,5 +1,6 @@
 """Integration tests for Employees"""
 from http import HTTPStatus
+from flask import url_for
 from datetime import datetime
 
 from timeless.employees.models import Employee
@@ -62,6 +63,6 @@ def test_list(client, db_session):
     employee = create_employee()
     db_session.add(employee)
     db_session.commit()
-    response = client.get("/employees/")
+    response = client.get(url_for("employee.list"))
     assert response.status_code == HTTPStatus.OK
     assert b"John Smith" in response.data
