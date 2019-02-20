@@ -29,6 +29,10 @@ class Item(DB.Model):
     def assign(self, employee):
         """ Assigning the item to an employee """
         self.employee_id = employee.id
+        for hist_item in self.history:
+            if not hist_item.end_time:
+                hist_item.end_time=datetime.utcnow
+                break
         self.history.append(
             ItemHistory(
                 employee_id=self.employee_id,
