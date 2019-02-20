@@ -1,13 +1,18 @@
 """roles views module.
-@todo #192:30min Continue implementing edit() and
- delete() methods, using SQLAlchemy and Location model. In the index page it
+@todo #255:30min Continue implementing edit() method,
+ using SQLAlchemy and Location model. In the index page it
  should be possible to sort and filter for every column. Location management
  page should be accessed by the Location page. Update html templates when
- methods are implemented. Create more tests for all methods.
+ methods are implemented. Create more tests for edit() route.
+ Remember not to use DB layer directly. Please refer to
+ timeless/companies/views.py as an example on how routes
+ should be implemented.
 """
+from http import HTTPStatus
+
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for
-)
+    Blueprint, flash, redirect, render_template, request, url_for,
+    abort)
 
 from timeless.roles.forms import RoleForm
 from timeless.roles.models import Role
@@ -17,6 +22,7 @@ bp = Blueprint("role", __name__, url_prefix="/roles")
 
 @bp.route("/", methods=["GET"])
 def list_roles():
+    """List roles route"""
     return render_template("roles/list.html", roles=Role.query.all())
 
 
@@ -33,7 +39,15 @@ def create():
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
+    """
+    Role edit route
+    :param id: Role id
+    :return: Current role edit view
+    """
     if request.method == "POST":
+        table = Role.query.get(id)
+        if not table:
+            return abort(HTTPStatus.NOT_FOUND)
         flash("Edit not yet implemented")
     action = "edit"
     companies = [
@@ -46,7 +60,15 @@ def edit(id):
     )
 
 
-@bp.route("/delete", methods=["POST"])
-def delete():
-    flash("Delete not yet implemented")
+@bp.route("/delete/<int:id>", methods=["POST"])
+def delete(id):
+    """
+    Role delete route
+    :param id: Role id
+    :return: List roles view
+    """
+    roles = Role.query.get(id)
+    if not roles:
+        return abort(HTTPStatus.NOT_FOUND)
+    Role.query.filter_by(id=id).delete()
     return redirect(url_for("role.list_roles"))
