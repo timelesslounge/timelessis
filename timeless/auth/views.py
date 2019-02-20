@@ -1,7 +1,9 @@
 """Auth views module.
-@todo #59:30min Create IT tests for login method and continue implementing
- forgot_password() and activate() methods. Update html templates when methods
- are implemented. Create more tests for all methods.
+@todo #232:30min Implement activate() methods. Update html templates when
+ methods are implemented. Create more tests for all methods.
+@todo #232:30min Continue implementing forgot_password logic. The page in
+ returned from auth/forgot_password.html must send the user some link to
+ reset the user password.
 @todo #5:30min Implement before_app_request function that will get the user id
  from session, get user data from db and store it in g.user, which lasts for the
  length of the request. Also, create a decorator that will check, for each view
@@ -57,9 +59,6 @@ def logout():
 
 @bp.route("/forgotpassword", methods=("GET", "POST"))
 def forgot_password():
-    if request.method == "POST":
-        # send user link for password reset
-        flash("Forgot password not yet implemented")
     return render_template("auth/forgot_password.html")
 
 
