@@ -2,7 +2,7 @@
 import flask
 
 
-def has_privilege(resource=None, *args, **kwargs) -> bool:
+def has_privilege(*args, resource=None, **kwargs) -> bool:
     """Check if user with Master / Intern / Others role can access a
     particular resource."""
     return __resources.get(resource, lambda *arg: False)(*args, **kwargs)
