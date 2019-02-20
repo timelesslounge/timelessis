@@ -12,13 +12,11 @@ from timeless.employees.models import Employee
 
 from timeless.restaurants.models import Location
 
+
 @pytest.fixture
 def clean_app(app):
     """ Fixture for cleaning global variables in tests. """
     flask.g.user = None
-
-def test_can_access_location(clean_app):
-    assert has_privilege(method=Method.CREATE, resource="location")
 
 
 def test_cant_access_unknown_resource(clean_app):
