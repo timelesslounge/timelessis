@@ -1,0 +1,16 @@
+[Unit]
+Description=PostgreSQL DB Timeless
+Documentation=man:postgres(1)
+[Service]
+Type=forking
+User=postgres
+#pg_conftool show -s data_directory;
+#Environment=PGDATA=/var/lib/postgresql/10/main
+ExecStart=/usr/lib/postgresql/10/bin/postgres -D /etc/postgresql/10/main
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
+EOF
