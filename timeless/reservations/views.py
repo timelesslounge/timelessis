@@ -59,7 +59,7 @@ class CommentView(SecuredView, views.CrudAPIView):
     list_reservations = "reservation_comment"
 
 
-class ReservationsListView(views.MethodView):
+class ReservationsListView(views.CrudAPIView):
     """ Reservation JSON API /api/reservations
 
     """
