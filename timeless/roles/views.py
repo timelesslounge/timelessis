@@ -36,10 +36,10 @@ def create():
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
-    table = Role.query.get(id)
-    if not table:
-        return abort(HTTPStatus.NOT_FOUND)
     if request.method == "POST":
+        table = Role.query.get(id)
+        if not table:
+            return abort(HTTPStatus.NOT_FOUND)
         flash("Edit not yet implemented")
     action = "edit"
     companies = [
@@ -54,6 +54,11 @@ def edit(id):
 
 @bp.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
+    """
+    @todo #255:30min Get rid of DB usage from the view.
+     See how `CrudAPIView` is used in other places, that one was
+     implemented to decouple DB from the views.
+    """
     roles = Role.query.get(id)
     if not roles:
         return abort(HTTPStatus.NOT_FOUND)

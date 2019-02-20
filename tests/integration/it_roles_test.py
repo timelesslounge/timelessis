@@ -14,12 +14,12 @@ def test_create(client, db_session):
     created = None
     try:
         response = client.post(url_for("role.create"), data={
-            "name": "owner"
+            "name": "John"
         })
         assert response.location.endswith(url_for('role.list_roles'))
         assert Role.query.count() == 1
         created = Role.query.get(1)
-        assert created.name == "owner"
+        assert created.name == "John"
     finally:
         if created:
             db_session.delete(created)
@@ -27,13 +27,13 @@ def test_create(client, db_session):
 
 
 def test_edit(client):
-    assert client.get(url_for('role.edit', id=1)).status_code == HTTPStatus.NOT_FOUND
+    assert client.post(url_for('role.edit', id=1)).status_code == HTTPStatus.NOT_FOUND
 
 
 def test_delete_not_found(client):
     assert Role.query.filter_by(id=1).count() == 0
-    result = client.post(url_for('role.delete', id=1))
-    assert result.status_code == HTTPStatus.NOT_FOUND
+    assert client.post(
+        url_for('role.delete', id=1)).status_code == HTTPStatus.NOT_FOUND
 
 
 def test_delete(client):
