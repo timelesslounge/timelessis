@@ -4,6 +4,7 @@ from timeless.models import validate_required
 
 
 class WeekDay(DB.Model):
+    """ WeekDay model"""
     __tablename__ = "weekdays"
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     weekday = DB.Column(DB.Integer, unique=True, nullable=False)
