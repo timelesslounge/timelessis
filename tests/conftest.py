@@ -3,7 +3,8 @@ import tempfile
 
 import pytest
 
-from timeless import create_app, cache
+from timeless import create_app
+from timeless.cache import CACHE
 from timeless.db import DB
 
 
@@ -57,3 +58,10 @@ def _db(app):
     Flask-SQLAlchemy database connection.
     """
     return DB
+
+
+@pytest.fixture(autouse=True)
+def clear_cache(app):
+    """ Clean the cache for every test """
+    with app.app_context():
+        CACHE.clear()
