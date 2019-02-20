@@ -13,9 +13,6 @@ class SecuredView(views.MethodView):
 
             def get(self, company_id):
                 ...
-    @todo #22:30min Continue with SecuredView implementation. Dispatch_request
-     should take cls.resource value and method value from request.method
-     and block the user if he hasn't privileges to access it.
     """
 
     def dispatch_request(self, *args, **kwargs):
