@@ -6,7 +6,7 @@
 #  execute couple of curl requests.
 
 # Get tag and environment from arguments. Example usage:
-# deploy.sh 0.0.1 staging
+# release.sh 0.0.1 staging
 TAG=$1
 
 if [ "$2" != "" ]; then

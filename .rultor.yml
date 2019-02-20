@@ -28,5 +28,5 @@ deploy:
     exit -1
 release:
   script: |-
-    chmod +x ./deploy.sh $tag staging
-    ./deploy.sh $tag staging
+    chmod +x ./release.sh $tag staging
+    ./release.sh $tag staging
