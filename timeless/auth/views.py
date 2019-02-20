@@ -1,6 +1,7 @@
 """Auth views module.
 @todo #232:30min Implement activate() methods. Update html templates when
- methods are implemented. Create more tests for all methods.
+ methods are implemented. Create tests for activate() in it_auth_test.py.
+ Architect must document what activate() method must do.
 @todo #232:30min Continue implementing forgot_password logic. The page in
  returned from auth/forgot_password.html must send the user some link to
  reset the user password.
