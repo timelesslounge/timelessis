@@ -2,6 +2,7 @@
 from datetime import datetime
 
 from timeless import DB
+from timeless.models import validate_required
 
 
 class Item(DB.Model):
@@ -21,18 +22,28 @@ class Item(DB.Model):
     empolyee = DB.relationship("Employee", back_populates="items")
     history = DB.relationship("ItemHistory", back_populates="item")
 
+    @validate_required("name", "stock_date", "comment", "created_on")
+    def __init__(self, **kwargs):
+        super(Item, self).__init__(**kwargs)
+
     def assign(self, employee):
-        """ Assing the item to an employee
-        @todo #142:30min Continue implememntation of assining.
-         Update the old ItemHistory record if current employee_id in not null.
-         ItemHistory should have the needed functions to continue this.
-        """
+        """ Assigning the item to an employee """
         self.employee_id = employee.id
         item_history = ItemHistory(employee_id=self.employee_id, item_id=self.id)
+
+    def item_history(self):
+        """ Returns item history
+        @todo #217:30min Implement function to return item history.
+         history() function must return item assignement history, a list of
+         ItemHistory with all the items assignment history. Then remove skip
+         annotation from test_items.test_item_assign
+        """
+        pass
 
     def __repr__(self):
         """Return object information - String"""
         return "<Item %r>" % self.name
+
 
 class ItemHistory(DB.Model):
     """Model for item assigning history
@@ -47,6 +58,10 @@ class ItemHistory(DB.Model):
     item_id = DB.Column(DB.Integer, DB.ForeignKey("items.id"))
     item = DB.relationship("Item", back_populates="history")
 
+    @validate_required("start_time")
+    def __init__(self, **kwargs):
+        super(ItemHistory, self).__init__(**kwargs)
+
     def __repr__(self):
         """Return object information - String"""
-        return f"<Item {self.id}>"
+        return "<Item {self.id}>"
