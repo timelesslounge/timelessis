@@ -1,24 +1,33 @@
+""" Tests for privilage of user.
+"""
+
 from datetime import datetime
 
 import flask
-
+import pytest
 from timeless.access_control.methods import Method
 from timeless.access_control.owner_privileges import has_privilege
 from timeless.companies.models import Company
 from timeless.employees.models import Employee
+
 from timeless.restaurants.models import Location
 
 
-def test_cant_access_unknown_resource(app):
+@pytest.fixture
+def clean_app(app):
+    """ Fixture for cleaning global variables in tests. """
+    flask.g.user = None
+
+
+def test_cant_access_unknown_resource(clean_app):
     assert not has_privilege(method=Method.CREATE, resource="unknown")
 
 
-def test_cant_access_his_profile(app):
-    flask.g.user = None
+def test_cant_access_his_profile(clean_app):
     assert not has_privilege(method=Method.READ, resource="employee", employee_id=1)
 
 
-def test_can_access_his_profile(app):
+def test_can_access_his_profile(clean_app):
     flask.g.user = Employee(id=1, first_name="Alice", last_name="Cooper",
                       username="alice", phone_number="1", account_status="T",
                       birth_date=datetime.utcnow(), pin_code=1234,
@@ -27,12 +36,7 @@ def test_can_access_his_profile(app):
     assert has_privilege(method=Method.READ, resource="employee", employee_id=1)
 
 
-def test_can_access_own_employees(app):
-    """
-    @todo #180:30min We need to clean global object after test finish
-     its execution to prevent collision with other tests. Probably we need
-     to make a pytest fixture for this.
-    """
+def test_can_access_own_employees(clean_app):
     flask.g.user = Employee(id=1, first_name="Alice", last_name="Cooper",
                       username="alice", phone_number="1", account_status="T",
                       birth_date=datetime.utcnow(), pin_code=1234,
@@ -41,7 +45,7 @@ def test_can_access_own_employees(app):
     assert has_privilege(method=Method.READ, resource="employee")
 
 
-def test_can_manage_locations_from_same_company(app, db_session):
+def test_can_manage_locations_from_same_company(clean_app, db_session):
     my_company = Company(
         name="Acme Inc.", code="code1", address="addr"
     )
@@ -89,7 +93,7 @@ def test_can_manage_locations_from_same_company(app, db_session):
     )
 
 
-def test_can_not_manage_locations_from_different_company(app, db_session):
+def test_can_not_manage_locations_from_different_company(clean_app, db_session):
     my_company = Company(
         id=1, name="Foo Inc.", code="code1", address="addr"
     )
