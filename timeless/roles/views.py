@@ -23,6 +23,7 @@ bp = Blueprint("role", __name__, url_prefix="/roles")
 
 @bp.route("/", methods=["GET"])
 def list_roles():
+    """List roles route"""
     return render_template("roles/list.html", roles=Role.query.all())
 
 
@@ -39,6 +40,11 @@ def create():
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
+    """
+    Role edit route
+    :param id: Role id
+    :return: Current role edit view
+    """
     if request.method == "POST":
         table = Role.query.get(id)
         if not table:
