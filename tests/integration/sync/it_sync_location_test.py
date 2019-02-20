@@ -9,8 +9,13 @@ from timeless.poster.api import Poster
 
 """Integration tests for Location Sync with database
 
+    @todo #232:30min Location poster mock refactor. To simplify future 
+     poster mock creation PosterServerMock were refactored as a 
+     generic server for postermocks (PosterServerMock in
+     tests/integration/poster/poster_integration_mock.py). Implement a mock 
+     location server based on PosterServerMock implementation.
+ 
 """
-
 
 
 @pytest.mark.skip("sync for location not implemented yet")
