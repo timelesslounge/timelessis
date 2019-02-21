@@ -7,7 +7,6 @@ sudo make install
 ls /var/log/redis
 if [ "$?" -gt "0" ]; then
     sudo mkdir /var/log/redis
-    echo "Achou"
 fi
 sudo chown redis /var/log/redis
 sudo chgrp redis /var/log/redis
