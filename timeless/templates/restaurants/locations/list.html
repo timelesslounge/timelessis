@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    {% for location in locations %}
+    {% for location in object_list %}
         <article class="location">
         <header>
             <div>
             <h1>{{ location['name'] }}</h1>
             </div>
-            <a class="action" href="{{ url_for('location.edit', id=location['id']) }}">Edit</a>
+            <a class="action" href="#">Edit</a>
         </header>
         <p class="code">{{ location['code'] }}</p>
         <p class="country">{{ location['country'] }}</p>
