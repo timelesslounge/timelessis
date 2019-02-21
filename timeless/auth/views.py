@@ -60,7 +60,7 @@ def forgot_password():
     if request.method == "POST":
         error = auth.forgot_password(email=request.form["email"])
         if error is not None:
-            flash("We sent a password recover link to your email test@mail.com")
+            flash("We sent a password recover link to your email tst@mail.com")
             return redirect(url_for("auth.login"))
         else:
             flash("E-mail not found", "error")
