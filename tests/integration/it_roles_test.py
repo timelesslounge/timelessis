@@ -9,20 +9,44 @@ def test_list(client):
     assert client.get("/roles/").status_code == HTTPStatus.OK
 
 
-def test_create(client):
-    response = client.post(url_for("role.create"), data={
-        "name": "owner"
-    })
-    assert response.location.endswith(url_for("role.list_roles"))
-    assert Role.query.count() == 1
-    assert Role.query.get(1).name == "owner"
+def test_create(client, db_session):
+    assert Role.query.count() == 0
+    created = None
+    try:
+        response = client.post(url_for("role.create"), data={
+            "name": "John"
+        })
+        assert response.location.endswith(url_for('role.list_roles'))
+        assert Role.query.count() == 1
+        created = Role.query.get(1)
+        assert created.name == "John"
+    finally:
+        if created:
+            db_session.delete(created)
+            db_session.commit()
 
 
 def test_edit(client):
-    assert client.get("/roles/edit/1").status_code == HTTPStatus.OK
+    assert client.post(url_for('role.edit', id=1)).status_code == HTTPStatus.NOT_FOUND
+
+
+def test_delete_not_found(client):
+    assert Role.query.filter_by(id=1).count() == 0
+    assert client.post(
+        url_for('role.delete', id=1)).status_code == HTTPStatus.NOT_FOUND
 
 
 def test_delete(client):
-    response = client.post("/roles/delete", data={"id": 1})
-    assert response.headers["Location"] == "http://localhost/roles/"
+    name = 'role_for_deletion'
+    assert Role.query.filter_by(name=name).count() == 0
+    client.post(url_for("role.create"), data={
+        "name": name
+    })
+    assert Role.query.filter_by(name=name).count() == 1
+    created = Role.query.filter_by(name=name).first()
+
+    result = client.post(url_for('role.delete', id=created.id))
+    assert result.status_code == HTTPStatus.FOUND
+    assert Role.query.filter_by(id=created.id).count() == 0
+    assert result.headers["Location"] == "http://localhost/roles/"
 

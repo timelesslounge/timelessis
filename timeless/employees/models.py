@@ -1,6 +1,4 @@
 """File for models in employees module"""
-from datetime import datetime
-from random import randint
 from passlib.hash import bcrypt_sha256
 
 from timeless.db import DB
@@ -8,13 +6,7 @@ from timeless.models import TimestampsMixin, validate_required
 
 
 class Employee(TimestampsMixin, DB.Model):
-    """Model for employee business entity.
-    @todo #4:30min Continue implementation. Employees should have its own
-     management pages to list, create, edit and delete them. In the index page
-     it should be possible to sort and filter for every column. Other possible
-     actions are described in more detail in issue #4. Specific details about
-     Employee default values are in another puzzle.
-    """
+    """Model for employee business entity."""
     __tablename__ = "employees"
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
@@ -31,6 +23,7 @@ class Employee(TimestampsMixin, DB.Model):
     pin_code = DB.Column(DB.Integer, unique=True, nullable=False)
     comment = DB.Column(DB.String)
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
+    role_id = DB.Column(DB.Integer, DB.ForeignKey("roles.id"), nullable=True)
 
     company = DB.relationship("Company", back_populates="employees")
     items = DB.relationship("Item", back_populates="empolyee")

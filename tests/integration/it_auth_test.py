@@ -48,7 +48,11 @@ def test_login(db_session):
 
 
 def test_forgot_password(client):
-    assert client.get("/auth/forgotpassword").status_code == 200
+    response = client.get("/auth/forgotpassword")
+    decoded = response.data.decode("utf-8")
+    assert "<h1>Forgot your password?</h1>" in decoded
+    assert "<input type=\"submit\" value=\"Forgot my password\">" in decoded
+    assert response.status_code == 200
 
 
 def test_activate(client):
