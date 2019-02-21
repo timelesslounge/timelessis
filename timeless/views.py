@@ -267,7 +267,7 @@ class UpdateView(GenericView):
 
 
 class DeleteView(GenericView):
-    """ BAse view for deleting objects """
+    """ Base view for deleting objects """
 
 
 class FakeModel():
