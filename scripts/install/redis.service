@@ -1,0 +1,14 @@
+[Unit]
+Description=Redis server
+Documentation=man:redis-server(1)
+
+[Service]
+Type=forking
+ExecStart=redis-server
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
