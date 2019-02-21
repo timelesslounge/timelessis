@@ -67,5 +67,8 @@ def delete(id):
 
 class Create(views.CreateView):
     form_class = forms.TableForm
-    success_view_name = "tables.list"
+    success_view_name = "table.list_tables"
     template_name = "restaurants/tables/create_edit.html"
+
+
+Create.register(bp, "/create")

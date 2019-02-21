@@ -248,8 +248,8 @@ class CreateView(GenericView):
     def get_context(self, *args, **kwargs):
         """ Pass 'from' instance to context if it's not provided
         (basicaly for 'get' method). """
-        if 'form' not in kwargs:
-            kwargs['form'] = self.get_form()
+        if "form" not in kwargs:
+            kwargs["form"] = self.get_form()
         return super().get_context(*args, **kwargs)
 
     def post(self):
