@@ -3,10 +3,6 @@
  See #173 for more details about generic views use CreateView, EditView and
  DeleteView as provided in the commented code templates. Uncomment and modify
  this code - create missing view templates and write ITs to verify behaviour.
-@todo #208:30min Continue implementing List to enable sorting and filtering
- for every column. For this, probably there will be a need to create a new
- generic view that all other List views will extend. This generic view should
- use GenericFilter implemented in #317.
 """
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
