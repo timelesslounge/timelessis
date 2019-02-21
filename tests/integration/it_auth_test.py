@@ -64,5 +64,4 @@ def test_forgot_password_post(client):
         "email": "tst@mail.com"
     })
     assert "<h1>Forgot your password?</h1>" in response.data
-    assert "<h1>We sent a password recover link to your email</h1>"
-        in response.data
+    assert "<h1>We sent a link to your email</h1>" in response.data
