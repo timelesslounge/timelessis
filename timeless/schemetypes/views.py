@@ -9,6 +9,7 @@
  use GenericFilter implemented in #317.
 """
 from flask import Blueprint
+
 from timeless.views import ListView
 from timeless.schemetypes.models import SchemeType
 
