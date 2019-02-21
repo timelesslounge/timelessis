@@ -9,7 +9,7 @@
 which redis-cli
 if [ "$?" -gt "0" ]; then
   echo "Redis Not installed, installing"
-  sudo apt install make gcc libc6-dev tcl
+  sudo apt -y install make gcc libc6-dev tcl
   wget http://download.redis.io/redis-stable.tar.gz
   tar xvzf redis-stable.tar.gz
   cd redis-stable

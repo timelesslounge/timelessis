@@ -80,6 +80,7 @@ def register_endpoints(app):
     from timeless.restaurants.table_shapes import views as table_shapes_views
     from timeless.items import views as items_views
     from timeless.schemetypes import views as schemetypes_views
+    from timeless.employees import views as employees_views
 
     app.register_blueprint(auth_views.bp)
     app.register_blueprint(tables_views.bp)
@@ -90,6 +91,7 @@ def register_endpoints(app):
     app.register_blueprint(table_shapes_views.bp)
     app.register_blueprint(reservations_views.bp)
     app.register_blueprint(schemetypes_views.bp)
+    app.register_blueprint(employees_views.bp)
     register_api(
         app,
         companies_views.Resource,
