@@ -18,7 +18,7 @@ def test_list(client):
     client.post(url_for("reservations.settings_create"), data=data)
     response = client.get(url_for("reservations.settings_list"))
     assert response.status_code == HTTPStatus.OK
-    html = response.data.decode('utf-8')
+    html = response.data.decode("utf-8")
     assert html.count(data["num_of_persons"]) == 1
     assert html.count(data["comment"]) == 1
 
@@ -42,7 +42,7 @@ def test_edit(client):
     )
     response = client.get(url_for("reservations.settings_list"))
     assert response.status_code == HTTPStatus.OK
-    html = response.data.decode('utf-8')
+    html = response.data.decode("utf-8")
     assert html.count(data["num_of_persons"]) == 1
     assert html.count(data["comment"]) == 0
     assert html.count(new_data["comment"]) == 1
@@ -62,7 +62,7 @@ def test_delete(client):
     )
     response = client.get(url_for("reservations.settings_list"))
     assert response.status_code == HTTPStatus.OK
-    html = response.data.decode('utf-8')
+    html = response.data.decode("utf-8")
     assert html.count(data["num_of_persons"]) == 0
     assert html.count(data["comment"]) == 0
 
