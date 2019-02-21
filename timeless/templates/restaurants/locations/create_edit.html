@@ -46,6 +46,6 @@
     <input name="floors" id="floors"/>
 
     <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
-    <a class="action" href="{{ url_for('location.list_locations') }}">Cancel</a>
+    <a class="action" href="{{ url_for('location.list') }}">Cancel</a>
   </form>
 {% endblock %}
