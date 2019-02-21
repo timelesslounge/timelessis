@@ -62,7 +62,5 @@ def test_activate(client):
 def test_forgot_password_post(client):
     response = client.post("/auth/forgotpassword",
                             data={"email": "tst@mail.com"})
-    decoded = response.data.decode("utf-8")
-    assert "<h1>Forgot your password?</h1>" in decoded
-    assert "<h1>We sent a password recover link to your email</h1>" in decoded
-    assert response.status_code == 200
+    assert "<h1>Forgot your password?</h1>" in response
+    assert "<h1>We sent a password recover link to your email</h1>" in response
