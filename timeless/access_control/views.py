@@ -1,4 +1,7 @@
-from flask import views, request
+from flask import abort, views, request
+from http import HTTPStatus
+
+from timeless.access_control import authorization
 
 
 class SecuredView(views.MethodView):
@@ -10,11 +13,12 @@ class SecuredView(views.MethodView):
 
             def get(self, company_id):
                 ...
-    @todo #22:30min Continue with SecuredView implementation. Dispatch_request
-     should take cls.resource value and method value from request.method
-     and block the user if he hasn't privileges to access it.
     """
+
     def dispatch_request(self, *args, **kwargs):
-        method = getattr(self, request.method.lower(), None)
-        assert method is not None, "Unimplemented method %r" % request.method
-        return super(SecuredView, self).dispatch_request(*args, **kwargs)
+        if self.resource and not authorization.is_allowed(
+            method=request.method.lower(), resource=self.resource,
+            *args, **kwargs
+        ):
+            abort(HTTPStatus.FORBIDDEN)
+        return super().dispatch_request(*args, **kwargs)

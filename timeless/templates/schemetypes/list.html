@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% cache 600 %}
+{% block header %}
+    <h1>{% block title %}Scheme Types management - Main{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% for type in object_list %}
+        <article class="schemetype">
+            <header>
+                <div>
+                    <h1>{{ type['description'] }}</h1>
+                </div>
+                <a class="action" href="#">Edit</a>
+            </header>
+            <p class="column">Default value: {{ type['default_value'] }}</p>
+            <p class="column">Value type: {{ type['value_type'] }}</p>
+        </article>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+{% endcache %}

@@ -1,12 +1,9 @@
 from timeless.restaurants.models import Location
 
 """
-    Syncs Poster with database.
-
-    @todo #24:30min Implement synchronization between Poster and Database for
-     Tables. Data coming from Poster has priority upon data stored in our
-     database. Do not forget to create periodic script and
-     put int into scripts folder to make this sync periodically.
+@todo #187:30min Move this logic from sync_location method to
+ timelessis/poster/tasks, there is already done sync_tables function as
+ example. Also should refactor sync_location, seems it will not work
 """
 
 

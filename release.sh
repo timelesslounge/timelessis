@@ -4,39 +4,47 @@
 # @todo #126:30min Finish implementing deploy scripts. Add scripts in cron 
 #  (like the one created in #47). Verify the web application is running - 
 #  execute couple of curl requests.
-# @todo #126:30min Add parameter to this script that will allow changing the
-#  environment (either staging or production) and read environment credentials
-#  in order to deploy to correct environment. Rultor needs to be called like 
-#  this: @rultor deploy 0.0.1 staging
+
+# Get tag and environment from arguments. Example usage:
+# release.sh 0.0.1 staging
+TAG=$1
+
+if [ "$2" != "" ]; then
+    ENVIRONMENT=$2
+else
+    ENVIRONMENT='staging'
+fi
+
 
 echo "-- Run tests"
 pytest
 
-echo "-- Creating staging tag"
-git tag -a staging-$tag -m "Rultor deploy staging-$tag"
 
-STAGING_SERVER=$(jq -r '.credentials.server.staging.address' ../credentials.json)
-STAGING_USER=$(jq -r '.credentials.server.staging.username' ../credentials.json)
-STAGING_KEY=../staging.id_rsa
-PG_STAGING_USER=$(jq -r '.credentials.postgres.staging.username' ../credentials.json)
-PG_STAGING_PASS=$(jq -r '.credentials.postgres.staging.password' ../credentials.json)
+echo "-- Creating $ENVIRONMENT tag"
+git tag -a $ENVIRONMENT-$TAG -m "Rultor deploy staging-$TAG"
+
+SERVER=$(jq -r ".credentials.server.$ENVIRONMENT.address" ../credentials.json)
+USER=$(jq -r ".credentials.server.$ENVIRONMENT.username" ../credentials.json)
+KEY=../staging.id_rsa
+PG_USER=$(jq -r ".credentials.postgres.$ENVIRONMENT.username" ../credentials.json)
+PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.json)
 
 echo "-- Copy application code to staging server"
-scp -i $STAGING_KEY -r . $STAGING_USER@$STAGING_SERVER:/app
+scp -i $KEY -r . $USER@$SERVER:/app
 
 # add scripts in cron (like the one created in #47)
 # verify the webapplication is running
-ssh -i $STAGING_KEY $STAGING_USER@$STAGING_SERVER << EOF
+ssh -i $KEY $USER@$SERVER << EOF
   chmod +x app/scripts/install/deploy/install_dependencies.sh
   . app/scripts/install/deploy/install_dependencies.sh
-  echo "-- Creating database user: $PG_STAGING_USER"
-  sudo -u postgres psql -c "CREATE USER $PG_STAGING_USER WITH 
+  echo "-- Creating database user: $PG_USER"
+  sudo -u postgres psql -c "CREATE USER $PG_USER WITH
     SUPERUSER
     CREATEDB
     CREATEROLE
     INHERIT
     LOGIN
-    ENCRYPTED PASSWORD '$PG_STAGING_PASS';"
+    ENCRYPTED PASSWORD '$PG_PASS';"
   echo "-- Creating database: timelessdb_dev"  
   sudo -u postgres psql -c "CREATE DATABASE timelessdb_dev;"
   echo "-- Creating database: timelessdb_test"  
@@ -50,7 +58,7 @@ ssh -i $STAGING_KEY $STAGING_USER@$STAGING_SERVER << EOF
   pip install -r requirements.txt
   echo "-- Running database migrations"
   export TIMELESSIS_CONFIG="config.StagingConfig"
-  export SQLALCHEMY_DATABASE_URI="postgresql://$PG_STAGING_USER:$PG_STAGING_PASS@localhost/timelessdb"
+  export SQLALCHEMY_DATABASE_URI="postgresql://$PG_USER:$PG_PASS@localhost/timelessdb"
   python manage.py db upgrade
   echo "-- Running web application server"
   export FLASK_APP=main.py
@@ -58,6 +66,3 @@ ssh -i $STAGING_KEY $STAGING_USER@$STAGING_SERVER << EOF
   flask run &
   echo "-- REPLACE: verify web application is running ok"
 EOF
-
-
-
