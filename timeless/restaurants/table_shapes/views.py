@@ -39,9 +39,6 @@ def create():
 
     if request.method == "POST" and form.validate():
         """
-        @todo #162:30min Initialize CSRF token protection for app and add
-         token to this template. Implementation detail you can find by the
-         following page: https://flask-wtf.readthedocs.io/en/stable/csrf.html
         @todo #162:30min This form currenly cannot save pictures. Need have a
          look how WTF form processes files. Implement generic solution to use
          it everywhere when it's needed.
