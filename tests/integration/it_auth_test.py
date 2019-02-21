@@ -64,4 +64,4 @@ def test_forgot_password_post(client):
     response = client.post(flask.url_for("auth.forgot_password"), data={
         "email": "tst@mail.com"
     })
-    assert response.status_code == 200
+    assert response.status_code == HTTPStatus.FOUND
