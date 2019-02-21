@@ -38,12 +38,10 @@ def create():
     form = forms.TableShapeForm(request.form)
 
     if request.method == "POST" and form.validate():
-        """        
+        """
         @todo #162:30min This form currenly cannot save pictures. Need have a
          look how WTF form processes files. Implement generic solution to use
          it everywhere when it's needed.
-        """
-        """
         Uncomment after correction
         form.save()
         """
