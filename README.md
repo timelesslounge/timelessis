@@ -257,9 +257,9 @@ upload, you need to set the `FILE_ID` parameter in `pg_backup.config`, e.g.
 FILE_ID=0B-Iak7O9SfIpYk9zTjZvY2xreVU
 ```
 
-@todo #224:30min We need a more user friendly way to find out the file ID from
- Google Drive. Perhaps do "gdrive list" with the file name as query and set
- file ID from there.
+@todo #296:30min Automate the setting up of FILE_ID into pg_backup.config,
+ we already have the FILE_ID in the script, so what's left is to change it
+ in file
 
 ### Running tests
 
