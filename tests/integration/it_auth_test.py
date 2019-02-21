@@ -1,4 +1,5 @@
 from datetime import datetime
+import flask
 
 from timeless.auth.auth import login
 from timeless.employees.models import Employee
@@ -60,8 +61,7 @@ def test_activate(client):
 
 
 def test_forgot_password_post(client):
-    response = client.post(url_for("/auth/forgotpassword"), data={
+    response = client.post(flask.url_for("/auth/forgotpassword"), data={
         "email": "tst@mail.com"
     })
-    assert "<h1>Forgot your password?</h1>" in response.data
-    assert "<h1>We sent a link to your email</h1>" in response.data
+    self.assertIn("<h1>We sent a link to your email</h1>", response.data)
