@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# @todo #248:30min Implement a service for Redis. Redis should be up and running
-#  after host restart. Lets create and install a service for Redis and make sure it is
-#  started and running.
-
 # Script for Redis availability check, installation and launch
 
 which redis-cli
@@ -30,3 +26,6 @@ if [ "$?" -gt "0" ]; then
 else
   echo "Redis already running"
 fi
+
+sudo cp redis.service /lib/systemd/system/
+sudo systemctl enable redis
