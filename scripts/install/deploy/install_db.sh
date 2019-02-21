@@ -1,11 +1,5 @@
 #!/bin/sh
 
-# @todo #248:30min Implement a service for Postgres. Postgres should be up and running
-#  after host restart. Lets create and install a service for Postgres and make sure it is
-#  started and running.
-
-# Script for Postgres availability check, installation, launch
-
 which psql
 if [ "$?" -gt "0" ]; then
   echo "Postgres Not installed, installing"
@@ -27,3 +21,6 @@ fi
  else
    echo "Postgres already running"
  fi
+
+sudo cp timeless_pg.service /lib/systemd/system/
+sudo systemctl start timeless_pg.service
