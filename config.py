@@ -15,6 +15,14 @@ class Config(object):
     POSTER_APPLICATION_SECRET = ""
     POSTER_REDIRECT_URI = ""
     POSTER_CODE = ""
+    # redis and cache settings
+    REDIS_HOST = os.environ.get("REDIS_HOST", "redis://localhost:6379")
+    RESULT_BACKEND = REDIS_HOST
+    BROKER_URL = REDIS_HOST
+    CACHE_SETTINGS = {
+        "CACHE_TYPE": "redis",
+        "CACHE_REDIS_URL": REDIS_HOST
+    }
 
 
 class ProductionConfig(Config):
@@ -22,13 +30,6 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb")
-    REDIS_HOST = "redis://localhost:6379"
-    RESULT_BACKEND = REDIS_HOST
-    BROKER_URL = REDIS_HOST
-    CACHE_SETTINGS = {
-        "CACHE_TYPE": "redis",
-        "CACHE_REDIS_URL": REDIS_HOST
-    }
 
 
 class StagingConfig(Config):
@@ -37,13 +38,6 @@ class StagingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
-    REDIS_HOST = "redis://localhost:6379"
-    RESULT_BACKEND = REDIS_HOST
-    BROKER_URL = REDIS_HOST
-    CACHE_SETTINGS = {
-        "CACHE_TYPE": "redis",
-        "CACHE_REDIS_URL": REDIS_HOST
-    }
 
 
 class DevelopmentConfig(Config):
@@ -52,13 +46,6 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_dev")
-    REDIS_HOST = "redis://localhost:6379"
-    RESULT_BACKEND = REDIS_HOST
-    BROKER_URL = REDIS_HOST
-    CACHE_SETTINGS = {
-        "CACHE_TYPE": "redis",
-        "CACHE_REDIS_URL": REDIS_HOST
-    }
 
 
 class TestingConfig(Config):
@@ -68,10 +55,3 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
         "postgresql://timeless_user:timeless_pwd@localhost/timelessdb_test")
-    REDIS_HOST = "redis://localhost:6379"
-    RESULT_BACKEND = REDIS_HOST
-    BROKER_URL = REDIS_HOST
-    CACHE_SETTINGS = {
-        "CACHE_TYPE": "redis",
-        "CACHE_REDIS_URL": REDIS_HOST
-    }
