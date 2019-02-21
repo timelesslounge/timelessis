@@ -2,9 +2,10 @@
 import factory
 import random
 
-from timeless import DB
+from timeless import DB, companies
 from timeless.employees import models as employee_models
 from timeless.restaurants import models as restaurants_models
+from timeless.companies import models as company_models
 
 
 class TableShapeFactory(factory.alchemy.SQLAlchemyModelFactory):
@@ -34,5 +35,16 @@ class EmployeeFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     class Meta:
         model = employee_models.Employee
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
+
+
+class CompanyFactory(factory.alchemy.SQLAlchemyModelFactory):
+    name = factory.Faker("text")
+    code = factory.Faker("text")
+    address = factory.Faker("text")
+
+    class Meta:
+        model = company_models.Company
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
