@@ -258,8 +258,8 @@ FILE_ID=0B-Iak7O9SfIpYk9zTjZvY2xreVU
 ```
 
 @todo #296:30min Automate the setting up of FILE_ID into pg_backup.config,
-we already have the FILE_ID in the script, so what's left is to change it
-in file
+ we already have the FILE_ID in the script, so what's left is to change it
+ in file
 
 ### Running tests
 
