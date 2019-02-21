@@ -8,11 +8,6 @@ from timeless.sync.synced_table import SyncedTable
 from timeless.poster.api import Poster
 
 """Integration tests for Table Sync with database"""
-"""
-    @todo #187:30min Implement integration tests for this periodic task.
-     Create fixture and mock response from poster, and check how it will be
-     saved in DB. API docs - https://dev.joinposter.com/en/docs/api
-"""
 
 
 @pytest.mark.skip("sync for table not implemented yet")
