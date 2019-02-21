@@ -157,3 +157,7 @@ def test_item_assign_history():
         item.item_history()[1].employee_id == first_employee.id,
         "First ItemHistory with wrong employee"
     )
+    assert (
+        item.item_history()[1].end_time is not None,
+        "First ItemHistory end_time not set"
+    )
