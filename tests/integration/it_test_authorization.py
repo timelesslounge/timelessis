@@ -10,6 +10,9 @@ from timeless.access_control.methods import Method
 #  appropriate roles and make sure that current test cases diffrentiate enough
 #  between roles, so we can be sure that is_allowed takes into account all
 #  exiting roles. Also remove pytest.mark.skip from all test methods here.
+#  And also try to parametrize tests below if it will be possible, at least 3
+#  of those tests are very similar (tests with just a single company) so it
+#  should be easy to parametrize them.
 def test_manager_can_access_employee():
     my_company = factories.CompanyFactory()
     me = factories.EmployeeFactory(company=my_company)  # set role to manager
