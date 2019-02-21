@@ -93,3 +93,22 @@ if ! gdrive upload $FINAL_BACKUP_DIR"$DATABASE".sql.gz --timeout "$TIMEOUT"; the
 else
     echo -e "\nUpload of database backups complete!"
 fi
+
+#####################################
+###### GET FILE_ID FROM GDRIVE ######
+#####################################
+
+echo -e "\n\n Recovering FILE_ID from Google Drive"
+echo -e "--------------------------------------------\n"
+
+FILENAME="$DATABASE.sql.gz"
+
+DB_FILE_GREP=$(gdrive list | grep $FILENAME)
+if [[ $? -ne 0 ]]; then
+    echo -e "[ERROR]["$(date +\%Y-\%m-\%d\ %H:%M:%S:%3N)"] Could not recover the FILE_ID ourselves, try running \"gdrive list\" and recover the ID for file \"$FILENAME\" to set pg_backup.config's FILE_ID"
+else
+    echo "Set your pg_backup.config's FILE_ID to this ID:"
+    FILE_ID="$(echo $DB_FILE_GREP | head -1 | cut -d" " -f1)"
+    echo $FILE_ID
+fi
+
