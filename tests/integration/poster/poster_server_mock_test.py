@@ -1,7 +1,8 @@
+import requests
+
+from http.server import HTTPStatus
 
 from tests.integration.poster.poster_server_mock import PosterServerMock
-
-import requests
 
 
 class TestPosterServerMock():
@@ -14,43 +15,35 @@ class TestPosterServerMock():
         server.start(server)
         server.PATTERN=r"anything"
         response = requests.get(
-            url="http://localhost:{port}/otherthing".format(
-                port=server.port
-            )
+            url=f"http://localhost:{server.port}/otherthing"
         )
-        assert response.status_code == 404
+        assert response.status_code == HTTPStatus.NOT_FOUND
 
     def test_get_on_valid_url(self):
         server = PosterServerMock
         server.start(server)
         server.PATTERN=r"anything"
         response = requests.get(
-            url="http://localhost:{port}/anything".format(
-                port=server.port
-            )
+            url=f"http://localhost:{server.port}/anything"
         )
-        assert response.content == b'"get content"' \
-            and response.status_code == 200
+        assert response.content.decode("utf-8") == '"get content"'
+        assert response.status_code == HTTPStatus.OK
 
     def test_post_on_invalid_url(self):
         server = PosterServerMock
         server.start(server)
         server.PATTERN=r"anything"
         response = requests.post(
-            url="http://localhost:{port}/otherthing".format(
-                port=server.port
-            )
+            url=f"http://localhost:{server.port}/strangerthing"
         )
-        assert response.status_code == 404
+        assert response.status_code == HTTPStatus.NOT_FOUND
 
     def test_post_on_valid_url(self):
         server = PosterServerMock
         server.start(server)
         server.PATTERN=r"anything"
         response = requests.post(
-            url="http://localhost:{port}/anything".format(
-                port=server.port
-            )
+            url=f"http://localhost:{server.port}/anything"
         )
-        assert response.content == b'"post content"' \
-            and response.status_code == 200
+        assert response.content.decode("utf-8") == '"post content"'
+        assert response.status_code == HTTPStatus.OK

@@ -1,10 +1,10 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
 import re
 import socket
 import requests
-from threading import Thread
-from http.server import  HTTPServer
 import json
+
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from threading import Thread
 
 
 class PosterServerMock(BaseHTTPRequestHandler):
@@ -37,7 +37,6 @@ class PosterServerMock(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.end_headers()
             self.wfile.write(self.get_content().encode("utf-8"))
-            return
         else:
             self.send_response(requests.codes.not_found)
             self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -49,7 +48,6 @@ class PosterServerMock(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.end_headers()
             self.wfile.write(self.post_content().encode("utf-8"))
-            return
         else:
             self.send_response(requests.codes.not_found)
             self.send_header("Content-Type", "application/json; charset=utf-8")
