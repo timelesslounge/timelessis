@@ -1,8 +1,8 @@
 """Locations views module.
-@todo #208:30min Continue implementing Create, Edit and Delete views once
- generic views from #173 are implemented. Code templates are already provided
- below, so uncomment and modify - create view templates and write ITs to verify
- behaviour. Remove function endpoints once the view classes are in place.
+@todo #208:30min Remove function endpoints once the view classes are in place.
+ See #173 for more details about generic views use CreateView, EditView and
+ DeleteView as provided in the commented code templates. Uncomment and modify
+ this code - create missing view templates and write ITs to verify behaviour.
 @todo #208:30min Continue implementing List to enable sorting and filtering
  for every column. For this, probably there will be a need to create a new
  generic view that all other List views will extend. This generic view should
