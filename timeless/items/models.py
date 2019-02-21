@@ -31,7 +31,7 @@ class Item(DB.Model):
         self.employee_id = employee.id
         for hist_item in self.history:
             if not hist_item.end_time:
-                hist_item.end_time=datetime.utcnow
+                hist_item.end_time = datetime.utcnow
                 break
         self.history.append(
             ItemHistory(
