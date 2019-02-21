@@ -43,7 +43,7 @@ def create():
          look how WTF form processes files. Implement generic solution to use
          it everywhere when it's needed.
         """
-        """ 
+        """
         Uncomment after correction
         form.save()
         """
