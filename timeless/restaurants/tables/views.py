@@ -44,7 +44,6 @@ def create():
     """ Create new table """
     form = forms.TableForm(request.form)
     if request.method == "POST" and form.validate():
-        print("FORM", form.data)
         form.save()
         return redirect(url_for("tables.list_tables"))
     return render_template(

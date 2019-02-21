@@ -95,7 +95,13 @@ class TableReservation(DB.Model):
 
 
 class Table(TimestampsMixin, PosterSyncMixin, DB.Model):
-    """Model for a Table"""
+    """Model for a Table
+    @todo #234:30min Lets create an abstract model that will extend
+     TimestampsMixin and DB.Model and make every model that needs
+     TimestampsMixin extend it.
+     Example: https://docs.sqlalchemy.org/en/latest/orm/extensions/
+     declarative/mixins.html#augmenting-the-base
+    """
 
     __tablename__ = "tables"
 
