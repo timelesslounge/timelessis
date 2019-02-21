@@ -1,7 +1,6 @@
-from timeless.access_control import administrator_privileges
-from timeless.access_control import manager_privileges
-from timeless.access_control import owner_privileges
-from timeless.access_control import director_privileges
+from timeless.access_control import (
+    administrator_privileges, manager_privileges, other_privileges,
+    owner_privileges, director_privileges)
 
 
 def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
@@ -24,4 +23,5 @@ __roles = {
     "manager": manager_privileges,
     "director": director_privileges,
     "administrator": administrator_privileges,
+    "other": other_privileges,
 }
