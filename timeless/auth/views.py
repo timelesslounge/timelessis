@@ -2,9 +2,6 @@
 @todo #232:30min Implement activate() methods. Update html templates when
  methods are implemented. Create tests for activate() in it_auth_test.py.
  Architect must document what activate() method must do.
-@todo #232:30min Continue implementing forgot_password logic. The page in
- returned from auth/forgot_password.html must send the user some link to
- reset the user password.
 @todo #5:30min Implement before_app_request function that will get the user id
  from session, get user data from db and store it in g.user, which lasts for the
  length of the request. Also, create a decorator that will check, for each view
@@ -60,6 +57,14 @@ def logout():
 
 @bp.route("/forgotpassword", methods=("GET", "POST"))
 def forgot_password():
+    if request.method == "POST":
+        error = auth.forgot_password(email=request.form["email"])
+        if error is not None:
+            flash("We sent a password recover link to your email test@mail.com")
+            return redirect(url_for("auth.login"))
+        else:
+            flash("E-mail not found", "error")
+
     return render_template("auth/forgot_password.html")
 
 
