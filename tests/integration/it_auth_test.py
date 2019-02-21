@@ -60,7 +60,7 @@ def test_activate(client):
 
 
 def test_forgot_password_post(client):
-    response = client.post(flask.url_for("/auth/forgotpassword"), data={
+    response = client.post(url_for("/auth/forgotpassword"), data={
         "email": "tst@mail.com"
     })
     assert "<h1>Forgot your password?</h1>" in response.data
