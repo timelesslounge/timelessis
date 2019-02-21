@@ -38,13 +38,13 @@ bp = Blueprint("location", __name__, url_prefix="/locations")
 #     model = Location
 
 
-class LocationList(ListView):
+class List(ListView):
     """List all locations"""
     template_name = "restaurants/locations/list.html"
     model = Location
 
 
-LocationList.register(bp, "/")
+List.register(bp, "/")
 # Create.register(bp, "/create")
 # Edit.register(bp, "/edit/<int:id>")
 # Delete.register(bp, "/delete")
