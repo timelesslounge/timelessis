@@ -263,23 +263,11 @@ class CreateView(GenericView):
 
 
 class UpdateView(GenericView):
-    """
-    @todo #307:30min Continue implementing UpdateView. This Gist can help:
-     https://gist.github.com/timster/e13ed61674bb11474e4a Implement an example
-     for each view by refactoring one of the existing
-     blueprints (see restaurants/floors/views.py). It will have common with
-     CreateView methods, move them to base class called,
-     for example, `FormView`
-    """
+    """ Base view for updating objects"""
 
 
 class DeleteView(GenericView):
-    """
-    @todo #307:30min Continue implementing DeleteView. This Gist can help:
-     https://gist.github.com/timster/e13ed61674bb11474e4a Implement an example
-     for each view by refactoring one of the existing
-     blueprints (see restaurants/floors/views.py)
-    """
+    """ BAse view for deleting objects """
 
 
 class FakeModel():
