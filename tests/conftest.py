@@ -14,12 +14,17 @@ def app():
     app = create_app("config.TestingConfig")
     app_context = app.test_request_context()
     app_context.push()
-    DB.create_all()
     yield app
-    DB.session.remove()
-    DB.drop_all()
     os.close(db_fd)
     os.unlink(db_path)
+
+
+@pytest.fixture(autouse=True)
+def flush_db(app):
+    DB.create_all()
+    yield
+    DB.session.remove()
+    DB.drop_all()
 
 
 @pytest.fixture

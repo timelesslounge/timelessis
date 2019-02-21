@@ -6,6 +6,7 @@ services:
     environment:
       FLASK_APP: main.py
       FLASK_ENV: development
+      REDIS_HOST: redis://redis:6379
       SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db/timelessdb_dev
     ports:
       - 5000:5000
@@ -28,6 +29,7 @@ services:
     environment:
       FLASK_APP: main.py
       FLASK_ENV: testing
+      REDIS_HOST: redis://redis:6379
       SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db_test/timelessdb_test
     ports:
       - 5000:5000

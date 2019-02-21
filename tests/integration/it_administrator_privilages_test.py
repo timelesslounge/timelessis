@@ -14,5 +14,3 @@ def test_can_access_and_change_employees(app):
     assert has_privilege(method=Method.CREATE, resource="employee")
     assert has_privilege(method=Method.UPDATE, resource="employee")
     assert has_privilege(method=Method.DELETE, resource="employee")
-
-
