@@ -10,7 +10,7 @@
  method. Just like it was done for companies management views.
 """
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for
+    Blueprint, redirect, render_template, request, url_for
 )
 
 from timeless import DB, views
@@ -49,7 +49,7 @@ def edit(id):
     form = forms.TableForm(request.form, instance=table)
     if request.method == "POST" and form.validate():
         form.save()
-        return redirect(url_for("tables.list"))
+        return redirect(url_for("tables.list_tables"))
 
     return render_template(
         "restaurants/tables/create_edit.html", form=form)
