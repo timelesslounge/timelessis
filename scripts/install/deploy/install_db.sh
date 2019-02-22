@@ -1,10 +1,8 @@
 #!/bin/sh
 
-# @todo #248:30min Implement a service for Postgres. Postgres should be up and running
-#  after host restart. Lets create and install a service for Postgres and make sure it is
-#  started and running.
-
-# Script for Postgres availability check, installation, launch
+# @todo #299:30min Continue the deploy algorithm. We need to create an
+#  employee with role administator belonging to company "Timeless" and
+#  credentials that will be taken by encrypted credential file.
 
 which psql
 if [ "$?" -gt "0" ]; then
@@ -27,3 +25,6 @@ fi
  else
    echo "Postgres already running"
  fi
+
+sudo cp timeless_pg.service /lib/systemd/system/
+sudo systemctl start timeless_pg.service
