@@ -60,6 +60,7 @@ def test_can_access_location_tables(app, db_session):
         company_id=company.id,
         email="test@test.com", password="bla"
     )
+    flask.g.user = user
     db_session.add(user)
     db_session.commit()
     assert has_privilege(
@@ -123,6 +124,7 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
         company_id=company.id,
         email="test@test.com", password="bla"
     )
+    flask.g.user = user
     db_session.add(user)
     db_session.commit()
     assert not has_privilege(
