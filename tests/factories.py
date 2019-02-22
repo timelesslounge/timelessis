@@ -22,7 +22,8 @@ class TableShapeFactory(factory.alchemy.SQLAlchemyModelFactory):
 class EmployeeFactory(factory.alchemy.SQLAlchemyModelFactory):
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    username = factory.Faker("user_name")
+    username = factory.LazyAttribute(
+        lambda emp: f'{emp.first_name}{emp.last_name}'[:15])
     phone_number = factory.Faker("phone_number")
     birth_date = factory.Faker("date")
     registration_date = factory.Faker("date")
