@@ -28,12 +28,7 @@ def start_server(port, **kwargs):
     """
     class PosterServerMock(BaseHTTPRequestHandler):
         """Mock server definition
-            @todo #101:30min Poster server mock refactor. To simplify future poster mock creation refactor
-             PosterServerMock as a generic server for postermocks and extends it for each poster method (locations,
-             authentications, etc). So we would have a LocationServermock for Locations poster endpoints, AutherverMock
-             for authentication endpoints and so on. Base PosterServerMock would just gave the start_server and
-             free_port implemetations (maybe them would just be  invoked in PosterServerMock start), and all the
-             location data setting in test_sync.py have to be moved for LocationServerMock.
+
         """
         LOCATIONS_PATTERN = re.compile(r"/clients.getLocations")
         TABLES_PATTERN = re.compile(r"/clients.getTables")

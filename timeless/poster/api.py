@@ -1,8 +1,9 @@
 """Poster API"""
+
+from urllib.parse import urljoin
 import attr
 import requests
 
-from urllib.parse import urljoin
 
 from timeless.poster import exceptions
 
@@ -17,9 +18,10 @@ class Poster:
     client_id = 0
     token = ""
 
-    def __init__(self, **kwargs):
+    def __init__(self, auth_token=None, **kwargs):
         self.url = kwargs.get("url", "https://joinposter.com/api")
         self.account = kwargs.get("client_id", 0)
+        self.auth_token = auth_token
 
     def locations(self):
         """Fetches location data
@@ -72,7 +74,7 @@ class Authenticated:
     """ Poster Auth class """
     auth_url = "https://joinposter.com/api/v2/auth/access_token"
 
-    def __init__(self, auth_data: PosterAuthData, **kwargs):
+    def __init__(self, auth_data: PosterAuthData):
         self.auth_data = auth_data
 
     def auth(self):

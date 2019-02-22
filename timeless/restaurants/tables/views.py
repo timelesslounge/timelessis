@@ -10,10 +10,10 @@
  method. Just like it was done for companies management views.
 """
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for
+    Blueprint, redirect, render_template, request, url_for
 )
 
-from timeless import DB
+from timeless import DB, views
 from timeless.restaurants import models
 from timeless.restaurants.tables import forms
 
@@ -37,17 +37,6 @@ def list_tables():
         "restaurants/tables/list.html", tables=models.Table.query.all(),
         floors=floors, shapes=shapes
     )
-
-
-@bp.route("/create", methods=("GET", "POST"))
-def create():
-    """ Create new table """
-    form = forms.TableForm(request.form)
-    if request.method == "POST" and form.validate():
-        form.save()
-        return redirect(url_for("tables.list_tables"))
-    return render_template(
-        "restaurants/tables/create_edit.html", form=form)
 
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
@@ -74,3 +63,12 @@ def delete(id):
         DB.session.delete(table)
         DB.session.commit()
     return redirect(url_for("table.list_tables"))
+
+
+class Create(views.CreateView):
+    form_class = forms.TableForm
+    success_view_name = "table.list_tables"
+    template_name = "restaurants/tables/create_edit.html"
+
+
+Create.register(bp, "/create")

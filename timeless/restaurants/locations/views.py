@@ -1,47 +1,66 @@
-"""locations views module.
-@todo #133:30min Continue implementing list_locations(), create(), edit() and
- delete() methods, using SQLAlchemy and Location model. In the index page it
- should be possible to sort and filter for every column. Location management
- page should be accessed by the Location page. Update html templates when
- methods are implemented. Location integration tests are aready created,
- create more tests for all methods.
+"""Locations views module.
+@todo #208:30min Remove function endpoints once the view classes are in place.
+ See #173 for more details about generic views use CreateView, EditView and
+ DeleteView as provided in the commented code templates. Uncomment and modify
+ this code - create missing view templates and write ITs to verify behaviour.
 """
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, redirect, render_template, request, url_for
 )
 
+from timeless.views import ListView
+from timeless.restaurants.models import Location
 
 bp = Blueprint("location", __name__, url_prefix="/locations")
 
 
-@bp.route("/")
-def list_locations():
-    # remove this dummy locations object and use db
-    locations = [{
-        "id": 1,
-        "location": "Test location",
-        "description": "This is a test"
-        }]
-    return render_template("restaurants/locations/list.html", locations=locations)
-
-
+# class Create(CreateView):
+#     """Create location"""
+#     template_name = "restaurants/locations/create_edit.html"
+#     form_class  = LocationForm
+#     model = Location
 @bp.route("/create", methods=("GET", "POST"))
 def create():
     if request.method == "POST":
         flash("Create not yet implemented")
     action = "create"
-    return render_template("restaurants/locations/create_edit.html", action=action)
+    return render_template("restaurants/locations/create_edit.html",
+                           action=action)
 
 
+# class Edit(UpdateView):
+#     """Update location"""
+#     template_name = "restaurants/locations/create_edit.html"
+#     form_class  = LocationForm
+#     model = Location
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     if request.method == "POST":
         flash("Edit not yet implemented")
     action = "edit"
-    return render_template("restaurants/locations/create_edit.html", action=action)
+    return render_template("restaurants/locations/create_edit.html",
+                           action=action)
 
 
+# class Delete(DeleteView):
+#     """Delete location
+#     Deletes location using id and redirects to list page
+#     """
+#     form_class  = LocationForm
+#     model = Location
 @bp.route("/delete", methods=["POST"])
 def delete():
     flash("Delete not yet implemented")
-    return redirect(url_for("location.list_locations"))
+    return redirect(url_for("location.list"))
+
+
+class List(ListView):
+    """List all locations"""
+    template_name = "restaurants/locations/list.html"
+    model = Location
+
+
+List.register(bp, "/")
+# Create.register(bp, "/create")
+# Edit.register(bp, "/edit/<int:id>")
+# Delete.register(bp, "/delete")

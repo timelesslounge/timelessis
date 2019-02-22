@@ -6,6 +6,7 @@ services:
     environment:
       FLASK_APP: main.py
       FLASK_ENV: development
+      REDIS_HOST: redis://redis:6379
       SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db/timelessdb_dev
     ports:
       - 5000:5000
@@ -28,6 +29,7 @@ services:
     environment:
       FLASK_APP: main.py
       FLASK_ENV: testing
+      REDIS_HOST: redis://redis:6379
       SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db_test/timelessdb_test
     ports:
       - 5000:5000
@@ -45,14 +47,14 @@ services:
     image: 'redis:3.2'
     ports:
       - '6379:6379'
-sync_worker:
-    build: .
-    command: bash -c 'celery -A timeless.celery worker'
-    environment:
-      FLASK_APP: main.py
-      FLASK_ENV: development
-      SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db/timelessdb_dev
-    volumes:
-      - .:/usr/app
+  sync_worker:
+      build: .
+      command: bash -c 'celery -A timeless.celery worker'
+      environment:
+        FLASK_APP: main.py
+        FLASK_ENV: development
+        SQLALCHEMY_DATABASE_URI: postgresql://timeless_user:timeless_pwd@db/timelessdb_dev
+      volumes:
+        - .:/usr/app
 volumes:
   pgdata: null

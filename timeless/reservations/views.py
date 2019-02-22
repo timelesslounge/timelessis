@@ -1,11 +1,12 @@
 """ Views for reservations """
+from datetime import datetime
+
 from flask import (
-    Blueprint, flash, redirect, render_template, request, url_for
+    Blueprint, flash, redirect, render_template, request, url_for, jsonify
 )
 
 from timeless import views
 from timeless.access_control.views import SecuredView
-from timeless.restaurants.tables import forms
 from timeless.reservations import models
 
 
@@ -56,6 +57,39 @@ class CommentView(SecuredView, views.CrudAPIView):
     model = models.Comment
     url_lookup = "comment_id"
     list_reservations = "reservation_comment"
+
+
+class ReservationsListView(views.CrudAPIView):
+    """ Reservation JSON API /api/reservations
+
+    """
+
+    def get(self, company_id):
+        """Retrieve reservations based on location, and date.
+            @todo #28:30min Implement actual fetching of reservations. We need
+             to return a JSON list, filtered by reservations based on location
+             and date. We also need to password protect this API, and filter
+             those belonging to the specific company ID. Let's implement the
+             serialization and deserialization of JSON based on this API:
+             https://flask-marshmallow.readthedocs.io/en/latest/
+
+        :param self:
+        :return:
+        """
+        reservations_json = {
+            "items": [
+                {
+                    "id": 1,
+                    "start_time": datetime(1, 1, 1),
+                    "end_time": datetime(1, 1, 1),
+                    "customer_id": 1,
+                    "num_of_persons": 1,
+                    "comment": "Test",
+                    "status": 2
+                }
+            ]
+        }
+        return jsonify(reservations_json)
 
 
 @bp.route("/")

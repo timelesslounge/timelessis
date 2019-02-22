@@ -1,4 +1,7 @@
 from datetime import datetime
+from http import HTTPStatus
+import flask
+import pytest
 
 from timeless.auth.auth import login
 from timeless.employees.models import Employee
@@ -46,10 +49,21 @@ def test_login(db_session):
     db_session.remove()
     assert (error == "login.failed")
 
-
+@pytest.mark.skip(reason="Correction request included in todo #340:30min")
 def test_forgot_password(client):
-    assert client.get("/auth/forgotpassword").status_code == 200
+    response = client.get("/auth/forgotpassword")
+    decoded = response.data.decode("utf-8")
+    assert "<h1>Forgot your password?</h1>" in decoded
+    assert "<input type=\"submit\" value=\"Forgot my password\">" in decoded
+    assert response.status_code == 200
 
 
 def test_activate(client):
     assert client.get("/auth/activate").status_code == 405
+
+
+def test_forgot_password_post(client):
+    response = client.post(flask.url_for("auth.forgot_password"), data={
+        "email": "test@mail.com"
+    })
+    assert response.status_code == HTTPStatus.FOUND

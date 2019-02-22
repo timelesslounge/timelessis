@@ -95,13 +95,7 @@ class TableReservation(DB.Model):
 
 
 class Table(TimestampsMixin, PosterSyncMixin, DB.Model):
-    """Model for a Table
-    @todo #234:30min Lets create an abstract model that will extend
-     TimestampsMixin and DB.Model and make every model that needs
-     TimestampsMixin extend it.
-     Example: https://docs.sqlalchemy.org/en/latest/orm/extensions/
-     declarative/mixins.html#augmenting-the-base
-    """
+    """Model for a Table"""
 
     __tablename__ = "tables"
 
@@ -124,13 +118,31 @@ class Table(TimestampsMixin, PosterSyncMixin, DB.Model):
 
     DB.UniqueConstraint(u"name", u"floor_id")
 
-    @validate_required("name", "x", "y", "width", "height", "status",
-                       "max_capacity", "multiple", "playstation")
-    def __init__(self, **kwargs):
-        super(Table, self).__init__(**kwargs)
-
     def __repr__(self):
         return "<Table %r>" % self.name
+
+    @classmethod
+    def merge_with_poster(cls, table, poster_table: dict):
+        """
+        Method should return Table object with merged data from table entity
+        and poster table dict
+        @todo #187:30min Implement two class methods merge_with_poster and
+         create_by_poster. merge_with_poster will merge entry entity with
+         poster entity, we should make right fields mapping, as result
+         returns Table instance.
+         The same should be made with method create_by_poster, returns Table
+         instance with data from poster_table
+        """
+        return cls()
+
+    @classmethod
+    def create_by_poster(cls, poster_table: dict):
+        """
+        Method should return Table object with given data from
+        poster_table dict
+        """
+        poster_table
+        return cls()
 
 
 class Reservation(TimestampsMixin, DB.Model):
