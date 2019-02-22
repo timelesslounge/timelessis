@@ -4,3 +4,15 @@
 {% block header %}
   <h1>{% block title %}Activate{% endblock %}</h1>
 {% endblock %}
+
+{% block content %}
+  {% if session.logged_in %}
+    <h1>{{ message }}</h1>  
+  {% else %}
+    {% block not_logged %}
+    <h1>You are not logged in</h1>
+    <p>You have to <a href="auth/login">Log In</a> fist.</p>
+    {% endblock %}
+  {% endif %}
+
+{% endblock %}
