@@ -12,7 +12,12 @@ def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
     @todo #22:30min Get role from actual user instead of using
      hardcoded value. User can be fetched from g.user. Make sure
      that access is not allowed for unknown role.
+    @todo #242:30min Implement the rest of the owner privileges.
+     Owner should be able to create, modify, activate and deactivate accounts
+     for employess of his/her company. Create the tests for each of this
+     operation..
     """
+
     return __roles.get("owner").has_privilege(
         method=method, resource=resource, args=args, kwargs=kwargs
     )

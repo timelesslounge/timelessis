@@ -1,4 +1,4 @@
-""" Tests for privilage of user.
+''""" Tests for privilege of owner.
 """
 
 from datetime import datetime
@@ -141,4 +141,102 @@ def test_can_not_manage_locations_from_different_company(clean_app, db_session):
     )
     assert not has_privilege(
         method=Method.DELETE, resource="location", id=location.id
+    )
+
+
+def test_can_manage_users_from_same_company(clean_app, db_session):
+    my_company = Company(
+        name="Mothers Of Invention Inc.", code="code1", address="addr"
+    )
+    db_session.add(my_company)
+    db_session.commit()
+    boss = Employee(
+        first_name="Frank", last_name="Zappa",
+        username="frank", phone_number="1",
+        birth_date=datetime.utcnow(),
+        pin_code=7777,
+        account_status="on",
+        user_status="on",
+        registration_date=datetime.utcnow(),
+        company_id=my_company.id,
+        email="fank@mothers.com", password="bla"
+    )
+    db_session.add(boss)
+    flask.g.user = boss
+    employee = Employee(
+        first_name="Uncle", last_name="Remus",
+        username="stinkfoot", phone_number="1",
+        birth_date=datetime.utcnow(),
+        pin_code=7777,
+        account_status="on",
+        user_status="on",
+        registration_date=datetime.utcnow(),
+        company_id=my_company.id,
+        email="remus@mothers.com", password="bla"
+    )
+    db_session.add(employee)
+    db_session.commit()
+    assert has_privilege(
+        method=Method.READ, resource="employee", id=employee.id
+    )
+    assert has_privilege(
+        method=Method.CREATE, resource="location", id=employee.id
+    )
+    assert has_privilege(
+        method=Method.UPDATE, resource="location", id=employee.id
+    )
+    assert has_privilege(
+        method=Method.DELETE, resource="location", id=employee.id
+    )
+
+
+def test_can_not_manage_locations_from_different_company(clean_app, db_session):
+    boss_company = Company(
+        name="Mothers Of Invention Inc.", code="code1", address="addr"
+    )
+    db_session.add(boss_company)
+    db_session.commit()
+    boss = Employee(
+        first_name="Frank", last_name="Zappa",
+        username="frank", phone_number="1",
+        birth_date=datetime.utcnow(),
+        pin_code=7777,
+        account_status="on",
+        user_status="on",
+        registration_date=datetime.utcnow(),
+        company_id=boss_company.id,
+        email="fank@mothers.com", password="bla"
+    )
+    db_session.add(boss)
+    flask.g.user = boss
+
+    employee_company = Company(
+        name="Damage Inc.", code="code2", address="addr"
+    )
+    db_session.add(employee_company)
+    db_session.commit()
+    employee = Employee(
+        first_name="James", last_name="Hetfield",
+        username="jaymz", phone_number="1",
+        birth_date=datetime.utcnow(),
+        pin_code=7777,
+        account_status="on",
+        user_status="on",
+        registration_date=datetime.utcnow(),
+        company_id=employee_company.id,
+        email="jaymz@metallica.com", password="bla"
+    )
+    db_session.add(employee)
+    db_session.commit()
+    assert not has_privilege(
+        method=Method.READ, resource="employee", id=employee.id
+    )
+    assert not has_privilege(
+        method=Method.CREATE, resource="location", id=employee.id
+    )
+    assert not has_privilege(
+        method=Method.UPDATE, resource="location", id=employee.id
+    )
+    assert not has_privilege(
+        method=Method.DELETE, resource="location", id=employee.id
     )

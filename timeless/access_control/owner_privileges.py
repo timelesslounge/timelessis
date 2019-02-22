@@ -5,11 +5,7 @@ from timeless.restaurants.models import Location
 
 
 def has_privilege(method=None, resource=None, *args, **kwargs) -> bool:
-    """Check if user with Owner role can access a particular resource.
-    @todo #180:30min Implement the rest of the owner privileges.
-     1) Create /modify /activate /deactivate accounts for all Employee
-     associated with owned Company
-    """
+    """Check if user with Owner role can access a particular resource."""
     return __resources.get(resource, lambda *arg: False)(method, *args, **kwargs)
 
 
