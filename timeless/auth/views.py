@@ -67,10 +67,13 @@ def forgot_password():
 
 @bp.route("/activate", methods=["POST"])
 def activate():
-    """ Activate the user's account by setting account status to true. """    
+    """ Activate the user's account by setting account status to true. """
     if g.user is None:
         return render_template("auth/activate.html")
     else:
         g.user.account_status = True
         session.commit()
-        return render_template("auth/activate.html", message="Successfully activated your account.")
+        return render_template(
+            "auth/activate.html", 
+            message="Successfully activated your account."
+        )
