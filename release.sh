@@ -1,9 +1,6 @@
 #!/bin/sh
 
 # Scripts to deploy application to staging server
-# @todo #126:30min Finish implementing deploy scripts. Add scripts in cron 
-#  (like the one created in #47). Verify the web application is running - 
-#  execute couple of curl requests.
 
 # Get tag and environment from arguments. Example usage:
 # release.sh 0.0.1 staging
