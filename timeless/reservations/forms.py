@@ -1,5 +1,15 @@
+"""Forms for reservation blueprint"""
+
 from timeless import forms
-from timeless.reservations import models
+from timeless.reservations.models import ReservationSettings
+from timeless.restaurants.models import Reservation
+
+
+class ReservationForm(forms.ModelForm):
+    """Base form for reservation"""
+
+    class Meta:
+        model = Reservation
 
 
 class SettingsForm(forms.BaseModelForm):
@@ -11,5 +21,5 @@ class SettingsForm(forms.BaseModelForm):
          forms.BaseModelForm can't handle JSON field.
          Need to research how to fix this case and fix it.
         """
-        model = models.ReservationSettings
+        model = ReservationSettings
         exclude = ["greeting_by_time"]
