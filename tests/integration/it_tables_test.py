@@ -7,17 +7,29 @@
  https://factoryboy.readthedocs.io/en/latest/orms.html#sqlalchemy. Implement
  these factories for related models and then write tests.
 """
-import pytest
 from http import HTTPStatus
+
+import flask
+import pytest
+
+from timeless.restaurants import models
 
 
 def test_list(client):
     assert client.get("/tables/").status_code == HTTPStatus.OK
 
 
-@pytest.mark.skip("fix me")
 def test_create(client):
-    pass
+    client.post(flask.url_for("table.create"), data={
+        "name": "Test",
+        "x": 1,
+        "y": 2,
+        "width": 3,
+        "height": 4,
+        "status": 5,
+        "max_capacity": 6,
+    })
+    assert models.Table.query.count() == 1
 
 
 @pytest.mark.skip("fix me")

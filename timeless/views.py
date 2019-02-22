@@ -1,8 +1,4 @@
 """Generic classes for API views and Template views.
-@todo #173:30min Continue implementing FormView, CreateView, UpdateView and
- DeleteView from Gist: https://gist.github.com/timster/e13ed61674bb11474e4a
- Implement an example for each view by refactoring one of the existing
- blueprints (see restaurants/floors/views.py). Also reuse FlashMessageMixin.
 @todo #173:30min Implement checking for permissions (like is user logged in or
  is user in role) using decorators for view. For that, create new view which
  all other views will extend. Example would be:
@@ -37,8 +33,10 @@ class CommentView(CrudView):
 """
 import re
 from http import HTTPStatus
+
+from flask import views, redirect, render_template, request, url_for
 from werkzeug.exceptions import abort
-from flask import views, render_template
+
 
 camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
@@ -131,25 +129,28 @@ class GenericView(views.MethodView):
         Get the default context, which contains this view instance along with
         the kwargs.
         """
-        context = {
+        return {
             "view": self,
             "kwargs": self.kwargs,
         }
-        context.update(self.get_context())
-        return context
 
-    def get_context(self):
+    def get_context(self, **context):
         """
         Hook for a sublcass to add variables to request context.
         """
-        return {}
+        return {
+            **context,
+            **self.get_default_context()
+        }
 
     def get(self, *args, **kwargs):
         """
         Simply render the template with the context.
         """
-        return render_template(self.get_template_name(),
-                               **self.get_default_context())
+        return self.render_to_response(self.get_context())
+
+    def render_to_response(self, context):
+        return render_template(self.get_template_name(), **context)
 
 
 class ListView(GenericView):
@@ -222,6 +223,51 @@ class DetailView(GenericView):
         context = super().get_default_context()
         context[self.get_context_object_name()] = self.get_object()
         return context
+
+
+class CreateView(GenericView):
+    """ Class which creates objects based on received POST data and provided
+    form class """
+    form_class = None
+    success_view_name = None
+
+    def get_form(self, *args, **kwargs):
+        """ Create form instance """
+        if not self.form_class:
+            raise NotImplementedError(f"{self.__class__.__name__} must define "
+                                      f"'form_class' attribute")
+        return self.form_class(*args, **kwargs)
+
+    def get_success_url_redirect(self):
+        """ Reverse URL based on view name """
+        if not self.success_view_name:
+            raise NotImplementedError(f"{self.__class__.__name__} must define "
+                                      f"'success_view_name' attribute")
+        return url_for(self.success_view_name)
+
+    def get_context(self, *args, **kwargs):
+        """ Pass 'from' instance to context if it's not provided
+        (basicaly for 'get' method). """
+        if "form" not in kwargs:
+            kwargs["form"] = self.get_form()
+        return super().get_context(*args, **kwargs)
+
+    def post(self):
+        form = self.get_form(request.form)
+
+        if not form.validate():
+            return self.render_to_response(self.get_context(form=form))
+
+        form.save()
+        return redirect(self.get_success_url_redirect())
+
+
+class UpdateView(GenericView):
+    """ Base view for updating objects"""
+
+
+class DeleteView(GenericView):
+    """ Base view for deleting objects """
 
 
 class FakeModel():

@@ -2,7 +2,7 @@ from timeless import forms
 from timeless.restaurants import models
 
 
-class TableForm(forms.BaseModelForm):
+class TableForm(forms.ModelForm):
     """ Base form for creating / updating Table """
 
     class Meta:

@@ -94,7 +94,7 @@ class TableReservation(DB.Model):
     reservation = DB.relationship("Reservation", back_populates="tables")
 
 
-class Table(PosterSyncMixin, DB.Model):
+class Table(TimestampsMixin, PosterSyncMixin, DB.Model):
     """Model for a Table"""
 
     __tablename__ = "tables"
@@ -113,18 +113,10 @@ class Table(PosterSyncMixin, DB.Model):
     shape_id = DB.Column(DB.Integer, DB.ForeignKey("table_shapes.id"))
     min_capacity = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     deposit_hour = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
-    created = DB.Column(DB.DateTime, nullable=False)
-    updated = DB.Column(DB.DateTime, nullable=False)
 
     reservations = DB.relationship("TableReservation", back_populates="table")
 
     DB.UniqueConstraint(u"name", u"floor_id")
-
-    @validate_required("name", "x", "y", "width", "height", "status",
-                       "max_capacity", "multiple", "playstation", "created",
-                       "updated")
-    def __init__(self, **kwargs):
-        super(Table, self).__init__(**kwargs)
 
     def __repr__(self):
         return "<Table %r>" % self.name
