@@ -233,14 +233,14 @@ class CreateView(GenericView):
 
     def get_form(self, *args, **kwargs):
         """ Create form instance """
-        if self.form_class is None:
+        if not self.form_class:
             raise NotImplementedError(f"{self.__class__.__name__} must define "
                                       f"'form_class' attribute")
         return self.form_class(*args, **kwargs)
 
     def get_success_url_redirect(self):
         """ Reverse URL based on view name """
-        if self.success_view_name is None:
+        if not self.success_view_name:
             raise NotImplementedError(f"{self.__class__.__name__} must define "
                                       f"'success_view_name' attribute")
         return url_for(self.success_view_name)
