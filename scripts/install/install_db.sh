@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # @todo #299:30min Continue the deploy algorithm. We need to create an
-# employee with role administator belonging to company "Timeless" and
-# credentials that will be taken by encrypted credential file.
+#  employee with role administator belonging to company "Timeless" and
+#  credentials that will be taken by encrypted credential file.
 
 # Scripts to install Postgres and init timelessis databases
 echo "Start Postgres server"
