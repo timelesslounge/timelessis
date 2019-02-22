@@ -1,8 +1,9 @@
+from timeless.views import ListView
+from timeless.items.models import Item
 """ Views module for Items.
-    @todo #141:30min Continue implementation of views class.
-     Use the database to get the data instead of dummy data.
-     Add authenticationannotation.
-     Also, templates should be finished.
+    @todo #270:30min Continue implementation of views class using GenericViews.
+     Use mocks from mock_items to make the tests, like tests for item list.
+     Add authenticationannotation. Also, templates should be finished.
 """
 from flask import (
     Blueprint, redirect, render_template, url_for
@@ -11,11 +12,23 @@ from flask import (
 BP = Blueprint("items", __name__, url_prefix="/items")
 
 
-@BP.route("/")
-def list_items():
-    """ List the items """
-    items = [{"id": 1}, {"id": 2}]
-    return render_template("items/list.html", items=items)
+class ItemListView(ListView):
+    """ List the Items """
+    model = Item
+    template_name = "items/list.html"
+    items = None
+
+    def __int__(self, **kwargs):
+        items=kwargs.get("items")
+        self.register(
+            Blueprint("items", __name__, url_prefix="/items"),
+            "/"
+        )
+
+    def list_items(self):
+        """ List the items """
+        items = [{"id": 1}, {"id": 2}]
+        return render_template("items/list.html", items=self.items)
 
 
 @BP.route("/create", methods=("GET", "POST"))
