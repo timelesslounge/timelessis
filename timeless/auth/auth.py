@@ -15,3 +15,19 @@ def login(username="", password=""):
         session["user_id"] = user.id
     return error
 
+
+"""
+@todo #340:30min Continue implementing forgot_password. End the function that
+ will be responsible for sending the email with the link to reset the password.
+ Also check why the following error is occurring in
+ test_forgot_password(client):tests/integration/it_auth_test.py:55:
+ AssertionError
+"""
+def forgot_password(email=""):
+    user = Employee.query.filter_by(email=email).first()
+    error = None
+    if user is None:
+        error = "failed"
+    if error is None:
+        session.clear()
+    return error
