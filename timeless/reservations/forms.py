@@ -1,3 +1,5 @@
+"""Forms for reservation blueprint"""
+
 from timeless import forms
 from timeless.reservations.models import ReservationSettings
 from timeless.restaurants.models import Reservation
