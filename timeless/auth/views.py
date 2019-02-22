@@ -74,6 +74,6 @@ def activate():
         g.user.account_status = True
         session.commit()
         return render_template(
-            "auth/activate.html", 
+            "auth/activate.html",
             message="Successfully activated your account."
         )
