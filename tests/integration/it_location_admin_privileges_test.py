@@ -39,8 +39,8 @@ def test_can_access_location_tables(app, db_session):
         height=150,
         status="available",
         max_capacity=12,
-        multiple=false,
-        playstation=false,
+        multiple=False,
+        playstation=False,
         shape_id=2,
         min_capacity=6,
         deposit_hour=2
@@ -102,8 +102,8 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
         height=150,
         status="available",
         max_capacity=12,
-        multiple=false,
-        playstation=false,
+        multiple=False,
+        playstation=False,
         shape_id=2,
         min_capacity=6,
         deposit_hour=2
