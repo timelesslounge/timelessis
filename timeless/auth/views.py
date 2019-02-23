@@ -60,6 +60,7 @@ def forgot_password():
     if request.method == "POST":
         email = request.form["email"]
         error = auth.forgot_password(email=email)
+        print(error)
         if error is not None:
             return render_template("auth/forgot_password.html", error=error)
         else:
