@@ -58,15 +58,15 @@ def logout():
 @bp.route("/forgotpassword", methods=("GET", "POST"))
 def forgot_password():
     if request.method == "POST":
-        email=request.form["email"]
+        email = request.form["email"]
         error = auth.forgot_password(email=email)
         if error is not None:
+            return render_template("auth/forgot_password.html", error=error)
+        else:
             return render_template(
                 "auth/forgot_password_post.html",
                 email=email
             )
-        else:
-            return render_template("auth/forgot_password.html", error=error)
 
     return render_template("auth/forgot_password.html")
 
