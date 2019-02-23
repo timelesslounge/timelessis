@@ -9,8 +9,11 @@ from timeless.access_control.methods import Method
 from timeless.access_control.owner_privileges import has_privilege
 from timeless.companies.models import Company
 from timeless.employees.models import Employee
+from timeless.roles.models import Role
 
 from timeless.restaurants.models import Location
+
+from tests import factories
 
 
 @pytest.fixture
@@ -144,11 +147,19 @@ def test_can_not_manage_locations_from_different_company(clean_app, db_session):
     )
 
 
-def test_can_manage_users_from_same_company(clean_app, db_session):
+def test_can_manage_employees_from_same_company(clean_app, db_session):
     my_company = Company(
         name="Mothers Of Invention Inc.", code="code1", address="addr"
     )
     db_session.add(my_company)
+    db_session.commit()
+    role = Role(
+        id = 1,
+        name = "owner",
+        works_on_shifts = False,
+        company_id = my_company.id
+    )
+    db_session.add(role)
     db_session.commit()
     boss = Employee(
         first_name="Frank", last_name="Zappa",
@@ -159,42 +170,40 @@ def test_can_manage_users_from_same_company(clean_app, db_session):
         user_status="on",
         registration_date=datetime.utcnow(),
         company_id=my_company.id,
-        email="fank@mothers.com", password="bla"
+        email="fank@mothers.com",
+        password="bla",
+        role_id=role.id
     )
     db_session.add(boss)
     flask.g.user = boss
-    employee = Employee(
-        first_name="Uncle", last_name="Remus",
-        username="stinkfoot", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=7777,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=my_company.id,
-        email="remus@mothers.com", password="bla"
-    )
-    db_session.add(employee)
-    db_session.commit()
+    employee = factories.EmployeeFactory(company=my_company)
     assert has_privilege(
         method=Method.READ, resource="employee", id=employee.id
     )
     assert has_privilege(
-        method=Method.CREATE, resource="location", id=employee.id
+        method=Method.CREATE, resource="employee"
     )
     assert has_privilege(
-        method=Method.UPDATE, resource="location", id=employee.id
+        method=Method.UPDATE, resource="employee", id=employee.id
     )
     assert has_privilege(
-        method=Method.DELETE, resource="location", id=employee.id
+        method=Method.DELETE, resource="employee", id=employee.id
     )
 
 
-def test_can_not_manage_locations_from_different_company(clean_app, db_session):
+def test_can_not_manage_employees_from_different_company(clean_app, db_session):
     boss_company = Company(
         name="Mothers Of Invention Inc.", code="code1", address="addr"
     )
     db_session.add(boss_company)
+    db_session.commit()
+    owner_role = Role(
+        id = 1,
+        name = "owner",
+        works_on_shifts = False,
+        company_id = boss_company.id
+    )
+    db_session.add(owner_role)
     db_session.commit()
     boss = Employee(
         first_name="Frank", last_name="Zappa",
@@ -205,7 +214,9 @@ def test_can_not_manage_locations_from_different_company(clean_app, db_session):
         user_status="on",
         registration_date=datetime.utcnow(),
         company_id=boss_company.id,
-        email="fank@mothers.com", password="bla"
+        email="fank@mothers.com",
+        password="bla",
+        role=owner_role.id
     )
     db_session.add(boss)
     flask.g.user = boss
@@ -214,6 +225,14 @@ def test_can_not_manage_locations_from_different_company(clean_app, db_session):
         name="Damage Inc.", code="code2", address="addr"
     )
     db_session.add(employee_company)
+    db_session.commit()
+    employee_role = Role(
+        id = 2,
+        name = "employee",
+        works_on_shifts = False,
+        company_id = employee_company.id
+    )
+    db_session.add(employee_role)
     db_session.commit()
     employee = Employee(
         first_name="James", last_name="Hetfield",
@@ -224,7 +243,9 @@ def test_can_not_manage_locations_from_different_company(clean_app, db_session):
         user_status="on",
         registration_date=datetime.utcnow(),
         company_id=employee_company.id,
-        email="jaymz@metallica.com", password="bla"
+        email="jaymz@metallica.com",
+        password="bla",
+        role=employee_role.id
     )
     db_session.add(employee)
     db_session.commit()
@@ -232,11 +253,11 @@ def test_can_not_manage_locations_from_different_company(clean_app, db_session):
         method=Method.READ, resource="employee", id=employee.id
     )
     assert not has_privilege(
-        method=Method.CREATE, resource="location", id=employee.id
+        method=Method.CREATE, resource="employee"
     )
     assert not has_privilege(
-        method=Method.UPDATE, resource="location", id=employee.id
+        method=Method.UPDATE, resource="employee", id=employee.id
     )
     assert not has_privilege(
-        method=Method.DELETE, resource="location", id=employee.id
+        method=Method.DELETE, resource="employee", id=employee.id
     )
