@@ -6,8 +6,8 @@ from timeless.restaurants.models import Location
 """
     @todo #242:30min Implement owner privileges regarding company. Owner 
      should be able to operate over employees of his own company only. Implement
-     this rules on __employee_access and then uncomment test from 
-     owner_privileges.py:test_can_not_manage_employees_from_different_company
+     this rules on __employee_access and then uncomment tests from 
+     owner_privileges.py
 """
 def has_privilege(method=None, resource=None, *args, **kwargs) -> bool:
     """Check if user with Owner role can access a particular resource."""
