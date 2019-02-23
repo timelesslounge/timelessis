@@ -192,16 +192,16 @@ def test_can_manage_employees_from_same_company(clean_app, db_session):
     db_session.add(employee)
     db_session.commit()
     assert has_privilege(
-        method=Method.READ, resource="employee", id=employee.id
+        method=Method.READ, resource="employee", employee_id=employee.id
     )
     assert has_privilege(
         method=Method.CREATE, resource="employee"
     )
     assert has_privilege(
-        method=Method.UPDATE, resource="employee", id=employee.id
+        method=Method.UPDATE, resource="employee", employee_id=employee.id
     )
     assert has_privilege(
-        method=Method.DELETE, resource="employee", id=employee.id
+        method=Method.DELETE, resource="employee", employee_id=employee.id
     )
 
 
@@ -264,14 +264,14 @@ def test_can_not_manage_employees_from_different_company(clean_app, db_session):
     db_session.add(employee)
     db_session.commit()
     assert not has_privilege(
-        method=Method.READ, resource="employee", id=employee.id
+        method=Method.READ, resource="employee", employee_id=employee.id
     )
     assert not has_privilege(
         method=Method.CREATE, resource="employee"
     )
     assert not has_privilege(
-        method=Method.UPDATE, resource="employee", id=employee.id
+        method=Method.UPDATE, resource="employee", employee_id=employee.id
     )
     assert not has_privilege(
-        method=Method.DELETE, resource="employee", id=employee.id
+        method=Method.DELETE, resource="employee", employee_id=employee.id
     )
