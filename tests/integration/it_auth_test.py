@@ -61,10 +61,10 @@ def test_forgot_password(client):
 def test_activate(client):
     assert client.get("/auth/activate").status_code == 405
     response = client.post("/auth/activate")
-    decoded = response.data.decode("utf-8")
+    decoded_response = response.data.decode("utf-8")
     assert response.status_code == 200
-    assert "<h1>You are not logged in</h1>" in decoded
-    assert "Successfully activated your account." not in decoded
+    assert "<h1>You are not logged in</h1>" in decoded_response
+    assert "Successfully activated your account." not in decoded_response
 
 
 def test_forgot_password_post(client):
