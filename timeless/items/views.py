@@ -17,19 +17,14 @@ class ItemListView(ListView):
     model = None
     template_name = "items/list.html"
     items = None
+    item = None
 
-    def __int__(self, **kwargs):
+    def __init__(self, **kwargs):
         items=kwargs.get("items")
         item=kwargs.get("item")
-        self.register(
-            Blueprint("items", __name__, url_prefix="/items"),
-            "/"
-        )
 
-    def list_items(self):
-        """ List the items """
-        items = [{"id": 1}, {"id": 2}]
-        return render_template("items/list.html", items=self.items)
+
+ItemListView.register(BP,"/")
 
 
 @BP.route("/create", methods=("GET", "POST"))
@@ -47,4 +42,4 @@ def edit():
 @BP.route("/delete", methods=["POST"])
 def delete():
     """ Delete an item by id """
-    return redirect(url_for("items.list_items"))
+    return render_template("items/list.html")

@@ -9,9 +9,9 @@ from timeless.items.views import ItemListView
 
 def test_list(client):
     """ Test list is okay """
-    items = ItemListView(
+    ItemListView(
         items = ItemsMock(
-            [
+            items = [
                 {
                     "id": 1,
                     "name": "Pancakes",
@@ -56,7 +56,7 @@ def test_list(client):
         ),
         item = ItemMock
     )
-    assert client.get("/items/").status_code == HTTPStatus.OK
+    assert client.get("/items").status_code == HTTPStatus.OK
 
 
 def test_create(client):

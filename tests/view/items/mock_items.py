@@ -6,7 +6,7 @@ class ItemsMock(ItemsAbstractions):
 
     items = None
 
-    def __int__(self, **kwargs):
+    def __init__(self, **kwargs):
         items = kwargs.get("items", [])
 
     def get(self, user_id):
