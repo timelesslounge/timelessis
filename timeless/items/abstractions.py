@@ -21,22 +21,22 @@ class ItemAbstraction:
 class ItemsAbstractions:
     """An Items abstraction"""
 
-    def get(self, user_id):
-        """Get the user with user_id"""
+    def get(self, item_id):
+        """Get the item with item_id"""
         raise Exception("Abstractions methods sould not be called")
 
     def list(self, **conditions):
-        """List the users with the conditions"""
+        """List the items with the conditions"""
         raise Exception("Abstractions methods sould not be called")
 
-    def create(self, user):
-        """Create the user in database"""
+    def create(self, item):
+        """Create the item in database"""
         raise Exception("Abstractions methods sould not be called")
 
-    def edit(self, user):
-        """Edit the user in database"""
+    def edit(self, item):
+        """Edit the item in database"""
         raise Exception("Abstractions methods sould not be called")
 
-    def delete(self, user):
-        """Delete the user in database"""
+    def delete(self, item):
+        """Delete the item in database"""
         raise Exception("Abstractions methods sould not be called")

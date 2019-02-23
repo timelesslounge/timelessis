@@ -14,12 +14,13 @@ BP = Blueprint("items", __name__, url_prefix="/items")
 
 class ItemListView(ListView):
     """ List the Items """
-    model = Item
+    model = None
     template_name = "items/list.html"
     items = None
 
     def __int__(self, **kwargs):
         items=kwargs.get("items")
+        item=kwargs.get("item")
         self.register(
             Blueprint("items", __name__, url_prefix="/items"),
             "/"

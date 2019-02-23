@@ -1,18 +1,16 @@
+""" Tests for the items.
+"""
 from http import HTTPStatus
 from datetime import datetime
 
-from tests.view.items.mock_items import ItemsMock
+from tests.view.items.mock_items import ItemMock, ItemsMock
 from timeless.items.views import ItemListView
-""" Tests for the items.
-"""
-
-
 
 
 def test_list(client):
     """ Test list is okay """
     items = ItemListView(
-        ItemsMock(
+        items = ItemsMock(
             [
                 {
                     "id": 1,
@@ -55,7 +53,8 @@ def test_list(client):
                     "employee_id": 1
                 }
             ]
-        )
+        ),
+        item = ItemMock
     )
     assert client.get("/items/").status_code == HTTPStatus.OK
 
