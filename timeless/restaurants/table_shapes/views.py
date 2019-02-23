@@ -67,13 +67,15 @@ def edit(id):
     )
 
 
-@bp.route("/delete/<int:id>", methods=["POST"])
-def delete(id):
-    """ Delete table shape with id """
-    table_shape = models.TableShape.query.get(id)
-    DB.session.delete(table_shape)
-    DB.session.commit()
-    return redirect(url_for("table_shape.list"))
+class Delete(views.DeleteView):
+    """
+    @todo #173:30min Refactor all deleting views to use `views.DeleteView`
+     and the method they were registered to bluprints. See `.register` method
+     in `GenericView`, use it. Also uncomment all tests related to these views.
+    """
+    model = models.TableShape
+    success_view_name = "table_shape.list"
 
 
 Create.register(bp, "/create")
+Delete.register(bp, "/<int:id>/delete")

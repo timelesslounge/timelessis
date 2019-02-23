@@ -2,6 +2,7 @@ from http import HTTPStatus
 import flask
 import pytest
 
+from tests import factories
 from timeless.restaurants import models
 from timeless.restaurants.models import TableShape
 from timeless.restaurants.table_shapes.views import order_by, filter_by
@@ -101,14 +102,9 @@ def test_edit(client):
     assert db_result.picture == update_data["picture"]
 
 
-@pytest.mark.skip(reason="create method doesn't have form.save()")
 def test_delete(client):
-    client.post(flask.url_for("table_shape.create"), data={
-        "description": "It's new shape",
-        "picture": "http://...."
-    })
-    identifier = models.TableShape.query.first().id
-
-    result = client.post(flask.url_for('table_shape.delete', id=identifier))
-    assert result.status_code == HTTPStatus.FOUND
-    assert models.TableShape.query.filter_by(id=identifier).count() == 0
+    table_shape = factories.TableShapeFactory()
+    response = client.post(
+        flask.url_for('table_shape.delete', id=table_shape.id))
+    assert response.status_code == HTTPStatus.FOUND
+    assert not models.TableShape.query.count()
