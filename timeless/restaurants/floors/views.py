@@ -27,8 +27,13 @@ from timeless.restaurants.models import Floor
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
 )
+
+from timeless import views
 from timeless.auth import views as auth
 from timeless.views import ListView
+from timeless.restaurants.floors.forms import FloorForm
+from timeless.restaurants.models import Floor
+
 
 BP = Blueprint("floor", __name__, url_prefix="/floors")
 
@@ -37,22 +42,6 @@ class FloorListView(ListView):
     """List all floors"""
     template_name = "restaurants/floors/list.html"
     model = Floor
-
-
-FloorListView.register(BP, "/")
-
-
-@BP.route("/create", methods=("GET", "POST"))
-@auth.login_required
-def create():
-    """ Create new floor """
-    if request.method == "POST":
-        flash("Create not yet implemented")
-    action = "create"
-    return render_template(
-        "restaurants/floors/create_edit.html",
-        action=action
-        )
 
 
 @BP.route("/edit/<int:id>", methods=("GET", "POST"))
@@ -74,3 +63,15 @@ def delete():
     """ Delete floor with id """
     flash("Delete not yet implemented")
     return redirect(url_for("floor.list_floors"))
+
+
+class Create(views.CreateView):
+    """ Create a new floor instance """
+    decorators = (auth.login_required,)
+    template_name = "restaurants/floors/create_edit.html"
+    success_view_name = "floor.list"
+    form_class = FloorForm
+
+
+Create.register(BP, "/create")
+FloorListView.register(BP, "/")

@@ -26,10 +26,6 @@ class TableShape(DB.Model):
     description = DB.Column(DB.String, nullable=True)
     picture = DB.Column(DB.String, nullable=False)
 
-    @validate_required("picture")
-    def __init__(self, **kwargs):
-        super(TableShape, self).__init__(**kwargs)
-
     def __repr__(self):
         return "<TableShape %r>" % self.picture
 
@@ -72,11 +68,6 @@ class Location(PosterSyncMixin, DB.Model):
     floors = DB.relationship("Floor", order_by=Floor.id, back_populates="location")
     working_hours = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     closed_days = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
-
-    @validate_required("name", "code", "country", "region", "city", "type",
-                       "address", "longitude", "latitude", "status")
-    def __init__(self, **kwargs):
-        super(Location, self).__init__(**kwargs)
 
     def __repr__(self):
         return "<Location %r>" % self.name

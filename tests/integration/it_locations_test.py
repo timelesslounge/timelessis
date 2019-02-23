@@ -17,7 +17,21 @@ def test_list(client, db_session):
 
 
 def test_create(client):
-    assert client.get("/locations/create").status_code == HTTPStatus.OK
+    location_data = {
+        "name": "Name",
+        "code": "Code",
+        "country": "Country",
+        "region": "Region",
+        "city": "City",
+        "address": "Address",
+        "longitude": "0.0000000",
+        "latitude": "0.0000000",
+        "type": "Type",
+        "status": "Active",
+        "comment": "No comments",
+    }
+    client.post(url_for("location.create"), data=location_data)
+    assert Location.query.count() == 1
 
 
 def test_edit(client):

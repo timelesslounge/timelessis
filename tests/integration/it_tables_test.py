@@ -18,7 +18,6 @@ def test_list(client):
     assert client.get("/tables/").status_code == HTTPStatus.OK
 
 
-@pytest.mark.skip()
 def test_create(client):
     name = "test table"
     response = client.post(url_for("table.create"), data={

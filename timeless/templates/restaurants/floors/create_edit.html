@@ -12,6 +12,6 @@
     <label for="description">Description</label>
     <textarea name="description" id="description"></textarea>
     <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
-    <a class="action" href="{{ url_for('floor.list_floors') }}">Cancel</a>
+    <a class="action" href="{{ url_for('floor.list') }}">Cancel</a>
   </form>
 {% endblock %}

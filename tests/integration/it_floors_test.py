@@ -14,7 +14,6 @@ def test_list(client, db_session):
 
 
 @pytest.mark.parametrize("path", (
-    "/floors/create",
     "/floors/edit/1",
     "/floors/delete",
 ))
@@ -24,10 +23,12 @@ def test_login_required(client, path):
                                                    _external=True)
 
 
-@pytest.mark.skip(reason="auth.login() is not yet implemented")
-def test_create(client, auth):
-    auth.login()
-    assert client.get("/floors/create").status_code == HTTPStatus.OK
+def test_create(client):
+    floor_data = {
+        "description": "Test floor"
+    }
+    client.post(url_for('floor.create'), data=floor_data)
+    assert Floor.query.count() == 1
 
 
 @pytest.mark.skip(reason="auth.login() is not yet implemented")
