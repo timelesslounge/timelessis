@@ -3,6 +3,7 @@ import tempfile
 
 import pytest
 
+from tests import factories
 from timeless import create_app
 from timeless.cache import CACHE
 from timeless.db import DB
@@ -20,6 +21,18 @@ def app():
     DB.drop_all()
     os.close(db_fd)
     os.unlink(db_path)
+
+
+@pytest.fixture(autouse=True)
+def corrected_factories(db_session):
+    """ It patches factories with correct db session """
+    for factory in (
+        factories.TableShapeFactory,
+        factories.EmployeeFactory,
+        factories.CompanyFactory,
+        factories.RoleFactory
+    ):
+        factory._meta.sqlalchemy_session = db_session
 
 
 @pytest.fixture

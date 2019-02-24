@@ -3,6 +3,7 @@ from datetime import datetime
 import flask
 import pytest
 
+from tests import factories
 from timeless.access_control.manager_privileges import has_privilege
 from timeless.access_control.methods import Method
 from timeless.companies.models import Company
@@ -119,54 +120,31 @@ def test_can_access_same_company_employees(app, db_session):
         method=Method.READ, resource="employee", employee_id=other.id
     )
 
-@pytest.mark.skip
-def test_manager_cant_access_director(app, db_session):
-    """
-    @todo #298:30min Add check that users with Manager role can only access or
-     modify employees that have role of master or interns. Then remove skip
-     annotation from this test.
-    """
-    my_company = Company(
-        id=1, name="Acme Inc.", code="code1", address="addr"
-    )
-    db_session.add(my_company)
-    manager_role = Role(
-        name="Manager",
-        works_on_shifts=False,
-        company_id=my_company.id
-    )
-    director_role = Role(
-        name="Director",
-        works_on_shifts=False,
-        company_id=my_company.id
-    )
-    me = Employee(
-        id=1, first_name="Alice", last_name="Cooper",
-        username="alice", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=7777,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=my_company.id,
-        email="test@test.com", password="bla", role_id=manager_role.id
-    )
-    db_session.add(me)
-    flask.g.user = me
-    other = Employee(
-        id=2, first_name="Bob", last_name="Cooper",
-        username="bob", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=6666,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=my_company.id,
-        email="test@test.com", password="bla", role_id=director_role.id
-    )
-    db_session.add(other)
-    db_session.commit()
-    assert not has_privilege(
-        method=Method.READ, resource="employee", employee_id=other.id
-    )
 
+@pytest.mark.parametrize('method', (
+    Method.READ,
+    Method.CREATE,
+    Method.UPDATE,
+    Method.DELETE,
+))
+def test_manager_cant_access_director(method, app, db_session):
+    manager = factories.EmployeeFactory(
+        role=factories.RoleFactory(
+            name="Manager"
+        )
+    )
+    director = factories.EmployeeFactory(
+        role=factories.RoleFactory(
+            name="Director"
+        )
+    )
+    master = factories.EmployeeFactory(
+        role=factories.RoleFactory(
+            name="Master"
+        )
+    )
+    flask.g.user = manager
+    assert not has_privilege(
+        method=method, resource="employee", employee_id=director.id)
+    assert has_privilege(
+        method=method, resource="employee", employee_id=master.id)
