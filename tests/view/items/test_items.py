@@ -9,54 +9,50 @@ from timeless.items.views import ItemListView
 
 def test_list(client):
     """ Test list is okay """
-    ItemListView(
-        items = ItemsMock(
-            items = [
-                {
-                    "id": 1,
-                    "name": "Pancakes",
-                    "stock_date": datetime.utcnow,
-                    "comment": "Really delicious pancakes made from flour and eggs",
-                    "company_id": 1,
-                    "created_on": datetime.utcnow,
-                    "updated_on": datetime.utcnow,
-                    "employee_id": 1
-                },
-                {
-                    "id": 2,
-                    "name": "Dental Floss",
-                    "stock_date": datetime.utcnow,
-                    "comment": "Dental floss from Montana salesmen",
-                    "company_id": 1,
-                    "created_on": datetime.utcnow,
-                    "updated_on": datetime.utcnow,
-                    "employee_id": 1
-                },
-                {
-                    "id": 3,
-                    "name": "Power Cable",
-                    "stock_date": datetime.utcnow,
-                    "comment": "Power cable made of leather and heavy metal",
-                    "company_id": 1,
-                    "created_on": datetime.utcnow,
-                    "updated_on": datetime.utcnow,
-                    "employee_id": 1
-                },
-                {
-                    "id": 4,
-                    "name": "Brick Block",
-                    "stock_date": datetime.utcnow,
-                    "comment": "Red block made from bricks, sometimes hide coins",
-                    "company_id": 1,
-                    "created_on": datetime.utcnow,
-                    "updated_on": datetime.utcnow,
-                    "employee_id": 1
-                }
-            ]
-        ),
-        item = ItemMock
-    )
-    assert client.get("/items").status_code == HTTPStatus.OK
+    items = [
+        {
+            "id": 1,
+            "name": "Pancakes",
+            "stock_date": datetime.utcnow,
+            "comment": "Really delicious pancakes made from flour and eggs",
+            "company_id": 1,
+            "created_on": datetime.utcnow,
+            "updated_on": datetime.utcnow,
+            "employee_id": 1
+        },
+        {
+            "id": 2,
+            "name": "Dental Floss",
+            "stock_date": datetime.utcnow,
+            "comment": "Dental floss from Montana salesmen",
+            "company_id": 1,
+            "created_on": datetime.utcnow,
+            "updated_on": datetime.utcnow,
+            "employee_id": 1
+        },
+        {
+            "id": 3,
+            "name": "Power Cable",
+            "stock_date": datetime.utcnow,
+            "comment": "Power cable made of leather and heavy metal",
+            "company_id": 1,
+            "created_on": datetime.utcnow,
+            "updated_on": datetime.utcnow,
+            "employee_id": 1
+        },
+        {
+            "id": 4,
+            "name": "Brick Block",
+            "stock_date": datetime.utcnow,
+            "comment": "Red block made from bricks, sometimes hide coins",
+            "company_id": 1,
+            "created_on": datetime.utcnow,
+            "updated_on": datetime.utcnow,
+            "employee_id": 1
+        }
+    ]
+
+    assert client.get("/items", data=items).status_code == HTTPStatus.OK
 
 
 def test_create(client):
