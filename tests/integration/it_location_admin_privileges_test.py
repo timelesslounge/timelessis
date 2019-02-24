@@ -12,9 +12,10 @@ def test_can_access_location_tables(app, db_session):
     """User with Location Admin role can access the tables
     from a Location owned by the company they work at"""
     company = Company(
-        name="Foo Inc.", code="code1", address="addr"
+        id=1, name="Foo Inc.", code="code1", address="addr"
     )
     location = Location(
+        id=1,
         name="name",
         code="123",
         company_id=company.id,
@@ -28,9 +29,10 @@ def test_can_access_location_tables(app, db_session):
         status="status"
     )
     floor = Floor (
-        description="1st Floor", location_id=location.id
+        id=1, description="1st Floor", location_id=location.id
     )
     table = Table(
+        id=1,
         name="some table",
         floor_id=floor.id,
         x=40,
@@ -72,12 +74,13 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
     """User with Location Admin role cannot access the tables
     from a Location which is not owned by the company they work at"""
     company = Company(
-        name="Foo Inc.", code="code1", address="addr"
+        id=1, name="Foo Inc.", code="code1", address="addr"
     )
     other = Company(
-        name="Other Foo Inc.", code="code2", address="addr2"
+        id=2, name="Other Foo Inc.", code="code2", address="addr2"
     )
     location = Location(
+        id=1,
         name="name",
         code="123",
         company_id=other.id,
@@ -91,9 +94,10 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
         status="status"
     )
     floor = Floor (
-        description="1st Floor", location_id=location.id
+        id=1, description="1st Floor", location_id=location.id
     )
     table = Table(
+        id=1,
         name="some table",
         floor_id=floor.id,
         x=40,
