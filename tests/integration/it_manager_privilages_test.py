@@ -74,7 +74,12 @@ def test_cant_access_other_company_employees(app, db_session):
     )
 
 
+@pytest.mark.skip
 def test_can_access_same_company_employees(app, db_session):
+    """
+    @todo #348:30min Unmark skipped test when "role_id" column will be implemented in "employees" table in the database and
+    added to the Employee model where it commented now.
+    """
     my_company = Company(
         id=1, name="Acme Inc.", code="code1", address="addr"
     )

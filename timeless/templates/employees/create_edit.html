@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Employees management - {% if action == 'create' %} Create {% else %} Update {% endif %} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="first_name">First name</label>
+    <input name="first_name" id="first_name" required>
+    <br/>
+    <label for="last_name">Last name</label>
+    <input name="last_name" id="last_name"/>
+    <br/>
+    <label for="username">Username</label>
+    <input name="username" id="username"/>
+    <br/>
+    <label for="phone_number">Phone number</label>
+    <input name="phone_number" id="phone_number"/>
+    <br/>
+    <label for="birth_date">Birth date</label>
+    <input name="birth_date" id="birth_date"/>
+    <br/>
+    <label for="registration_date">Registration date</label>
+    <textarea name="registration_date" id="registration_date"></textarea>
+    <br/>
+    <label for="account_status">Account status</label>
+    <input name="account_status" id="account_status"/>
+    <br/>
+    <label for="user_status">User status</label>
+    <input name="user_status" id="user_status"/>
+    <br/>
+    <label for="email">Email</label>
+    <input name="email" id="email"/>
+    <br/>
+    <label for="password">Password</label>
+    <input name="password" id="password"/>
+    <br/>
+    <label for="pin_code">Pin code</label>
+    <textarea name="pin_code" id="pin_code"></textarea>
+    <br/>
+    <label for="comment">Comment</label>
+    <input name="comment" id="comment"/>
+    <br/>
+    <label for="company_id">Company ID</label>
+    <input name="company_id" id="company_id"/>
+
+    <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
+    <a class="action" href="{{ url_for('employee.list') }}">Cancel</a>
+
+  </form>
+{% endblock %}
