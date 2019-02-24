@@ -42,4 +42,4 @@ def edit():
 @BP.route("/delete", methods=["POST"])
 def delete():
     """ Delete an item by id """
-    return render_template("items/list.html")
+    return redirect(url_for("items.item_list_view"))
