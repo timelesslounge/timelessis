@@ -31,6 +31,9 @@ def check_employee(employee_id, method, user):
         # User cannot do anything if employee does not belong to his company
         return False
 
+    if method == Method.READ:
+        return True
+
     # Manager can edit not own account only if it is a master or intern
     return employee.role.is_master_or_intern()
 

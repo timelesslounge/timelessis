@@ -10,20 +10,11 @@ def test_list(client):
 
 
 def test_create(client, db_session):
-    assert Role.query.count() == 0
-    created = None
-    try:
-        response = client.post(url_for("role.create"), data={
-            "name": "John"
-        })
-        assert response.location.endswith(url_for('role.list_roles'))
-        assert Role.query.count() == 1
-        created = Role.query.get(1)
-        assert created.name == "John"
-    finally:
-        if created:
-            db_session.delete(created)
-            db_session.commit()
+    response = client.post(url_for("role.create"), data={
+        "name": "John"
+    })
+    assert response.location.endswith(url_for('role.list_roles'))
+    assert Role.query.filter_by(name="John").count() == 1
 
 
 def test_edit(client):
