@@ -16,15 +16,9 @@ class ItemListView(ListView):
     """ List the Items """
     model = None
     template_name = "items/list.html"
-    items = None
-    item = None
-
-    def __init__(self, **kwargs):
-        items=kwargs.get("items")
-        item=kwargs.get("item")
 
 
-ItemListView.register(BP,"/")
+ItemListView.register(BP, "/")
 
 
 @BP.route("/create", methods=("GET", "POST"))
