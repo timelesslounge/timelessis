@@ -77,9 +77,9 @@ def test_cant_access_other_company_employees(app, db_session):
 
 def test_can_access_same_company_employees(app, db_session):
     company = factories.CompanyFactory()
-    manager = factories.RoleFactory()
-    me = factories.EmployeeFactory(company=company, role=manager)
-    colleague = factories.EmployeeFactory(company=company, role=manager)
+    manager_role = factories.RoleFactory()
+    me = factories.EmployeeFactory(company=company, role=manager_role)
+    colleague = factories.EmployeeFactory(company=company, role=manager_role)
     flask.g.user = me
     assert has_privilege(
         method=Method.READ, resource="employee", employee_id=colleague.id)

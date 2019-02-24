@@ -2,7 +2,7 @@
 import factory
 import random
 
-from timeless import DB
+from timeless.db import DB
 from timeless.employees import models as employee_models
 from timeless.restaurants import models as restaurants_models
 from timeless.roles import models as role_models

@@ -28,7 +28,7 @@ class Employee(TimestampsMixin, DB.Model):
     company = DB.relationship("Company", back_populates="employees")
     items = DB.relationship("Item", back_populates="empolyee")
     history = DB.relationship("ItemHistory", back_populates="employee")
-    role = DB.relationship("Role")
+    role = DB.relationship("Role", back_populates="employees")
 
     @validate_required("username", "password", "first_name", "last_name",
                        "phone_number", "birth_date", "email", "pin_code",

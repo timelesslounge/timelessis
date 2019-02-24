@@ -14,6 +14,7 @@ class Role(DB.Model):
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
 
     company = DB.relationship("Company", back_populates="roles")
+    employees = DB.relationship("Employee", back_populates="role")
 
     def __repr__(self):
         return "<Role %r>" % self.name
