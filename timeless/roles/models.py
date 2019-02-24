@@ -21,6 +21,6 @@ class Role(DB.Model):
     def is_master_or_intern(self):
         """
         @todo #341:30m Need to find nice way to understand what is role of this
-         instance. May be it's better to introduce `type` field with choices. 
+         instance. May be it's better to introduce `type` field with choices.
         """
         return self.name in ("Master", "Intern",)
