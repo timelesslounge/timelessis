@@ -28,10 +28,7 @@ def check_employee(employee_id, method, user):
 
     employee = Employee.query.get(employee_id)
 
-    if not employee:
-        return False
-
-    if user.company_id != employee.company_id:
+    if not employee or user.company_id != employee.company_id:
         # User cannot do anything if employee does not belong to his company
         return False
 
