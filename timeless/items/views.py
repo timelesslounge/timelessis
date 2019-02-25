@@ -16,6 +16,10 @@ class ItemListView(ListView):
     """ List the Items """
     model = None
     template_name = "items/list.html"
+    items = None
+
+    def get_object_list(self):
+        return self.items
 
 
 ItemListView.register(BP, "/")
