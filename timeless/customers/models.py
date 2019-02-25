@@ -42,8 +42,8 @@ class Customer(PosterSyncMixin, DB.Model):
     @classmethod
     def create_by_poster(cls, poster_customer: dict):
         """
-        Method should return Table object with given data from
-        poster_table dict
+        Method should return Customer object with given data from
+        poster_customer dict
         """
         poster_customer
         return cls()
