@@ -16,4 +16,3 @@ class ItemAbstraction:
     employee_id = None
     empolyee = None
     history = None
-

@@ -2,7 +2,9 @@ from http import HTTPStatus
 from datetime import datetime
 
 from tests.view.items.mock_items import ItemMock
+from timeless.items.models import Item
 from timeless.items.views import ItemListView
+
 """ Tests for the items."""
 
 
@@ -54,11 +56,13 @@ def test_list(client):
         ]
     )
     response = client.get("/items/")
+    print(response)
     assert "<article class=\"item\"><header><div><h1>1</h1></div>" in response
     assert "<article class=\"item\"><header><div><h1>2</h1></div>" in response
     assert "<article class=\"item\"><header><div><h1>3</h1></div>" in response
     assert "<article class=\"item\"><header><div><h1>4</h1></div>" in response
     assert response.status_code == HTTPStatus.OK
+    ItemListView.model = Item
 
 
 def test_create(client):
