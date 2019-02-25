@@ -7,7 +7,7 @@ from flask import (
 
 from timeless import DB
 from timeless.reservations.forms import ReservationForm
-from timeless.restaurants.models import Reservation
+from timeless.restaurants.models import Reservation, ReservationStatus
 from timeless import views
 from timeless.access_control.views import SecuredView
 from timeless.reservations import models
@@ -117,9 +117,56 @@ def create():
     """ Create new reservation """
     form = ReservationForm(request.form)
     form.validate()
-    if request.method == "POST" and form.validate():
+
+    print("### Request Form: ", request.form)
+    print("### Errors: ", form.errors)
+    """
+    errors:  {
+        'start_time': ['Not a valid datetime value'],
+        'end_time': ['Not a valid datetime value'],
+        'status': ['This field is required.']
+    }
+    """
+
+    start_time=request.form["start_time"]
+    end_time=request.form["end_time"]
+    customer_id=request.form["customer_id"]
+    num_of_persons=request.form["num_of_persons"]
+    comment=request.form["comment"]
+    status=request.form["status"]
+    print("### start_time: ", start_time)
+    print("### end_time: ", end_time)
+    print("### customer_id: ", customer_id)
+    print("### num_of_persons: ", num_of_persons)
+    print("### Comment: ", comment)
+    print("### status: ", status)
+
+    """
+    for reservationStatus in ReservationStatus:
+        print("### ReservationStatus: ", reservationStatus)
+        print("### ReservationStatus: ", repr(reservationStatus))
+    """
+
+    """
+    reservation = Reservation(
+        start_time,
+        end_time,
+        customer_id,
+        num_of_persons,
+        comment,
+        status
+    )
+
+    print("### Reservation for Save: ", reservation)
+    """
+
+    form.save()
+
+    if request.method == "POST":
         form.save()
+        """db_session.add(reservation)"""
         return redirect(url_for("reservations.list_reservations"))
+
     return render_template(
         "reservations/create_edit.html", action="create",
         form=form
