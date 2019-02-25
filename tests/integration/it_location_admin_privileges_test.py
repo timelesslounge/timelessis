@@ -5,7 +5,7 @@ from timeless.access_control.manager_privileges import has_privilege
 from timeless.access_control.methods import Method
 from timeless.companies.models import Company
 from timeless.employees.models import Employee
-from timeless.restaurants.models import Location, Floor, Table
+from timeless.restaurants.models import Location, Floor, TableShape, Table
 
 
 def test_can_access_location_tables(app, db_session):
@@ -28,8 +28,11 @@ def test_can_access_location_tables(app, db_session):
         type="type",
         status="status"
     )
-    floor = Floor (
+    floor = Floor(
         id=1, description="1st Floor", location_id=location.id
+    )
+    shape = TableShape(
+        id=1, description="Round Table", picture="/path/to/file.jpg"
     )
     table = Table(
         id=1,
@@ -43,13 +46,14 @@ def test_can_access_location_tables(app, db_session):
         max_capacity=12,
         multiple=False,
         playstation=False,
-        shape_id=2,
+        shape_id=1,
         min_capacity=6,
         deposit_hour=2
     )
     db_session.add(company)
     db_session.add(location)
     db_session.add(floor)
+    db_session.add(shape)
     db_session.commit()
     db_session.add(table)
     user = Employee(
@@ -94,8 +98,11 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
         type="type",
         status="status"
     )
-    floor = Floor (
+    floor = Floor(
         id=1, description="1st Floor", location_id=location.id
+    )
+    shape = TableShape(
+        id=1, description="Round Table", picture="/path/to/file.jpg"
     )
     table = Table(
         id=1,
@@ -109,7 +116,7 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
         max_capacity=12,
         multiple=False,
         playstation=False,
-        shape_id=2,
+        shape_id=1,
         min_capacity=6,
         deposit_hour=2
     )
@@ -117,6 +124,7 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
     db_session.add(other)
     db_session.add(location)
     db_session.add(floor)
+    db_session.add(shape)
     db_session.commit()
     db_session.add(table)
     user = Employee(
