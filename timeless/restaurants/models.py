@@ -44,6 +44,8 @@ class Floor(DB.Model):
     description = DB.Column(DB.String, nullable=True)
 
     location = DB.relationship("Location", back_populates="floors")
+    tables = DB.relationship("Table", order_by="Table.id",
+                             back_populates="floor")
 
     def __repr__(self):
         return "<Floor %r>" % self.id
@@ -117,6 +119,7 @@ class Table(PosterSyncMixin, DB.Model):
     updated = DB.Column(DB.DateTime, nullable=False)
 
     reservations = DB.relationship("TableReservation", back_populates="table")
+    floor = DB.relationship("Floor", back_populates="tables")
 
     DB.UniqueConstraint(u"name", u"floor_id")
 
