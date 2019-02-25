@@ -1,10 +1,9 @@
-from timeless.items.abstractions import ItemAbstraction, ItemsAbstractions
+from timeless.items.abstractions import ItemAbstraction
 
 
 class ItemMock(ItemAbstraction):
     """Item mock"""
 
-    items = None
     query = None
 
     def __init__(self, **kwargs):

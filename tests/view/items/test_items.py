@@ -53,7 +53,12 @@ def test_list(client):
             }
         ]
     )
-    assert client.get("/items/").status_code == HTTPStatus.OK
+    response = client.get("/items/")
+    assert "<article class=\"item\"><header><div><h1>1</h1></div>" in response
+    assert "<article class=\"item\"><header><div><h1>2</h1></div>" in response
+    assert "<article class=\"item\"><header><div><h1>3</h1></div>" in response
+    assert "<article class=\"item\"><header><div><h1>4</h1></div>" in response
+    assert response.status_code == HTTPStatus.OK
 
 
 def test_create(client):
