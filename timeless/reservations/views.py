@@ -94,19 +94,22 @@ class ReservationsListView(views.CrudAPIView):
 
 @bp.route("/")
 def list_reservations(reservations):
-    """
-        @todo #172:30min Refactor this after the implementation of GenericViews.
-         Take a look at puzzles #134 and #173 where the requirements of generic
-         views are described. Don't forget to cover the generated code with
-         tests
-
-    :param reservations:
-    :return:
+    reservations_result = []
+    reservations_string = reservations.data['reservations']
+    qry = db_session.query(Reservations).filter(Reservations.id.contains(reservations_string))
+    reservations_result = qry.all()
     """
     flash("List not yet implemented")
-    return render_template(
-        "restaurants/tables/list.html", reservations=reservations
-    )
+    """
+    if not reservations_result:
+        flash('No results found!')
+        return redirect('/')
+    else:
+        reservations_table = Results(reservations_result)
+
+    	return render_template(
+        	"restaurants/tables/list.html", reservations=reservations_table
+	)
 
 
 @bp.route("/create", methods=("GET", "POST"))
