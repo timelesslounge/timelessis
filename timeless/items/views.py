@@ -2,8 +2,9 @@ from timeless.views import ListView
 from timeless.items.models import Item
 """ Views module for Items.
     @todo #270:30min Continue implementation of views class using GenericViews.
-     Use mocks from mock_items to make the tests, like tests for item list.
-     Add authenticationannotation. Also, templates should be finished.
+     Use mocks from mock_items to make the tests, like tests for item list. Add 
+     the methods to ItemQuery as needed for the tests. Add 
+     authenticationannotation. Also, templates should be finished.
 """
 from flask import (
     Blueprint, redirect, render_template, url_for
@@ -16,10 +17,6 @@ class ItemListView(ListView):
     """ List the Items """
     model = None
     template_name = "items/list.html"
-    items = None
-
-    def get_object_list(self):
-        return self.items
 
 
 ItemListView.register(BP, "/")

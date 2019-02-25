@@ -1,14 +1,14 @@
 from http import HTTPStatus
 from datetime import datetime
 
-from tests.view.items.mock_items import ItemsMock
+from tests.view.items.mock_items import ItemMock
 from timeless.items.views import ItemListView
 """ Tests for the items."""
 
 
 def test_list(client):
     """ Test list is okay """
-    ItemListView.items = ItemsMock(
+    ItemListView.model = ItemMock(
         items=
         [
             {
