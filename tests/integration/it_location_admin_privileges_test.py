@@ -50,6 +50,7 @@ def test_can_access_location_tables(app, db_session):
     db_session.add(company)
     db_session.add(location)
     db_session.add(floor)
+    db_session.commit()
     db_session.add(table)
     user = Employee(
         id=1, first_name="Alice", last_name="Cooper",
@@ -116,6 +117,7 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
     db_session.add(other)
     db_session.add(location)
     db_session.add(floor)
+    db_session.commit()
     db_session.add(table)
     user = Employee(
         id=1, first_name="Alice", last_name="Cooper",
