@@ -23,10 +23,20 @@ def __employee_access(method=None, *args, **kwargs):
 
 
 def check_employee(employee_id, method, user):
-    if employee_id == user.id and method == Method.READ:
+    if employee_id == user.id:
         return True
-    else:
-        return user.company_id == Employee.query.get(employee_id).company_id
+
+    employee = Employee.query.get(employee_id)
+
+    if not employee or user.company_id != employee.company_id:
+        # User cannot do anything if employee does not belong to his company
+        return False
+
+    if method == Method.READ:
+        return True
+
+    # Manager can edit not own account only if it is a master or intern
+    return employee.role.is_master_or_intern()
 
 
 __resources = {
