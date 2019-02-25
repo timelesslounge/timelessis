@@ -46,9 +46,7 @@ def test_can_access_location_tables(app, db_session):
         max_capacity=12,
         multiple=False,
         playstation=False,
-        shape_id=1,
-        min_capacity=6,
-        deposit_hour=2
+        shape_id=1
     )
     db_session.add(company)
     db_session.add(location)
@@ -116,9 +114,7 @@ def test_cannot_access_tables_from_other_locations(app, db_session):
         max_capacity=12,
         multiple=False,
         playstation=False,
-        shape_id=1,
-        min_capacity=6,
-        deposit_hour=2
+        shape_id=1
     )
     db_session.add(company)
     db_session.add(other)
