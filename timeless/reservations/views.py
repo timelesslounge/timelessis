@@ -107,7 +107,7 @@ def list_reservations(reservations):
     else:
         reservations_table = Results(reservations_result)
 
-    	return render_template(
+    return render_template(
         	"restaurants/tables/list.html", reservations=reservations_table
 	)
 
