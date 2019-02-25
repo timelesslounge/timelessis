@@ -5,7 +5,6 @@ from werkzeug.exceptions import NotFound
 from timeless.views import FakeAPIView
 
 
-@pytest.mark.skip
 def test_get_found_object(app):
     """ Tests for CrudeAPIView get method when the object exists. """
     with app.test_request_context(
@@ -14,17 +13,21 @@ def test_get_found_object(app):
     ):
         apiview = FakeAPIView()
         result = apiview.get()
-    assert result[0] == {"some_id" : 5}, "Wrong result returned from CrudeAPI view"
+    assert result[0] == {"Found the object"}, "Wrong result returned from CrudeAPI view"
     assert result[1] == HTTPStatus.OK, "Wrong response from CrudeAPI view"
 
 
-@pytest.mark.skip
 def test_get_not_found_object(app):
     """ Tests for CrudeAPIView get method when the object does not exists. """
     with app.test_request_context(
             "/api/crudapi",
-            data={"some_id":5}
+            data={"some_id":0}
     ):
         apiview = FakeAPIView()
         with pytest.raises(NotFound, message="Fake object not found"):
             apiview.get()
+
+"""
+    @todo #289:30min Add tests for post, put and delete methods for CrudAPIView.
+     Refer to timeless/views.py CrudAPIView for documentation.
+"""

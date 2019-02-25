@@ -38,15 +38,14 @@ from http import HTTPStatus
 from flask import views, redirect, render_template, request, url_for
 from werkzeug.exceptions import abort
 
-
 camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
 
 class CrudAPIView(views.MethodView):
     """View that supports generic crud operations.
 
-    @todo #221:30min Continue with the implementation of CrudAPIView.
-     Implement get, post, put and delete methods. We should return json
+    @todo #289:30min Continue with the implementation of CrudAPIView.
+     Implement post, put and delete methods. We should return json
      representation of object model in methods. Use FakeModel for a fake
      database object, and implement the desired calls on FakeQuery to get,
      create, save / update and delete returning the result. Don't forget to
@@ -58,7 +57,8 @@ class CrudAPIView(views.MethodView):
 
     def get(self):
         """Calls the GET method."""
-        pass
+        model_id = request.form.get(self.url_lookup)
+        return self.model.query.get(int(model_id))
 
     def post(self):
         """Calls the POST method."""
