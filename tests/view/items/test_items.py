@@ -1,68 +1,23 @@
 from http import HTTPStatus
-from datetime import datetime
 
-from tests.view.items.mock_items import ItemMock
-from timeless.items.models import Item
-from timeless.items.views import ItemListView
+from tests import factories
+
 
 """ Tests for the items."""
 
 
 def test_list(client):
     """ Test list is okay """
-    ItemListView.model = ItemMock(
-        items=
-        [
-            {
-                "id": 1,
-                "name": "Pancakes",
-                "stock_date": datetime.utcnow,
-                "comment": "Really delicious pancakes made from flour and eggs",
-                "company_id": 1,
-                "created_on": datetime.utcnow,
-                "updated_on": datetime.utcnow,
-                "employee_id": 1
-            },
-            {
-                "id": 2,
-                "name": "Dental Floss",
-                "stock_date": datetime.utcnow,
-                "comment": "Dental floss from Montana salesmen",
-                "company_id": 1,
-                "created_on": datetime.utcnow,
-                "updated_on": datetime.utcnow,
-                "employee_id": 1
-            },
-            {
-                "id": 3,
-                "name": "Power Cable",
-                "stock_date": datetime.utcnow,
-                "comment": "Power cable made of leather and heavy metal",
-                "company_id": 1,
-                "created_on": datetime.utcnow,
-                "updated_on": datetime.utcnow,
-                "employee_id": 1
-            },
-            {
-                "id": 4,
-                "name": "Brick Block",
-                "stock_date": datetime.utcnow,
-                "comment": "Red block made from bricks, sometimes hide coins",
-                "company_id": 1,
-                "created_on": datetime.utcnow,
-                "updated_on": datetime.utcnow,
-                "employee_id": 1
-            }
-        ]
-    )
+    factories.ItemFactory()
+    factories.ItemFactory()
+    factories.ItemFactory()
+    factories.ItemFactory()
     response = client.get("/items/")
-    print(response)
     assert "<article class=\"item\"><header><div><h1>1</h1></div>" in response
     assert "<article class=\"item\"><header><div><h1>2</h1></div>" in response
     assert "<article class=\"item\"><header><div><h1>3</h1></div>" in response
     assert "<article class=\"item\"><header><div><h1>4</h1></div>" in response
     assert response.status_code == HTTPStatus.OK
-    ItemListView.model = Item
 
 
 def test_create(client):

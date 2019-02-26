@@ -15,7 +15,7 @@ BP = Blueprint("items", __name__, url_prefix="/items")
 
 class ItemListView(ListView):
     """ List the Items """
-    model = None
+    model = Item
     template_name = "items/list.html"
 
 

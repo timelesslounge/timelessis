@@ -1,6 +1,7 @@
 """Factories for all models in the project."""
 import factory
 import random
+from datetime import datetime
 
 from timeless import DB, companies
 from timeless.employees import models as employee_models
@@ -44,6 +45,21 @@ class CompanyFactory(factory.alchemy.SQLAlchemyModelFactory):
     name = factory.Faker("text")
     code = factory.Faker("text")
     address = factory.Faker("text")
+
+    class Meta:
+        model = company_models.Company
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
+
+
+class ItemFactory(factory.alchemy.SQLAlchemyModelFactory):
+    name = factory.Faker("text")
+    stock_date = datetime.utcnow
+    comment = factory.Faker("text")
+    created_on = datetime.utcnow
+    updated_on = datetime.utcnow
+
+    employee_id = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
 
     class Meta:
         model = company_models.Company
