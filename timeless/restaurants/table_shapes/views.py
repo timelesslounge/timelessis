@@ -42,6 +42,7 @@ def create():
         """
         @todo #205:30min This form currently cannot save pictures.
          Lets fix it_table_shapes_test.test_create test by submitting
+         multipart request with real image as picture.
          Please add an assertion to check if new picture is accessible
          with its url. Make sure test passes by uncommenting save call below,
          when `uploads` module parameter configuration puzzle resolved.
