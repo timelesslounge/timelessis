@@ -255,7 +255,7 @@ class CreateView(GenericView):
         return super().get_context(*args, **kwargs)
 
     def post(self):
-        form = self.get_form(request.form)
+        form = self.get_form(request.form, files=request.files)
 
         if not form.validate():
             return self.render_to_response(self.get_context(form=form))

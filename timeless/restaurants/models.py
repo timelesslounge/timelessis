@@ -26,10 +26,6 @@ class TableShape(DB.Model):
     description = DB.Column(DB.String, nullable=True)
     picture = DB.Column(DB.String, nullable=False)
 
-    @validate_required("picture")
-    def __init__(self, **kwargs):
-        super(TableShape, self).__init__(**kwargs)
-
     def __repr__(self):
         return "<TableShape %r>" % self.picture
 
@@ -44,6 +40,8 @@ class Floor(DB.Model):
     description = DB.Column(DB.String, nullable=True)
 
     location = DB.relationship("Location", back_populates="floors")
+    tables = DB.relationship("Table", order_by="Table.id",
+                             back_populates="floor")
 
     def __repr__(self):
         return "<Floor %r>" % self.id
@@ -72,11 +70,6 @@ class Location(PosterSyncMixin, DB.Model):
     floors = DB.relationship("Floor", order_by=Floor.id, back_populates="location")
     working_hours = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     closed_days = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
-
-    @validate_required("name", "code", "country", "region", "city", "type",
-                       "address", "longitude", "latitude", "status")
-    def __init__(self, **kwargs):
-        super(Location, self).__init__(**kwargs)
 
     def __repr__(self):
         return "<Location %r>" % self.name
@@ -115,6 +108,7 @@ class Table(TimestampsMixin, PosterSyncMixin, DB.Model):
     deposit_hour = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
     reservations = DB.relationship("TableReservation", back_populates="table")
+    floor = DB.relationship("Floor", back_populates="tables")
 
     DB.UniqueConstraint(u"name", u"floor_id")
 
