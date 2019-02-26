@@ -97,9 +97,6 @@ def test_create(client, db_session):
 
 @pytest.mark.skip
 def test_delete(client):
-    """
-    @todo #348:30min Unmark and run skipped test "test_delete" after #312 will be pulled to the master branch.
-    """
     employee = factories.EmployeeFactory()
     response = client.post(url_for('employee.delete', id=employee.id))
     assert response.status_code == HTTPStatus.FOUND

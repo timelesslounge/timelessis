@@ -42,7 +42,7 @@ class Delete(views.DeleteView):
     success_view_name = "employee.list"
     """
     @todo #348:30min Delete "template_name" from Delete
-     after #312 will be pulled. Uncomment and test IT test.
+     after #312 will be pulled. Uncomment and test IT test "test_delete".
      "template_name" is using now due to current implementation of
      views.DeleteView.
     """
