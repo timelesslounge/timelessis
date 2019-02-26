@@ -33,7 +33,7 @@ def test_create(client):
     response = client.post(
         url_for("location.create"), data=location_data, follow_redirects=True)
     assert Location.query.count() == 1
-    assert location_data['name'].encode() in response.data
+    assert location_data["name"].encode() in response.data
 
 
 def test_edit(client):

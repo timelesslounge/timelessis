@@ -67,7 +67,7 @@ class Create(views.CreateView):
     """ Create a new floor instance """
     decorators = (auth.login_required,)
     template_name = "restaurants/floors/create_edit.html"
-    success_view_name = "floor.list"
+    success_view_name = "floor.list_floors"
     form_class = FloorForm
 
 
