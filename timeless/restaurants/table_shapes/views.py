@@ -5,11 +5,13 @@ from flask import (
     Blueprint, redirect, abort, render_template, request, url_for
 )
 
+from timeless import views
 from timeless.db import DB
 from timeless.restaurants import models
 from timeless.restaurants.table_shapes import forms
 from timeless.templates.views import order_by, filter_by
 from timeless.uploads import IMAGES
+
 
 bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
@@ -33,27 +35,15 @@ def list():
         table_shapes=query.all())
 
 
-@bp.route("/create", methods=("GET", "POST"))
-def create():
-    """ Create new table shape"""
-    form = forms.TableShapeForm(request.form, request.files)
-
-    if request.method == "POST" and form.validate():
-        """
-        @todo #205:30min This form currently cannot save pictures.
-         Lets fix it_table_shapes_test.test_create test by submitting
-         multipart request with real image as picture.
-         Please add an assertion to check if new picture is accessible
-         with its url. Make sure test passes by uncommenting save call below,
-         when `uploads` module parameter configuration puzzle resolved.
-        """
-        """
-        Uncomment after correction
-        form.save()
-        """
-        return redirect(url_for("table_shape.list"))
-    return render_template(
-        "restaurants/table_shapes/create_edit.html", form=form)
+class Create(views.CreateView):
+    """
+    @todo #162:30min This form currenly cannot save pictures. Need have a
+     look how WTF form processes files. Implement generic solution to use
+     it everywhere when it's needed.
+    """
+    form_class = forms.TableShapeForm
+    template_name = "restaurants/table_shapes/create_edit.html"
+    success_view_name = "table_shape.list"
 
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
@@ -84,3 +74,6 @@ def delete(id):
     DB.session.delete(table_shape)
     DB.session.commit()
     return redirect(url_for("table_shape.list"))
+
+
+Create.register(bp, "/create")

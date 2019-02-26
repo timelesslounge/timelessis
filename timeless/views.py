@@ -9,8 +9,6 @@
  list of objects from db using model. Also, make sure list.html template is
  made generic to allow all other views to use it. Feel free to add more puzzles
  since there are a lot of views.
-@todo #173:30min Once CreateView is implemented, refactor all blueprint views
- to use it for validating the form and storing the record in the database.
 @todo #173:30min Once UpdateView is implemented, refactor all blueprint views
  to use it for validating the form and updating the record in the database.
  Reuse SingleObjectMixin to provide simple solution to fetch by id.
@@ -254,7 +252,7 @@ class CreateView(GenericView):
         return super().get_context(*args, **kwargs)
 
     def post(self):
-        form = self.get_form(request.form)
+        form = self.get_form(request.form, files=request.files)
 
         if not form.validate():
             return self.render_to_response(self.get_context(form=form))
