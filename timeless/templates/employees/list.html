@@ -13,11 +13,20 @@
             </div>
             <a class="action" href="#">Edit</a>
         </header>
-        <p class="column">Name: {{ employee['first_name'] }} {{ employee['last_name'] }}</p>        
-        <p class="column">Registration date: {{ employee['registration_date'] }}</p>
-        <p class="column">Account status: {{ employee['account_status'] }}</p>
-        <p class="column">User status: {{ employee['user_status'] }}</p>
-        <p class="column">Company name: {{ employee['company.name'] }}</a></p>
+            <p class="column">ID: {{ employee['id'] }}</p>
+            <p class="column">Name: {{ employee['first_name'] }} {{ employee['last_name'] }}</p>
+            <p class="column">Company name: {{ employee['company.name'] }}</p>
+            <p class="column">Registration date: {{ employee['registration_date'] }}</p>
+            <p class="column">Account status: {{ employee['account_status'] }}</p>
+            <p class="column">User status: {{ employee['user_status'] }}</p>
+            <p class="column">Birth date: {{ employee['birth_date'] }}</p>
+            <p class="column">Email: {{ employee['email'] }}</p>
+            <p class="column">Phone number: {{ employee['phone_number'] }}</p>
+            <p class="column">User name: {{ employee['username'] }}</p>
+            <p class="column">Password: {{ employee['password'] }}</p>
+            <p class="column">Pin code: {{ employee['pin_code'] }}</p>
+            <p class="column">Comment: {{ employee['comment'] }}</p>
+
         </article>
         {% if not loop.last %}
         <hr>

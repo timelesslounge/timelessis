@@ -93,7 +93,8 @@ class GenericView(views.MethodView):
         if not name:
             # Convert "ViewName" to "view_name" and use it
             name = camel_to_underscore.sub(r"_\1", cls.__name__).lower()
-            blueprint.add_url_rule(route, view_func=cls.as_view(name))
+
+        blueprint.add_url_rule(route, view_func=cls.as_view(name))
 
     def dispatch(self):
         """
