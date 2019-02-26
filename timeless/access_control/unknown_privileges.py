@@ -1,5 +1,4 @@
-""" Permissions for Master / Intern / Others roles """
-import flask
+""" Permissions for Unknown roles """
 
 
 def has_privilege(*args, resource=None, **kwargs) -> bool:
