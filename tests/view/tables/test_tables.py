@@ -65,6 +65,19 @@ def test_list(client):
     assert b"<div><h1>Table 01</h1></div>" in response.data
     assert b"<div><h1>Table 02</h1></div>" in response.data
     assert b"<div><h1>Table 03</h1></div>" in response.data
+    assert b"<div><h1>Table " in response.data.count == 3
+    TableListView.model = Table
+
+
+def test_required_authentication(client):
+    """ Test list is okay """
+    TableListView.model = TableMock(
+        tables=[]
+    )
+    response = client.get("/tables/")
+    assert response.status_code == HTTPStatus.OK
+    assert b"<li><a href=\"#\">Register</a>" in response.data
+    assert b"<li><a href=\"/auth/login\">Log In</a>" in response.data
     TableListView.model = Table
 
 
