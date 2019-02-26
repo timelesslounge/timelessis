@@ -9,7 +9,9 @@ from timeless.uploads import IMAGES
 class TableShapeForm(forms.ModelForm):
     """Base form for table shape"""
 
-    picture = FileField('Table Shape Image', validators=[FileRequired(), FileAllowed(IMAGES, 'Images only!')])
+    picture = FileField(
+        'Table Shape Image',
+        validators=[FileRequired(), FileAllowed(IMAGES, 'Images only!')])
 
     class Meta:
         model = models.TableShape
@@ -24,9 +26,11 @@ class TableShapeForm(forms.ModelForm):
         Saves uploaded image
         :param commit: To commit flag
         :return: Saved instance
-        @todo #205:30min Lets save only filename which is a static part of a url. Hostname,
-         port and perhaps base path should be calculated dynamically for each
-         table shape while being rendered to the template.
+        @todo #205:30min Lets save only filename which is a static
+         part of a url. Hostname, port and perhaps base path
+         should be calculated dynamically for each table shape
+         while being rendered to the template. See Configuration
+         paragraph https://pythonhosted.org/Flask-Uploads/
         """
         filename = IMAGES.save(self._file)
         self.picture.data = IMAGES.url(filename)
