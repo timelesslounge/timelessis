@@ -1,7 +1,14 @@
 from flask import session
 from timeless.employees.models import Employee
 
-
+"""
+    @todo #370:30min Decouple routines from database. Database
+     implementation and routines are tightly coupled, which prevents
+     unit testing. Decouple Employee model from routines creating Employee and
+     Employees abstractions (see
+     https://github.com/timelesslounge/timelessis/pull/375) for examples.
+     Then create mocks and use these mocks to test auth.
+"""
 def login(username="", password=""):
     """Login user
 
@@ -16,13 +23,6 @@ def login(username="", password=""):
     return error
 
 
-"""
-@todo #340:30min Continue implementing forgot_password. End the function that
- will be responsible for sending the email with the link to reset the password.
- Also check why the following error is occurring in
- test_forgot_password(client):tests/integration/it_auth_test.py:55:
- AssertionError
-"""
 def forgot_password(email=""):
     user = Employee.query.filter_by(email=email).first()
     error = None

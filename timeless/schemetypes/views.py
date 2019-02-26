@@ -6,11 +6,16 @@
 @todo #56:30min Once #357 is finished, reuse the view (or better create a new
  generic one - if it doesn't exist) to enable sorting and filtering for every
  column. Also replace all other List views with this new generic one.
+@todo #97:30min Continue implementing SchemeConditionCreate,
+ SchemeConditionEdit, SchemeConditionDelete views once generic views from #173
+ are implemented. Code templates are already provided below, so uncomment and
+ modify - create templates and write ITs to verify behaviour.
 """
-from flask import Blueprint
+from http import HTTPStatus
+from flask import Blueprint, abort
 
 from timeless.views import ListView
-from timeless.schemetypes.models import SchemeType
+from timeless.schemetypes.models import SchemeType, SchemeCondition
 
 bp = Blueprint("scheme_type", __name__, url_prefix="/schemetypes")
 
@@ -47,3 +52,45 @@ List.register(bp, "/")
 # Create.register(bp, "/create")
 # Edit.register(bp, "/edit/<int:id>")
 # Delete.register(bp, "/delete")
+
+
+class SchemeConditionList(ListView):
+    """List all scheme conditions for scheme type"""
+    template_name = "schemetypes/schemeconditions/list.html"
+    model = SchemeCondition
+
+    def get(self, scheme_type_id):
+        if not scheme_type_id:
+            return abort(HTTPStatus.BAD_REQUEST)
+        self.scheme_type_id = scheme_type_id
+        return super().get(self, scheme_type_id)
+
+    def get_object_list(self):
+        return self.model.query.filter(
+            SchemeCondition.scheme_type_id == self.scheme_type_id)
+
+# class SchemeConditionCreate(CreateView):
+#     """Create scheme condition"""
+#     template_name = "schemetypes/schemeconditions/create_edit.html"
+#     form_class  = SchemeConditionForm
+#     model = SchemeCondition
+
+
+# class SchemeConditionEdit(UpdateView):
+#     """Update scheme condition"""
+#     template_name = "schemetypes/schemeconditions/create_edit.html"
+#     form_class  = SchemeConditionForm
+#     model = SchemeCondition
+
+
+# class SchemeConditionDelete(DeleteView):
+#     """Delete scheme condition
+#     Deletes scheme condition using id and redirects to list page
+#     """
+#     form_class  = SchemeConditionForm
+#     model = SchemeCondition
+
+SchemeConditionList.register(bp, "/schemeconditions/<int:scheme_type_id>")
+# SchemeConditionCreate.register(bp, "/schemeconditions/create")
+# SchemeConditionEdit.register(bp, "/schemeconditions/edit/<int:id>")
+# SchemeConditionDelete.register(bp, "/schemeconditions/delete")

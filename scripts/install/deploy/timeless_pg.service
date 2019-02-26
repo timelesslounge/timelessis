@@ -1,0 +1,15 @@
+[Unit]
+Description=PostgreSQL DB Timeless
+Documentation=man:postgres(1)
+
+[Service]
+Type=forking
+User=postgres
+ExecStart=/usr/lib/postgresql/10/bin/postgres -D /etc/postgresql/10/main
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

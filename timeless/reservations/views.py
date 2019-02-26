@@ -5,6 +5,9 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, jsonify
 )
 
+from timeless import DB
+from timeless.reservations.forms import ReservationForm
+from timeless.restaurants.models import Reservation
 from timeless import views
 from timeless.access_control.views import SecuredView
 from timeless.reservations import models
@@ -110,13 +113,16 @@ def list_reservations(reservations):
 
 
 @bp.route("/create", methods=("GET", "POST"))
-def create(reservation):
-    if request.method == "POST":
-        flash("Create not yet implemented")
-
+def create():
+    """ Create new reservation """
+    form = ReservationForm(request.form)
+    form.validate()
+    if request.method == "POST" and form.validate():
+        form.save()
+        return redirect(url_for("reservations.list_reservations"))
     return render_template(
-        "restaurants/tables/create_edit.html", action="create",
-        reservation=reservation
+        "reservations/create_edit.html", action="create",
+        form=form
     )
 
 
@@ -125,12 +131,15 @@ def edit(id):
     if request.method == "POST":
         flash("Edit not yet implemented")
     return render_template(
-        "restaurants/tables/create_edit.html", action="edit",
+        "reservations/create_edit.html", action="edit",
         id=id
     )
 
 
-@bp.route("/delete", methods=["POST"])
-def delete():
-    flash("Delete not yet implemented")
+@bp.route("/delete/<int:id>", methods=["POST"])
+def delete(id):
+    """ Delete reservation """
+    reservation = Reservation.query.get(id)
+    DB.session.delete(reservation)
+    DB.session.commit()
     return redirect(url_for("reservations.list_reservations"))

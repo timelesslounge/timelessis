@@ -1,7 +1,4 @@
 """Auth views module.
-@todo #232:30min Implement activate() methods. Update html templates when
- methods are implemented. Create tests for activate() in it_auth_test.py.
- Architect must document what activate() method must do.
 @todo #5:30min Implement before_app_request function that will get the user id
  from session, get user data from db and store it in g.user, which lasts for the
  length of the request. Also, create a decorator that will check, for each view
@@ -58,17 +55,35 @@ def logout():
 @bp.route("/forgotpassword", methods=("GET", "POST"))
 def forgot_password():
     if request.method == "POST":
-        error = auth.forgot_password(email=request.form["email"])
+        email = request.form["email"]
+        error = auth.forgot_password(email=email)
+        print(error)
         if error is not None:
-            flash("We sent a password recover link to your email tst@mail.com")
-            return redirect(url_for("auth.login"))
+            return render_template("auth/forgot_password.html", error=error)
         else:
-            flash("E-mail not found", "error")
+            return render_template(
+                "auth/forgot_password_post.html",
+                email=email
+            )
 
     return render_template("auth/forgot_password.html")
 
 
 @bp.route("/activate", methods=["POST"])
 def activate():
-    flash("Activate link is not yet implemented")
-    return render_template("auth/activate.html")
+    """
+    Activate the user's account by setting account status to true.
+    @todo #399:30min Implement tests for this method.
+     Tests should include more cases.
+     Currently we are testing not logged in while visiting activate.
+     Tests for a logged in activation needed.
+    """
+    if not g.user:
+        return render_template("auth/activate.html")
+
+    g.user.account_status = True
+    session.commit()
+    return render_template(
+        "auth/activate.html",
+        message="Successfully activated your account."
+    )

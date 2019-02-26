@@ -3,13 +3,16 @@ import flask
 from timeless.access_control.methods import Method
 from timeless.restaurants.models import Location
 
+"""
+    @todo #242:30min Implement owner privileges regarding company. Owner
+     should be able to operate over employees of his own company only.
+     Implement this rules on __employee_access and then uncomment tests from
+     owner_privileges.py
+"""
+
 
 def has_privilege(method=None, resource=None, *args, **kwargs) -> bool:
-    """Check if user with Owner role can access a particular resource.
-    @todo #180:30min Implement the rest of the owner privileges.
-     1) Create /modify /activate /deactivate accounts for all Employee
-     associated with owned Company
-    """
+    """Check if user with Owner role can access a particular resource."""
     return __resources.get(resource, lambda *arg: False)(method, *args, **kwargs)
 
 

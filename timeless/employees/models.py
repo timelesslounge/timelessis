@@ -28,12 +28,7 @@ class Employee(TimestampsMixin, DB.Model):
     company = DB.relationship("Company", back_populates="employees")
     items = DB.relationship("Item", back_populates="empolyee")
     history = DB.relationship("ItemHistory", back_populates="employee")
-
-    @validate_required("username", "password", "first_name", "last_name",
-                       "phone_number", "birth_date", "email", "pin_code",
-                       "registration_date", "account_status", "user_status")
-    def __init__(self, **kwargs):
-        super(Employee, self).__init__(**kwargs)
+    role = DB.relationship("Role", back_populates="employees")
 
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username

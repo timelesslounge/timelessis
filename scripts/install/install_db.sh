@@ -8,7 +8,7 @@ until sudo -u postgres psql -U "postgres" -c '\q'; do
   sleep 1
 done
 echo "Creating user: timeless_user"
-sudo -u postgres psql -c "CREATE USER timeless_user WITH 
+sudo -u postgres psql -c "CREATE USER timeless_user WITH
     SUPERUSER
     CREATEDB
     CREATEROLE

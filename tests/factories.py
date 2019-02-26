@@ -3,9 +3,10 @@ import factory
 import random
 from datetime import datetime
 
-from timeless import DB, companies
+from timeless.db import DB
 from timeless.employees import models as employee_models
 from timeless.restaurants import models as restaurants_models
+from timeless.roles import models as role_models
 from timeless.companies import models as company_models
 
 
@@ -63,5 +64,15 @@ class ItemFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     class Meta:
         model = company_models.Company
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
+
+
+class RoleFactory(factory.alchemy.SQLAlchemyModelFactory):
+    name = factory.Faker("text")
+    works_on_shifts = True
+
+    class Meta:
+        model = role_models.Role
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
