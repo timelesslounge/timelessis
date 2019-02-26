@@ -25,10 +25,9 @@ class Create(views.CreateView):
 
 
 """
-@todo #348:30min Continue implementing Edit view
- when generic view UpdateView would be implemented.
- Template "employees/create_edit.html" has already provided,
- so uncomment and modify. Write IT to verify behaviour.
+@todo #348:30min Continue implementing Edit view when generic view UpdateView
+ would be implemented. Template "employees/create_edit.html" has already
+ provided, so uncomment and modify. Write IT to verify behaviour.
 """
 # class Edit(views.UpdateView):
 #     """Update employee"""
@@ -42,8 +41,10 @@ class Delete(views.DeleteView):
     model = Employee
     success_view_name = "employee.list"
     """
-    @todo #348:30min Delete "template_name" from Delete
-     after #312 will be pulled. Run IT test.
+    @todo #348:30min Delete "template_name" from Delete 
+     after #312 will be pulled. Uncomment and test IT test. 
+     "template_name" is using now due to current implementation of
+     views.DeleteView.
     """
     template_name = "employees/list.html"
 
@@ -53,8 +54,9 @@ class List(views.ListView):
     model = Employee
     success_view_name = "employee.list"
     """
-    @todo #348:10min Delete template_name from List
-     after #312 will be pulled to the master branch.
+    @todo #348:15min Delete template_name from List after #312 will be pulled 
+     to the master branch. "template_name" is using now due to current 
+     implementation of views.DeleteView.
     """
     template_name = "employees/list.html"
 
