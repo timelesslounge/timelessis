@@ -265,7 +265,14 @@ class UpdateView(GenericView):
 
 
 class DeleteView(SuccessRedirectMixin, SingleObjectMixin, GenericView):
-    """ Base view for deleting objects """
+    """ It deletes object by `id` provided in URL path and redirects
+    user to provided URL in case of success.
+    Example of common usage:
+
+    class Delete(views.DeleteView):
+        model = models.TableShape
+        success_view_name = "table_shape.list"
+    """
 
     def post(self, *args, **kwargs):
         obj = self.get_object()

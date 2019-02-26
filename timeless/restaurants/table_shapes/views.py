@@ -69,7 +69,7 @@ def edit(id):
 
 class Delete(views.DeleteView):
     """
-    @todo #173:30min Refactor all deleting views to use `views.DeleteView`
+    @todo #312:30min Refactor all deleting views to use `views.DeleteView`
      and the method they were registered to bluprints. See `.register` method
      in `GenericView`, use it. Also uncomment all tests related to these views.
     """
@@ -78,4 +78,4 @@ class Delete(views.DeleteView):
 
 
 Create.register(bp, "/create")
-Delete.register(bp, "/<int:id>/delete")
+Delete.register(bp, "/delete/<int:id>")
