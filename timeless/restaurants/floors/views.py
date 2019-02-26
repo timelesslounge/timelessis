@@ -35,7 +35,7 @@ BP = Blueprint("floor", __name__, url_prefix="/floors")
 
 
 class FloorListView(ListView):
-    "List all floors"
+    """List all floors"""
     template_name = "restaurants/floors/list.html"
     model = None
 
