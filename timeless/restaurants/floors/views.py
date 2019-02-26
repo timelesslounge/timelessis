@@ -75,4 +75,3 @@ def delete():
     """ Delete floor with id """
     flash("Delete not yet implemented")
     return redirect(url_for("floor.list_floors"))
-''

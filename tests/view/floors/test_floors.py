@@ -6,7 +6,10 @@ from tests.view.floors.mock_floors import FloorMock
 from timeless.restaurants.models import Floor
 from timeless.restaurants.floors.views import FloorListView
 
-""" Tests for floors."""
+""" Tests for floors.
+@todo #95:30min Continue implementation of 
+
+"""
 
 
 def test_list(client):
