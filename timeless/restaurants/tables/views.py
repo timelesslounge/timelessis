@@ -53,6 +53,7 @@ def list_tables():
     )
 """
 
+
 @BP.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     """ Edit existing table """
