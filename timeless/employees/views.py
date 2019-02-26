@@ -41,8 +41,8 @@ class Delete(views.DeleteView):
     model = Employee
     success_view_name = "employee.list"
     """
-    @todo #348:30min Delete "template_name" from Delete 
-     after #312 will be pulled. Uncomment and test IT test. 
+    @todo #348:30min Delete "template_name" from Delete
+     after #312 will be pulled. Uncomment and test IT test.
      "template_name" is using now due to current implementation of
      views.DeleteView.
     """
@@ -54,8 +54,8 @@ class List(views.ListView):
     model = Employee
     success_view_name = "employee.list"
     """
-    @todo #348:15min Delete template_name from List after #312 will be pulled 
-     to the master branch. "template_name" is using now due to current 
+    @todo #348:15min Delete template_name from List after #312 will be pulled
+     to the master branch. "template_name" is using now due to current
      implementation of views.DeleteView.
     """
     template_name = "employees/list.html"
