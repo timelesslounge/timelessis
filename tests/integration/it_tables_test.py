@@ -14,10 +14,6 @@ from flask import url_for
 from timeless.restaurants.models import Table
 
 
-def test_list(client):
-    assert client.get("/tables/").status_code == HTTPStatus.OK
-
-
 @pytest.mark.skip()
 def test_create(client):
     name = "test table"
@@ -69,6 +65,7 @@ def test_edit(client, db_session):
     assert Table.query.get(1).name == name
 
 
+@pytest.mark.skip(reason="Must be replaced with /table/delete")
 def test_delete(client, db_session):
     table = Table(
         name="test name",

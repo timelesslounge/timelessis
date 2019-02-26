@@ -89,7 +89,7 @@ def register_endpoints(app):
     from timeless.employees import views as employees_views
 
     app.register_blueprint(auth_views.bp)
-    app.register_blueprint(tables_views.bp)
+    app.register_blueprint(tables_views.BP)
     app.register_blueprint(locations_views.bp)
     app.register_blueprint(roles_views.bp)
     app.register_blueprint(items_views.BP)
