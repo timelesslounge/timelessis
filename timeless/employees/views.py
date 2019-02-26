@@ -23,10 +23,12 @@ class Create(views.CreateView):
         context = self.get_context(action="create")
         return self.render_to_response(context)
 
+
 """
-@todo #348:30min Continue Edit view when generic view UpdateView would be implemented.
-Template "employees/create_edit.html" has already provided, so uncomment and modify. 
-Write IT to verify behaviour.
+@todo #348:30min Continue implementing Edit view
+ when generic view UpdateView would be implemented.
+ Template "employees/create_edit.html" has already provided,
+ so uncomment and modify. Write IT to verify behaviour.
 """
 # class Edit(views.UpdateView):
 #     """Update employee"""
@@ -37,11 +39,11 @@ Write IT to verify behaviour.
 
 class Delete(views.DeleteView):
     """Delete employee"""
-    form_class = EmployeeForm
     model = Employee
     success_view_name = "employee.list"
     """
-    @todo #348:30min Delete "template_name" from Delete after #312 will be pulled. Run IT test.
+    @todo #348:30min Delete "template_name" from Delete
+     after #312 will be pulled. Run IT test.
     """
     template_name = "employees/list.html"
 
@@ -51,7 +53,8 @@ class List(views.ListView):
     model = Employee
     success_view_name = "employee.list"
     """
-    @todo #348:10min Delete template_name from List after #312 will be pulled to the master branch.
+    @todo #348:10min Delete template_name from List
+     after #312 will be pulled to the master branch.
     """
     template_name = "employees/list.html"
 

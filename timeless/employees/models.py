@@ -23,16 +23,12 @@ class Employee(TimestampsMixin, DB.Model):
     pin_code = DB.Column(DB.Integer, unique=True, nullable=False)
     comment = DB.Column(DB.String)
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
-    """
-    @todo #348:30min In Employee model append attribute 
     role_id = DB.Column(DB.Integer, DB.ForeignKey("roles.id"), nullable=True)
-    after the foreign key column "role_id" will be implemented in the "employees" table of the database.
-    Append "role_id" to template "create_edit.html" and ITs tests.
-    """
 
     company = DB.relationship("Company", back_populates="employees")
     items = DB.relationship("Item", back_populates="empolyee")
     history = DB.relationship("ItemHistory", back_populates="employee")
+    role = DB.relationship("Role", back_populates="employees")
 
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username

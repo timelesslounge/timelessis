@@ -6,26 +6,21 @@ from datetime import datetime
 
 from tests import factories
 from timeless.employees.models import Employee
-from timeless.companies.models import Company
 
 
 def test_insert_employee(db_session):
     """Integration test for adding and selecting Employee"""
-    company = create_company()
-    db_session.add(company)
-    employee = create_employee(company.id)
-    db_session.add(employee)
-    db_session.commit()
+    company = factories.CompanyFactory()
+    manager_role = factories.RoleFactory()
+    employee = factories.EmployeeFactory(company=company, role=manager_role)
     row = db_session.query(Employee).get(employee.id)
-    assert row.username == "john"
+    assert row.username == employee.username
 
 
 def test_timestamp_mixin_created_on(db_session):
     """Integration test for testing TimestampsMixin created_on field"""
     before = datetime.utcnow()
-    company = create_company()
-    db_session.add(company)
-    employee = create_employee(company.id)
+    employee = create_employee()
     db_session.add(employee)
     db_session.commit()
     row = db_session.query(Employee).get(employee.id)
@@ -41,9 +36,7 @@ def test_timestamp_mixin_created_on(db_session):
 def test_timestamp_mixin_updated_on(db_session):
     """Integration test for testing TimestampsMixin updated_on field"""
     before = datetime.utcnow()
-    company = create_company()
-    db_session.add(company)
-    employee = create_employee(company.id)
+    employee = create_employee()
     db_session.add(employee)
     db_session.commit()
     row = db_session.query(Employee).get(employee.id)
@@ -56,16 +49,7 @@ def test_timestamp_mixin_updated_on(db_session):
     assert row.updated_on > old_updated_on
 
 
-def create_company():
-    """ Create new instance of Company to reuse it in other tests """
-    return Company(id=1,
-                   name="Acme Inc.",
-                   code="code1",
-                   address="addr"
-                   )
-
-
-def create_employee(company_id):
+def create_employee():
     """ Create new instance of Employee to reuse it in other tests """
     return Employee(first_name="John",
                     last_name="Smith",
@@ -79,42 +63,33 @@ def create_employee(company_id):
                     password="bla",
                     pin_code=1234,
                     comment="No comments",
-                    company_id=company_id
-                    )
+    )
 
 
 def test_list(client, db_session):
     """ List all employees """
-    company = create_company()
-    db_session.add(company)
-    employee = create_employee(company.id)
-    db_session.add(employee)
-    db_session.commit()
+    company = factories.CompanyFactory()
+    manager_role = factories.RoleFactory()
+    employee = factories.EmployeeFactory(company=company, role=manager_role)
     response = client.get(url_for("employee.list"))
     assert response.status_code == HTTPStatus.OK
-    assert b"John Smith" in response.data
+    assert str.encode(employee.username) in response.data
 
 
 def test_create(client, db_session):
-    company = create_company()
-    db_session.add(company)
-    db_session.commit()
-
     assert client.get("/employees/create").status_code == HTTPStatus.OK
-    employee_data = {
-        "first_name": "Alice",
-        "last_name": "Brown",
-        "username": "alice",
-        "phone_number": "876",
-        "birth_date": datetime(2019, 2, 1, 0, 0).date(),
-        "registration_date": datetime(2019, 2, 1, 0, 0),
-        "account_status": "A",
-        "user_status": "Working",
-        "email": "test@test.com",
-        "password": "pwd1",
-        "pin_code": 1234,
-        "comment": "No comments",
-        "company_id": company.id,
+    employee_data = {"first_name": "Alice",
+                     "last_name": "Brown",
+                     "username": "alice",
+                     "phone_number": "876",
+                     "birth_date": datetime(2019, 2, 1, 0, 0).date(),
+                     "registration_date": datetime(2019, 2, 1, 0, 0),
+                     "account_status": "A",
+                     "user_status": "Working",
+                     "email": "test@test.com",
+                     "password": "pwd1",
+                     "pin_code": 1234,
+                     "comment": "No comments",
     }
     client.post(url_for("employee.create"), data=employee_data)
     assert Employee.query.count() == 1
@@ -125,7 +100,7 @@ def test_delete(client):
     """
     @todo #348:30min Unmark and run skipped test "test_delete" after #312 will be pulled to the master branch.
     """
-    table_employee = factories.EmployeeFactory()
-    response = client.post(url_for('employee.delete', id=table_employee.id))
+    employee = factories.EmployeeFactory()
+    response = client.post(url_for('employee.delete', id=employee.id))
     assert response.status_code == HTTPStatus.FOUND
     assert not Employee.query.count()
