@@ -33,6 +33,3 @@ class Employee(TimestampsMixin, DB.Model):
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username
 
-    def validate_password(self, password):
-        """ Validate user password """
-        return bcrypt_sha256.verify(password, self.password)
