@@ -1,6 +1,9 @@
 from http import HTTPStatus
-from flask import url_for
+
 import pytest
+from flask import g, url_for
+
+from tests import factories
 from timeless.restaurants.models import Floor
 
 
@@ -23,12 +26,9 @@ def test_login_required(client, path):
                                                    _external=True)
 
 
-def test_create(client):
-    """
-    @todo #310:30m This test works without any problems so it means
-     that not authenticated used can create a floor. Check permissions
-     and then fix them and update this test.
-    """
+@pytest.mark.skip(reason="auth.login() is not yet implemented")
+def test_create(client, auth):
+    auth.login()
     floor_data = {
         "description": "Test floor"
     }

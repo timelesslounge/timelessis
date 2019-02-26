@@ -82,6 +82,6 @@ def test_delete(client, db_session):
     )
     db_session.add(table)
     db_session.commit()
-    response = client.post(url_for("table.delete", id=1))
+    response = client.post(url_for("table.delete", id=table.id))
     assert response.location.endswith(url_for('table.list_tables'))
     assert Table.query.count() == 0

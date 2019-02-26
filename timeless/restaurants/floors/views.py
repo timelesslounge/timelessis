@@ -22,8 +22,6 @@
  timeless/views.py::DetailView; second view must show the result message of
  floor deletion.
 """
-from timeless.restaurants.models import Floor
-
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
 )

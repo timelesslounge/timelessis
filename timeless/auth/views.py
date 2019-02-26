@@ -27,8 +27,9 @@ def login_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
         if not g.user:
+            print('g = ', g.user)
             return redirect(url_for("auth.login"))
-
+        print('ok')
         return view(**kwargs)
 
     return wrapped_view
