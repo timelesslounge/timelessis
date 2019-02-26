@@ -116,7 +116,7 @@ def test_can_access_subalterns(app, db_session):
         account_status="on",
         user_status="on",
         registration_date=datetime.utcnow(),
-        company_id=2,
+        company_id=1,
         role_id=1,
         email="alice@test.com", password="bla"
     )
