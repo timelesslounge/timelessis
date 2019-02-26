@@ -8,6 +8,7 @@ from timeless.employees import models as employee_models
 from timeless.restaurants import models as restaurants_models
 from timeless.roles import models as role_models
 from timeless.companies import models as company_models
+from timeless.items import models as item_models
 
 
 class TableShapeFactory(factory.alchemy.SQLAlchemyModelFactory):
@@ -60,10 +61,8 @@ class ItemFactory(factory.alchemy.SQLAlchemyModelFactory):
     created_on = datetime.utcnow
     updated_on = datetime.utcnow
 
-    employee_id = DB.Column(DB.Integer, DB.ForeignKey("employees.id"))
-
     class Meta:
-        model = company_models.Company
+        model = item_models.Item
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
 

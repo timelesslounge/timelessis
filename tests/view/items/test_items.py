@@ -8,15 +8,14 @@ from tests import factories
 
 def test_list(client):
     """ Test list is okay """
-    factories.ItemFactory()
-    factories.ItemFactory()
-    factories.ItemFactory()
-    factories.ItemFactory()
+    company = factories.CompanyFactory()
+    employee = factories.EmployeeFactory(company=company)
+    factories.ItemFactory(employee_id=employee.id, company=company)
     response = client.get("/items/")
-    assert "<article class=\"item\"><header><div><h1>1</h1></div>" in response
-    assert "<article class=\"item\"><header><div><h1>2</h1></div>" in response
-    assert "<article class=\"item\"><header><div><h1>3</h1></div>" in response
-    assert "<article class=\"item\"><header><div><h1>4</h1></div>" in response
+    assert "<article class=\"item\"><header><div><h1>1</h1></div>" in response.data
+    assert "<article class=\"item\"><header><div><h1>2</h1></div>" in response.data
+    assert "<article class=\"item\"><header><div><h1>3</h1></div>" in response.data
+    assert "<article class=\"item\"><header><div><h1>4</h1></div>" in response.data
     assert response.status_code == HTTPStatus.OK
 
 
