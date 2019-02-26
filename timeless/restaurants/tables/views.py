@@ -20,6 +20,7 @@ from flask import (
 
 from timeless import DB, views
 from timeless.restaurants import models
+from timeless.restaurants.models import Table
 from timeless.restaurants.tables import forms
 
 
@@ -28,7 +29,7 @@ BP = Blueprint("table", __name__, url_prefix="/tables")
 
 class TableListView(views.ListView):
     """ List the tables """
-    model = None
+    model = Table
     template_name = "restaurants/tables/list.html"
 
 

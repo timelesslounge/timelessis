@@ -60,3 +60,20 @@ class RoleFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = role_models.Role
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
+
+
+class TableFactory(factory.alchemy.SQLAlchemyModelFactory):
+    name = factory.Faker("text")
+    x = factory.Faker("pyint")
+    y = factory.Faker("pyint")
+    width = factory.Faker("pyint")
+    height = factory.Faker("pyint")
+    status = factory.Iterator([0, 1])
+    max_capacity = factory.Faker("pyint")
+    multiple = factory.Faker("boolean", chance_of_getting_true=50)
+    playstation = factory.Faker("boolean", chance_of_getting_true=50)
+
+    class Meta:
+        model = restaurants_models.Table
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
