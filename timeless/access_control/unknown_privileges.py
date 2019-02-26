@@ -9,5 +9,3 @@ def has_privilege(*args, resource=None, **kwargs) -> bool:
 def __employee_access(*args, **kwargs):
     """Owner of this role cannot see anything"""
     return False
-
-
