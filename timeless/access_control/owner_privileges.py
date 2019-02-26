@@ -33,10 +33,15 @@ def __employee_access(method=None, *args, **kwargs):
     return permitted
 
 
+def __company_access(method=None, *args, **kwargs):
+    user, company_id = flask.g.get("user"), kwargs.get("company_id")
+    return user.company_id == company_id
+
+
 __resources = {
     "location": __location_access,
     "employee": __employee_access,
-    "companies": __employee_access,
+    "company": __company_access,
     "reservation_settings": __employee_access,
     "reservation_comment": __employee_access
 }

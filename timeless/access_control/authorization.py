@@ -17,10 +17,8 @@ def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
      for employess of his/her company. Create the tests for each of this
      operation..
     """
-
     return __roles.get("owner").has_privilege(
-        method=method, resource=resource, args=args, kwargs=kwargs
-    )
+        method=method, resource=resource, *args, **kwargs)
 
 
 __roles = {
