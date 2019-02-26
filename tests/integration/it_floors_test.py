@@ -4,6 +4,7 @@ import pytest
 from timeless.restaurants.models import Floor
 
 
+@pytest.mark.skip(reason="Must use TableListView for this test")
 def test_list(client, db_session):
     db_session.add(Floor(location_id=None, description="Test floor"))
     db_session.commit()

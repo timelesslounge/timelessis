@@ -14,6 +14,7 @@ from timeless.cache import CACHE
 from timeless.db import DB
 from timeless.sync.celery import make_celery
 from timeless.csrf import CSRF
+from timeless import uploads
 
 
 def create_app(config):
@@ -32,6 +33,7 @@ def create_app(config):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    uploads.IMAGES = uploads.images(app)
 
     @app.route("/")
     def main():
@@ -93,7 +95,7 @@ def register_endpoints(app):
     app.register_blueprint(locations_views.bp)
     app.register_blueprint(roles_views.bp)
     app.register_blueprint(items_views.BP)
-    app.register_blueprint(floors_views.bp)
+    app.register_blueprint(floors_views.BP)
     app.register_blueprint(table_shapes_views.bp)
     app.register_blueprint(reservations_views.bp)
     app.register_blueprint(schemetypes_views.bp)
