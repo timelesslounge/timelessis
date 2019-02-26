@@ -38,6 +38,12 @@ def test_cannot_access_other_company_employees(app, db_session):
         id=1, name="Foo Inc.", code="code1", address="addr"
     )
     db_session.add(mine_company)
+    db_session.commit()
+
+    director = Role(id=1, name="director", company_id=1)
+    db_session.add(director)
+    db_session.commit()
+
     me = Employee(
         id=1, first_name="Alice", last_name="Cooper",
         username="alice", phone_number="1",
@@ -47,6 +53,7 @@ def test_cannot_access_other_company_employees(app, db_session):
         user_status="on",
         registration_date=datetime.utcnow(),
         company_id=2,
+        role_id=1,
         email="test@test.com", password="bla"
     )
     db_session.add(me)
@@ -55,6 +62,12 @@ def test_cannot_access_other_company_employees(app, db_session):
         id=2, name="Bar Inc.", code="code2", address="addr"
     )
     db_session.add(other_company)
+    db_session.commit()
+
+    manager = Role(id=2, name="manager", company_id=2)
+    db_session.add(manager)
+    db_session.commit()
+
     other = Employee(
         id=2, first_name="Bob", last_name="Cooper",
         username="bob", phone_number="1",
@@ -64,6 +77,7 @@ def test_cannot_access_other_company_employees(app, db_session):
         user_status="on",
         registration_date=datetime.utcnow(),
         company_id=1,
+        role_id=2,
         email="test@test.com", password="bla"
     )
     db_session.add(other)
@@ -82,15 +96,17 @@ def test_can_access_subalterns(app, db_session):
         id=1, name="Foo Inc.", code="code1", address="addr"
     )
     db_session.add(company)
+    db_session.commit()
 
-    dir_role = Role(id=1, name="director",company_id=1)
-    master_role = Role(id=2, name="master",company_id=1)
-    manager_role = Role(id=3, name="manager",company_id=1)
-    intern_role = Role(id=4, name="intern",company_id=1)
+    dir_role = Role(id=1, name="director", company_id=1)
+    master_role = Role(id=2, name="master", company_id=1)
+    manager_role = Role(id=3, name="manager", company_id=1)
+    intern_role = Role(id=4, name="intern", company_id=1)
     db_session.add(dir_role)
     db_session.add(master_role)
     db_session.add(manager_role)
     db_session.add(intern_role)
+    db_session.commit()
 
     director = Employee(
         id=1, first_name="Alice", last_name="Cooper",
