@@ -21,7 +21,8 @@ def __table_access(method=None, *args, **kwargs):
     permitted, user = False, flask.g.get("user")
     table_id = kwargs.get("id")
     if user and table_id:
-        if Table.query.get(table_id).floor.location.company_id == user.company_id:
+        location = Table.query.get(table_id).floor.location
+        if location.company_id == user.company_id:
             permitted = True
     return permitted
 
