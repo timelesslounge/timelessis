@@ -14,6 +14,7 @@ from timeless.cache import CACHE
 from timeless.db import DB
 from timeless.sync.celery import make_celery
 from timeless.csrf import CSRF
+from timeless import uploads
 
 
 def create_app(config):
@@ -32,6 +33,7 @@ def create_app(config):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    uploads.IMAGES = uploads.images(app)
 
     @app.route("/")
     def main():
