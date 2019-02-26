@@ -31,7 +31,7 @@ def check_rights(employee_id, user):
         return True
     else:
         other = Employee.query.get(employee_id)
-        other_role = other.role.name;
+        other_role = other.role.name
         return user.company_id == other.company_id and\
             user.role.name == "director" and\
             (
