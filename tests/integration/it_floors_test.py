@@ -24,6 +24,11 @@ def test_login_required(client, path):
 
 
 def test_create(client):
+    """
+    @todo #310:30m This test works without any problems so it means
+     that not authenticated used can create a floor. Check permissions
+     and then fix them and update this test.
+    """
     floor_data = {
         "description": "Test floor"
     }

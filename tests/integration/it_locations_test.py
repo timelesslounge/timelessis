@@ -30,8 +30,10 @@ def test_create(client):
         "status": "Active",
         "comment": "No comments",
     }
-    client.post(url_for("location.create"), data=location_data)
+    response = client.post(
+        url_for("location.create"), data=location_data, follow_redirects=True)
     assert Location.query.count() == 1
+    assert location_data['name'].encode() in response.data
 
 
 def test_edit(client):
