@@ -37,7 +37,6 @@ def test_list(client):
         ]
     )
     response = client.get("/floors/")
-    print(response.data)
     assert response.status_code == HTTPStatus.OK
     assert b"<p class=\"description\">1st Floor</p>" in response.data
     assert b"<p class=\"description\">2nd Floor</p>" in response.data
