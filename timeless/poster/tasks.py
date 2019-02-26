@@ -37,7 +37,9 @@ def sync_tables():
         table = DB.session(Table).query.filter_by(
             name=poster_table["name"], floor_id=poster_table["floor_id"]
         ).first()
-        merge_data(model=Table, poster_data=poster_table, timelessis_data=table)
+        merge_data(
+            model=Table, poster_data=poster_table, timelessis_data=table
+        )
 
 
 @shared_task
@@ -47,9 +49,14 @@ def sync_customers():
     """
     for poster_customer in __poster_api().customers():
         customer = DB.session(Customer).query.filter_by(
-            first_name=poster_customer["first_name"], last_name=poster_customer["last_name"]
+            first_name=poster_customer["first_name"],
+            last_name=poster_customer["last_name"]
         ).first()
-        merge_data(model=Customer, poster_data=poster_customer, timelessis_data=customer)
+        merge_data(
+            model=Customer,
+            poster_data=poster_customer,
+            timelessis_data=customer
+        )
 
 
 def merge_data(model, poster_data, timelessis_data):

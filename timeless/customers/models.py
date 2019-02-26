@@ -47,4 +47,3 @@ class Customer(PosterSyncMixin, DB.Model):
         """
         poster_customer
         return cls()
-
