@@ -1,6 +1,8 @@
+from flask import g
+
 from timeless.access_control import (
     administrator_privileges, manager_privileges, other_privileges,
-    owner_privileges, director_privileges)
+    owner_privileges, director_privileges, unknown_privileges)
 
 
 def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
@@ -18,7 +20,7 @@ def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
      operation..
     """
 
-    return __roles.get("owner").has_privilege(
+    return __roles(g.user.role.name, "unknown").has_privilege(
         method=method, resource=resource, args=args, kwargs=kwargs
     )
 
@@ -29,4 +31,5 @@ __roles = {
     "director": director_privileges,
     "administrator": administrator_privileges,
     "other": other_privileges,
+    "unknown": unknown_privileges
 }
