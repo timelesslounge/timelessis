@@ -2,7 +2,7 @@
 @todo #95:30min Continue implementing list floors view. Floors index page
  must allow sorting and filtering of floors for every column and it has to be
  accessed by the Location page. Then remove skip annotation from
- FloorsListView test.
+ FloorsListView test. Authentication must be faked in order to test work.
 @todo #95:30min Implement create floor view. Create floor view must extend
  timeless/views.py::CreateView and implement floor creation. First screen
  must show empty fields for floor data input and second view must show the
@@ -16,15 +16,14 @@
  timeless/views.py::UpdateView, receives data from the first view and
  must save the data to the repository. The tests must include checking if the
  view screens were correctly built and if the data was saved to the repository.
- We must use a mock floor model to avoid connecting to the database for these
- tests.
 @todo #95:30min Implement delete floor view. Delete floor view is composed of
  two views: the first view must load the desired floor data onto the screen
  and show an button to delete the selected view, extending
  timeless/views.py::DetailView; second view must show the result message of
- floor deletion. We must use a mock floor model to avoid connecting to
- database for these tests.
+ floor deletion.
 """
+from timeless.restaurants.models import Floor
+
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
 )
@@ -37,7 +36,7 @@ BP = Blueprint("floor", __name__, url_prefix="/floors")
 class FloorListView(ListView):
     """List all floors"""
     template_name = "restaurants/floors/list.html"
-    model = None
+    model = Floor
 
 
 FloorListView.register(BP, "/")

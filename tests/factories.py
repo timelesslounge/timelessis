@@ -7,6 +7,7 @@ from timeless.employees import models as employee_models
 from timeless.restaurants import models as restaurants_models
 from timeless.roles import models as role_models
 from timeless.companies import models as company_models
+from timeless.restaurants import models as restaurant_models
 
 
 class TableShapeFactory(factory.alchemy.SQLAlchemyModelFactory):
@@ -58,5 +59,14 @@ class RoleFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     class Meta:
         model = role_models.Role
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
+
+
+class FloorFactory(factory.alchemy.SQLAlchemyModelFactory):
+    description = factory.Faker("text")
+
+    class Meta:
+        model = restaurant_models.Floor
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
