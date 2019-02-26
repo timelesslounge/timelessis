@@ -10,16 +10,16 @@ class TableShapeForm(forms.ModelForm):
     """Base form for table shape"""
 
     picture = FileField(
-        'Table Shape Image',
-        validators=[FileRequired(), FileAllowed(IMAGES, 'Images only!')])
+        "Table Shape Image",
+        validators=[FileRequired(), FileAllowed(IMAGES, "Images only!")])
 
     class Meta:
         model = models.TableShape
-        exclude = ('picture',)
+        exclude = ("picture",)
 
     def __init__(self, form, files):
         super(TableShapeForm, self).__init__(form)
-        self._file = files.get('picture')
+        self._file = files.get("picture")
 
     def save(self, commit=True):
         """
