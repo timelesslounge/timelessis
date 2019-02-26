@@ -45,7 +45,7 @@ def sync_tables():
 @shared_task
 def sync_customers():
     """
-    Periodic task for fetching and saving tables from Customer
+    Periodic task for fetching and saving tables from Poster
     """
     for poster_customer in __poster_api().customers():
         customer = DB.session(Customer).query.filter_by(
@@ -62,7 +62,7 @@ def sync_customers():
 @shared_task
 def sync_locations():
     """
-    Periodic task for fetching and saving tables from Customer
+    Periodic task for fetching and saving location from Poster
     """
     for poster_location in __poster_api().locations():
         location = DB.session(Location).query.filter_by(
