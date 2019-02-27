@@ -5,7 +5,7 @@ from timeless.access_control.views import SecuredView
 
 class Resource(SecuredView):
 
-    resource = "companies"
+    resource = "company"
 
     """API Resource for companies /api/companies"""
     def get(self, company_id):
