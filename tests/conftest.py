@@ -74,7 +74,7 @@ def _db(app):
     return DB
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def clear_cache(app):
     """ Clean the cache for every test """
     with app.app_context():

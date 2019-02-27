@@ -120,12 +120,10 @@ def create():
      the function using genericViews, as explained in puzzles #134 and #137.
     """
     form = ReservationForm(request.form)
-    error = ""
     try:
         """if request.method == "POST" and form.validate():"""
         if request.method == "POST":
             reservation = Reservation(
-                id=request.form["id"],
                 start_time=request.form["start_time"],
                 end_time=request.form["end_time"],
                 num_of_persons=request.form["num_of_persons"],
@@ -134,13 +132,13 @@ def create():
             )
             DB.session.add(reservation)
             DB.session.commit()
-            return redirect(url_for("reservations.list_reservations"))
+            return redirect(url_for("reservations.list"))
         else:
             flash("Error: ", form.errors)
     except Exception as error:
         flash("Error: ", error)
 
-    return render_template("reservations/create_edit.html", error=error,
+    return render_template("reservations/create_edit.html", error=form.errors,
                             action="create", form=form)
 
 
@@ -160,4 +158,4 @@ def delete(id):
     reservation = Reservation.query.get(id)
     DB.session.delete(reservation)
     DB.session.commit()
-    return redirect(url_for("reservations.list_reservations"))
+    return redirect(url_for("reservations.list"))

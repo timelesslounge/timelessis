@@ -3,6 +3,7 @@ import factory
 import random
 
 from timeless.db import DB
+from timeless.customers import models as customer_models
 from timeless.employees import models as employee_models
 from timeless.restaurants import models as restaurants_models
 from timeless.roles import models as role_models
@@ -108,7 +109,7 @@ class ReservationFactory(factory.alchemy.SQLAlchemyModelFactory):
     comment = factory.Faker("text")
     start_time = factory.Faker("date")
     end_time = factory.Faker("date")
-    status = factory.Iterator(restaurant_models.ReservationStatus)
+    status = restaurant_models.ReservationStatus.confirmed.name
 
     class Meta:
         model = restaurant_models.Reservation
