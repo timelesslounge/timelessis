@@ -158,7 +158,7 @@ class Reservation(TimestampsMixin, DB.Model):
     customer_id = DB.Column(DB.Integer, DB.ForeignKey("customers.id"))
     num_of_persons = DB.Column(DB.Integer, nullable=False)
     comment = DB.Column(DB.String, nullable=False)
-    status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
+    status = DB.Column(DB.Enum(ReservationStatus), nullable=True)
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
 
