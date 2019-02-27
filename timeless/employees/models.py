@@ -1,8 +1,7 @@
 """File for models in employees module"""
-from passlib.hash import bcrypt_sha256
 
 from timeless.db import DB
-from timeless.models import TimestampsMixin, validate_required
+from timeless.models import TimestampsMixin
 
 
 class Employee(TimestampsMixin, DB.Model):
@@ -32,4 +31,3 @@ class Employee(TimestampsMixin, DB.Model):
 
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username
-

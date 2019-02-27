@@ -41,7 +41,7 @@ def test_login(db_session):
     db_session.commit()
     error = login("vgv", "pass")
     assert not error
-    assert 1 == flask.session['user_id']
+    assert flask.session['user_id'] == employee.id
     db_session.delete(employee)
     db_session.commit()
     db_session.remove()
