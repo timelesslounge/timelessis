@@ -37,7 +37,6 @@ def test_edit(client):
     assert reservation_new.comment in response.data
 
 
-@pytest.mark.skip
 def test_delete(client):
     reservation = factories.ReservationFactory()
     url = url_for("reservations.delete", id=reservation.id)

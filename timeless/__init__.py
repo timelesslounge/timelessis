@@ -10,7 +10,7 @@ a new Flask app for timeless
 # pylint: disable=W0612
 import os
 from flask import Flask
-# from timeless.cache import CACHE
+from timeless.cache import CACHE
 from timeless.db import DB
 from timeless.sync.celery import make_celery
 from timeless.csrf import CSRF
@@ -21,10 +21,10 @@ def create_app(config):
     """Creates a new Timeless webapp given a config class"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config)
-    # CACHE.init_app(
-    #     app,
-    #     config=app.config.get("CACHE_SETTINGS")
-    # )
+    CACHE.init_app(
+        app,
+        config=app.config.get("CACHE_SETTINGS")
+    )
     CSRF.init_app(app)
     initialize_extensions(app)
     register_endpoints(app)
@@ -53,7 +53,7 @@ def initialize_extensions(app):
     import timeless.employees.models
     import timeless.companies.models
     # initialize celery
-    # app.celery = make_celery(app)
+    app.celery = make_celery(app)
 
 
 def register_api(app, view, endpoint, url, pk="id", pk_type="int"):
