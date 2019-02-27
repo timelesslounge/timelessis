@@ -282,7 +282,7 @@ class FakeModel():
             if object_id == 5:
                 response = {
                         "some_id": 5,
-                        "some_attr":"attr"
+                        "some_attr": "attr"
                 }
                 return jsonify(response), HTTPStatus.OK
             abort(HTTPStatus.NOT_FOUND)
