@@ -35,7 +35,7 @@ class CommentView(CrudView):
 import re
 from http import HTTPStatus
 
-from flask import views, redirect, render_template, request, url_for
+from flask import views, redirect, render_template, request, url_for, jsonify
 from werkzeug.exceptions import abort
 
 camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
@@ -55,10 +55,9 @@ class CrudAPIView(views.MethodView):
      test_crud_api.py.
     """
 
-    def get(self):
+    def get(self, object_id):
         """Calls the GET method."""
-        model_id = request.form.get(self.url_lookup)
-        return self.model.query.get(int(model_id))
+        return self.model.query.get(object_id)
 
     def post(self):
         """Calls the POST method."""
@@ -281,7 +280,11 @@ class FakeModel():
         def get(self, object_id):
             """Fake response on get method."""
             if object_id == 5:
-                return {"Found the object"}, HTTPStatus.OK
+                response = {
+                        "some_id": 5,
+                        "some_attr":"attr"
+                }
+                return jsonify(response), HTTPStatus.OK
             abort(HTTPStatus.NOT_FOUND)
 
     query = FakeQuery()
