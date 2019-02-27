@@ -101,3 +101,16 @@ class FloorFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = restaurant_models.Floor
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
+
+
+class ReservationFactory(factory.alchemy.SQLAlchemyModelFactory):
+    num_of_persons = factory.Faker("pyint")
+    comment = factory.Faker("text")
+    start_time = factory.Faker("date")
+    end_time = factory.Faker("date")
+    status = factory.Iterator(restaurant_models.ReservationStatus)
+
+    class Meta:
+        model = restaurant_models.Reservation
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"

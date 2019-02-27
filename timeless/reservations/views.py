@@ -94,8 +94,8 @@ class ReservationsListView(views.CrudAPIView):
         return jsonify(reservations_json)
 
 
-@bp.route("/")
-def list_reservations(reservations):
+@bp.route("/list", methods=("GET",))
+def list():
     """
         @todo #172:30min Refactor this after the implementation of GenericViews.
          Take a look at puzzles #134 and #173 where the requirements of generic
@@ -106,9 +106,7 @@ def list_reservations(reservations):
     :return:
     """
     flash("List not yet implemented")
-    return render_template(
-        "restaurants/tables/list.html", reservations=reservations
-    )
+    return render_template("restaurants/tables/list.html")
 
 
 @bp.route("/create", methods=("GET", "POST"))
