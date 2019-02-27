@@ -11,17 +11,19 @@ def test_create_reservation(client, db_session):
         db_session.delete(reservation)
         db_session.commit()
 
+    comment = "Comment for verification"
     response = client.post(url_for("reservations.create"), data={
         "id": 100,
         "start_time": datetime(2019, 2, 20, 21, 30),
         "end_time": datetime(2019, 2, 20, 22, 30),
         "customer_id": 1,
         "num_of_persons": 2,
-        "comment": "my comment",
+        "comment": comment,
         "status": ReservationStatus.confirmed.name
     })
     assert response.location.endswith(url_for("reservations.list_reservations"))
     assert Reservation.query.count() == 1
+    assert Reservation.query.get(100).comment == comment
 
 def test_delete_reservation(client, db_session):
     id = 1

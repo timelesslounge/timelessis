@@ -12,11 +12,8 @@ from timeless import views
 from timeless.access_control.views import SecuredView
 from timeless.reservations import models
 
-from flask_sqlalchemy import SQLAlchemy
-
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
-db = SQLAlchemy()
 
 class SettingsList(views.ListView):
     """
@@ -136,8 +133,8 @@ def create():
                 comment=request.form["comment"],
                 status=request.form["status"]
             )
-            db.session.add(reservation)
-            db.session.commit()
+            DB.session.add(reservation)
+            DB.session.commit()
             return redirect(url_for("reservations.list_reservations"))
         else:
             flash("Error: ", form.errors)
