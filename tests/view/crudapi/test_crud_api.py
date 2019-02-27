@@ -1,7 +1,7 @@
 """ Tests for CrudeAPIView. """
 from http import HTTPStatus
-import pytest
 import json
+import pytest
 from werkzeug.exceptions import NotFound
 from timeless.views import FakeAPIView
 
@@ -14,8 +14,9 @@ def test_get_found_object(app):
         apiview = FakeAPIView()
         result = apiview.get(5)
     json_result = json.loads(result[0].get_data(as_text=True))
-    assert result[0].is_json == True
-    assert json_result == {"some_id": 5, "some_attr": "attr"}, "Wrong result returned from CrudeAPI view"
+    assert result[0].is_json is True
+    assert json_result == {"some_id": 5, "some_attr": "attr"}, \
+            "Wrong result returned from CrudeAPI view"
     assert result[1] == HTTPStatus.OK, "Wrong response from CrudeAPI view"
 
 
