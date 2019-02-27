@@ -5,6 +5,6 @@
 """
 
 
-def has_privilege(*args, resource=None, **kwargs):
+def has_privilege(resource=None, *args, **kwargs) -> bool:
     """Unknown role does not have any privileges."""
     return False
