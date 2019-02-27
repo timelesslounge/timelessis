@@ -140,9 +140,9 @@ def create():
             db.session.commit()
             return redirect(url_for("reservations.list_reservations"))
         else:
-            print("#### Erros: ", form.errors);
+            flash("Error: ", form.errors);
     except Exception as error:
-        print("#### Erros: ", error);
+        flash("Error: ", error);
 
     return render_template("reservations/create_edit.html", error=error,
                             action="create",
