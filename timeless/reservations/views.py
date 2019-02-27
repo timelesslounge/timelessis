@@ -121,7 +121,7 @@ def create():
     @todo #380:15min Continue. When we use the form.validate() function the
      status (enum: timeless / restaurants / models.py) is displaying the
      following error: 'status': ['Invalid Choice: could not coerce', 'Not a
-     valid choice']. Removes the commented if to see the error.
+     valid choice']. Removes the commented if to see the error...
     """
     form = ReservationForm(request.form)
     error = ""
