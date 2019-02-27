@@ -13,7 +13,8 @@ from timeless.restaurants.models import Location
 
 def has_privilege(method=None, resource=None, *args, **kwargs) -> bool:
     """Check if user with Owner role can access a particular resource."""
-    return __resources.get(resource, lambda *arg: False)(method, *args, **kwargs)
+    return __resources.get(
+        resource, lambda *arg, **kwargs: False)(method, *args, **kwargs)
 
 
 def __location_access(method=None, *args, **kwargs):

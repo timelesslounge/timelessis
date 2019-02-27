@@ -12,4 +12,4 @@ def test_company_endpoints(client):
     url = flask.url_for('companies.api', company_id=employee.company_id)
     assert client.get(url).status_code == 200
     assert client.put(url).status_code == 200
-    assert client.delete(url).status_code == 200
+    assert client.delete(url).status_code == 204
