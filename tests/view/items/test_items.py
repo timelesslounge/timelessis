@@ -29,7 +29,7 @@ def test_list(client):
 
 def test_create(client):
     """ Test create is okay """
-    assert client.get("/items/create").status_code == HTTPStatus.OK
+    assert client.post("/items/create").status_code == HTTPStatus.OK
 
 
 def test_edit(client):
