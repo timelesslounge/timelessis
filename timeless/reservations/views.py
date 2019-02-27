@@ -115,10 +115,11 @@ def list_reservations(reservations):
 def create():
     """ Create new reservation """
     """
-    @todo #380:15min Continue. When we use the form.validate() function the
-     status (enum: timeless / restaurants / models.py) is displaying the
+    @todo #380:30min Continue. When we use the form.validate() function the
+     status (enum: timeless/restaurants/models.py) is displaying the
      following error: 'status': ['Invalid Choice: could not coerce', 'Not a
-     valid choice']. Removes the commented if to see the error...
+     valid choice']. Removes the commented if to see the error. Also refactor
+     the function using genericViews, as explained in puzzles #134 and #137.
     """
     form = ReservationForm(request.form)
     error = ""
