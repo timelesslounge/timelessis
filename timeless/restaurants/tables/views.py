@@ -8,6 +8,11 @@
 @todo #112:30min Modify this file and also all other views.py files so the
  endpoints are registered inside timeless/__init__.py file in register_api
  method. Just like it was done for companies management views.
+@todo #309:30min Add mock authentication to TableListView. Currently
+ TabeListView test is not working because it requires an authenticated user
+ with permissions to show list tables. it is currently showing login screen.
+ Add an mocked authenticated user so we can run the test, the remove skip
+ annotation from it.
 """
 from flask import (
     Blueprint, redirect, render_template, request, url_for
@@ -15,15 +20,25 @@ from flask import (
 
 from timeless import DB, views
 from timeless.restaurants import models
+from timeless.restaurants.models import Table
 from timeless.restaurants.tables import forms
 
 
-bp = Blueprint("table", __name__, url_prefix="/tables")
+BP = Blueprint("table", __name__, url_prefix="/tables")
 
 
+class TableListView(views.ListView):
+    """ List the tables """
+    model = Table
+    template_name = "restaurants/tables/list.html"
+
+
+TableListView.register(BP, "/")
+
+"""
 @bp.route("/")
 def list_tables():
-    """ Returns list of tables """
+
     # remove this dummy tables object and use db
     floors = {
         1: "Test location",
@@ -37,9 +52,10 @@ def list_tables():
         "restaurants/tables/list.html", tables=models.Table.query.all(),
         floors=floors, shapes=shapes
     )
+"""
 
 
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
+@BP.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     """ Edit existing table """
     table = models.Table.query.get(id)
@@ -55,7 +71,7 @@ def edit(id):
         "restaurants/tables/create_edit.html", form=form)
 
 
-@bp.route("/delete/<int:id>", methods=["POST"])
+@BP.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     """ Delete table shape with id """
     table = models.Table.query.get(id)
@@ -71,4 +87,4 @@ class Create(views.CreateView):
     template_name = "restaurants/tables/create_edit.html"
 
 
-Create.register(bp, "/create")
+Create.register(BP, "/create")

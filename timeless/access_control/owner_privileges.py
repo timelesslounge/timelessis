@@ -13,7 +13,8 @@ from timeless.restaurants.models import Location
 
 def has_privilege(method=None, resource=None, *args, **kwargs) -> bool:
     """Check if user with Owner role can access a particular resource."""
-    return __resources.get(resource, lambda *arg: False)(method, *args, **kwargs)
+    return __resources.get(
+        resource, lambda *arg, **kwargs: False)(method, *args, **kwargs)
 
 
 def __location_access(method=None, *args, **kwargs):
@@ -33,10 +34,15 @@ def __employee_access(method=None, *args, **kwargs):
     return permitted
 
 
+def __company_access(method=None, *args, **kwargs):
+    user, company_id = flask.g.get("user"), kwargs.get("company_id")
+    return user.company_id == company_id
+
+
 __resources = {
     "location": __location_access,
     "employee": __employee_access,
-    "companies": __employee_access,
+    "company": __company_access,
     "reservation_settings": __employee_access,
     "reservation_comment": __employee_access
 }

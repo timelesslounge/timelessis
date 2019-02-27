@@ -5,10 +5,6 @@
  class AdminView(View):
  ....decorators = [auth.admin_required, auth.login_required]
  class UserView(AdminView):
-@todo #173:30min Refactor all blueprint views to use ListView for getting the
- list of objects from db using model. Also, make sure list.html template is
- made generic to allow all other views to use it. Feel free to add more puzzles
- since there are a lot of views.
 @todo #173:30min Once CreateView is implemented, refactor all blueprint views
  to use it for validating the form and storing the record in the database.
 @todo #173:30min Once UpdateView is implemented, refactor all blueprint views
@@ -17,6 +13,11 @@
 @todo #173:30min Once DeleteView is implemented, refactor all blueprint views
  to use it for validating the form and deleting the record in the database.
  Reuse SingleObjectMixin to provide simple solution to fetch by id.
+@todo #309:30min Refactor all blueprint views to use ListView for getting the
+ list of objects from db using model. Also, make sure list.html template is
+ made generic to allow all other views to use it. Feel free to add more puzzles
+ since there are a lot of views. Already refactored views: TableListView. Check
+ in issues to see if some view is not being refactored in other issue.
 
 Example of using CrudAPIView:
 
@@ -93,7 +94,8 @@ class GenericView(views.MethodView):
         if not name:
             # Convert "ViewName" to "view_name" and use it
             name = camel_to_underscore.sub(r"_\1", cls.__name__).lower()
-            blueprint.add_url_rule(route, view_func=cls.as_view(name))
+
+        blueprint.add_url_rule(route, view_func=cls.as_view(name))
 
     def dispatch(self):
         """
@@ -253,7 +255,7 @@ class CreateView(GenericView):
         return super().get_context(*args, **kwargs)
 
     def post(self):
-        form = self.get_form(request.form)
+        form = self.get_form(request.form, files=request.files)
 
         if not form.validate():
             return self.render_to_response(self.get_context(form=form))

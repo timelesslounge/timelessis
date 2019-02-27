@@ -1,9 +1,13 @@
 from http import HTTPStatus
-from flask import url_for
+
 import pytest
+from flask import g, url_for
+
+from tests import factories
 from timeless.restaurants.models import Floor
 
 
+@pytest.mark.skip(reason="Must use TableListView for this test")
 def test_list(client, db_session):
     db_session.add(Floor(location_id=None, description="Test floor"))
     db_session.commit()
@@ -13,7 +17,6 @@ def test_list(client, db_session):
 
 
 @pytest.mark.parametrize("path", (
-    "/floors/create",
     "/floors/edit/1",
     "/floors/delete",
 ))
@@ -26,7 +29,11 @@ def test_login_required(client, path):
 @pytest.mark.skip(reason="auth.login() is not yet implemented")
 def test_create(client, auth):
     auth.login()
-    assert client.get("/floors/create").status_code == HTTPStatus.OK
+    floor_data = {
+        "description": "Test floor"
+    }
+    client.post(url_for('floor.create'), data=floor_data)
+    assert Floor.query.count() == 1
 
 
 @pytest.mark.skip(reason="auth.login() is not yet implemented")

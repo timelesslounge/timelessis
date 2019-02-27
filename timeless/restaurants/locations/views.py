@@ -8,24 +8,19 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
 )
 
-from timeless.views import ListView
+from timeless import views
 from timeless.restaurants.models import Location
+from timeless.restaurants.locations.forms import LocationForm
+
 
 bp = Blueprint("location", __name__, url_prefix="/locations")
 
 
-# class Create(CreateView):
-#     """Create location"""
-#     template_name = "restaurants/locations/create_edit.html"
-#     form_class  = LocationForm
-#     model = Location
-@bp.route("/create", methods=("GET", "POST"))
-def create():
-    if request.method == "POST":
-        flash("Create not yet implemented")
-    action = "create"
-    return render_template("restaurants/locations/create_edit.html",
-                           action=action)
+class Create(views.CreateView):
+    """ Create a new location instance"""
+    template_name = "restaurants/locations/create_edit.html"
+    success_view_name = "location.list"
+    form_class = LocationForm
 
 
 # class Edit(UpdateView):
@@ -54,13 +49,13 @@ def delete():
     return redirect(url_for("location.list"))
 
 
-class List(ListView):
+class List(views.ListView):
     """List all locations"""
     template_name = "restaurants/locations/list.html"
     model = Location
 
 
 List.register(bp, "/")
-# Create.register(bp, "/create")
+Create.register(bp, "/create")
 # Edit.register(bp, "/edit/<int:id>")
 # Delete.register(bp, "/delete")
