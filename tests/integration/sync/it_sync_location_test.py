@@ -34,7 +34,7 @@ def test_sync_location(db_session):
                 "city": "Edge City",
                 "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
                 "longitude": 21.1326063,
-                "latitude": 86.7473191,
+                "latitude": -86.7473191,
                 "type": "L",
                 "status": "open",
                 "comment": "Nightclub from a famous movie"

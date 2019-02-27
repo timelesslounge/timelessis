@@ -34,7 +34,7 @@ class SyncedLocation:
                 location.city = loc["city"],
                 location.address = loc["address"],
                 location.longitude = loc["longitude"],
-                location.latitude = -loc["latitude"],
+                location.latitude = loc["latitude"],
                 location.type = loc["type"],
                 location.status = loc["status"],
                 location.comment = loc["comment"]
