@@ -1,8 +1,10 @@
 """ Tests for CrudeAPIView. """
-from http import HTTPStatus
 import json
+from http import HTTPStatus
+
 import pytest
 from werkzeug.exceptions import NotFound
+
 from timeless.views import FakeAPIView
 
 
