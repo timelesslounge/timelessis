@@ -140,13 +140,12 @@ def create():
             db.session.commit()
             return redirect(url_for("reservations.list_reservations"))
         else:
-            flash("Error: ", form.errors);
+            flash("Error: ", form.errors)
     except Exception as error:
-        flash("Error: ", error);
+        flash("Error: ", error)
 
     return render_template("reservations/create_edit.html", error=error,
-                            action="create",
-                            form=form)
+                            action="create", form=form)
 
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
