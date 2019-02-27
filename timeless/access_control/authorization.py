@@ -17,8 +17,15 @@ def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
      operation..
     """
 
-    return __roles(g.user.role.name, "unknown").has_privilege(
-        method=method, resource=resource, args=args, kwargs=kwargs
+    role = g.user.role
+
+    if role is None:
+        name = "unknown"
+    else:
+        name = role["name"]
+
+    return __roles[name].has_privilege(
+        method=method, resource=resource,  *args, **kwargs
     )
 
 
