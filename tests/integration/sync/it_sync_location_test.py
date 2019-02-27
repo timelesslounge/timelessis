@@ -14,29 +14,30 @@ from timeless.poster.api import Poster
      generic server for postermocks (PosterServerMock in
      tests/integration/poster/poster_integration_mock.py). Implement a mock 
      location server based on PosterServerMock implementation.
- 
+    @todo #232:30min Refactor it_sync_location_test.py to use factory-created 
+     mocks. Create Location in factories so we can use it instead fixed
+     mocks. The refactor the tests below so they pass again 
 """
 
 
-@pytest.mark.skip("sync for location not implemented yet")
 def test_sync_location(db_session):
     port = free_port()
     start_server(port,
         locations = [
             {
-                "id":100,
-                "name":"Coco Bongo",
-                "code":"C",
-                "company_id":50,
-                "country":"United States",
-                "region":"East Coast",
-                "city":"Edge City",
-                "address":"Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
-                "longitude":21.1326063,
-                "latitude":-86.7473191,
-                "type":"L",
-                "status":"open",
-                "comment":"Nightclub from a famous movie"
+                "id": 100,
+                "name": "Coco Bongo",
+                "code": "C",
+                "company_id": 50,
+                "country": "United States",
+                "region": "East Coast",
+                "city": "Edge City",
+                "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
+                "longitude": 21.1326063,
+                "latitude": 86.7473191,
+                "type": "L",
+                "status": "open",
+                "comment": "Nightclub from a famous movie"
             }
         ]
     )
@@ -65,24 +66,24 @@ def test_sync_location(db_session):
     )
     db_session.add(location)
     db_session.commit()
-    synced_location = SyncedLocation(location).sync(
-        Poster(
+    SyncedLocation(
+        location=location,
+        poster_sync=Poster(
             url="http://localhost:{port}".format(port=port)
-        )
-    )
-    row = db_session.query(Location).get(synced_location.id)
-    assert(
-        row.id == 100 and
-        row.name == "Coco Bongo" and
-        row.code == "C" and
-        row.company_id == 50 and
-        row.country == "United States" and
-        row.region == "East Coast" and
-        row.city == "Edge City" and
-        row.address == "Blvd. Kukulcan Km 9.5 #30, Plaza Forum" and
-        row.longitude == 21.1326063 and
-        row.latitude == -86.7473191 and
-        row.type == "L" and
-        row.status == "open" and
-        row.comment == "Nightclub from a famous movie"
-    )
+        ),
+        db_session=db_session
+    ).sync()
+    row = db_session.query(Location).get(location.id)
+    assert row.id == 100 
+    assert row.name[0] == "Coco Bongo"
+    assert row.code[0] == "C"
+    assert row.company_id[0] == 50
+    assert row.country[0] == "United States"
+    assert row.region[0] == "East Coast"
+    assert row.city[0] == "Edge City"
+    assert row.address[0] == "Blvd. Kukulcan Km 9.5 #30, Plaza Forum"
+    assert row.longitude[0] == 21.1326063
+    assert row.latitude[0] == -86.7473191
+    assert row.type[0] == "L"
+    assert row.status[0] == "open"
+    assert row.comment == "Nightclub from a famous movie"

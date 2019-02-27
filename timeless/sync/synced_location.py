@@ -1,23 +1,41 @@
 from timeless.restaurants.models import Location
-from timeless.sync.sync import PosterSync
 
 """
     Location synced to database.
-    
-    @todo #157:30min Implement synchronization between Poster and Database for
-     Locations. Data coming from Poster has priority upon data stored in our
-     database. 
-
     @todo #225:30min Use celery instead jobs cron-based jobs. Celery is already 
      being used to sync customers with postes; let's configure it and make a 
      job to run locations sync too.  
 """
 
 
-class SyncedLocation(Location):
+class SyncedLocation:
 
-    def __init__(self, poster_sync):
-        pass
+    poster_sync = None
+    db_session = None
+    location = None
 
-    def sync(self, poster_sync):
-        raise Exception("sync for location not implemented yet")
+    def __init__(self, location, poster_sync, db_session):
+        self.poster_sync = poster_sync
+        self.db_session = db_session
+        self.location = location
+
+    def sync(self):
+        locations = self.poster_sync.locations()
+        location = self.db_session.query(Location).get(self.location.id)
+        for loc in locations:
+            print("Locations")
+            print(loc["latitude"])
+            if loc["id"] == location.id:
+                location.name = loc["name"],
+                location.code = loc["code"],
+                location.company_id = loc["company_id"],
+                location.country = loc["country"],
+                location.region = loc["region"],
+                location.city = loc["city"],
+                location.address = loc["address"],
+                location.longitude = loc["longitude"],
+                location.latitude = -loc["latitude"],
+                location.type = loc["type"],
+                location.status = loc["status"],
+                location.comment = loc["comment"]
+                self.db_session.commit()
