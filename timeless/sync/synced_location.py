@@ -10,10 +10,6 @@ from timeless.restaurants.models import Location
 
 class SyncedLocation:
 
-    poster_sync = None
-    db_session = None
-    location = None
-
     def __init__(self, location, poster_sync, db_session):
         self.poster_sync = poster_sync
         self.db_session = db_session
@@ -23,8 +19,6 @@ class SyncedLocation:
         locations = self.poster_sync.locations()
         location = self.db_session.query(Location).get(self.location.id)
         for loc in locations:
-            print("Locations")
-            print(loc["latitude"])
             if loc["id"] == location.id:
                 location.name = loc["name"],
                 location.code = loc["code"],
