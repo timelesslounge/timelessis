@@ -30,7 +30,8 @@ def corrected_factories(db_session):
         factories.TableShapeFactory,
         factories.EmployeeFactory,
         factories.CompanyFactory,
-        factories.RoleFactory
+        factories.RoleFactory,
+        factories.ReservationFactory,
     ):
         factory._meta.sqlalchemy_session = db_session
 

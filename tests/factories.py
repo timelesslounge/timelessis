@@ -1,4 +1,6 @@
 """Factories for all models in the project."""
+from datetime import timedelta, datetime
+
 import factory
 import random
 
@@ -101,3 +103,19 @@ class FloorFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = restaurant_models.Floor
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
+
+
+class ReservationFactory(factory.alchemy.SQLAlchemyModelFactory):
+    num_of_persons = factory.Faker("pyint")
+    comment = factory.Faker("text")
+    start_time = factory.LazyFunction(datetime.now)
+    status = restaurant_models.ReservationStatus.confirmed.name
+
+    class Meta:
+        model = restaurant_models.Reservation
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
+
+    @factory.lazy_attribute
+    def end_time(self):
+        return self.start_time + timedelta(days=3)
