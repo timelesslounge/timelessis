@@ -46,25 +46,11 @@ class Create(views.CreateView):
     success_view_name = "table_shape.list"
 
 
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
-def edit(id):
-    """Edit table shape with id"""
-    table = models.TableShape.query.get(id)
-    if not table:
-        return abort(HTTPStatus.NOT_FOUND)
-
-    if request.method == "POST":
-        form = forms.TableShapeForm(request.form, instance=table)
-        if not form.validate():
-            return abort(HTTPStatus.BAD_REQUEST)
-
-        form.save()
-        return redirect(url_for("table_shape.list"))
-
-    form = forms.TableShapeForm(instance=table)
-    return render_template(
-        "restaurants/table_shapes/create_edit.html", form=form
-    )
+class Edit(views.UpdateView):
+    model = models.TableShape
+    form_class = forms.TableShapeForm
+    template_name = "restaurants/table_shapes/create_edit.html"
+    success_view_name = "table_shape.list"
 
 
 class Delete(views.DeleteView):
@@ -78,4 +64,5 @@ class Delete(views.DeleteView):
 
 
 Create.register(bp, "/create")
+Edit.register(bp, "/edit/<int:id>")
 Delete.register(bp, "/delete/<int:id>")
