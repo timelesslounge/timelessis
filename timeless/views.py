@@ -43,16 +43,22 @@ camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
 class CrudAPIView(views.MethodView):
     """View that supports generic crud operations.
-
+    @todo #289: 30min Move Fake* class definitions to test path so it's
+     not mixed in with production code, reconsider if they're really needed.
+     Change Query#get so it follows logic similar to
+     https://docs.sqlalchemy.org/en/latest/orm/query.html#sqlalchemy.orm.query.Query.get,
+     e.g.: it returns object instance or None and json serializing and
+     HTTP Code answers are dealt with in View.
+     See discussion in this PR: https://github.com/timelesslounge/timelessis/pull/400
+    @todo #289: 30min Research bringing https://marshmallow.readthedocs.io/en/latest/
+     to the project for object json serialization, update this puzzle or document
+     design considerations for implementation if so.
     @todo #289:30min Continue with the implementation of CrudAPIView.
-     Implement post, put and delete methods. We should return json
-     representation of object model in methods. Use FakeModel for a fake
-     database object, and implement the desired calls on FakeQuery to get,
-     create, save / update and delete returning the result. Don't forget to
-     implement the tests too, to test if CrudAPIView code is being called and
-     returning the expected objects; please refer to #221 and #222 for
-     documentation. After that remove the ignore annotation from tests on
-     test_crud_api.py.
+     Implement tests for post, put and delete methods in test_crud_api.py first.
+     We should return json representation of object model in methods. Use FakeModel
+     for a fake database object, and implement the desired calls on FakeQuery to
+     get, create, save / update and delete returning the result.
+     Please refer to #221 and #222 for documentation.
     """
 
     def get(self, object_id):

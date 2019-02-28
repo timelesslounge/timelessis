@@ -30,9 +30,3 @@ def test_get_not_found_object(app):
         apiview = FakeAPIView()
         with pytest.raises(NotFound, message="Fake object not found"):
             apiview.get(0)
-
-"""
-    @todo #289:30min Add CrudAPIView tests for post, put and delete methods.
-     Refer to timeless/views.py CrudAPIView for documentation.
-     tests/view/crudeapi/test_comment.py is probably good reference test code for this.
-"""
