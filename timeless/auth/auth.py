@@ -38,7 +38,9 @@ def forgot_password(email=""):
     if not user:
         error = "failed"
     if not error:
-        password = "".join(random.choice(string.ascii_uppercase + string.digits)\
+        password = "".join(
+                random.choice(string.ascii_uppercase + string.digits
+            )\
             for _ in range(PASS_LENGTH))
         user.password = bcrypt_sha256.hash(password)
         session.commit()
