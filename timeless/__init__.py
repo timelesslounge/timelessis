@@ -11,6 +11,7 @@ a new Flask app for timeless
 import os
 from flask import Flask
 from timeless.cache import CACHE
+from timeless.mail import MAIL
 from timeless.db import DB
 from timeless.sync.celery import make_celery
 from timeless.csrf import CSRF
@@ -25,6 +26,7 @@ def create_app(config):
         app,
         config=app.config.get("CACHE_SETTINGS")
     )
+    MAIL.init_app(app)
     CSRF.init_app(app)
     initialize_extensions(app)
     register_endpoints(app)

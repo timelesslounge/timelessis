@@ -1,3 +1,7 @@
+"""
+    Unit test for authentication related poster accesses.
+"""
+
 from datetime import datetime
 from http import HTTPStatus
 import flask
@@ -5,10 +9,6 @@ import pytest
 
 from timeless.auth.auth import login
 from timeless.employees.models import Employee
-
-"""
-    Unit test for authentication related poster accesses.
-"""
 
 
 def test_incorrect_username(db_session):
@@ -75,9 +75,9 @@ def test_activate(client):
      page. We should mask this e-mail somehow (like p******o@gmail.com) so 
      just the user get a hint to where the email was sent. After implementing 
      the masking correct it in the test below
-    @todo #370:30min Forgot password routine. Create a forgot password logic: 
-     create an random password, change it for the user with the received e-mail 
-     and send it to the e-mail. Then cover the implementation with tests
+    @todo #388:30min Forgot password routine. Test a forgot password logic: 
+     create an random password, Login with it, see it works.
+     change it for the user with the received e-mail, find it changed.
 """
 
 
