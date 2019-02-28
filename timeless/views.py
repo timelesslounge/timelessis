@@ -46,18 +46,22 @@ class CrudAPIView(views.MethodView):
     @todo #289: 30min Move Fake* class definitions to test path so it's
      not mixed in with production code, reconsider if they're really needed.
      Change Query#get so it follows logic similar to
-     https://docs.sqlalchemy.org/en/latest/orm/query.html#sqlalchemy.orm.query.Query.get,
-     e.g.: it returns object instance or None and json serializing and
-     HTTP Code answers are dealt with in View.
-     See discussion in this PR: https://github.com/timelesslounge/timelessis/pull/400
-    @todo #289: 30min Research bringing https://marshmallow.readthedocs.io/en/latest/
+     https://docs.sqlalchemy.org/en/latest/orm/query.html#
+     sqlalchemy.orm.query.Query.get e.g.: it returns object instance or None and
+     json serializing and HTTP Code answers are dealt with in View.
+     See discussion in PR:
+     https://github.com/timelesslounge/timelessis/pull/400
+    @todo #289: 30min Research bringing in
+     https://marshmallow.readthedocs.io/en/latest/
      to the project for object json serialization, update this puzzle or document
      design considerations for implementation if so.
+     See discussion in PR:
+     https://github.com/timelesslounge/timelessis/pull/400
     @todo #289:30min Continue with the implementation of CrudAPIView.
      Implement tests for post, put and delete methods in test_crud_api.py first.
-     We should return json representation of object model in methods. Use FakeModel
-     for a fake database object, and implement the desired calls on FakeQuery to
-     get, create, save / update and delete returning the result.
+     We should return json representation of object model in methods. Use
+     FakeModel for a fake database object, and implement the desired calls on
+     FakeQuery to get, create, save / update and delete returning the result.
      Please refer to #221 and #222 for documentation.
     """
 
