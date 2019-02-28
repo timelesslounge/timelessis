@@ -240,8 +240,8 @@ class DetailView(SingleObjectMixin, GenericView):
 
 
 class FormView(SuccessRedirectMixin, GenericView):
-    """ Base method to work with form are here. This class is used in 
-    CreateView and UpdateView. """
+    """Base method to work with form are here. This class is used CreateView
+    and UpdateView."""
     form_class = None
 
     def get_form(self, *args, **kwargs):
