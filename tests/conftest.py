@@ -32,6 +32,7 @@ def corrected_factories(db_session):
         factories.CompanyFactory,
         factories.RoleFactory,
         factories.ReservationFactory,
+        factories.SchemeTypeFactory,
     ):
         factory._meta.sqlalchemy_session = db_session
 
