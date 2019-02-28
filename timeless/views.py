@@ -43,7 +43,7 @@ camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
 class CrudAPIView(views.MethodView):
     """View that supports generic crud operations.
-    @todo #289: 30min Move Fake* class definitions to test path so it's
+    @todo #289:30min Move Fake* class definitions to test path so it's
      not mixed in with production code, reconsider if they're really needed.
      Change Query#get so it follows logic similar to
      https://docs.sqlalchemy.org/en/latest/orm/query.html#
@@ -51,7 +51,7 @@ class CrudAPIView(views.MethodView):
      and json serializing and HTTP Code answers are dealt with in View.
      See discussion in PR:
      https://github.com/timelesslounge/timelessis/pull/400
-    @todo #289: 30min Research bringing in
+    @todo #289:30min Research bringing in
      https://marshmallow.readthedocs.io/en/latest/
      to the project for object json serialization, update this puzzle or
      document design considerations for implementation if so.
