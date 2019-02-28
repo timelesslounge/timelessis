@@ -17,9 +17,9 @@ class TableShapeForm(forms.ModelForm):
         model = models.TableShape
         exclude = ("picture",)
 
-    def __init__(self, form, files, *args, **kwargs):
-        super(TableShapeForm, self).__init__(form, *args, **kwargs)
-        self._file = files.get("picture")
+    def __init__(self, *args, **kwargs):
+        self._file = kwargs.pop("files").get("picture")
+        super(TableShapeForm, self).__init__(*args, **kwargs)
 
     def save(self, commit=True):
         """

@@ -260,8 +260,8 @@ class FormView(SuccessRedirectMixin, GenericView):
 
 
 class CreateView(FormView):
-    """ Class which creates objects based on received POST data and provided
-    form class """
+    """Class which creates objects based on received POST data and provided
+    form class"""
 
     def post(self):
         form = self.get_form(request.form, files=request.files)
