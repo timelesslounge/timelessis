@@ -5,13 +5,22 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, jsonify
 )
 
+from timeless import DB
+from timeless.reservations.forms import ReservationForm
+from timeless.restaurants.models import Reservation, ReservationStatus
 from timeless import views
 from timeless.access_control.views import SecuredView
 from timeless.reservations import models
 
-
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
+class ReservationsListView(views.ListView):
+    """ List the Items """
+    model = Reservation
+    template_name = "reservations/list.html"
+
+
+ReservationsListView.register(bp, "/")
 
 class SettingsList(views.ListView):
     """
@@ -59,7 +68,7 @@ class CommentView(SecuredView, views.CrudAPIView):
     list_reservations = "reservation_comment"
 
 
-class ReservationsListView(views.CrudAPIView):
+class ReservationsList(views.CrudAPIView):
     """ Reservation JSON API /api/reservations
 
     """
@@ -92,32 +101,39 @@ class ReservationsListView(views.CrudAPIView):
         return jsonify(reservations_json)
 
 
-@bp.route("/")
-def list_reservations(reservations):
-    """
-        @todo #172:30min Refactor this after the implementation of GenericViews.
-         Take a look at puzzles #134 and #173 where the requirements of generic
-         views are described. Don't forget to cover the generated code with
-         tests
-
-    :param reservations:
-    :return:
-    """
-    flash("List not yet implemented")
-    return render_template(
-        "restaurants/tables/list.html", reservations=reservations
-    )
-
-
 @bp.route("/create", methods=("GET", "POST"))
-def create(reservation):
-    if request.method == "POST":
-        flash("Create not yet implemented")
+def create():
+    """ Create new reservation """
+    """
+    @todo #380:30min Continue. When we use the form.validate() function the
+     status (enum: timeless/restaurants/models.py) is displaying the
+     following error: 'status': ['Invalid Choice: could not coerce', 'Not a
+     valid choice']. Removes the commented if to see the error. Also refactor
+     the function using genericViews, as explained in puzzles #134 and #137.
+    """
+    form = ReservationForm(request.form)
+    error = ""
+    try:
+        """if request.method == "POST" and form.validate():"""
+        if request.method == "POST":
+            reservation = Reservation(
+                id=request.form["id"],
+                start_time=request.form["start_time"],
+                end_time=request.form["end_time"],
+                num_of_persons=request.form["num_of_persons"],
+                comment=request.form["comment"],
+                status=request.form["status"]
+            )
+            DB.session.add(reservation)
+            DB.session.commit()
+            return redirect(url_for("reservations.list_reservations"))
+        else:
+            flash("Error: ", form.errors)
+    except Exception as error:
+        flash("Error: ", error)
 
-    return render_template(
-        "restaurants/tables/create_edit.html", action="create",
-        reservation=reservation
-    )
+    return render_template("reservations/create_edit.html", error=error,
+                            action="create", form=form)
 
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
@@ -125,12 +141,15 @@ def edit(id):
     if request.method == "POST":
         flash("Edit not yet implemented")
     return render_template(
-        "restaurants/tables/create_edit.html", action="edit",
+        "reservations/create_edit.html", action="edit",
         id=id
     )
 
 
-@bp.route("/delete", methods=["POST"])
-def delete():
-    flash("Delete not yet implemented")
+@bp.route("/delete/<int:id>", methods=["POST"])
+def delete(id):
+    """ Delete reservation """
+    reservation = Reservation.query.get(id)
+    DB.session.delete(reservation)
+    DB.session.commit()
     return redirect(url_for("reservations.list_reservations"))
