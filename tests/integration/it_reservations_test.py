@@ -7,7 +7,7 @@ from tests import factories
 from timeless.restaurants.models import Reservation
 
 
-@pytest.mark.skip
+@pytest.mark.skip("reservations.list does not implemented yet")
 def test_list(client):
     reservation = factories.ReservationFactory()
     response = client.get(url_for("reservations.list"))
@@ -17,6 +17,7 @@ def test_list(client):
 
 def test_create(client):
     reservation = factories.ReservationFactory.build()
+    # convert reservation instance to dict
     reservation_dict = {
         column.name: str(getattr(reservation, column.name))
         for column in reservation.__table__.columns
@@ -27,7 +28,7 @@ def test_create(client):
     assert Reservation.query.count() == 1
 
 
-@pytest.mark.skip
+@pytest.mark.skip("reservations.edit does not implemented yet")
 def test_edit(client):
     reservation_old = factories.ReservationFactory()
     reservation_new = factories.ReservationFactory()
