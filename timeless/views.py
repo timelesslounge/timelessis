@@ -47,14 +47,14 @@ class CrudAPIView(views.MethodView):
      not mixed in with production code, reconsider if they're really needed.
      Change Query#get so it follows logic similar to
      https://docs.sqlalchemy.org/en/latest/orm/query.html#
-     sqlalchemy.orm.query.Query.get e.g.: it returns object instance or None and
-     json serializing and HTTP Code answers are dealt with in View.
+     sqlalchemy.orm.query.Query.get e.g.: it returns object instance or None
+     and json serializing and HTTP Code answers are dealt with in View.
      See discussion in PR:
      https://github.com/timelesslounge/timelessis/pull/400
     @todo #289: 30min Research bringing in
      https://marshmallow.readthedocs.io/en/latest/
-     to the project for object json serialization, update this puzzle or document
-     design considerations for implementation if so.
+     to the project for object json serialization, update this puzzle or
+     document design considerations for implementation if so.
      See discussion in PR:
      https://github.com/timelesslounge/timelessis/pull/400
     @todo #289:30min Continue with the implementation of CrudAPIView.
