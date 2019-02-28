@@ -90,6 +90,7 @@ def test_edit(client):
     # @todo #285:30m This test should send file to picture input. Implement
     #  file uploading and then uncomment the following line. Logic of saving
     #  picture is already implemented in TableShapeForm, it's time to test.
+
     # assert "picture-path-2" in response.data.decode()
 
 
