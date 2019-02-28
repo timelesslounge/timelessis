@@ -19,7 +19,6 @@ class ReservationsListView(views.ListView):
     model = Reservation
     template_name = "reservations/list.html"
 
-
 ReservationsListView.register(bp, "/")
 
 class SettingsList(views.ListView):
