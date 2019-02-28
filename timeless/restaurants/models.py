@@ -86,7 +86,7 @@ class Location(PosterSyncMixin, DB.Model):
          The same should be made with method create_by_poster, returns Location
          instance with data from poster_customer
         """
-        return cls()
+        raise NotImplementedError()
 
     @classmethod
     def create_by_poster(cls, poster_location: dict):
@@ -94,7 +94,7 @@ class Location(PosterSyncMixin, DB.Model):
         Method should return Location object with given data from
         poster_location dict
         """
-        return cls()
+        raise NotImplementedError()
 
 
 class TableReservation(DB.Model):
