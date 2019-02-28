@@ -2,7 +2,7 @@
 import enum
 
 from timeless.db import DB
-from timeless.models import TimestampsMixin, validate_required
+from timeless.models import TimestampsMixin
 from timeless.poster.models import PosterSyncMixin
 
 
@@ -132,11 +132,6 @@ class Reservation(TimestampsMixin, DB.Model):
     status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
-
-    @validate_required("start_time", "end_time", "num_of_persons", "comment",
-                       "status")
-    def __init__(self, **kwargs):
-        super(Reservation, self).__init__(**kwargs)
 
     def duration(self):
         return self.end_time - self.start_time

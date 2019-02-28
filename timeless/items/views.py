@@ -1,4 +1,5 @@
-from timeless.views import ListView
+from timeless.views import ListView, CreateView
+from timeless.items.forms import ItemForm
 from timeless.items.models import Item
 """ Views module for Items.
     @todo #270:30min Continue implementation of views class using GenericViews.
@@ -22,10 +23,15 @@ class ItemListView(ListView):
 ItemListView.register(BP, "/")
 
 
-@BP.route("/create", methods=("GET", "POST"))
-def create():
-    """ Create new item """
-    return render_template("items/create.html")
+class ItemCreateView(CreateView):
+    """ Create a new Item """
+    model = Item
+    template_name = "items/create.html"
+    success_view_name = "item.list"
+    form_class = ItemForm
+
+
+ItemCreateView.register(BP, "/create")
 
 
 @BP.route("/edit", methods=("GET", "POST"))

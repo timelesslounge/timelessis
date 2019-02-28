@@ -5,13 +5,11 @@
  class AdminView(View):
  ....decorators = [auth.admin_required, auth.login_required]
  class UserView(AdminView):
-@todo #173:30min Once CreateView is implemented, refactor all blueprint views
+@todo #311:30min Once CreateView is implemented, refactor all blueprint views
  to use it for validating the form and storing the record in the database.
+ Views already implemented: ItemCreateView
 @todo #173:30min Once UpdateView is implemented, refactor all blueprint views
  to use it for validating the form and updating the record in the database.
- Reuse SingleObjectMixin to provide simple solution to fetch by id.
-@todo #173:30min Once DeleteView is implemented, refactor all blueprint views
- to use it for validating the form and deleting the record in the database.
  Reuse SingleObjectMixin to provide simple solution to fetch by id.
 @todo #309:30min Refactor all blueprint views to use ListView for getting the
  list of objects from db using model. Also, make sure list.html template is
@@ -37,6 +35,8 @@ from http import HTTPStatus
 
 from flask import views, redirect, render_template, request, url_for, jsonify
 from werkzeug.exceptions import abort
+
+from timeless import DB
 
 camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
@@ -190,14 +190,27 @@ class ListView(GenericView):
 class SingleObjectMixin:
     """ Fetch model from database using id """
     model = None
+    object_url_lookup = "id"
 
-    def get_object(self, id=None):
-        """ Method fetch object from given model by id """
-        assert self.model, "Model is not provided"
-        return self.model.query.get(id)
+    def get_object(self):
+        """ Takes object based on id provided in URL """
+        object_id = self.kwargs.get(self.object_url_lookup)
+        return self.model.query.get(object_id)
 
 
-class DetailView(GenericView):
+class SuccessRedirectMixin:
+    """ It provides redirect URL for success cases """
+    success_view_name = None
+
+    def get_success_url_redirect(self):
+        """ Reverse URL based on view name """
+        if not self.success_view_name:
+            raise NotImplementedError(f"{self.__class__.__name__} must define "
+                                      f"'success_view_name' attribute")
+        return url_for(self.success_view_name)
+
+
+class DetailView(SingleObjectMixin, GenericView):
     """
     A view that will display details in a template for a single object.
     """
@@ -209,14 +222,6 @@ class DetailView(GenericView):
         """
         return self.context_object_name
 
-    def get_object(self):
-        """
-        Get the object. We don't make any assumptions, so this must be
-        overwritten by the subclass.
-        """
-        raise NotImplementedError(f"self.__class__.__name__ must define "
-                                  f"'get_object()'")
-
     def get_default_context(self):
         """
         Add the object to the context.
@@ -226,11 +231,10 @@ class DetailView(GenericView):
         return context
 
 
-class CreateView(GenericView):
+class CreateView(SuccessRedirectMixin, GenericView):
     """ Class which creates objects based on received POST data and provided
     form class """
     form_class = None
-    success_view_name = None
 
     def get_form(self, *args, **kwargs):
         """ Create form instance """
@@ -238,13 +242,6 @@ class CreateView(GenericView):
             raise NotImplementedError(f"{self.__class__.__name__} must define "
                                       f"'form_class' attribute")
         return self.form_class(*args, **kwargs)
-
-    def get_success_url_redirect(self):
-        """ Reverse URL based on view name """
-        if not self.success_view_name:
-            raise NotImplementedError(f"{self.__class__.__name__} must define "
-                                      f"'success_view_name' attribute")
-        return url_for(self.success_view_name)
 
     def get_context(self, *args, **kwargs):
         """ Pass 'from' instance to context if it's not provided
@@ -267,8 +264,21 @@ class UpdateView(GenericView):
     """ Base view for updating objects"""
 
 
-class DeleteView(GenericView):
-    """ Base view for deleting objects """
+class DeleteView(SuccessRedirectMixin, SingleObjectMixin, GenericView):
+    """ It deletes object by `id` provided in URL path and redirects
+    user to provided URL in case of success.
+    Example of common usage:
+
+    class Delete(views.DeleteView):
+        model = models.TableShape
+        success_view_name = "table_shape.list"
+    """
+
+    def post(self, *args, **kwargs):
+        obj = self.get_object()
+        DB.session.delete(obj)
+        DB.session.commit()
+        return redirect(self.get_success_url_redirect())
 
 
 class FakeModel():

@@ -7,14 +7,13 @@ from flask import (
 
 from timeless import DB
 from timeless.reservations.forms import ReservationForm
-from timeless.restaurants.models import Reservation
+from timeless.restaurants.models import Reservation, ReservationStatus
 from timeless import views
 from timeless.access_control.views import SecuredView
 from timeless.reservations import models
 
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
-
 
 class SettingsList(views.ListView):
     """
@@ -95,8 +94,8 @@ class ReservationsListView(views.CrudAPIView):
         return jsonify(reservations_json)
 
 
-@bp.route("/")
-def list_reservations(reservations):
+@bp.route("/list", methods=("GET",))
+def list():
     """
         @todo #172:30min Refactor this after the implementation of GenericViews.
          Take a look at puzzles #134 and #173 where the requirements of generic
@@ -107,23 +106,40 @@ def list_reservations(reservations):
     :return:
     """
     flash("List not yet implemented")
-    return render_template(
-        "restaurants/tables/list.html", reservations=reservations
-    )
+    return render_template("restaurants/tables/list.html")
 
 
 @bp.route("/create", methods=("GET", "POST"))
 def create():
     """ Create new reservation """
+    """
+    @todo #380:30min Continue. When we use the form.validate() function the
+     status (enum: timeless/restaurants/models.py) is displaying the
+     following error: 'status': ['Invalid Choice: could not coerce', 'Not a
+     valid choice']. Removes the commented if to see the error. Also refactor
+     the function using genericViews, as explained in puzzles #134 and #137.
+    """
     form = ReservationForm(request.form)
-    form.validate()
-    if request.method == "POST" and form.validate():
-        form.save()
-        return redirect(url_for("reservations.list_reservations"))
-    return render_template(
-        "reservations/create_edit.html", action="create",
-        form=form
-    )
+    try:
+        """if request.method == "POST" and form.validate():"""
+        if request.method == "POST":
+            reservation = Reservation(
+                start_time=request.form["start_time"],
+                end_time=request.form["end_time"],
+                num_of_persons=request.form["num_of_persons"],
+                comment=request.form["comment"],
+                status=request.form["status"]
+            )
+            DB.session.add(reservation)
+            DB.session.commit()
+            return redirect(url_for("reservations.list"))
+        else:
+            flash("Error: ", form.errors)
+    except Exception as error:
+        flash("Error: ", error)
+
+    return render_template("reservations/create_edit.html", error=form.errors,
+                            action="create", form=form)
 
 
 @bp.route("/edit/<int:id>", methods=("GET", "POST"))
@@ -142,4 +158,4 @@ def delete(id):
     reservation = Reservation.query.get(id)
     DB.session.delete(reservation)
     DB.session.commit()
-    return redirect(url_for("reservations.list_reservations"))
+    return redirect(url_for("reservations.list"))
