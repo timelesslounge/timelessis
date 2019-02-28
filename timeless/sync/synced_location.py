@@ -16,20 +16,20 @@ class SyncedLocation:
         self.location = location
 
     def sync(self):
-        locations = self.poster_sync.locations()
-        location = self.db_session.query(Location).get(self.location.id)
-        for loc in locations:
-            if loc["id"] == location.id:
-                location.name = loc["name"],
-                location.code = loc["code"],
-                location.company_id = loc["company_id"],
-                location.country = loc["country"],
-                location.region = loc["region"],
-                location.city = loc["city"],
-                location.address = loc["address"],
-                location.longitude = loc["longitude"],
-                location.latitude = loc["latitude"],
-                location.type = loc["type"],
-                location.status = loc["status"],
-                location.comment = loc["comment"]
+        poster_locations = self.poster_sync.locations()
+        db_location = self.db_session.query(Location).get(self.location.id)
+        for poster_location in poster_locations:
+            if poster_location["id"] == db_location.id:
+                db_location.name = poster_location["name"]
+                db_location.code = poster_location["code"]
+                db_location.company_id = poster_location["company_id"]
+                db_location.country = poster_location["country"]
+                db_location.region = poster_location["region"]
+                db_location.city = poster_location["city"]
+                db_location.address = poster_location["address"]
+                db_location.longitude = poster_location["longitude"]
+                db_location.latitude = poster_location["latitude"]
+                db_location.type = poster_location["type"]
+                db_location.status = poster_location["status"]
+                db_location.comment = poster_location["comment"]
                 self.db_session.commit()
