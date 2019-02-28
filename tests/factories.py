@@ -1,9 +1,10 @@
 """Factories for all models in the project."""
+from datetime import timedelta, datetime
+
 import factory
 import random
 
 from timeless.db import DB
-from timeless.customers import models as customer_models
 from timeless.employees import models as employee_models
 from timeless.restaurants import models as restaurants_models
 from timeless.roles import models as role_models
@@ -107,11 +108,14 @@ class FloorFactory(factory.alchemy.SQLAlchemyModelFactory):
 class ReservationFactory(factory.alchemy.SQLAlchemyModelFactory):
     num_of_persons = factory.Faker("pyint")
     comment = factory.Faker("text")
-    start_time = factory.Faker("date")
-    end_time = factory.Faker("date")
+    start_time = factory.LazyFunction(datetime.now)
     status = restaurant_models.ReservationStatus.confirmed.name
 
     class Meta:
         model = restaurant_models.Reservation
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
+
+    @factory.lazy_attribute
+    def end_time(self):
+        return self.start_time + timedelta(days=3)
