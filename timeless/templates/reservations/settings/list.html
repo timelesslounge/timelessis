@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 {% cache 600 %}
 {% block header %}
-    <h1>{% block title %}Reservations{% endblock %}</h1>
+    <h1>{% block title %}Reservations Settings{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-    {% for seeting in settings %}
+    {% for setting in settings %}
         <article class="setting">
         <header>
-            <p class="setting">{{ setting['name']}}</p>
-            <p class="setting">{{ setting['value']}}</p>
+            <p class="setting">{{ setting['name']}} - {{ setting['value']}}</p>
             <a class="action" href="{{ url_for('settings.edit', id=setting['id']) }}">Edit</a>
             <a class="action" href="{{ url_for('settings.delete', id=setting['id']) }}">Delete</a>
         </header>
