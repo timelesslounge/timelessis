@@ -1,6 +1,5 @@
 from datetime import datetime
 from http import HTTPStatus
-import flask
 import pytest
 
 import flask
@@ -42,11 +41,6 @@ def test_login(db_session):
     error = login("vgv", "pass")
     assert not error
     assert flask.session['user_id'] == employee.id
-    db_session.delete(employee)
-    db_session.commit()
-    db_session.remove()
-    error = login("unknown", "unknown");
-    assert (error == "login.failed")
 
 
 def test_forgot_password(client):
