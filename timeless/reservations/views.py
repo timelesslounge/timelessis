@@ -13,7 +13,8 @@ from timeless.access_control.views import SecuredView
 from timeless.reservations import models
 
 
-bp = Blueprint("reservations", __name__, url_prefix="/reservations")
+BP = Blueprint("reservations", __name__, url_prefix="/reservations")
+
 
 class SettingsList(views.ListView):
     """
@@ -22,34 +23,40 @@ class SettingsList(views.ListView):
      SettingsDetailView, SettingsDeleteView create correct templates
      for list, create/detail actions. When templates will be done, pls change
      `template_name` value in every View Class.
-    @todo #173:30min Refactor (and uncomment) views below to use new
-     base views once when they are avaiable. Current implementation is not
-     generic enough.
     """
     model = models.ReservationSettings
     template_name = "restaurants/tables/list.html"
 
 
-SettingsList.register(bp, "/settings/")
-
-# class SettingsCreateUpdateView(views.CreateUpdateView):
-#     """ Reservation settings create view """
-#     template_name = "restaurants/tables/create_edit.html"
-#     success_url_name = "reservation_settings_list"
-#     form = forms.TableForm
-#     model = models.ReservationSettings
+SettingsList.register(BP, "/settings/")
 
 
-# class SettingsDetailView(views.DetailView):
-#     """ Reservation settings detail view"""
-#     model = models.ReservationSettings
-#     template_name = "restaurants/tables/create_edit.html"
-#     success_url_name = "reservation_settings_list"
-#     not_found_url_name = "reservation_settings_list"
+class SettingsCreateView(views.CreateView):
+    """ Create view for Reservation Settings """
+    model = models.ReservationSettings
+    template_name = "restaurants/tables/create_edit.html"
+    success_view_name = "reservation_settings_list"
+    form_class = ReservationForm
 
 
-# class SettingsDeleteView(views.DeleteView):
-#     success_url_name = "reservation_settings_list"
+SettingsCreateView.register(BP, "/settings/create/")
+
+
+class SettingsDetailView(views.DetailView):
+    """ Detail view for Reservation Settings  """
+    model = models.ReservationSettings
+    template_name = "restaurants/tables/create_edit.html"
+
+
+SettingsDetailView.register(BP, "/settings/edit/<int:setting_id>")
+
+
+class SettingsDelete(views.DeleteView):
+    """ Delete view for Reservation Settings  """
+    model = models.ReservationSettings
+
+
+SettingsDelete.register(BP, "/settings/delete/<int:setting_id>")
 
 
 class CommentView(SecuredView, views.CrudAPIView):
@@ -94,7 +101,7 @@ class ReservationsListView(views.CrudAPIView):
         return jsonify(reservations_json)
 
 
-@bp.route("/list", methods=("GET",))
+@BP.route("/list", methods=("GET",))
 def list():
     """
         @todo #172:30min Refactor this after the implementation of GenericViews.
@@ -109,7 +116,7 @@ def list():
     return render_template("restaurants/tables/list.html")
 
 
-@bp.route("/create", methods=("GET", "POST"))
+@BP.route("/create", methods=("GET", "POST"))
 def create():
     """ Create new reservation """
     """
@@ -142,7 +149,7 @@ def create():
                             action="create", form=form)
 
 
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
+@BP.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     if request.method == "POST":
         flash("Edit not yet implemented")
@@ -152,7 +159,7 @@ def edit(id):
     )
 
 
-@bp.route("/delete/<int:id>", methods=["POST"])
+@BP.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     """ Delete reservation """
     reservation = Reservation.query.get(id)
