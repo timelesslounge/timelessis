@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block header %}
+  <h1>{% block title %}Reservation Settings management - {% if action == 'create' %}  Create {% else %} Edit {% endif %} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {{ render_field(form.id) }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.value) }}
+    <p>
+      <button type="submit">Create</button>
+    </p>
+  </form>
+{% endblock %}
