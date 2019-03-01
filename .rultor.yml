@@ -1,6 +1,6 @@
 architect:
   - emilianodellacasa
-__decrypt:
+decrypt:
   credentials.json: "repo/credentials/credentials.json.asc"
   staging.id_rsa: "repo/credentials/staging.id_rsa.asc"
   staging.id_rsa.pub: "repo/credentials/staging.id_rsa.pub.asc"
