@@ -46,21 +46,17 @@ class SettingsDetailView(views.DetailView):
     """ Detail view for Reservation Settings  """
     model = models.ReservationSettings
     template_name = "restaurants/tables/create_edit.html"
-    success_view_name = "reservation_settings_list"
-    form_class = ReservationForm
 
 
-SettingsCreateView.register(BP, "/settings/edit/")
+SettingsDetailView.register(BP, "/settings/edit/<int:setting_id>")
 
 
 class SettingsDelete(views.DeleteView):
     """ Delete view for Reservation Settings  """
     model = models.ReservationSettings
-    success_view_name = "reservation_settings_list"
-    form_class = ReservationForm
 
 
-SettingsCreateView.register(BP, "/settings/delete/")
+SettingsDelete.register(BP, "/settings/delete/<int:setting_id>")
 
 
 class CommentView(SecuredView, views.CrudAPIView):
