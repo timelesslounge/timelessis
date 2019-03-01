@@ -45,20 +45,21 @@ if [! psql -t -c '\du' | cut -d \| -f 1 | grep -qw "timeless_user"; ]; then
         INHERIT
         LOGIN
         ENCRYPTED PASSWORD 'timeless_pwd';"
-    company = $(sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO company
-    (name, code, address) values ('Timeless', 'Tm', '')")
-    role = $(sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO role
-    (name, works_on_shifts, company_id) values ('Administrator', False, $company)")
-    password = "pass from rultor"
-    sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO employee
-        (first_name, last_name, username, phone_number, birth_date,
-        registration_date, account_status, user_status, email, password, pin_code,
-        comment, company_id, role_id) values
-        ('First', 'Last', 'timeless', '988888', '', '', 'active', 'active',
-        'abc@xyz.com', $password, '10', 'Timeless user', $company, $role
-        )
-        "
 fi
+
+company = $(sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO company
+(name, code, address) values ('Timeless', 'Tm', '')")
+role = $(sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO role
+(name, works_on_shifts, company_id) values ('Administrator', False, $company)")
+password = "pass from rultor"
+sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO employee
+    (first_name, last_name, username, phone_number, birth_date,
+    registration_date, account_status, user_status, email, password, pin_code,
+    comment, company_id, role_id) values
+    ('First', 'Last', 'timeless', '988888', '', '', 'active', 'active',
+    'abc@xyz.com', $password, '10', 'Timeless user', $company, $role
+    )
+    "
 
 
 
