@@ -74,6 +74,28 @@ class Location(PosterSyncMixin, DB.Model):
     def __repr__(self):
         return "<Location %r>" % self.name
 
+    @classmethod
+    def merge_with_poster(cls, location, poster_location: dict):
+        """
+        Method should return Location object with merged data from table entity
+        and poster location dict
+        @todo #343:30min Implement two class methods merge_with_poster and
+         create_by_poster. merge_with_poster will merge entry entity with
+         poster entity, we should make right fields mapping, as result
+         returns Location instance.
+         The same should be made with method create_by_poster, returns Location
+         instance with data from poster_customer
+        """
+        raise NotImplementedError()
+
+    @classmethod
+    def create_by_poster(cls, poster_location: dict):
+        """
+        Method should return Location object with given data from
+        poster_location dict
+        """
+        raise NotImplementedError()
+
 
 class TableReservation(DB.Model):
     """Association table for reservations and tables"""
