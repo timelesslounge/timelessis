@@ -11,6 +11,7 @@ from timeless.roles import models as role_models
 from timeless.companies import models as company_models
 from timeless.restaurants import models as restaurant_models
 from timeless.items import models as item_models
+from timeless.schemetypes import models as schemetypes_models
 
 
 class TableShapeFactory(factory.alchemy.SQLAlchemyModelFactory):
@@ -119,3 +120,14 @@ class ReservationFactory(factory.alchemy.SQLAlchemyModelFactory):
     @factory.lazy_attribute
     def end_time(self):
         return self.start_time + timedelta(days=3)
+
+
+class SchemeTypeFactory(factory.alchemy.SQLAlchemyModelFactory):
+    description = factory.Faker("text")
+    default_value = factory.Faker("text")
+    value_type = factory.Faker("text")
+
+    class Meta:
+        model = schemetypes_models.SchemeType
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"

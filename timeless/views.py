@@ -258,7 +258,7 @@ class CreateView(SuccessRedirectMixin, GenericView):
             kwargs["form"] = self.get_form()
         return super().get_context(*args, **kwargs)
 
-    def post(self):
+    def post(self, *args, **kwargs):
         form = self.get_form(request.form, files=request.files)
 
         if not form.validate():

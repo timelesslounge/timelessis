@@ -1,6 +1,6 @@
 """SchemeType views module.
-@todo #56:30min Continue implementing Create, Edit and Delete views once
- generic views from #173 are implemented. Code templates are already provided
+@todo #386:30min Continue implementing Edit and Delete views once
+ generic views. Code templates are already provided
  below, so uncomment and modify - create templates and write ITs to verify
  behaviour.
 @todo #56:30min Once #357 is finished, reuse the view (or better create a new
@@ -12,10 +12,12 @@
  modify - create templates and write ITs to verify behaviour.
 """
 from http import HTTPStatus
-from flask import Blueprint, abort
+from flask import Blueprint, abort, url_for
 
-from timeless.views import ListView
+from timeless.views import CreateView, ListView
+from timeless.schemetypes.forms import SchemeConditionForm
 from timeless.schemetypes.models import SchemeType, SchemeCondition
+
 
 bp = Blueprint("scheme_type", __name__, url_prefix="/schemetypes")
 
@@ -69,11 +71,16 @@ class SchemeConditionList(ListView):
         return self.model.query.filter(
             SchemeCondition.scheme_type_id == self.scheme_type_id)
 
-# class SchemeConditionCreate(CreateView):
-#     """Create scheme condition"""
-#     template_name = "schemetypes/schemeconditions/create_edit.html"
-#     form_class  = SchemeConditionForm
-#     model = SchemeCondition
+
+class SchemeConditionCreate(CreateView):
+    """Create scheme condition"""
+    template_name = "schemetypes/schemeconditions/create_edit.html"
+    form_class = SchemeConditionForm
+
+    def get_success_url_redirect(self):
+        return url_for(
+            "scheme_type.scheme_condition_list",
+            scheme_type_id=self.kwargs["scheme_type_id"])
 
 
 # class SchemeConditionEdit(UpdateView):
@@ -90,7 +97,9 @@ class SchemeConditionList(ListView):
 #     form_class  = SchemeConditionForm
 #     model = SchemeCondition
 
-SchemeConditionList.register(bp, "/schemeconditions/<int:scheme_type_id>")
-# SchemeConditionCreate.register(bp, "/schemeconditions/create")
+SchemeConditionList.register(
+    bp, "/schemeconditions/<int:scheme_type_id>")
+SchemeConditionCreate.register(
+    bp, "/schemeconditions/<int:scheme_type_id>/create")
 # SchemeConditionEdit.register(bp, "/schemeconditions/edit/<int:id>")
 # SchemeConditionDelete.register(bp, "/schemeconditions/delete")

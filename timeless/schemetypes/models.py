@@ -102,10 +102,6 @@ class SchemeCondition(DB.Model):
 
     scheme_type = DB.relationship("SchemeType", back_populates="conditions")
 
-    @validate_required("value", "priority", "start_time", "end_time")
-    def __init__(self, **kwargs):
-        super(SchemeCondition, self).__init__(**kwargs)
-
     def __repr__(self):
         return "<SchemeCondition %r>" % self.id
 
