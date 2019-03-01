@@ -99,7 +99,7 @@ def register_endpoints(app):
     app.register_blueprint(items_views.BP)
     app.register_blueprint(floors_views.BP)
     app.register_blueprint(table_shapes_views.bp)
-    app.register_blueprint(reservations_views.bp)
+    app.register_blueprint(reservations_views.BP)
     app.register_blueprint(schemetypes_views.bp)
     app.register_blueprint(employees_views.bp)
     register_api(

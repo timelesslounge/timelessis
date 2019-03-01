@@ -29,7 +29,6 @@ while [ $# -gt 0 ]; do
             ;;
     esac
 done
-echo "FFF $RESTORE_DIR"
 
 if [ $# = 0 ]; then
     SCRIPTPATH=$(cd ${0%/*} && pwd -P)
@@ -89,4 +88,3 @@ if ! zcat $RESTORE_FILE | psql -h "$HOSTNAME" -U "$USR" "$DATABASE"; then
 fi
 
 echo -e "\nDatabase restore complete!"
-

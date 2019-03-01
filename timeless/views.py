@@ -5,8 +5,9 @@
  class AdminView(View):
  ....decorators = [auth.admin_required, auth.login_required]
  class UserView(AdminView):
-@todo #173:30min Once CreateView is implemented, refactor all blueprint views
+@todo #311:30min Once CreateView is implemented, refactor all blueprint views
  to use it for validating the form and storing the record in the database.
+ Views already implemented: ItemCreateView
 @todo #173:30min Once UpdateView is implemented, refactor all blueprint views
  to use it for validating the form and updating the record in the database.
  Reuse SingleObjectMixin to provide simple solution to fetch by id.
@@ -32,32 +33,39 @@ class CommentView(CrudView):
 import re
 from http import HTTPStatus
 
-from flask import views, redirect, render_template, request, url_for
+from flask import views, redirect, render_template, request, url_for, jsonify
 from werkzeug.exceptions import abort
 
 from timeless import DB
-
 
 camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
 
 class CrudAPIView(views.MethodView):
     """View that supports generic crud operations.
-
-    @todo #221:30min Continue with the implementation of CrudAPIView.
-     Implement get, post, put and delete methods. We should return json
-     representation of object model in methods. Use FakeModel for a fake
-     database object, and implement the desired calls on FakeQuery to get,
-     create, save / update and delete returning the result. Don't forget to
-     implement the tests too, to test if CrudAPIView code is being called and
-     returning the expected objects; please refer to #221 and #222 for
-     documentation. After that remove the ignore annotation from tests on
-     test_crud_api.py.
+    @todo #289:30min Move Fake* class definitions to test path so it's
+     not mixed in with production code, reconsider if they're really needed.
+     Change Query#get so it follows logic similar to
+     https://docs.sqlalchemy.org/en/latest/orm/query.html#
+     sqlalchemy.orm.query.Query.get e.g.: it returns object instance or None
+     and json serializing and HTTP Code answers are dealt with in View.
+     See discussion in PR:
+     https://github.com/timelesslounge/timelessis/pull/400
+    @todo #289:30min Research bringing in
+     https://marshmallow.readthedocs.io/en/latest/
+     to the project for object json serialization, update this puzzle or
+     document design considerations for implementation if so.
+    @todo #289:30min Continue with the implementation of CrudAPIView.
+     Implement tests for post, put and delete methods in test_crud_api.py
+     first.  We should return json representation of object model in methods.
+     Use FakeModel for a fake database object, and implement the desired calls
+     on FakeQuery to get, create, save / update and delete returning the
+     result.  Please refer to #221 and #222 for documentation.
     """
 
-    def get(self):
+    def get(self, object_id):
         """Calls the GET method."""
-        pass
+        return self.model.query.get(object_id)
 
     def post(self):
         """Calls the POST method."""
@@ -250,7 +258,7 @@ class CreateView(SuccessRedirectMixin, GenericView):
             kwargs["form"] = self.get_form()
         return super().get_context(*args, **kwargs)
 
-    def post(self):
+    def post(self, *args, **kwargs):
         form = self.get_form(request.form, files=request.files)
 
         if not form.validate():
@@ -290,7 +298,11 @@ class FakeModel():
         def get(self, object_id):
             """Fake response on get method."""
             if object_id == 5:
-                return {"Found the object"}, HTTPStatus.OK
+                response = {
+                        "some_id": 5,
+                        "some_attr": "attr"
+                }
+                return jsonify(response), HTTPStatus.OK
             abort(HTTPStatus.NOT_FOUND)
 
     query = FakeQuery()
