@@ -13,10 +13,10 @@ from timeless.templates.views import order_by, filter_by
 from timeless.uploads import IMAGES
 
 
-bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
+BP = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
 
-@bp.route("/")
+@BP.route("/")
 def list():
     """List all table shapes
     @todo #260:30min Implement filtering of table shapes from the UI. It
@@ -63,6 +63,6 @@ class Delete(views.DeleteView):
     success_view_name = "table_shape.list"
 
 
-Create.register(bp, "/create")
-Edit.register(bp, "/edit/<int:id>")
-Delete.register(bp, "/delete/<int:id>")
+Create.register(BP, "/create")
+Edit.register(BP, "/edit/<int:id>")
+Delete.register(BP, "/delete/<int:id>")

@@ -76,8 +76,8 @@ def test_create(client, db_session):
 #  anything right now.
 def test_edit(client):
     table_shape = factories.TableShapeFactory(
-        description='Description 1',
-        picture='picture-path-1'
+        description="Description 1",
+        picture="picture-path-1"
     )
     response = client.post(
         flask.url_for("table_shape.edit", id=table_shape.id),
@@ -97,6 +97,6 @@ def test_edit(client):
 def test_delete(client):
     table_shape = factories.TableShapeFactory()
     response = client.post(
-        flask.url_for('table_shape.delete', id=table_shape.id))
+        flask.url_for("table_shape.delete", id=table_shape.id))
     assert response.status_code == HTTPStatus.FOUND
     assert not models.TableShape.query.count()
