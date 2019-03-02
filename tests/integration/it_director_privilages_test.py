@@ -39,7 +39,7 @@ def test_can_access_his_profile(app):
     Method.UPDATE,
     Method.DELETE,
 ))
-def test_cannot_access_other_company_employees(app, db_session):
+def test_cannot_access_other_company_employees(method,app, db_session):
     """
     Even though the authenticated user is a director, they cannot access a
     manager's profile because the manager works for another company.
@@ -68,7 +68,7 @@ def test_cannot_access_other_company_employees(app, db_session):
     Method.UPDATE,
     Method.DELETE,
 ))
-def test_can_access_subalterns(app, db_session):
+def test_can_access_subalterns(method, app, db_session):
     """
     A director of a company should be able to access
     the profiles of employees with a lower role.

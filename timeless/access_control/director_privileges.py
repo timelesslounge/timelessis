@@ -15,13 +15,13 @@ def __employee_access(method=None, *args, **kwargs):
     employee_id = kwargs.get("employee_id")
     if user:
         if employee_id:
-            permitted = check_rights(employee_id, user)
+            permitted = check_rights(method, employee_id, user)
         else:
             permitted = True
     return permitted
 
 
-def check_rights(employee_id, user):
+def check_rights(method, employee_id, user):
     """
     Check the rights a director has over an employee profile.
     In principle, a director can access their own profile and the
