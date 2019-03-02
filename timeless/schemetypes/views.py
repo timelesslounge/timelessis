@@ -6,10 +6,6 @@
 @todo #56:30min Once #357 is finished, reuse the view (or better create a new
  generic one - if it doesn't exist) to enable sorting and filtering for every
  column. Also replace all other List views with this new generic one.
-@todo #97:30min Continue implementing SchemeConditionCreate,
- SchemeConditionEdit, SchemeConditionDelete views once generic views from #173
- are implemented. Code templates are already provided below, so uncomment and
- modify - create templates and write ITs to verify behaviour.
 """
 from http import HTTPStatus
 from flask import Blueprint, abort, url_for
