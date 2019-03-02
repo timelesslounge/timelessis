@@ -1,9 +1,10 @@
 from datetime import datetime
 from http import HTTPStatus
-import flask
 import pytest
 
-from timeless.auth.auth import login
+import flask
+
+from timeless.auth.auth import login, hash as auth_hash
 from timeless.employees.models import Employee
 
 """
@@ -28,26 +29,18 @@ def test_incorrect_password(db_session):
     db_session.commit()
     assert (login("unknown", "unknown") == "login.failed")
 
-"""
-@todo #149:30min Continue implementation of the login function. The
- login("vgv", "pass") is returning ValueError: not a valid bcrypt_sha256 hash.
- Information from https://passlib.readthedocs.io/en/stable/index.html can be
- used to help.
-"""
+
 def test_login(db_session):
     employee = Employee(first_name="Alice", last_name="Cooper",
                         username="vgv", phone_number="1", account_status="A",
                         birth_date=datetime.utcnow(), pin_code=4567,
                         registration_date=datetime.utcnow(), user_status="U",
-                        email="test@test.com", password="pass")
+                        email="test@test.com", password=auth_hash("pass"))
     db_session.add(employee)
     db_session.commit()
-    """error = login("vgv", "pass")"""
-    error = login("unknown", "unknown");
-    db_session.delete(employee)
-    db_session.commit()
-    db_session.remove()
-    assert (error == "login.failed")
+    error = login("vgv", "pass")
+    assert not error
+    assert flask.session['user_id'] == employee.id
 
 
 def test_forgot_password(client):
