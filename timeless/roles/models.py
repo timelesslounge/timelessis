@@ -25,3 +25,6 @@ class Role(DB.Model):
          instance. May be it's better to introduce `type` field with choices.
         """
         return self.name in ("Master", "Intern",)
+
+    def is_director(self):
+        return self.name == "Director"

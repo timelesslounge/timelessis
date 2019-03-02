@@ -13,10 +13,10 @@ from timeless.templates.views import order_by, filter_by
 from timeless.uploads import IMAGES
 
 
-bp = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
+BP = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
 
-@bp.route("/")
+@BP.route("/")
 def list():
     """List all table shapes
     @todo #260:30min Implement filtering of table shapes from the UI. It
@@ -46,25 +46,11 @@ class Create(views.CreateView):
     success_view_name = "table_shape.list"
 
 
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
-def edit(id):
-    """Edit table shape with id"""
-    table = models.TableShape.query.get(id)
-    if not table:
-        return abort(HTTPStatus.NOT_FOUND)
-
-    if request.method == "POST":
-        form = forms.TableShapeForm(request.form, instance=table)
-        if not form.validate():
-            return abort(HTTPStatus.BAD_REQUEST)
-
-        form.save()
-        return redirect(url_for("table_shape.list"))
-
-    form = forms.TableShapeForm(instance=table)
-    return render_template(
-        "restaurants/table_shapes/create_edit.html", form=form
-    )
+class Edit(views.UpdateView):
+    model = models.TableShape
+    form_class = forms.TableShapeForm
+    template_name = "restaurants/table_shapes/create_edit.html"
+    success_view_name = "table_shape.list"
 
 
 class Delete(views.DeleteView):
@@ -77,5 +63,6 @@ class Delete(views.DeleteView):
     success_view_name = "table_shape.list"
 
 
-Create.register(bp, "/create")
-Delete.register(bp, "/delete/<int:id>")
+Create.register(BP, "/create")
+Edit.register(BP, "/edit/<int:id>")
+Delete.register(BP, "/delete/<int:id>")
