@@ -96,7 +96,7 @@ def test_can_access_subalterns(method, app, db_session):
     intern = factories.EmployeeFactory(
         company=company,
         role=factories.RoleFactory(
-            name="Master"
+            name="Intern"
         )
     )
     flask.g.user = director
