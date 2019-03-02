@@ -31,13 +31,7 @@ def check_rights(employee_id, user):
         return True
     else:
         other = Employee.query.get(employee_id)
-        other_role = other.role.name
-        return user.company_id == other.company_id and\
-            user.role.name == "director" and\
-            (
-             other_role == "manager" or other_role == "master" or
-             other_role == "intern"
-            )
+        return user.company_id == other.company_id and user.role.is_director()
 
 
 __resources = {
