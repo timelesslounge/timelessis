@@ -263,8 +263,9 @@ class CreateView(FormView):
     """Class which creates objects based on received POST data and provided
     form class"""
 
-    def post(self):
-        form = self.get_form(request.form, files=request.files)
+    def post(self, *args, **kwargs):
+        form = self.get_form(
+            request.form, files=request.files, *args, **kwargs)
 
         if not form.validate():
             return self.render_to_response(self.get_context(form=form))
