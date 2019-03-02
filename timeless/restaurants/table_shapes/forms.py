@@ -9,17 +9,8 @@ from timeless.uploads import IMAGES
 class TableShapeForm(forms.ModelForm):
     """Base form for table shape"""
 
-    picture = FileField(
-        "Table Shape Image",
-        validators=[FileRequired(), FileAllowed(IMAGES, "Images only!")])
-
     class Meta:
         model = models.TableShape
-        exclude = ("picture",)
-
-    def __init__(self, *args, **kwargs):
-        self._file = kwargs.pop("files").get("picture")
-        super(TableShapeForm, self).__init__(*args, **kwargs)
 
     def save(self, commit=True):
         """
@@ -32,6 +23,4 @@ class TableShapeForm(forms.ModelForm):
          while being rendered to the template. See Configuration
          paragraph https://pythonhosted.org/Flask-Uploads/
         """
-        filename = IMAGES.save(self._file)
-        self.picture.data = IMAGES.url(filename)
         super(TableShapeForm, self).save(commit=commit)

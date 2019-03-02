@@ -37,9 +37,7 @@ def list():
 
 class Create(views.CreateView):
     """
-    @todo #162:30min This form currenly cannot save pictures. Need have a
-     look how WTF form processes files. Implement generic solution to use
-     it everywhere when it's needed.
+    Create view for TableShapes
     """
     form_class = forms.TableShapeForm
     template_name = "restaurants/table_shapes/create_edit.html"

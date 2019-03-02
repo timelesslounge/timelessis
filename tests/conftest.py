@@ -1,7 +1,10 @@
+import base64
 import os
 import tempfile
+from io import BytesIO
 
 import pytest
+from PIL import Image
 
 from tests import factories
 from timeless import create_app
@@ -80,3 +83,14 @@ def clear_cache(app):
     """ Clean the cache for every test """
     with app.app_context():
         CACHE.clear()
+
+
+@pytest.fixture
+def base64_image():
+    buf = BytesIO()
+
+    img = Image.new('RGB', (5000, 5000))
+    img.save(buf, format='JPEG')
+
+    image_data = base64.b64encode(buf.getvalue()).decode()
+    return f'data:image/jpeg;base64,{image_data}'
