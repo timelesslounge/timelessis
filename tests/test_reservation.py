@@ -1,9 +1,19 @@
 from datetime import datetime
 from http import HTTPStatus
 
-import  pytest
+from timeless.restaurants.models import Reservation
+from tests import factories
 
-@pytest.mark.skip(reason="authentication not implemented for reservations")
-def test_retrieve_status(client):
-    response = client.get("/api/reservations/", data={"location" : 1, "date" : datetime(1, 1, 1)})
+import pytest
+
+def test_retrieve_status(client, db_session):
+    employee = factories.EmployeeFactory(
+        company=factories.CompanyFactory()
+    )
+
+    with client.session_transaction() as session:
+        session["user_id"] = employee.id
+
+    response = client.get("/api/reservations/")
+    print (response.data)
     assert response.status_code == HTTPStatus.OK
