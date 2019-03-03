@@ -11,7 +11,7 @@ from timeless.reservations import models
 
 def test_list(client):
     data = reservation_data("nicer comment here")
-    client.post(url_for("reservations.settings_create"), data=data)
+    client.post(url_for("reservations.settings_create_view"), data=data)
     response = client.get(url_for("reservations.settings_list"))
     assert response.status_code == HTTPStatus.OK
     html = response.data.decode("utf-8")
@@ -21,7 +21,7 @@ def test_list(client):
 
 def test_create(client):
     data = reservation_data("nice comment here")
-    response = client.post(url_for("reservations.settings_create"), data=data)
+    response = client.post(url_for("reservations.settings_create_view"), data=data)
     assert response.status_code == HTTPStatus.FOUND
     assert response.location.endswith(url_for("reservations.settings_list"))
 
@@ -29,10 +29,10 @@ def test_create(client):
 def test_edit(client):
     data = reservation_data("nicer comment here")
     new_data = reservation_data("different comment here")
-    client.post(url_for("reservations.settings_create"), data=data)
+    client.post(url_for("reservations.settings_create_view"), data=data)
     identifier = models.ReservationSettings.query.first().id
     client.post(
-        url_for("reservations.settings_create", id=identifier), data=new_data
+        url_for("reservations.settings_create_view", id=identifier), data=new_data
     )
     response = client.get(url_for("reservations.settings_list"))
     assert response.status_code == HTTPStatus.OK
@@ -44,10 +44,10 @@ def test_edit(client):
 
 def test_delete(client):
     assert client.get(
-        url_for("reservations.settings_delete", id=1)
+        url_for("reservations.settings_delete", setting_id=1)
     ).status_code == HTTPStatus.OK
     data = reservation_data("my very unique comment")
-    client.post(url_for("reservations.settings_create"), data=data)
+    client.post(url_for("reservations.settings_create_view"), data=data)
     identifier = models.ReservationSettings.query.first().id
     client.post(
         url_for("reservations.settings_delete"),
