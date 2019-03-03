@@ -6,8 +6,8 @@ from flask import (
 )
 
 from timeless import DB
-from timeless.reservations.forms import ReservationForm
-from timeless.restaurants.models import Reservation, ReservationStatus
+from timeless.reservations.forms import ReservationForm, SettingsForm
+from timeless.restaurants.models import Reservation
 from timeless import views
 from timeless.access_control.views import SecuredView
 from timeless.reservations import models
@@ -36,7 +36,7 @@ class SettingsCreateView(views.CreateView):
     model = models.ReservationSettings
     template_name = "restaurants/tables/create_edit.html"
     success_view_name = "reservation_settings_list"
-    form_class = ReservationForm
+    form_class = SettingsForm
 
 
 SettingsCreateView.register(BP, "/settings/create/")
