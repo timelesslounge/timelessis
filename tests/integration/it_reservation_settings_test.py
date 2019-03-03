@@ -1,8 +1,3 @@
-"""
-@todo #291:30min Enable all tests below when then functionality in for
- ReservationSettings will be enabled. There will be tuning needed because there
- are no endpoint names in the views.
-"""
 import datetime
 from http import HTTPStatus
 from flask import url_for
