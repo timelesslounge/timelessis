@@ -9,7 +9,6 @@ from flask import Blueprint
 
 from timeless import views
 from timeless.restaurants import models
-from timeless.restaurants.models import Table
 from timeless.restaurants.tables import forms
 
 
@@ -18,7 +17,7 @@ BP = Blueprint("table", __name__, url_prefix="/tables")
 
 class TableListView(views.ListView):
     """ List the tables """
-    model = Table
+    model = models.Table
     template_name = "restaurants/tables/list.html"
 
 
@@ -31,14 +30,14 @@ class Create(views.CreateView):
 class Edit(views.UpdateView):
     """View for editing a table"""
     model = models.Table
-    form_class = forms.Table
+    form_class = forms.TableForm
     template_name = "restaurants/tables/create_edit.html"
     success_view_name = "table.list_tables"
 
 
 class Delete(views.DeleteView):
     """View for deleting a table"""
-    model = Table
+    model = models.Table
     success_view_name = "table.list_tables"
 
 
