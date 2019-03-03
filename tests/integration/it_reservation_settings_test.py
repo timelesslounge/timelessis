@@ -5,14 +5,10 @@
 """
 import datetime
 from http import HTTPStatus
-
-import pytest
 from flask import url_for
-
 from timeless.reservations import models
 
 
-@pytest.mark.skip
 def test_list(client):
     data = reservation_data("nicer comment here")
     client.post(url_for("reservations.settings_create"), data=data)
@@ -23,7 +19,6 @@ def test_list(client):
     assert html.count(data["comment"]) == 1
 
 
-@pytest.mark.skip
 def test_create(client):
     data = reservation_data("nice comment here")
     response = client.post(url_for("reservations.settings_create"), data=data)
@@ -31,7 +26,6 @@ def test_create(client):
     assert response.location.endswith(url_for("reservations.settings_list"))
 
 
-@pytest.mark.skip
 def test_edit(client):
     data = reservation_data("nicer comment here")
     new_data = reservation_data("different comment here")
@@ -48,7 +42,6 @@ def test_edit(client):
     assert html.count(new_data["comment"]) == 1
 
 
-@pytest.mark.skip
 def test_delete(client):
     assert client.get(
         url_for("reservations.settings_delete", id=1)
