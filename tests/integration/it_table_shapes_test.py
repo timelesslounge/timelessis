@@ -61,13 +61,20 @@ def test_filtered_list(client, db_session):
     # assert html.count('<a class="action" href="/table_shapes/edit/1">Edit</a>') == 1
 
 
-def test_create(client, base64_image):
-    response = client.post(flask.url_for("table_shape.create"), data={
-        "description": "It's new shape",
-        "picture": base64_image
-    })
+def test_create(client):
+    files = {'file': open(
+        'tests/integration/fixtures/test_image.jpg', 'rb')}
+    response = client.post(
+        flask.url_for("table_shape.create"),
+        data={
+            "description": "It's new shape",
+            "files": files
+        }
+    )
     assert response.location.endswith(flask.url_for('table_shape.list'))
-    assert TableShape.query.count() == 1
+    table_shape = TableShape.query.first()
+    assert table_shape
+    assert table_shape.picture
 
 
 # @todo #206:15min After the form.save() issue with picture is solved enable
