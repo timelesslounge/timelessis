@@ -12,14 +12,9 @@ from timeless import views
 from timeless.access_control.views import SecuredView
 from timeless.reservations import models
 
-bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
-class ReservationsListView(views.ListView):
-    """ List the Items """
-    model = Reservation
-    template_name = "reservations/list.html"
+BP = Blueprint("reservations", __name__, url_prefix="/reservations")
 
-ReservationsListView.register(bp, "/")
 
 class SettingsList(views.ListView):
     """
@@ -28,48 +23,66 @@ class SettingsList(views.ListView):
      SettingsDetailView, SettingsDeleteView create correct templates
      for list, create/detail actions. When templates will be done, pls change
      `template_name` value in every View Class.
-    @todo #173:30min Refactor (and uncomment) views below to use new
-     base views once when they are avaiable. Current implementation is not
-     generic enough.
     """
     model = models.ReservationSettings
     template_name = "restaurants/tables/list.html"
 
 
-SettingsList.register(bp, "/settings/")
+SettingsList.register(BP, "/settings/")
 
-# class SettingsCreateUpdateView(views.CreateUpdateView):
-#     """ Reservation settings create view """
-#     template_name = "restaurants/tables/create_edit.html"
-#     success_url_name = "reservation_settings_list"
-#     form = forms.TableForm
-#     model = models.ReservationSettings
+class ReservationsListView(views.ListView):
+    """ List the reservation """
+    model = Reservation
+    template_name = "reservations/list.html"
+
+ReservationsListView.register(BP, "/")
+
+class ReservationsListView(views.ListView):
+    """ List the reservation """
+    model = Reservation
+    template_name = "reservations/list.html"
+
+ReservationsListView.register(BP, "/")
 
 
-# class SettingsDetailView(views.DetailView):
-#     """ Reservation settings detail view"""
-#     model = models.ReservationSettings
-#     template_name = "restaurants/tables/create_edit.html"
-#     success_url_name = "reservation_settings_list"
-#     not_found_url_name = "reservation_settings_list"
+class SettingsCreateView(views.CreateView):
+    """ Create view for Reservation Settings """
+    model = models.ReservationSettings
+    template_name = "restaurants/tables/create_edit.html"
+    success_view_name = "reservation_settings_list"
+    form_class = ReservationForm
 
 
-# class SettingsDeleteView(views.DeleteView):
-#     success_url_name = "reservation_settings_list"
+SettingsCreateView.register(BP, "/settings/create/")
+
+
+class SettingsDetailView(views.DetailView):
+    """ Detail view for Reservation Settings  """
+    model = models.ReservationSettings
+    template_name = "restaurants/tables/create_edit.html"
+
+
+SettingsDetailView.register(BP, "/settings/edit/<int:setting_id>")
+
+
+class SettingsDelete(views.DeleteView):
+    """ Delete view for Reservation Settings  """
+    model = models.ReservationSettings
+
+
+SettingsDelete.register(BP, "/settings/delete/<int:setting_id>")
 
 
 class CommentView(SecuredView, views.CrudAPIView):
     """API Resource for comments /api/comments
-
     """
     model = models.Comment
     url_lookup = "comment_id"
     list_reservations = "reservation_comment"
 
 
-class ReservationsList(views.CrudAPIView):
+class ReservationsListView(views.CrudAPIView):
     """ Reservation JSON API /api/reservations
-
     """
 
     def get(self, company_id):
@@ -80,7 +93,6 @@ class ReservationsList(views.CrudAPIView):
              those belonging to the specific company ID. Let's implement the
              serialization and deserialization of JSON based on this API:
              https://flask-marshmallow.readthedocs.io/en/latest/
-
         :param self:
         :return:
         """
@@ -100,7 +112,21 @@ class ReservationsList(views.CrudAPIView):
         return jsonify(reservations_json)
 
 
-@bp.route("/create", methods=("GET", "POST"))
+@BP.route("/list", methods=("GET",))
+def list():
+    """
+        @todo #172:30min Refactor this after the implementation of GenericViews.
+         Take a look at puzzles #134 and #173 where the requirements of generic
+         views are described. Don't forget to cover the generated code with
+         tests
+    :param reservations:
+    :return:
+    """
+    flash("List not yet implemented")
+    return render_template("restaurants/tables/list.html")
+
+
+@BP.route("/create", methods=("GET", "POST"))
 def create():
     """ Create new reservation """
     """
@@ -111,12 +137,10 @@ def create():
      the function using genericViews, as explained in puzzles #134 and #137.
     """
     form = ReservationForm(request.form)
-    error = ""
     try:
         """if request.method == "POST" and form.validate():"""
         if request.method == "POST":
             reservation = Reservation(
-                id=request.form["id"],
                 start_time=request.form["start_time"],
                 end_time=request.form["end_time"],
                 num_of_persons=request.form["num_of_persons"],
@@ -125,17 +149,17 @@ def create():
             )
             DB.session.add(reservation)
             DB.session.commit()
-            return redirect(url_for("reservations.list_reservations"))
+            return redirect(url_for("reservations.list"))
         else:
             flash("Error: ", form.errors)
     except Exception as error:
         flash("Error: ", error)
 
-    return render_template("reservations/create_edit.html", error=error,
+    return render_template("reservations/create_edit.html", error=form.errors,
                             action="create", form=form)
 
 
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
+@BP.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     if request.method == "POST":
         flash("Edit not yet implemented")
@@ -145,10 +169,10 @@ def edit(id):
     )
 
 
-@bp.route("/delete/<int:id>", methods=["POST"])
+@BP.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     """ Delete reservation """
     reservation = Reservation.query.get(id)
     DB.session.delete(reservation)
     DB.session.commit()
-    return redirect(url_for("reservations.list_reservations"))
+    return redirect(url_for("reservations.list"))
