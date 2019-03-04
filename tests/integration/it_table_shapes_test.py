@@ -52,10 +52,6 @@ def test_filtered_list(client, db_session):
     #  table_shapes = TableShapes(client, filter_by=["description=B"]
     #  assert len(table_shapes) == 1
     #  assert iter(table_shapes).next().id == 1
-    # @todo #315:30min Fix cache problem which prints the table twice in list.
-    #  This problem was supposed to be corrected in #273 1st point, but for
-    #  some reason filtered shape list is still printing garbage to output.
-    #  After correcting this problem, uncomment the tests below.
 
     html = response.data.decode("utf-8")
     assert html.count("<article class=\"table_shape\">") == 1
