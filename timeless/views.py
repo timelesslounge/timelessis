@@ -239,9 +239,9 @@ class DetailView(SingleObjectMixin, GenericView):
         return context
 
 
-class CreateView(SuccessRedirectMixin, GenericView):
-    """ Class which creates objects based on received POST data and provided
-    form class """
+class FormView(SuccessRedirectMixin, GenericView):
+    """Base method to work with form are here. This class is used CreateView
+    and UpdateView."""
     form_class = None
 
     def get_form(self, *args, **kwargs):
@@ -258,8 +258,14 @@ class CreateView(SuccessRedirectMixin, GenericView):
             kwargs["form"] = self.get_form()
         return super().get_context(*args, **kwargs)
 
-    def post(self):
-        form = self.get_form(request.form, files=request.files)
+
+class CreateView(FormView):
+    """Class which creates objects based on received POST data and provided
+    form class"""
+
+    def post(self, *args, **kwargs):
+        form = self.get_form(
+            request.form, files=request.files, *args, **kwargs)
 
         if not form.validate():
             return self.render_to_response(self.get_context(form=form))
@@ -268,8 +274,18 @@ class CreateView(SuccessRedirectMixin, GenericView):
         return redirect(self.get_success_url_redirect())
 
 
-class UpdateView(GenericView):
+class UpdateView(SingleObjectMixin, FormView):
     """ Base view for updating objects"""
+
+    def post(self, *args, **kwargs):
+        form = self.get_form(
+            request.form, files=request.files, instance=self.get_object())
+
+        if not form.validate():
+            return self.render_to_response(self.get_context(form=form))
+
+        form.save()
+        return redirect(self.get_success_url_redirect())
 
 
 class DeleteView(SuccessRedirectMixin, SingleObjectMixin, GenericView):

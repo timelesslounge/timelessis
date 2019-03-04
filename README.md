@@ -250,16 +250,10 @@ and configure [Service Account](https://github.com/prasmussen/gdrive#service-acc
 credentials. Set `SERVICE_ACCOUNT_CREDENTIALS` in `pg_backup.config` to the
 location of your service account credentials JSON file.
 
-Note that the Google Drive API needs a file ID, not file name. After database
-upload, you need to set the `FILE_ID` parameter in `pg_backup.config`, e.g.
-
+Note that the Google Drive API needs a file ID, not file name, e.g.
 ```
 FILE_ID=0B-Iak7O9SfIpYk9zTjZvY2xreVU
 ```
-
-@todo #296:30min Automate the setting up of FILE_ID into pg_backup.config,
- we already have the FILE_ID in the script, so what's left is to change it
- in file
 
 ### Running tests
 

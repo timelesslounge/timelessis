@@ -1,5 +1,4 @@
 from timeless.restaurants.models import Table
-from timeless.sync.sync import PosterSync
 
 """
     Table synced to database.
