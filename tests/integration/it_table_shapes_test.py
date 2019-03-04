@@ -56,11 +56,11 @@ def test_filtered_list(client, db_session):
     #  some reason filtered shape list is still printing garbage to output.
     #  After correcting this problem, uncomment the tests below.
 
-    #html = response.data.decode("utf-8")
-    #assert html.count("<article class=\"table_shape\">") == 1
-    #assert html.count(
-    #    "<a class=\"action\" href=\"/table_shapes/edit/1\">Edit</a>"
-    #) == 1
+    html = response.data.decode("utf-8")
+    assert html.count("<article class=\"table_shape\">") == 1
+    assert html.count(
+        "<a class=\"action\" href=\"/table_shapes/edit/1\">Edit</a>"
+    ) == 1
 
 
 def test_create(client, db_session):
