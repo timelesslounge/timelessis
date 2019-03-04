@@ -33,6 +33,7 @@ SettingsList.register(BP, "/settings/")
 class ReservationsListView(views.ListView):
     """ List the reservation """
     model = Reservation
+
     template_name = "reservations/list.html"
 
 ReservationsListView.register(BP, "/")
