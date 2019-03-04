@@ -1,11 +1,12 @@
+import unittest.mock
 
 import pytest
 
-from tests.poster_mock import free_port, start_server
 from timeless.companies.models import Company
+from timeless.poster.api import Poster, Authenticated
+from timeless.poster.tasks import sync_locations
 from timeless.restaurants.models import Location
-from timeless.sync.synced_location import SyncedLocation
-from timeless.poster.api import Poster
+
 
 """Integration tests for Location Sync with database
 
@@ -20,27 +21,10 @@ from timeless.poster.api import Poster
 """
 
 
-def test_sync_location(db_session):
-    port = free_port()
-    start_server(port,
-        locations = [
-            {
-                "id": 100,
-                "name": "Coco Bongo",
-                "code": "C",
-                "company_id": 50,
-                "country": "United States",
-                "region": "East Coast",
-                "city": "Edge City",
-                "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
-                "longitude": 21.1326063,
-                "latitude": -86.7473191,
-                "type": "L",
-                "status": "open",
-                "comment": "Nightclub from a famous movie"
-            }
-        ]
-    )
+@pytest.mark.skip
+@unittest.mock.patch.object(Authenticated, 'auth')
+@unittest.mock.patch.object(Poster, 'locations')
+def test_sync_location(locations_mock, auth_mock, db_session):
     company = Company(
         id=50,
         name="Company of Heroes",
@@ -49,31 +33,27 @@ def test_sync_location(db_session):
     )
     db_session.add(company)
     db_session.commit()
-    location = Location(
-        id=100,
-        name="Coconut Bongolive",
-        code="C",
-        company_id=50,
-        country="United States of America",
-        region="West Coast",
-        city="Another city",
-        address="Some address in Another City",
-        longitude=42.2642026,
-        latitude=-172.148146,
-        type="L",
-        status="closed",
-        comment="A location with "
-    )
-    db_session.add(location)
-    db_session.commit()
-    SyncedLocation(
-        location=location,
-        poster_sync=Poster(
-            url="http://localhost:{port}".format(port=port)
-        ),
-        db_session=db_session
-    ).sync()
-    row = Location.query.filter_by(id=location.id).one()
+
+    auth_mock.return_value = 'token'
+    locations_mock.return_value = [{
+            "id": 100,
+            "name": "Coco Bongo",
+            "code": "C",
+            "company_id": company.id,
+            "country": "United States",
+            "region": "East Coast",
+            "city": "Edge City",
+            "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
+            "longitude": 21.1326063,
+            "latitude": -86.7473191,
+            "type": "L",
+            "status": "open",
+            "comment": "Nightclub from a famous movie"
+        }]
+
+    sync_locations()
+
+    row = Location.query.filter_by(id=100).one()
     assert row.id == 100
     assert row.name == "Coco Bongo"
     assert row.code == "C"
