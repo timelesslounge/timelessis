@@ -37,14 +37,6 @@ class ReservationsListView(views.ListView):
 
 ReservationsListView.register(BP, "/")
 
-class ReservationsListView(views.ListView):
-    """ List the reservation """
-    model = Reservation
-    template_name = "reservations/list.html"
-
-ReservationsListView.register(BP, "/")
-
-
 class SettingsCreateView(views.CreateView):
     """ Create view for Reservation Settings """
     model = models.ReservationSettings
@@ -175,4 +167,4 @@ def delete(id):
     reservation = Reservation.query.get(id)
     DB.session.delete(reservation)
     DB.session.commit()
-    return redirect(url_for("reservations.list"))
+return redirect(url_for("reservations.list"))
