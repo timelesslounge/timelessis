@@ -143,4 +143,4 @@ def test_cannot_delete(client, db_session):
     """ Show 403 - Forbidden when user cannot access employee list """
     employee = factories.EmployeeFactory()
     response = client.post(url_for('employee.delete', id=employee.id))
-    assert response.status_code == HTTPStatus.METHOD_NOT_ALLOWED
+    assert response.status_code == HTTPStatus.FORBIDDEN
