@@ -8,17 +8,17 @@ from tests import factories
 from timeless.employees.models import Employee
 
 """
-@ #278:30min Tests are not using secured views. We should authenticate users to
- test correct behavior in employee views tests. Correct the tests mocking 
+@todo #278:30min Tests are not using secured views. We should authenticate users 
+ to test correct behavior in employee views tests. Correct the tests mocking 
  user authentication and role information and then uncomment skipped tests.  
 """
 
 
 def test_insert_employee(db_session):
     """Integration test for adding and selecting Employee"""
-    company = factories.CompanyFactory()
-    manager_role = factories.RoleFactory()
-    employee = factories.EmployeeFactory(company=company, role=manager_role)
+    employee = factories.EmployeeFactory(
+        company=factories.CompanyFactory(), role=factories.RoleFactory()
+    )
     row = db_session.query(Employee).get(employee.id)
     assert row.username == employee.username
 
