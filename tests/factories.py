@@ -71,7 +71,6 @@ class ItemFactory(factory.alchemy.SQLAlchemyModelFactory):
 
 
 class RoleFactory(factory.alchemy.SQLAlchemyModelFactory):
-    name = factory.Faker("text")
     works_on_shifts = True
 
     class Meta:
