@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Scheme Conditions{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {{ form }}
+    <p>
+      <button type="submit">Create</button>
+    </p>
+  </form>
+{% endblock %}

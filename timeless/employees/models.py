@@ -1,8 +1,7 @@
 """File for models in employees module"""
-from passlib.hash import bcrypt_sha256
 
 from timeless.db import DB
-from timeless.models import TimestampsMixin, validate_required
+from timeless.models import TimestampsMixin
 
 
 class Employee(TimestampsMixin, DB.Model):
@@ -30,15 +29,5 @@ class Employee(TimestampsMixin, DB.Model):
     history = DB.relationship("ItemHistory", back_populates="employee")
     role = DB.relationship("Role", back_populates="employees")
 
-    @validate_required("username", "password", "first_name", "last_name",
-                       "phone_number", "birth_date", "email", "pin_code",
-                       "registration_date", "account_status", "user_status")
-    def __init__(self, **kwargs):
-        super(Employee, self).__init__(**kwargs)
-
     def __repr__(self):
         return "<Employee(username=%s)>" % self.username
-
-    def validate_password(self, password):
-        """ Validate user password """
-        return bcrypt_sha256.verify(password, self.password)

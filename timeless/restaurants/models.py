@@ -2,7 +2,7 @@
 import enum
 
 from timeless.db import DB
-from timeless.models import TimestampsMixin, validate_required
+from timeless.models import TimestampsMixin
 from timeless.poster.models import PosterSyncMixin
 
 
@@ -26,10 +26,6 @@ class TableShape(DB.Model):
     description = DB.Column(DB.String, nullable=True)
     picture = DB.Column(DB.String, nullable=False)
 
-    @validate_required("picture")
-    def __init__(self, **kwargs):
-        super(TableShape, self).__init__(**kwargs)
-
     def __repr__(self):
         return "<TableShape %r>" % self.picture
 
@@ -44,6 +40,8 @@ class Floor(DB.Model):
     description = DB.Column(DB.String, nullable=True)
 
     location = DB.relationship("Location", back_populates="floors")
+    tables = DB.relationship("Table", order_by="Table.id",
+                             back_populates="floor")
 
     def __repr__(self):
         return "<Floor %r>" % self.id
@@ -73,13 +71,30 @@ class Location(PosterSyncMixin, DB.Model):
     working_hours = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
     closed_days = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
-    @validate_required("name", "code", "country", "region", "city", "type",
-                       "address", "longitude", "latitude", "status")
-    def __init__(self, **kwargs):
-        super(Location, self).__init__(**kwargs)
-
     def __repr__(self):
         return "<Location %r>" % self.name
+
+    @classmethod
+    def merge_with_poster(cls, location, poster_location: dict):
+        """
+        Method should return Location object with merged data from table entity
+        and poster location dict
+        @todo #343:30min Implement two class methods merge_with_poster and
+         create_by_poster. merge_with_poster will merge entry entity with
+         poster entity, we should make right fields mapping, as result
+         returns Location instance.
+         The same should be made with method create_by_poster, returns Location
+         instance with data from poster_customer
+        """
+        raise NotImplementedError()
+
+    @classmethod
+    def create_by_poster(cls, poster_location: dict):
+        """
+        Method should return Location object with given data from
+        poster_location dict
+        """
+        raise NotImplementedError()
 
 
 class TableReservation(DB.Model):
@@ -115,6 +130,7 @@ class Table(TimestampsMixin, PosterSyncMixin, DB.Model):
     deposit_hour = DB.Column(DB.Integer, DB.ForeignKey("scheme_types.id"))
 
     reservations = DB.relationship("TableReservation", back_populates="table")
+    floor = DB.relationship("Floor", back_populates="tables")
 
     DB.UniqueConstraint(u"name", u"floor_id")
 
@@ -138,11 +154,6 @@ class Reservation(TimestampsMixin, DB.Model):
     status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
-
-    @validate_required("start_time", "end_time", "num_of_persons", "comment",
-                       "status")
-    def __init__(self, **kwargs):
-        super(Reservation, self).__init__(**kwargs)
 
     def duration(self):
         return self.end_time - self.start_time

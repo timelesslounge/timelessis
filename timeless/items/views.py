@@ -1,8 +1,11 @@
+from timeless.views import ListView, CreateView
+from timeless.items.forms import ItemForm
+from timeless.items.models import Item
 """ Views module for Items.
-    @todo #141:30min Continue implementation of views class.
-     Use the database to get the data instead of dummy data.
-     Add authenticationannotation.
-     Also, templates should be finished.
+    @todo #270:30min Continue implementation of views class using GenericViews.
+     Use mocks from mock_items to make the tests, like tests for item list. Add
+     the methods to ItemQuery as needed for the tests. Add
+     authenticationannotation. Also, templates should be finished.
 """
 from flask import (
     Blueprint, redirect, render_template, url_for
@@ -11,17 +14,24 @@ from flask import (
 BP = Blueprint("items", __name__, url_prefix="/items")
 
 
-@BP.route("/")
-def list_items():
-    """ List the items """
-    items = [{"id": 1}, {"id": 2}]
-    return render_template("items/list.html", items=items)
+class ItemListView(ListView):
+    """ List the Items """
+    model = Item
+    template_name = "items/list.html"
 
 
-@BP.route("/create", methods=("GET", "POST"))
-def create():
-    """ Create new item """
-    return render_template("items/create.html")
+ItemListView.register(BP, "/")
+
+
+class ItemCreateView(CreateView):
+    """ Create a new Item """
+    model = Item
+    template_name = "items/create.html"
+    success_view_name = "item.list"
+    form_class = ItemForm
+
+
+ItemCreateView.register(BP, "/create")
 
 
 @BP.route("/edit", methods=("GET", "POST"))
@@ -33,4 +43,4 @@ def edit():
 @BP.route("/delete", methods=["POST"])
 def delete():
     """ Delete an item by id """
-    return redirect(url_for("items.list_items"))
+    return redirect(url_for("items.item_list_view"))

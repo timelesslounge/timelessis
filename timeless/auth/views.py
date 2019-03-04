@@ -1,8 +1,5 @@
-"""Auth views module.
-@todo #5:30min Implement before_app_request function that will get the user id
- from session, get user data from db and store it in g.user, which lasts for the
- length of the request. Also, create a decorator that will check, for each view
- if g.user exists and if not, redirect user to login page.
+"""
+Auth views module.
 """
 from functools import wraps
 from flask import (
@@ -28,7 +25,6 @@ def login_required(view):
     def wrapped_view(**kwargs):
         if not g.user:
             return redirect(url_for("auth.login"))
-
         return view(**kwargs)
 
     return wrapped_view

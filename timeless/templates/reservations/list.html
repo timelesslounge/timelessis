@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% cache 600 %}
+{% block header %}
+    <h1>{% block title %}Reservations{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% for reservation in reservations %}
+        <article class="reservation">
+        <header>
+            <a class="action" href="{{ url_for('reservations.edit', id=reservation['id']) }}">Edit</a>
+            <a class="action" href="{{ url_for('reservations.delete', id=reservation['id']) }}">Delete</a>
+        </header>
+        </article>
+        {% if not loop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+{% endcache %}

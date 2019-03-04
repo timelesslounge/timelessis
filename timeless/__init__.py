@@ -11,9 +11,11 @@ a new Flask app for timeless
 import os
 from flask import Flask
 from timeless.cache import CACHE
+from timeless.mail import MAIL
 from timeless.db import DB
 from timeless.sync.celery import make_celery
 from timeless.csrf import CSRF
+from timeless import uploads
 
 
 def create_app(config):
@@ -24,6 +26,7 @@ def create_app(config):
         app,
         config=app.config.get("CACHE_SETTINGS")
     )
+    MAIL.init_app(app)
     CSRF.init_app(app)
     initialize_extensions(app)
     register_endpoints(app)
@@ -32,6 +35,7 @@ def create_app(config):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    uploads.IMAGES = uploads.images(app)
 
     @app.route("/")
     def main():
@@ -89,13 +93,13 @@ def register_endpoints(app):
     from timeless.employees import views as employees_views
 
     app.register_blueprint(auth_views.bp)
-    app.register_blueprint(tables_views.bp)
+    app.register_blueprint(tables_views.BP)
     app.register_blueprint(locations_views.bp)
     app.register_blueprint(roles_views.bp)
     app.register_blueprint(items_views.BP)
-    app.register_blueprint(floors_views.bp)
-    app.register_blueprint(table_shapes_views.bp)
-    app.register_blueprint(reservations_views.bp)
+    app.register_blueprint(floors_views.BP)
+    app.register_blueprint(table_shapes_views.BP)
+    app.register_blueprint(reservations_views.BP)
     app.register_blueprint(schemetypes_views.bp)
     app.register_blueprint(employees_views.bp)
     register_api(
