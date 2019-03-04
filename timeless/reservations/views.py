@@ -15,9 +15,14 @@ from timeless.reservations import models
 
 bp = Blueprint("reservations", __name__, url_prefix="/reservations")
 
+
 class SettingsList(views.ListView):
     """
     List view set for Reservation Settings
+    @todo #293:30min For SettingsCreateView, SettingsDetailView,
+     SettingsDeleteView create correct templates for list, create/detail
+     actions. When templates will be done, pls change `template_name` value
+     in every View Class.
     @todo #173:30min Refactor (and uncomment) views below to use new
      base views once when they are avaiable. Current implementation is not
      generic enough.
