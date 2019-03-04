@@ -1,3 +1,4 @@
+""" Configurations of the project. """
 import os
 
 
@@ -5,6 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
+    """ All constant configurations for the project. """
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
@@ -23,9 +25,11 @@ class Config(object):
         "CACHE_TYPE": "redis",
         "CACHE_REDIS_URL": REDIS_HOST
     }
+    MAIL_DEFAULT_SENDER = "admin@timeless.com"
 
 
 class ProductionConfig(Config):
+    """ Configurations for the production. """
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "SQLALCHEMY_DATABASE_URI",
@@ -33,6 +37,7 @@ class ProductionConfig(Config):
 
 
 class StagingConfig(Config):
+    """ Configurations for the staging. """
     DEVELOPMENT = True
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get(
@@ -41,6 +46,7 @@ class StagingConfig(Config):
 
 
 class DevelopmentConfig(Config):
+    """ Configurations for the Development. """
     DEVELOPMENT = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get(
@@ -49,6 +55,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
+    """ Configurations for the testing. """
     TESTING = True
     WTF_CSRF_ENABLED = False
     CACHE_TYPE = None

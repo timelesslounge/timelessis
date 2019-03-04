@@ -5,13 +5,11 @@
  class AdminView(View):
  ....decorators = [auth.admin_required, auth.login_required]
  class UserView(AdminView):
-@todo #173:30min Once CreateView is implemented, refactor all blueprint views
+@todo #311:30min Once CreateView is implemented, refactor all blueprint views
  to use it for validating the form and storing the record in the database.
+ Views already implemented: ItemCreateView
 @todo #173:30min Once UpdateView is implemented, refactor all blueprint views
  to use it for validating the form and updating the record in the database.
- Reuse SingleObjectMixin to provide simple solution to fetch by id.
-@todo #173:30min Once DeleteView is implemented, refactor all blueprint views
- to use it for validating the form and deleting the record in the database.
  Reuse SingleObjectMixin to provide simple solution to fetch by id.
 @todo #309:30min Refactor all blueprint views to use ListView for getting the
  list of objects from db using model. Also, make sure list.html template is
@@ -35,30 +33,39 @@ class CommentView(CrudView):
 import re
 from http import HTTPStatus
 
-from flask import views, redirect, render_template, request, url_for
+from flask import views, redirect, render_template, request, url_for, jsonify
 from werkzeug.exceptions import abort
 
+from timeless import DB
 
 camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
 
 class CrudAPIView(views.MethodView):
     """View that supports generic crud operations.
-
-    @todo #221:30min Continue with the implementation of CrudAPIView.
-     Implement get, post, put and delete methods. We should return json
-     representation of object model in methods. Use FakeModel for a fake
-     database object, and implement the desired calls on FakeQuery to get,
-     create, save / update and delete returning the result. Don't forget to
-     implement the tests too, to test if CrudAPIView code is being called and
-     returning the expected objects; please refer to #221 and #222 for
-     documentation. After that remove the ignore annotation from tests on
-     test_crud_api.py.
+    @todo #289:30min Move Fake* class definitions to test path so it's
+     not mixed in with production code, reconsider if they're really needed.
+     Change Query#get so it follows logic similar to
+     https://docs.sqlalchemy.org/en/latest/orm/query.html#
+     sqlalchemy.orm.query.Query.get e.g.: it returns object instance or None
+     and json serializing and HTTP Code answers are dealt with in View.
+     See discussion in PR:
+     https://github.com/timelesslounge/timelessis/pull/400
+    @todo #289:30min Research bringing in
+     https://marshmallow.readthedocs.io/en/latest/
+     to the project for object json serialization, update this puzzle or
+     document design considerations for implementation if so.
+    @todo #289:30min Continue with the implementation of CrudAPIView.
+     Implement tests for post, put and delete methods in test_crud_api.py
+     first.  We should return json representation of object model in methods.
+     Use FakeModel for a fake database object, and implement the desired calls
+     on FakeQuery to get, create, save / update and delete returning the
+     result.  Please refer to #221 and #222 for documentation.
     """
 
-    def get(self):
+    def get(self, object_id):
         """Calls the GET method."""
-        pass
+        return self.model.query.get(object_id)
 
     def post(self):
         """Calls the POST method."""
@@ -191,14 +198,27 @@ class ListView(GenericView):
 class SingleObjectMixin:
     """ Fetch model from database using id """
     model = None
+    object_url_lookup = "id"
 
-    def get_object(self, id=None):
-        """ Method fetch object from given model by id """
-        assert self.model, "Model is not provided"
-        return self.model.query.get(id)
+    def get_object(self):
+        """ Takes object based on id provided in URL """
+        object_id = self.kwargs.get(self.object_url_lookup)
+        return self.model.query.get(object_id)
 
 
-class DetailView(GenericView):
+class SuccessRedirectMixin:
+    """ It provides redirect URL for success cases """
+    success_view_name = None
+
+    def get_success_url_redirect(self):
+        """ Reverse URL based on view name """
+        if not self.success_view_name:
+            raise NotImplementedError(f"{self.__class__.__name__} must define "
+                                      f"'success_view_name' attribute")
+        return url_for(self.success_view_name)
+
+
+class DetailView(SingleObjectMixin, GenericView):
     """
     A view that will display details in a template for a single object.
     """
@@ -210,14 +230,6 @@ class DetailView(GenericView):
         """
         return self.context_object_name
 
-    def get_object(self):
-        """
-        Get the object. We don't make any assumptions, so this must be
-        overwritten by the subclass.
-        """
-        raise NotImplementedError(f"self.__class__.__name__ must define "
-                                  f"'get_object()'")
-
     def get_default_context(self):
         """
         Add the object to the context.
@@ -227,11 +239,10 @@ class DetailView(GenericView):
         return context
 
 
-class CreateView(GenericView):
-    """ Class which creates objects based on received POST data and provided
-    form class """
+class FormView(SuccessRedirectMixin, GenericView):
+    """Base method to work with form are here. This class is used CreateView
+    and UpdateView."""
     form_class = None
-    success_view_name = None
 
     def get_form(self, *args, **kwargs):
         """ Create form instance """
@@ -240,13 +251,6 @@ class CreateView(GenericView):
                                       f"'form_class' attribute")
         return self.form_class(*args, **kwargs)
 
-    def get_success_url_redirect(self):
-        """ Reverse URL based on view name """
-        if not self.success_view_name:
-            raise NotImplementedError(f"{self.__class__.__name__} must define "
-                                      f"'success_view_name' attribute")
-        return url_for(self.success_view_name)
-
     def get_context(self, *args, **kwargs):
         """ Pass 'from' instance to context if it's not provided
         (basicaly for 'get' method). """
@@ -254,8 +258,14 @@ class CreateView(GenericView):
             kwargs["form"] = self.get_form()
         return super().get_context(*args, **kwargs)
 
-    def post(self):
-        form = self.get_form(request.form, files=request.files)
+
+class CreateView(FormView):
+    """Class which creates objects based on received POST data and provided
+    form class"""
+
+    def post(self, *args, **kwargs):
+        form = self.get_form(
+            request.form, files=request.files, *args, **kwargs)
 
         if not form.validate():
             return self.render_to_response(self.get_context(form=form))
@@ -264,12 +274,35 @@ class CreateView(GenericView):
         return redirect(self.get_success_url_redirect())
 
 
-class UpdateView(GenericView):
+class UpdateView(SingleObjectMixin, FormView):
     """ Base view for updating objects"""
 
+    def post(self, *args, **kwargs):
+        form = self.get_form(
+            request.form, files=request.files, instance=self.get_object())
 
-class DeleteView(GenericView):
-    """ Base view for deleting objects """
+        if not form.validate():
+            return self.render_to_response(self.get_context(form=form))
+
+        form.save()
+        return redirect(self.get_success_url_redirect())
+
+
+class DeleteView(SuccessRedirectMixin, SingleObjectMixin, GenericView):
+    """ It deletes object by `id` provided in URL path and redirects
+    user to provided URL in case of success.
+    Example of common usage:
+
+    class Delete(views.DeleteView):
+        model = models.TableShape
+        success_view_name = "table_shape.list"
+    """
+
+    def post(self, *args, **kwargs):
+        obj = self.get_object()
+        DB.session.delete(obj)
+        DB.session.commit()
+        return redirect(self.get_success_url_redirect())
 
 
 class FakeModel():
@@ -281,7 +314,11 @@ class FakeModel():
         def get(self, object_id):
             """Fake response on get method."""
             if object_id == 5:
-                return {"Found the object"}, HTTPStatus.OK
+                response = {
+                        "some_id": 5,
+                        "some_attr": "attr"
+                }
+                return jsonify(response), HTTPStatus.OK
             abort(HTTPStatus.NOT_FOUND)
 
     query = FakeQuery()

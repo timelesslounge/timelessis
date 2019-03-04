@@ -2,6 +2,7 @@ from http import HTTPStatus
 import flask
 import pytest
 
+from tests import factories
 from timeless.restaurants import models
 from timeless.restaurants.models import TableShape
 from timeless.restaurants.table_shapes.views import order_by, filter_by
@@ -60,55 +61,50 @@ def test_filtered_list(client, db_session):
     # assert html.count('<a class="action" href="/table_shapes/edit/1">Edit</a>') == 1
 
 
-def test_create(client, db_session):
-    response = client.post(flask.url_for("table_shape.create"), data={
-        "description": "It's new shape",
-        "picture": "http://...."
-    })
-    # assert response.location.endswith(flask.url_for('table_shape.list'))
-    assert TableShape.query.count() == 0
+def test_create(client):
+    files = {'file': open(
+        'tests/integration/fixtures/test_image.jpg', 'rb')}
+    response = client.post(
+        flask.url_for("table_shape.create"),
+        data={
+            "description": "It's new shape",
+            "files": files
+        }
+    )
+    assert response.location.endswith(flask.url_for('table_shape.list'))
+    table_shape = TableShape.query.first()
+    assert table_shape
+    assert table_shape.picture
 
 
-# @todo #206:30min Fix timeless.forms.ModelForm so it will use instance
-#  when populating fields in form, not only during save and update. After the
-#  it has been fixed enable two assertions below.
 # @todo #206:15min After the form.save() issue with picture is solved enable
 #  test_edit and test_delete. Both were disabled because picture validation was
 #  added but the form for it wasn't updated, so create method doesn't save
 #  anything right now.
-@pytest.mark.skip(reason="create method doesn't have form.save()")
+@pytest.mark.skip
 def test_edit(client):
-    create_data = {
-        "description": "It's new shape",
-        "picture": "http://...."
-    }
-    client.post(flask.url_for("table_shape.create"), data=create_data)
-    identifier = models.TableShape.query.first().id
-    first_result = client.get(flask.url_for("table_shape.edit", id=identifier))
-    assert first_result.status_code == HTTPStatus.OK
-    # assert create_data["description"] in str(first_result.data, "utf-8")
-    # assert create_data["picture"] in str(first_result.data, "utf-8")
-    update_data = {
-        "description": "Updated description",
-        "picture": "http://updated...."
-    }
-    second_result = client.post(
-        flask.url_for("table_shape.edit", id=identifier), data=update_data
+    table_shape = factories.TableShapeFactory(
+        description="Description 1",
+        picture="picture-path-1"
     )
-    assert second_result.status_code == HTTPStatus.FOUND
-    db_result = models.TableShape.query.first()
-    assert db_result.description == update_data["description"]
-    assert db_result.picture == update_data["picture"]
+    response = client.post(
+        flask.url_for("table_shape.edit", id=table_shape.id),
+        data={
+            "description": "Description 2",
+            "picture": "picture-path-2",
+        }, follow_redirects=True)
+
+    assert "Description 2" in response.data.decode()
+    # @todo #285:30m This test should send file to picture input. Implement
+    #  file uploading and then uncomment the following line. Logic of saving
+    #  picture is already implemented in TableShapeForm, it's time to test.
+
+    # assert "picture-path-2" in response.data.decode()
 
 
-@pytest.mark.skip(reason="create method doesn't have form.save()")
 def test_delete(client):
-    client.post(flask.url_for("table_shape.create"), data={
-        "description": "It's new shape",
-        "picture": "http://...."
-    })
-    identifier = models.TableShape.query.first().id
-
-    result = client.post(flask.url_for('table_shape.delete', id=identifier))
-    assert result.status_code == HTTPStatus.FOUND
-    assert models.TableShape.query.filter_by(id=identifier).count() == 0
+    table_shape = factories.TableShapeFactory()
+    response = client.post(
+        flask.url_for("table_shape.delete", id=table_shape.id))
+    assert response.status_code == HTTPStatus.FOUND
+    assert not models.TableShape.query.count()
