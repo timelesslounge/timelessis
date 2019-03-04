@@ -1,10 +1,11 @@
 from datetime import datetime
 
 import flask
+import pytest
 
+from tests import factories
 from timeless.access_control.director_privileges import has_privilege
 from timeless.access_control.methods import Method
-from timeless.companies.models import Company
 from timeless.employees.models import Employee
 
 
@@ -32,42 +33,79 @@ def test_can_access_his_profile(app):
     assert has_privilege(method=Method.READ, resource="employee", employee_id=1)
 
 
-def test_cant_access_other_company_employees(app, db_session):
-    mine_company = Company(
-        id=1, name="Foo Inc.", code="code1", address="addr"
+@pytest.mark.parametrize('method', (
+    Method.READ,
+    Method.CREATE,
+    Method.UPDATE,
+    Method.DELETE,
+))
+def test_cannot_access_other_company_employees(method,app, db_session):
+    """
+    Even though the authenticated user is a director, they cannot access a
+    manager's profile because the manager works for another company.
+    """
+    director = factories.EmployeeFactory(
+        company=factories.CompanyFactory(),
+        role=factories.RoleFactory(
+            name="Director"
+        )
     )
-    db_session.add(mine_company)
-    me = Employee(
-        id=1, first_name="Alice", last_name="Cooper",
-        username="alice", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=1234,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=2,
-        email="test@test.com", password="bla"
+    manager = factories.EmployeeFactory(
+        company=factories.CompanyFactory(),
+        role=factories.RoleFactory(
+            name="Manager"
+        )
     )
-    db_session.add(me)
-    flask.g.user = me
-    other_company = Company(
-        id=2, name="Bar Inc.", code="code2", address="addr"
-    )
-    db_session.add(other_company)
-    other = Employee(
-        id=2, first_name="Bob", last_name="Cooper",
-        username="bob", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=3454,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=1,
-        email="test@test.com", password="bla"
-    )
-    db_session.add(other)
-    db_session.commit()
+    flask.g.user = director
     assert not has_privilege(
-        method=Method.READ, resource="employee", employee_id=other.id
+        method=Method.READ, resource="employee", employee_id=manager.id
     )
 
+
+@pytest.mark.parametrize('method', (
+    Method.READ,
+    Method.CREATE,
+    Method.UPDATE,
+    Method.DELETE,
+))
+def test_can_access_subalterns(method, app, db_session):
+    """
+    A director of a company should be able to access
+    the profiles of employees with a lower role.
+    """
+    company = factories.CompanyFactory()
+
+    director = factories.EmployeeFactory(
+        company=company,
+        role=factories.RoleFactory(
+            name="Director"
+        )
+    )
+    master = factories.EmployeeFactory(
+        company=company,
+        role=factories.RoleFactory(
+            name="Master"
+        )
+    )
+    manager = factories.EmployeeFactory(
+        company=company,
+        role=factories.RoleFactory(
+            name="Manager"
+        )
+    )
+    intern = factories.EmployeeFactory(
+        company=company,
+        role=factories.RoleFactory(
+            name="Intern"
+        )
+    )
+    flask.g.user = director
+    assert has_privilege(
+        resource="employee", employee_id=manager.id
+    )
+    assert has_privilege(
+        resource="employee", employee_id=master.id
+    )
+    assert has_privilege(
+        resource="employee", employee_id=intern.id
+    )

@@ -8,7 +8,7 @@ from celery import shared_task
 from timeless import DB
 from timeless.customers.models import Customer
 from timeless.poster.api import Authenticated, PosterAuthData, Poster
-from timeless.restaurants.models import Table
+from timeless.restaurants.models import Table, Location
 
 
 def __poster_api():
@@ -45,7 +45,7 @@ def sync_tables():
 @shared_task
 def sync_customers():
     """
-    Periodic task for fetching and saving tables from Customer
+    Periodic task for fetching and saving tables from Poster
     """
     for poster_customer in __poster_api().customers():
         customer = DB.session(Customer).query.filter_by(
@@ -56,6 +56,23 @@ def sync_customers():
             model=Customer,
             poster_data=poster_customer,
             timelessis_data=customer
+        )
+
+
+@shared_task
+def sync_locations():
+    """
+    Periodic task for fetching and saving location from Poster
+    """
+    for poster_location in __poster_api().locations():
+        location = DB.session(Location).query.filter_by(
+            name=poster_location["name"],
+            code=poster_location["code"]
+        ).first()
+        merge_data(
+            model=Location,
+            poster_data=poster_location,
+            timelessis_data=location
         )
 
 

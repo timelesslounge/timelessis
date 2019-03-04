@@ -1,8 +1,10 @@
 """ Integration tests for Scheme Types """
 from datetime import datetime
 from http import HTTPStatus
+
 from flask import url_for
 
+from tests import factories
 from timeless.schemetypes.models import SchemeType, SchemeCondition
 
 
@@ -31,3 +33,18 @@ def test_scheme_condition_list(client, db_session):
                                     scheme_type_id=scheme_type.id))
     assert conditions.status_code == HTTPStatus.OK
     assert b"Test condition" in conditions.data
+
+
+def test_scheme_condition_create(client, db_session):
+    """ Test that CreateView works correctly and creates an instance """
+    scheme_type = factories.SchemeTypeFactory()
+    client.post(
+        url_for(
+            "scheme_type.scheme_condition_create",
+            scheme_type_id=scheme_type.id),
+        data={
+            "priority": 123,
+            "value": "Value",
+            "end_time": datetime.today().strftime('%Y-%m-%d %H:%M:%S'),
+        })
+    assert SchemeCondition.query.filter_by(value="Value").count() == 1

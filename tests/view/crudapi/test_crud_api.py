@@ -1,30 +1,32 @@
 """ Tests for CrudeAPIView. """
+import json
 from http import HTTPStatus
+
 import pytest
 from werkzeug.exceptions import NotFound
+
 from timeless.views import FakeAPIView
 
 
-@pytest.mark.skip
 def test_get_found_object(app):
     """ Tests for CrudeAPIView get method when the object exists. """
     with app.test_request_context(
-            "/test/crudapitest",
-            data={"some_id":5}
+            "/test/crudapitest"
     ):
         apiview = FakeAPIView()
-        result = apiview.get()
-    assert result[0] == {"some_id" : 5}, "Wrong result returned from CrudeAPI view"
+        result = apiview.get(5)
+    json_result = json.loads(result[0].get_data(as_text=True))
+    assert result[0].is_json is True
+    assert json_result == {"some_id": 5, "some_attr": "attr"}, \
+            "Wrong result returned from CrudeAPI view"
     assert result[1] == HTTPStatus.OK, "Wrong response from CrudeAPI view"
 
 
-@pytest.mark.skip
 def test_get_not_found_object(app):
     """ Tests for CrudeAPIView get method when the object does not exists. """
     with app.test_request_context(
-            "/api/crudapi",
-            data={"some_id":5}
+            "/api/crudapi"
     ):
         apiview = FakeAPIView()
         with pytest.raises(NotFound, message="Fake object not found"):
-            apiview.get()
+            apiview.get(0)

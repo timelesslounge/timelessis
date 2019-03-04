@@ -13,10 +13,6 @@ from timeless.reservations import views
      index page there should be also a function to delete the reservation
      (after confirmation). In the index page it should be possible
      to sort and filter for every column.
-    @todo #172:30min Continue implementation of reservations tess for views: 
-     add tests for create, list and delete and add other logic to edit() test so
-     it tests if the screen is being constructed correctly , then uncomment 
-     the test
 
 """
 
