@@ -113,7 +113,7 @@ def test_create(client, db_session):
 
 
 def test_cannot_access_create(client, db_session):
-    """ Show 405 - Method Not Allowed when user cannot access employee list """
+    """ Show 403 - Forbidden when user cannot access employee list """
     employee_data = {"first_name": "Alice",
                      "last_name": "Brown",
                      "username": "alice",
@@ -128,9 +128,7 @@ def test_cannot_access_create(client, db_session):
                      "comment": "No comments",
                      }
     client.post(url_for("employee.create"), data=employee_data)
-    assert client.get(
-        "/employees/create"
-    ).status_code == HTTPStatus.METHOD_NOT_ALLOWED
+    assert client.get("/employees/create").status_code == HTTPStatus.FORBIDDEN
 
 
 @pytest.mark.skip(reason="Authentication injection not implemented")
