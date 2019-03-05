@@ -40,4 +40,3 @@ def test_delete(client):
     assert result.status_code == HTTPStatus.FOUND
     assert Role.query.filter_by(id=created.id).count() == 0
     assert result.headers["Location"] == "http://localhost/roles/"
-
