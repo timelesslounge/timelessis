@@ -5,6 +5,8 @@ from timeless.customers.models import Customer
 from timeless.restaurants.models import Reservation
 from timeless.reservations import views
 
+from tests import factories
+from http import HTTPStatus
 
 """
     Tests for Reservations view.
@@ -16,6 +18,27 @@ from timeless.reservations import views
 
 """
 
+def test_reservation_list(client, db_session):
+    employee = factories.EmployeeFactory(
+        company=factories.CompanyFactory()
+    )
+
+    with client.session_transaction() as session:
+        session["user_id"] = employee.id
+
+    #Cheated reservations
+    factories.ReservationFactory()
+    factories.ReservationFactory()
+    factories.ReservationFactory()
+    factories.ReservationFactory()
+
+    response = client.get("/reservations/teste/")
+
+    assert b"<a class=\"action\" href=\"/reservations/edit/1\">Edit</a>" in response.data
+    assert b"<a class=\"action\" href=\"/reservations/edit/2\">Edit</a>" in response.data
+    assert b"<a class=\"action\" href=\"/reservations/edit/3\">Edit</a>" in response.data
+    assert b"<a class=\"action\" href=\"/reservations/edit/4\">Edit</a>" in response.data
+    assert response.status_code == HTTPStatus.OK
 
 @pytest.mark.skip
 def test_edit():

@@ -15,6 +15,13 @@ from timeless.reservations import models
 
 BP = Blueprint("reservations", __name__, url_prefix="/reservations")
 
+class ReservationsListView(views.ListView):
+    """ List the reservation """
+    model = Reservation
+    template_name = "reservations/list.html"
+    context_object_list_name = "reservations"
+
+ReservationsListView.register(BP, "/teste/")
 
 class SettingsList(views.ListView):
     """
@@ -68,7 +75,7 @@ class CommentView(SecuredView, views.CrudAPIView):
     list_reservations = "reservation_comment"
 
 
-class ReservationsListView(views.CrudAPIView):
+class ReservationView(views.CrudAPIView):
     """ Reservation JSON API /api/reservations
 
     """
@@ -99,21 +106,6 @@ class ReservationsListView(views.CrudAPIView):
             ]
         }
         return jsonify(reservations_json)
-
-
-@BP.route("/list", methods=("GET",))
-def list():
-    """
-        @todo #172:30min Refactor this after the implementation of GenericViews.
-         Take a look at puzzles #134 and #173 where the requirements of generic
-         views are described. Don't forget to cover the generated code with
-         tests
-
-    :param reservations:
-    :return:
-    """
-    flash("List not yet implemented")
-    return render_template("restaurants/tables/list.html")
 
 
 @BP.route("/create", methods=("GET", "POST"))
