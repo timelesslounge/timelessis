@@ -15,6 +15,12 @@ from timeless.reservations import models
 
 BP = Blueprint("reservations", __name__, url_prefix="/reservations")
 
+class ReservationsListView(views.ListView):
+    """ List the reservation """
+    model = Reservation
+    template_name = "reservations/list.html"
+
+ReservationsListView.register(BP, "/")
 
 class SettingsList(views.ListView):
     """
@@ -29,21 +35,6 @@ class SettingsList(views.ListView):
 
 
 SettingsList.register(BP, "/settings/")
-
-class ReservationsListView(views.ListView):
-    """ List the reservation """
-    model = Reservation
-
-    template_name = "reservations/list.html"
-
-ReservationsListView.register(BP, "/")
-
-class ReservationsListView(views.ListView):
-    """ List the reservation """
-    model = Reservation
-    template_name = "reservations/list.html"
-
-ReservationsListView.register(BP, "/")
 
 
 class SettingsCreateView(views.CreateView):
@@ -176,4 +167,4 @@ def delete(id):
     reservation = Reservation.query.get(id)
     DB.session.delete(reservation)
     DB.session.commit()
-    return redirect(url_for("reservations.list"))
+return redirect(url_for("reservations.list"))
