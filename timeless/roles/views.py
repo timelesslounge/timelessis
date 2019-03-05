@@ -14,8 +14,10 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for,
     abort)
 
+from timeless import views
 from timeless.roles.forms import RoleForm
 from timeless.roles.models import Role
+
 
 bp = Blueprint("role", __name__, url_prefix="/roles")
 
@@ -37,29 +39,6 @@ def create():
         "roles/create_edit.html", form=form)
 
 
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
-def edit(id):
-    """
-    Role edit route
-    :param id: Role id
-    :return: Current role edit view
-    """
-    if request.method == "POST":
-        table = Role.query.get(id)
-        if not table:
-            return abort(HTTPStatus.NOT_FOUND)
-        flash("Edit not yet implemented")
-    action = "edit"
-    companies = [
-        {"id": 1, "name": "Foo Inc.", "selected": False},
-        {"id": 3, "name": "Foomatic Co.", "selected": True},
-    ]
-    return render_template(
-        "roles/create_edit.html", action=action,
-        companies=companies
-    )
-
-
 @bp.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     """
@@ -72,3 +51,14 @@ def delete(id):
         return abort(HTTPStatus.NOT_FOUND)
     Role.query.filter_by(id=id).delete()
     return redirect(url_for("role.list_roles"))
+
+
+class Edit(views.UpdateView):
+    """ Base class for updating roles. """
+    model = Role
+    form_class = RoleForm
+    template_name = "roles/create_edit.html"
+    success_view_name = "role.list_roles"
+
+
+Edit.register(bp, "/edit/<int:id>")
