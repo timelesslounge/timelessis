@@ -33,7 +33,7 @@ class ItemCreateView(CreateView):
     decorators = (auth.login_required,)
 
 
-ItemCreateView.register(BP, "/create")
+ItemCreateView.register(BP, "/create", name="create")
 
 
 @BP.route("/edit", methods=("GET", "POST"))

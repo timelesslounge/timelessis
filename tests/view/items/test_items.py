@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+import flask
 import pytest
 
 from timeless.items.models import Item
@@ -55,10 +56,10 @@ def test_create(client):
 
 
 @pytest.mark.parametrize("path", (
-    "/items/create",
+    "items.create",
 ))
 def test_login_required(client, path):
-    response = client.post(path)
+    response = client.post(flask.url_for(path))
     assert response.status_code == HTTPStatus.FOUND
     assert response.headers["Location"].endswith("auth/login")
 
