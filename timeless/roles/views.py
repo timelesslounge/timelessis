@@ -1,13 +1,3 @@
-"""roles views module.
-@todo #255:30min Continue implementing edit() method,
- using SQLAlchemy and Location model. In the index page it
- should be possible to sort and filter for every column. Location management
- page should be accessed by the Location page. Update html templates when
- methods are implemented. Create more tests for edit() route.
- Remember not to use DB layer directly. Please refer to
- timeless/companies/views.py as an example on how routes
- should be implemented.
-"""
 from http import HTTPStatus
 
 from flask import (
