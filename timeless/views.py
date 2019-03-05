@@ -82,9 +82,16 @@ class CrudAPIView(views.MethodView):
 
 
 class GenericView(views.MethodView):
-    """ Generic view with common logic """
+    """ Generic view with common logic
+
+    The decorators stored in the decorators list are applied one after another
+    when the view function is created.  Note that you can *not* use the class
+    based decorators since those would decorate the view class and not the
+    generated view function!
+    """
     template_name = None
     methods = ["get", "post"]
+    decorators = ()
 
     @classmethod
     def register(cls, blueprint, route, name=None):

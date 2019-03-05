@@ -1,3 +1,4 @@
+from timeless.auth import views as auth
 from timeless.views import ListView, CreateView
 from timeless.items.forms import ItemForm
 from timeless.items.models import Item
@@ -29,6 +30,7 @@ class ItemCreateView(CreateView):
     template_name = "items/create.html"
     success_view_name = "item.list"
     form_class = ItemForm
+    decorators = (auth.login_required,)
 
 
 ItemCreateView.register(BP, "/create")

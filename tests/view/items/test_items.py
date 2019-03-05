@@ -1,9 +1,8 @@
-import pytest
-
 from http import HTTPStatus
 
-from timeless.items.models import Item
+import pytest
 
+from timeless.items.models import Item
 from tests import factories
 
 
@@ -53,6 +52,15 @@ def test_create(client):
     assert database_item.comment == item_comment
     assert database_item.company_id == company.id
     assert database_item.employee_id == employee.id
+
+
+@pytest.mark.parametrize("path", (
+    "/items/create",
+))
+def test_login_required(client, path):
+    response = client.post(path)
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.headers["Location"].endswith("auth/login")
 
 
 def test_edit(client):
