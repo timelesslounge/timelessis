@@ -19,10 +19,10 @@ BP = Blueprint("reservations", __name__, url_prefix="/reservations")
 class SettingsList(views.ListView):
     """
     List view set for Reservation Settings
-    @todo #186:30min For SettingsListView, SettingsCreateView,
-     SettingsDetailView, SettingsDeleteView create correct templates
-     for list, create/detail actions. When templates will be done, pls change
-     `template_name` value in every View Class.
+    @todo #293:30min For SettingsCreateView, SettingsDetailView,
+     SettingsDeleteView create correct templates for list, create/detail
+     actions. When templates will be done, pls change `template_name` value
+     in every View Class.
     """
     model = models.ReservationSettings
     template_name = "restaurants/tables/list.html"
