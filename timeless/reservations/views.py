@@ -108,6 +108,20 @@ class ReservationView(views.CrudAPIView):
         return jsonify(reservations_json)
 
 
+@BP.route("/list", methods=("GET",))
+def list():
+    """
+        @todo #215:30min Replace this for ReservationsListView(views.ListView) in all tests.
+         Because ReservationsListView(views.ListView) covers the needs of this and after
+         using reservationListView more tests break because using this implementation.
+
+    :param reservations:
+    :return:
+    """
+    flash("List not yet implemented")
+    return render_template("restaurants/tables/list.html")
+
+
 @BP.route("/create", methods=("GET", "POST"))
 def create():
     """ Create new reservation """
