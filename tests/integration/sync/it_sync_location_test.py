@@ -21,7 +21,8 @@ from timeless.restaurants.models import Location
 """
 
 
-@pytest.mark.skip
+@pytest.mark.skip(
+    "Skipped until ticket #453 is fixed")
 @unittest.mock.patch.object(Authenticated, 'auth')
 @unittest.mock.patch.object(Poster, 'locations')
 def test_sync_location(locations_mock, auth_mock, db_session):
@@ -36,20 +37,20 @@ def test_sync_location(locations_mock, auth_mock, db_session):
 
     auth_mock.return_value = 'token'
     locations_mock.return_value = [{
-            "id": 100,
-            "name": "Coco Bongo",
-            "code": "C",
-            "company_id": company.id,
-            "country": "United States",
-            "region": "East Coast",
-            "city": "Edge City",
-            "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
-            "longitude": 21.1326063,
-            "latitude": -86.7473191,
-            "type": "L",
-            "status": "open",
-            "comment": "Nightclub from a famous movie"
-        }]
+        "id": 100,
+        "name": "Coco Bongo",
+        "code": "C",
+        "company_id": company.id,
+        "country": "United States",
+        "region": "East Coast",
+        "city": "Edge City",
+        "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
+        "longitude": 21.1326063,
+        "latitude": -86.7473191,
+        "type": "L",
+        "status": "open",
+        "comment": "Nightclub from a famous movie"
+    }]
 
     sync_locations()
 
