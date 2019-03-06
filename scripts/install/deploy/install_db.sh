@@ -1,8 +1,16 @@
 #!/bin/sh
 
 # @todo #299:30min Continue the deploy algorithm. We need to create an
-#  employee with role administator belonging to company "Timeless" and
-#  credentials that will be taken by encrypted credential file.
+#  employee with role administrator belonging to company "Timeless" and
+#  credentials that will be taken by encrypted credential file. Rultor will do
+#  this, take a look at http://doc.rultor.com/reference.html. Administrator
+#  employee fields are encrypted and theis keys are:
+#  credentials.account.admin.first_name
+#  credentials.account.admin.last_name
+#  credentials.account.admin.username
+#  credentials.account.admin.email
+#  credentials.account.admin.password
+#  credentials.account.admin.pincode
 
 which psql
 if [ "$?" -gt "0" ]; then
@@ -57,7 +65,7 @@ sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO employee
     registration_date, account_status, user_status, email, password, pin_code,
     comment, company_id, role_id)
     values
-    ('First', 'Last', 'timeless', '988888', '', '', 'active', 'active',
+    ($credentials.account.admin.first_name, 'Last', 'timeless', '988888', '', '', 'active', 'active',
     'abc@xyz.com', $password, '10', 'Timeless user', $company, $role
     )
     "
