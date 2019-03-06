@@ -18,7 +18,7 @@ from http import HTTPStatus
 
 """
 
-def test_reservation_list(client, db_session):
+def test_reservation_list(client):
     employee = factories.EmployeeFactory(
         company=factories.CompanyFactory()
     )
@@ -27,17 +27,14 @@ def test_reservation_list(client, db_session):
         session["user_id"] = employee.id
 
     #Cheated reservations
-    factories.ReservationFactory()
-    factories.ReservationFactory()
-    factories.ReservationFactory()
-    factories.ReservationFactory()
+    factories.ReservationFactory.create_batch(size=4)
 
-    response = client.get("/reservations/teste/")
+    response = client.get("/reservations/")
 
+    assert b"<a class=\"action\" href=\"/reservations/edit/1\">Edit</a>" in response.data
+    assert b"<a class=\"action\" href=\"/reservations/edit/2\">Edit</a>" in response.data
     assert b"<a class=\"action\" href=\"/reservations/edit/3\">Edit</a>" in response.data
     assert b"<a class=\"action\" href=\"/reservations/edit/4\">Edit</a>" in response.data
-    assert b"<a class=\"action\" href=\"/reservations/edit/5\">Edit</a>" in response.data
-    assert b"<a class=\"action\" href=\"/reservations/edit/6\">Edit</a>" in response.data
     assert response.status_code == HTTPStatus.OK
 
 @pytest.mark.skip
