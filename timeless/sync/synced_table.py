@@ -16,6 +16,7 @@ class SyncedTable:
         self.db_session = db_session
         self.table = table
 
+        
     def sync(self):
         poster_tables = self.poster_sync.tables()
         db_table = self.db_session.query(Table).get(self.table.id)
