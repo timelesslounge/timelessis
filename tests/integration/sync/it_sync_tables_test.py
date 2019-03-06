@@ -12,8 +12,12 @@ from timeless.restaurants.models import Table
 
 class SyncedTable(Table):
 
+    
     def __init__(self, poster_sync):
         pass
 
+    
     def sync(self, poster_sync):
         raise Exception("sync for table not implemented yet")
+
+        
