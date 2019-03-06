@@ -7,10 +7,10 @@ from sqlalchemy_utils.types.choice import ChoiceType
 
 class RoleType(Enum):
     """ Types of roles """
-    Director = 1
-    Manager = 2
-    Master = 3
-    Intern = 4
+    Director = "Director"
+    Manager = "Manager"
+    Master = "Master"
+    Intern = "Intern"
 
 
 class Role(DB.Model):
@@ -27,7 +27,7 @@ class Role(DB.Model):
     name = DB.Column(DB.String, unique=True)
     works_on_shifts = DB.Column(DB.Boolean)
     company_id = DB.Column(DB.Integer, DB.ForeignKey("companies.id"))
-    role_type = DB.Column(ChoiceType(RoleType, impl=DB.Integer()), unique=True)
+    role_type = DB.Column(ChoiceType(RoleType, impl=DB.String()), unique=True)
 
     company = DB.relationship("Company", back_populates="roles")
     employees = DB.relationship("Employee", back_populates="role")
