@@ -3,7 +3,7 @@ from http import HTTPStatus
 from flask import url_for
 
 from tests import factories
-from timeless.roles.models import Role
+from timeless.roles.models import Role, RoleType
 
 
 def test_list(client):
@@ -18,12 +18,13 @@ def test_create(client, db_session):
     assert Role.query.filter_by(name="John").count() == 1
 
 
-def test_edit(client, db_session):
-    role = factories.RoleFactory(name="Manager")
-    client.post(url_for("role.edit", id=role.id), data={"name": "Admin"})
+def test_edit(client):
+    role = factories.RoleFactory(role_type=RoleType.Manager)
+    url = url_for("role.edit", id=role.id)
 
-    db_session.flush(role)
-    assert role.name == "Admin"
+    client.post(url, data={"role_type": RoleType.Director.value})
+    assert Role.query.filter_by(
+        id=role.id, role_type=RoleType.Director.value).count() == 1
 
 
 def test_delete_not_found(client):
