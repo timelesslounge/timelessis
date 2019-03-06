@@ -22,13 +22,13 @@ from timeless.roles.models import Role
 BP = Blueprint("role", __name__, url_prefix="/roles")
 
 
-class RoleListView(views.ListView):
+class List(views.ListView):
     """ List the tables """
     model = Role
     template_name = "roles/list.html"
 
 
-RoleListView.register(BP, "/")
+List.register(BP, "/")
 
 
 @BP.route("/create", methods=("GET", "POST"))
@@ -37,7 +37,7 @@ def create():
     form = RoleForm(request.form)
     if request.method == "POST" and form.validate():
         form.save()
-        return redirect(url_for("role.list_roles"))
+        return redirect(url_for("role.list"))
     return render_template(
         "roles/create_edit.html", form=form)
 
@@ -76,4 +76,4 @@ def delete(id):
     if not roles:
         return abort(HTTPStatus.NOT_FOUND)
     Role.query.filter_by(id=id).delete()
-    return redirect(url_for("role.list_roles"))
+    return redirect(url_for("role.list"))

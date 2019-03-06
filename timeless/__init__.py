@@ -92,7 +92,7 @@ def register_endpoints(app):
     from timeless.schemetypes import views as schemetypes_views
     from timeless.employees import views as employees_views
 
-    app.register_blueprint(auth_views.bp)
+    app.register_blueprint(auth_views.BP)
     app.register_blueprint(tables_views.BP)
     app.register_blueprint(locations_views.BP)
     app.register_blueprint(roles_views.BP)
@@ -100,7 +100,7 @@ def register_endpoints(app):
     app.register_blueprint(floors_views.BP)
     app.register_blueprint(table_shapes_views.BP)
     app.register_blueprint(reservations_views.BP)
-    app.register_blueprint(schemetypes_views.bp)
+    app.register_blueprint(schemetypes_views.BP)
     app.register_blueprint(employees_views.BP)
     register_api(
         app,

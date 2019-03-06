@@ -8,10 +8,10 @@ from flask import (
 from timeless.auth import auth
 from timeless.employees.models import Employee
 
-bp = Blueprint("auth", __name__, url_prefix="/auth")
+BP = Blueprint("auth", __name__, url_prefix="/auth")
 
 
-@bp.before_app_request
+@BP.before_app_request
 def load_logged_in_user():
     user_id = session.get("user_id")
     if not user_id:
@@ -30,7 +30,7 @@ def login_required(view):
     return wrapped_view
 
 
-@bp.route("/login", methods=("GET", "POST"))
+@BP.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
         error = auth.login(
@@ -42,13 +42,13 @@ def login():
     return render_template("auth/login.html")
 
 
-@bp.route("/logout")
+@BP.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("main"))
 
 
-@bp.route("/forgotpassword", methods=("GET", "POST"))
+@BP.route("/forgotpassword", methods=("GET", "POST"))
 def forgot_password():
     if request.method == "POST":
         email = request.form["email"]
@@ -65,7 +65,7 @@ def forgot_password():
     return render_template("auth/forgot_password.html")
 
 
-@bp.route("/activate", methods=["POST"])
+@BP.route("/activate", methods=["POST"])
 def activate():
     """
     Activate the user's account by setting account status to true.
