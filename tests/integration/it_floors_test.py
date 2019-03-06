@@ -32,6 +32,7 @@ def test_filtered_list(client):
     response = client.get(url_for('floor.list', filter_by=["description=B"]))
     html = response.data.decode('utf-8')
     assert html.count('<h1>A</h1>') == 0
+    assert html.count('<h1>B</h1>') == 1
     assert response.status_code == HTTPStatus.OK
 
 
