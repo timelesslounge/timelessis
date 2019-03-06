@@ -29,11 +29,13 @@ def test_activate_authenticated(client):
      redirect to correct page. Fix this behavior and uncomment this test.
     """
     employee = factories.EmployeeFactory(
-        company=factories.CompanyFactory()
+        company=factories.CompanyFactory(),
+        account_status=False
     )
-    employee.account_status = False
+    with client.session_transaction() as session:
+        session["user_id"] = employee.id
     g.user = employee
     response = client.post("/auth/activate")
     assert b"<h1>Successfully activated your account.</h1>" in response.data
-    assert employee.account_status == True
+    assert employee.account_status
     assert response.status_code ==  HTTPStatus.OK
