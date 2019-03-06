@@ -16,4 +16,4 @@ class SyncedTable(Table):
         pass
 
     def sync(self, poster_sync):
-raise Exception("sync for table not implemented yet")
+    raise Exception("sync for table not implemented yet")
