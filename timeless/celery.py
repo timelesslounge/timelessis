@@ -2,7 +2,6 @@ from celery import Celery
 
 
 def make_celery(app):
-    print(app.config)
     celery = Celery(
         app.import_name,
         backend=app.config["RESULT_BACKEND"],
