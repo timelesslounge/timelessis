@@ -12,12 +12,10 @@ from timeless.restaurants.models import Table
 
 class SyncedTable:
 
-
     def __init__(self, table, poster_sync, db_session):
         self.poster_sync = poster_sync
         self.db_session = db_session
         self.table = table
-
 
     def sync(self):
         poster_tables = self.poster_sync.tables()
