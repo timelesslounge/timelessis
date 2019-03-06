@@ -7,13 +7,38 @@ from tests import factories
 from timeless.restaurants.models import Floor
 
 
-@pytest.mark.skip(reason="Must use TableListView for this test")
 def test_list(client, db_session):
     db_session.add(Floor(location_id=None, description="Test floor"))
     db_session.commit()
     floors = client.get("/floors/")
     assert floors.status_code == HTTPStatus.OK
     assert b"Test floor" in floors.data
+
+
+@pytest.mark.skip(reason="Order is not yet implemented")
+def test_ordered_list(client):
+    factories.FloorFactory(description="B")
+    factories.FloorFactory(description="A")
+    response = client.get(url_for("floor.list", order_by=["description:asc"]))
+    html = response.data.decode('utf-8')
+    assert html.count("""</header>
+
+
+                    <article class=\"floor\">
+                    <header>
+                        <div>
+                        <h1>A</h1>
+    """) == 1
+    assert response.status_code != HTTPStatus.OK
+
+
+@pytest.mark.skip(reason="Order is not yet implemented")
+def test_filtered_list(client, db_session):
+    response = client.get(url_for('floor.list', filter_by=["description=B"]))
+    html = response.data.decode('utf-8')
+    print(html)
+    assert html.count('<h1>A</h1>') == 0
+    assert response.status_code == HTTPStatus.OK
 
 
 @pytest.mark.parametrize("path", (

@@ -9,11 +9,11 @@
         <article class="floor">
         <header>
             <div>
-            <h1>{{ floor['location'] }}</h1>
+            <h1>{{ floor['description'] }}</h1>
             </div>
             <a class="action" href="{{ url_for('floor.edit', id=floor['id']) }}">Edit</a>
         </header>
-        <p class="description">{{ floor['description'] }}</p>
+        <p class="location">{{ floor['location'] }}</p>
         </article>
         {% if not loop.last %}
         <hr>
