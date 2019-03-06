@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# @todo #299:30min Continue the deploy algorithm. We need to create an
+# @todo #374:30min Continue the deploy algorithm. We need to create an
 #  employee with role administrator belonging to company "Timeless" and
 #  credentials that will be taken by encrypted credential file. Rultor will do
 #  this, take a look at http://doc.rultor.com/reference.html. Administrator
