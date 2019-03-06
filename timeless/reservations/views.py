@@ -22,6 +22,7 @@ class ReservationsListView(views.ListView):
     template_name = "reservations/list.html"
     context_object_list_name = "reservations"
 
+
 ReservationsListView.register(BP, "/")
 
 
