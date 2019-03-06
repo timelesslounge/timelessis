@@ -1,37 +1,91 @@
+import pytest
+
+from datetime import date, timedelta, datetime
+
+from tests.poster_mock import free_port, start_server
 from timeless.restaurants.models import Table
+from timeless.sync.synced_table import SyncedTable
+from timeless.poster.api import Poster
 
-"""
-    Table synced to database.
-    @todo #342:30min Implement synchronization between Poster and Database for
-     Tables. Data coming from Poster has priority upon data stored in our
-     database. Synchronization must be done via celery job. See sync of
-     Location implementation as reference. Tests for poster sync are already
-     created in it_sync_tables_test.py
-"""
+"""Integration tests for Table Sync with database"""
 
-class SyncedTable:
 
-    def __init__(self, table, poster_sync, db_session):
-        self.poster_sync = poster_sync
-        self.db_session = db_session
-        self.table = table
-
-    def sync(self):
-        poster_tables = self.poster_sync.tables()
-        db_table = self.db_session.query(Table).get(self.table.id)
-        for poster_table in poster_tables:
-            if poster_table["id"] == db_table.id:
-                db_table.name = poster_table["name"]
-                db_table.floor_id = poster_table["floor_id"]
-                db_table.x = poster_table["x"]
-                db_table.y = poster_table["y"]
-                db_table.width = poster_table["width"]
-                db_table.height = poster_table["height"]
-                db_table.status = poster_table["status"]
-                db_table.max_capacity = poster_table["max_capacity"]
-                db_table.multiple = poster_table["multiple"]
-                db_table.playstation = poster_table["playstation"]
-                db_table.shape_id = poster_table["shape_id"]
-                db_table.min_capacity = poster_table["min_capacity"]
-                db_table.deposit_hour = poster_table["deposit_hour"]
-                self.db_session.commit()
+@pytest.mark.skip("sync for table not implemented yet")
+def test_sync_table(db_session):
+    port = free_port()
+    poster_table_id=10
+    poster_table_name="Round Table of The Knights"
+    poster_table_floor_id=5
+    poster_table_x=640
+    poster_table_y=480
+    poster_table_width=200
+    poster_table_height=200
+    poster_table_status="active"
+    poster_table_max_capacity=5
+    poster_table_multiple=False
+    poster_table_playstation=True
+    poster_table_shape_id=1
+    poster_table_min_capacity=1
+    poster_table_created=datetime.utcnow
+    poster_table_updated=datetime.utcnow
+    start_server(port,
+        tables= [
+            {
+                "id": poster_table_id,
+                "name": poster_table_name,
+                "floor_id": poster_table_floor_id,
+                "x": poster_table_x,
+                "y": poster_table_y,
+                "width": poster_table_width,
+                "height": poster_table_height,
+                "status": poster_table_status,
+                "max_capacity": poster_table_max_capacity,
+                "multiple": poster_table_multiple,
+                "playstation": poster_table_playstation,
+                "shape_id": poster_table_shape_id,
+                "min_capacity": poster_table_min_capacity,
+                "created": poster_table_created,
+                "updated": poster_table_updated
+            }
+        ]
+    )
+    table_in_database = Table(
+        id=10,
+        name="Table for Knights that Are Round",
+        floor_id=6,
+        x=800,
+        y=600,
+        width=400,
+        height=400,
+        status="inactive",
+        max_capacity=4,
+        multiple=True,
+        playstation=False,
+        shape_id=3,
+        min_capacity=2,
+        created=date.today() - timedelta(5),
+        updated=date.today() - timedelta(5)
+    )
+    db_session.add(table_in_database)
+    db_session.commit()
+    synced_table = SyncedTable(table_in_database).sync(
+        Poster(
+            url=f"http://localhost:{port}"
+        )
+    )
+    row = db_session.query(Table).get(synced_table.id)
+    assert row.id == poster_table_id 
+    assert row.name == poster_table_name 
+    assert row.floor_id == poster_table_floor_id 
+    assert row.x == poster_table_x 
+    assert row.y == poster_table_y 
+    assert row.width == poster_table_width 
+    assert row.height == poster_table_height 
+    assert row.status == poster_table_status 
+    assert row.max_capacity == poster_table_max_capacity 
+    assert row.multiple == poster_table_multiple 
+    assert row.playstation == poster_table_playstation 
+    assert row.shape_id == poster_table_shape_id 
+    assert row.min_capacity == poster_table_min_capacity 
+    assert row.created == poster_table_created 
+    assert row.updated == poster_table_updated
