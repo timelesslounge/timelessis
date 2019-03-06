@@ -3,7 +3,7 @@ from datetime import datetime
 from timeless.companies.models import Company
 from timeless.customers.models import Customer
 from timeless.reservations.models import ReservationSettings, Comment
-from timeless.restaurants.models import Location, Floor, TableShape, Table, ReservationStatus, Reservation
+from timeless.restaurants.models import Location, Floor, TableShape, Table, Reservation
 from timeless.roles.models import Role
 from timeless.schemetypes.models import SchemeType
 
