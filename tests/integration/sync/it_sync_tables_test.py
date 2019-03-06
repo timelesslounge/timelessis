@@ -89,5 +89,3 @@ def test_sync_table(db_session):
     assert row.min_capacity == poster_table_min_capacity 
     assert row.created == poster_table_created 
     assert row.updated == poster_table_updated
-
-

@@ -16,6 +16,16 @@ from timeless.reservations import models
 BP = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
+class ReservationsListView(views.ListView):
+    """ List the reservation """
+    model = Reservation
+    template_name = "reservations/list.html"
+    context_object_list_name = "reservations"
+
+
+ReservationsListView.register(BP, "/")
+
+
 class SettingsList(views.ListView):
     """
     List view set for Reservation Settings
@@ -68,7 +78,7 @@ class CommentView(SecuredView, views.CrudAPIView):
     list_reservations = "reservation_comment"
 
 
-class ReservationsListView(views.CrudAPIView):
+class ReservationView(views.CrudAPIView):
     """ Reservation JSON API /api/reservations
 
     """
@@ -103,11 +113,15 @@ class ReservationsListView(views.CrudAPIView):
 
 @BP.route("/list", methods=("GET",))
 def list():
+    """list """
+
+
+def list():
     """
-        @todo #172:30min Refactor this after the implementation of GenericViews.
-         Take a look at puzzles #134 and #173 where the requirements of generic
-         views are described. Don't forget to cover the generated code with
-         tests
+    @todo #215:30min Replace this for ReservationsListView(views.ListView)
+     in all tests.Because ReservationsListView(views.ListView) covers
+     the needs of this and after using reservationListView more tests
+     break because using this implementation.
 
     :param reservations:
     :return:
