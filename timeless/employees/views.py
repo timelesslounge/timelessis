@@ -9,7 +9,7 @@ from timeless.employees.forms import EmployeeForm
 from timeless import views
 from timeless.employees.models import Employee
 
-bp = Blueprint("employee", __name__, url_prefix="/employees")
+BP = Blueprint("employee", __name__, url_prefix="/employees")
 
 
 class Create(views.CreateView):
@@ -61,7 +61,7 @@ class List(views.ListView):
     template_name = "employees/list.html"
 
 
-List.register(bp, "/")
-Create.register(bp, "/create")
+List.register(BP, "/")
+Create.register(BP, "/create")
 # Edit.register(bp, "/edit/<int:id>")
-Delete.register(bp, "/<int:id>/delete")
+Delete.register(BP, "/<int:id>/delete")

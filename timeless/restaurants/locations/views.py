@@ -13,7 +13,7 @@ from timeless.restaurants.models import Location
 from timeless.restaurants.locations.forms import LocationForm
 
 
-bp = Blueprint("location", __name__, url_prefix="/locations")
+BP = Blueprint("location", __name__, url_prefix="/locations")
 
 
 class Create(views.CreateView):
@@ -28,7 +28,7 @@ class Create(views.CreateView):
 #     template_name = "restaurants/locations/create_edit.html"
 #     form_class  = LocationForm
 #     model = Location
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
+@BP.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     if request.method == "POST":
         flash("Edit not yet implemented")
@@ -43,7 +43,7 @@ def edit(id):
 #     """
 #     form_class  = LocationForm
 #     model = Location
-@bp.route("/delete", methods=["POST"])
+@BP.route("/delete", methods=["POST"])
 def delete():
     flash("Delete not yet implemented")
     return redirect(url_for("location.list"))
@@ -55,7 +55,7 @@ class List(views.ListView):
     model = Location
 
 
-List.register(bp, "/")
-Create.register(bp, "/create")
+List.register(BP, "/")
+Create.register(BP, "/create")
 # Edit.register(bp, "/edit/<int:id>")
 # Delete.register(bp, "/delete")

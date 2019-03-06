@@ -14,19 +14,24 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, url_for,
     abort)
 
+from timeless import views
 from timeless.roles.forms import RoleForm
 from timeless.roles.models import Role
 
-bp = Blueprint("role", __name__, url_prefix="/roles")
+
+BP = Blueprint("role", __name__, url_prefix="/roles")
 
 
-@bp.route("/", methods=["GET"])
-def list_roles():
-    """List roles route"""
-    return render_template("roles/list.html", roles=Role.query.all())
+class RoleListView(views.ListView):
+    """ List the tables """
+    model = Role
+    template_name = "roles/list.html"
 
 
-@bp.route("/create", methods=("GET", "POST"))
+RoleListView.register(BP, "/")
+
+
+@BP.route("/create", methods=("GET", "POST"))
 def create():
     """ Create new table shape"""
     form = RoleForm(request.form)
@@ -37,7 +42,7 @@ def create():
         "roles/create_edit.html", form=form)
 
 
-@bp.route("/edit/<int:id>", methods=("GET", "POST"))
+@BP.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     """
     Role edit route
@@ -60,7 +65,7 @@ def edit(id):
     )
 
 
-@bp.route("/delete/<int:id>", methods=["POST"])
+@BP.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     """
     Role delete route
