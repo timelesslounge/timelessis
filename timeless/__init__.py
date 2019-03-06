@@ -13,7 +13,7 @@ from flask import Flask
 from timeless.cache import CACHE
 from timeless.mail import MAIL
 from timeless.db import DB
-from timeless.sync.celery import make_celery
+from timeless.celery import make_celery
 from timeless.csrf import CSRF
 from timeless import uploads
 

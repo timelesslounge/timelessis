@@ -1,11 +1,10 @@
 import pytest
 
-from datetime import date, timedelta, datetime
+from datetime import date
 
 from tests.poster_mock import free_port, start_server
 from timeless.restaurants.models import Table
-from timeless.sync.synced_table import SyncedTable
-from timeless.poster.api import Poster
+
 from tests import factories
 
 """Integration tests for Table Sync with database"""

@@ -8,7 +8,7 @@ from timeless.access_control.manager_privileges import has_privilege
 from timeless.access_control.methods import Method
 from timeless.companies.models import Company
 from timeless.employees.models import Employee
-from timeless.roles.models import Role
+from timeless.roles.models import Role, RoleType
 
 
 def test_can_access_if_no_profile(app):
@@ -94,17 +94,17 @@ def test_can_access_same_company_employees(app, db_session):
 def test_manager_cant_access_director(method, app, db_session):
     manager = factories.EmployeeFactory(
         role=factories.RoleFactory(
-            name="Manager"
+            role_type=RoleType.Manager
         )
     )
     director = factories.EmployeeFactory(
         role=factories.RoleFactory(
-            name="Director"
+            role_type=RoleType.Director
         )
     )
     master = factories.EmployeeFactory(
         role=factories.RoleFactory(
-            name="Master"
+            role_type=RoleType.Master
         )
     )
     flask.g.user = manager
