@@ -20,8 +20,8 @@ class Role(DB.Model):
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     """
-        @todo #397:30m After adding role type, name is not useful and may make confusion.
-         It should be deleted and all tests or code using it should use type instead.
+        @todo #397:30m After adding role type, name may make confusion.
+         It should be deleted and all code using it should use type instead.
          Also, Alter the views of the roles to match the changes.
     """
     name = DB.Column(DB.String, unique=True)
