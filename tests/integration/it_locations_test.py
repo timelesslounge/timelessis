@@ -2,18 +2,18 @@
 from http import HTTPStatus
 from flask import url_for
 
+from tests import factories
 from timeless.restaurants.models import Location
 
 
-def test_list(client, db_session):
+def test_list(client):
     """ List all locations """
-    db_session.add(_create_test_location())
-    db_session.commit()
+    location = factories.LocationFactory()
     response = client.get(url_for("location.list"))
     assert response.status_code == HTTPStatus.OK
-    assert b"Test location" in response.data
-    assert response.data.count(b"<article class=\"location\">",
-                               response.data.find(b"<!doctype html>")) == 1
+    html = response.data.decode("utf-8")
+    assert html.count(location.name) == 1
+    assert html.count(location.comment) == 1
 
 
 def test_create(client):
@@ -37,16 +37,33 @@ def test_create(client):
 
 
 def test_edit(client):
-    assert client.get("/locations/edit/1").status_code == HTTPStatus.OK
+    location_old = factories.LocationFactory()
+    location_data = {
+        "name": "Name",
+        "code": "Code",
+        "country": "Country",
+        "region": "Region",
+        "city": "City",
+        "address": "Address",
+        "longitude": "0.0000000",
+        "latitude": "0.0000000",
+        "type": "Type",
+        "status": "Active",
+        "comment": "No comments",
+    }
+    url = url_for("location.edit", id=location_old.id)
+    response = client.post(url, data=location_data)
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.location.endswith(url_for('location.list'))
+    assert Location.query.count() == 1
+    location = Location.query.get(location_old.id)
+    for attr in location_data.keys():
+        assert getattr(location, attr) == location_data[attr]
 
 
 def test_delete(client):
-    response = client.post("/locations/delete", data={"id": 1})
-    assert response.headers["Location"] == "http://localhost/locations/"
-
-
-def _create_test_location():
-    return Location(
-        name="Test location", code="1", country="USA", region="West",
-        city="LA", type="Type", address="Address", longitude="11223344",
-        latitude="44332211", status="T")
+    location = factories.LocationFactory()
+    url = url_for("location.delete", id=location.id)
+    response = client.post(url)
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.location.endswith(url_for('location.list'))

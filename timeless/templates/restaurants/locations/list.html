@@ -1,34 +1,37 @@
 {% extends 'base.html' %}
-{% cache 600 %}
 {% block header %}
-    <h1>{% block title %}Locations management - Main{% endblock %}</h1>
+    {% cache 600 %}
+        <h1>{% block title %}Locations management - Main{% endblock %}</h1>
+    {% endcache %}
 {% endblock %}
 
 {% block content %}
-    {% for location in object_list %}
-        <article class="location">
-        <header>
-            <div>
-            <h1>{{ location['name'] }}</h1>
-            </div>
-            <a class="action" href="#">Edit</a>
-        </header>
-        <p class="code">{{ location['code'] }}</p>
-        <p class="country">{{ location['country'] }}</p>
-        <p class="region">{{ location['region'] }}</p>
-        <p class="city">{{ location['city'] }}</p>
-        <p class="address">{{ location['address'] }}</p>
-        <p class="longitude">{{ location['longitude'] }}</p>
-        <p class="latitude">{{ location['latitude'] }}</p>
-        <p class="type">{{ location['type'] }}</p>
-        <p class="status">{{ location['status'] }}</p>
-        <p class="comment">{{ location['comment'] }}</p>
-        <p class="company">{{ location['company'] }}</p>
-        <p class="floors">{{ location['floors'] }}</p>
-        </article>
-        {% if not loop.last %}
-        <hr>
-        {% endif %}
-    {% endfor %}
+    {% cache 600 %}
+        {% for location in object_list %}
+            <article class="location">
+            <header>
+                <div>
+                <h1>{{ location['name'] }}</h1>
+                </div>
+                <a class="action" href="#">Edit</a>
+            </header>
+            <p class="code">{{ location['code'] }}</p>
+            <p class="country">{{ location['country'] }}</p>
+            <p class="region">{{ location['region'] }}</p>
+            <p class="city">{{ location['city'] }}</p>
+            <p class="address">{{ location['address'] }}</p>
+            <p class="longitude">{{ location['longitude'] }}</p>
+            <p class="latitude">{{ location['latitude'] }}</p>
+            <p class="type">{{ location['type'] }}</p>
+            <p class="status">{{ location['status'] }}</p>
+            <p class="comment">{{ location['comment'] }}</p>
+            <p class="company">{{ location['company'] }}</p>
+            <p class="floors">{{ location['floors'] }}</p>
+            </article>
+            {% if not loop.last %}
+            <hr>
+            {% endif %}
+        {% endfor %}
+    {% endcache %}
 {% endblock %}
-{% endcache %}
+

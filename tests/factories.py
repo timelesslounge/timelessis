@@ -130,3 +130,22 @@ class SchemeTypeFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = schemetypes_models.SchemeType
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
+
+
+class LocationFactory(factory.alchemy.SQLAlchemyModelFactory):
+    name = factory.Faker("text")
+    code = factory.Faker("text")
+    country = factory.Faker("text")
+    region = factory.Faker("text")
+    city = factory.Faker("text")
+    address = factory.Faker("text")
+    longitude = factory.Faker("text")
+    latitude = factory.Faker("text")
+    type = factory.Faker("text")
+    status = factory.Faker("text")
+    comment = factory.Faker("text")
+
+    class Meta:
+        model = restaurant_models.Location
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
