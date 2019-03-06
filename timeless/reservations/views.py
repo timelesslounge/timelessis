@@ -125,7 +125,7 @@ class CreateReservation(views.CrudAPIView):
         """
         @todo #434:30min Continue the implementation of CreateReservation. 
          Add authentication and refactor using CrudAPIView also edit and 
-         delete methods for Reservations
+         delete methods for Reservations. Tests for these are skipped.
         """
         form = ReservationForm(request.form)
         try:
