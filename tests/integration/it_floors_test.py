@@ -21,22 +21,16 @@ def test_ordered_list(client):
     factories.FloorFactory(description="A")
     response = client.get(url_for("floor.list", order_by=["description:asc"]))
     html = response.data.decode('utf-8')
-    assert html.count("""</header>
-
-
-                    <article class=\"floor\">
-                    <header>
-                        <div>
-                        <h1>A</h1>
-    """) == 1
+    assert html.count(
+        "</header>\n\n\n<article class=\"floor\">\n<header>\n<div>\n<h1>A</h1>"
+    ) == 1
     assert response.status_code != HTTPStatus.OK
 
 
 @pytest.mark.skip(reason="Order is not yet implemented")
-def test_filtered_list(client, db_session):
+def test_filtered_list(client):
     response = client.get(url_for('floor.list', filter_by=["description=B"]))
     html = response.data.decode('utf-8')
-    print(html)
     assert html.count('<h1>A</h1>') == 0
     assert response.status_code == HTTPStatus.OK
 
