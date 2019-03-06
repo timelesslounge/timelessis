@@ -119,7 +119,6 @@ def list():
 def list():
     """
         @todo #215:30min Replace this for ReservationsListView(views.ListView)
-            Updated upstream
             in all tests.Because ReservationsListView(views.ListView) covers
             the needs of this and after using reservationListView more tests
             break because using this implementation.
