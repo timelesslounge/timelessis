@@ -7,6 +7,7 @@ from tests import factories
 from timeless.access_control.director_privileges import has_privilege
 from timeless.access_control.methods import Method
 from timeless.employees.models import Employee
+from timeless.roles.models import RoleType
 
 
 def test_can_access_if_no_profile(app):
@@ -78,25 +79,25 @@ def test_can_access_subalterns(method, app, db_session):
     director = factories.EmployeeFactory(
         company=company,
         role=factories.RoleFactory(
-            name="Director"
+            role_type=RoleType.Director
         )
     )
     master = factories.EmployeeFactory(
         company=company,
         role=factories.RoleFactory(
-            name="Master"
+            role_type=RoleType.Master
         )
     )
     manager = factories.EmployeeFactory(
         company=company,
         role=factories.RoleFactory(
-            name="Manager"
+            role_type=RoleType.Manager
         )
     )
     intern = factories.EmployeeFactory(
         company=company,
         role=factories.RoleFactory(
-            name="Intern"
+            role_type=RoleType.Intern
         )
     )
     flask.g.user = director
