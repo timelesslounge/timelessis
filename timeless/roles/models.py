@@ -7,10 +7,10 @@ from sqlalchemy_utils.types.choice import ChoiceType
 
 class RoleType(Enum):
     """ Types of roles """
-    Master = 1
-    Intern = 2
-    Director = 3
-    Manager = 4
+    Director = 1
+    Manager = 2
+    Master = 3
+    Intern = 4
 
 
 class Role(DB.Model):
@@ -22,6 +22,7 @@ class Role(DB.Model):
     """
         @todo #397:30m After adding role type, name is not useful and may make confusion.
          It should be deleted and all tests or code using it should use type instead.
+         Also, Alter the views of the roles to match the changes.
     """
     name = DB.Column(DB.String, unique=True)
     works_on_shifts = DB.Column(DB.Boolean)
