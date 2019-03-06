@@ -31,10 +31,10 @@ def test_reservation_list(client):
 
     response = client.get("/reservations/")
 
-    assert b"<a class=\"action\" href=\"/reservations/edit/1\">Edit</a>" in response.data
-    assert b"<a class=\"action\" href=\"/reservations/edit/2\">Edit</a>" in response.data
     assert b"<a class=\"action\" href=\"/reservations/edit/3\">Edit</a>" in response.data
     assert b"<a class=\"action\" href=\"/reservations/edit/4\">Edit</a>" in response.data
+    assert b"<a class=\"action\" href=\"/reservations/edit/5\">Edit</a>" in response.data
+    assert b"<a class=\"action\" href=\"/reservations/edit/6\">Edit</a>" in response.data
     assert response.status_code == HTTPStatus.OK
 
 @pytest.mark.skip
