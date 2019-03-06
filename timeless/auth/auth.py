@@ -13,6 +13,7 @@ from flask_mail import Message
 
 PASS_LENGTH = 8
 
+
 def login(username="", password=""):
     """Login user
 
