@@ -123,8 +123,9 @@ class CreateReservation(views.CrudAPIView):
     def post(self):
         """ Create new reservation """
         """
-        @todo #434:30min Continue. Add authentication and refactor using 
-         CrudAPIView also edit and delete methods for Reservations
+        @todo #434:30min Continue the implementation of CreateReservation. 
+         Add authentication and refactor using CrudAPIView also edit and 
+         delete methods for Reservations
         """
         form = ReservationForm(request.form)
         try:
@@ -138,16 +139,16 @@ class CreateReservation(views.CrudAPIView):
                 )
                 DB.session.add(reservation)
                 DB.session.commit()
-                return jsonify(status='success'), HTTPStatus.OK
+                return jsonify(status="success"), HTTPStatus.OK
 
             return jsonify(
-                status='error',
+                status="error",
                 errors=form.errors
             ), HTTPStatus.BAD_REQUEST
 
         except Exception as error:
             return jsonify(
-                status='error',
+                status="error",
                 errors=errors
             ), HTTPStatus.BAD_REQUEST
 
