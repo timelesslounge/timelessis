@@ -15,6 +15,7 @@ from timeless.reservations import models
 
 BP = Blueprint("reservations", __name__, url_prefix="/reservations")
 
+
 class ReservationsListView(views.ListView):
     """ List the reservation """
     model = Reservation
@@ -22,6 +23,7 @@ class ReservationsListView(views.ListView):
     context_object_list_name = "reservations"
 
 ReservationsListView.register(BP, "/")
+
 
 class SettingsList(views.ListView):
     """
@@ -110,10 +112,13 @@ class ReservationView(views.CrudAPIView):
 
 @BP.route("/list", methods=("GET",))
 def list():
+    """list """
+
     """
-        @todo #215:30min Replace this for ReservationsListView(views.ListView) in all tests.
-         Because ReservationsListView(views.ListView) covers the needs of this and after
-         using reservationListView more tests break because using this implementation.
+    @todo #215:30min Replace this for ReservationsListView(views.ListView)
+        in all tests.Because ReservationsListView(views.ListView) covers
+        the needs of this and after using reservationListView more tests
+        break because using this implementation.
 
     :param reservations:
     :return:

@@ -9,8 +9,6 @@ from timeless.poster.api import Poster
 
 """Integration tests for Table Sync with database"""
 
-
-@pytest.mark.skip("sync for table not implemented yet")
 def test_sync_table(db_session):
     port = free_port()
     poster_table_id=10
@@ -26,6 +24,7 @@ def test_sync_table(db_session):
     poster_table_playstation=True
     poster_table_shape_id=1
     poster_table_min_capacity=1
+    poster_table_deposit_hour=1
     poster_table_created=datetime.utcnow
     poster_table_updated=datetime.utcnow
     start_server(port,
@@ -44,6 +43,7 @@ def test_sync_table(db_session):
                 "playstation": poster_table_playstation,
                 "shape_id": poster_table_shape_id,
                 "min_capacity": poster_table_min_capacity,
+                "deposit_hour": poster_table_deposit_hour,
                 "created": poster_table_created,
                 "updated": poster_table_updated
             }
@@ -63,6 +63,7 @@ def test_sync_table(db_session):
         playstation=False,
         shape_id=3,
         min_capacity=2,
+        deposit_hour=1,
         created=date.today() - timedelta(5),
         updated=date.today() - timedelta(5)
     )
@@ -86,8 +87,7 @@ def test_sync_table(db_session):
     assert row.multiple == poster_table_multiple 
     assert row.playstation == poster_table_playstation 
     assert row.shape_id == poster_table_shape_id 
-    assert row.min_capacity == poster_table_min_capacity 
+    assert row.min_capacity == poster_table_min_capacity
+    assert row.deposit_hour == poster_table_deposit_hour
     assert row.created == poster_table_created 
     assert row.updated == poster_table_updated
-
-
