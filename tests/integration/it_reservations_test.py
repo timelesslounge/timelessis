@@ -22,9 +22,9 @@ def test_create(client):
         column.name: str(getattr(reservation, column.name))
         for column in reservation.__table__.columns
     }
-    url = url_for("reservations.create")
+    url = url_for("reservations.create_reservation")
     response = client.post(url, data=reservation_dict)
-    assert response.status_code == HTTPStatus.FOUND
+    assert response.status_code == HTTPStatus.OK
     assert Reservation.query.count() == 1
 
 

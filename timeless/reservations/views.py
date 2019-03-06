@@ -1,5 +1,6 @@
 """ Views for reservations """
 from datetime import datetime
+from http import HTTPStatus
 
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, jsonify
@@ -7,7 +8,7 @@ from flask import (
 
 from timeless import DB
 from timeless.reservations.forms import ReservationForm
-from timeless.restaurants.models import Reservation, ReservationStatus
+from timeless.restaurants.models import Reservation
 from timeless import views
 from timeless.access_control.views import SecuredView
 from timeless.reservations import models
@@ -116,38 +117,36 @@ def list():
     return render_template("restaurants/tables/list.html")
 
 
-@BP.route("/create", methods=("GET", "POST"))
-def create():
-    """ Create new reservation """
-    """
-    @todo #380:30min Continue. When we use the form.validate() function the
-     status (enum: timeless/restaurants/models.py) is displaying the
-     following error: 'status': ['Invalid Choice: could not coerce', 'Not a
-     valid choice']. Removes the commented if to see the error. Also refactor
-     the function using genericViews, as explained in puzzles #134 and #137.
-    """
-    form = ReservationForm(request.form)
-    try:
-        """if request.method == "POST" and form.validate():"""
-        if request.method == "POST":
-            reservation = Reservation(
-                start_time=request.form["start_time"],
-                end_time=request.form["end_time"],
-                num_of_persons=request.form["num_of_persons"],
-                comment=request.form["comment"],
-                status=request.form["status"]
-            )
-            DB.session.add(reservation)
-            DB.session.commit()
-            return redirect(url_for("reservations.list"))
-        else:
-            flash("Error: ", form.errors)
-    except Exception as error:
-        flash("Error: ", error)
+class CreateReservation(views.CrudAPIView):
+    """ Create a new reservation instance """
 
-    return render_template("reservations/create_edit.html", error=form.errors,
-                            action="create", form=form)
+    def post(self):
+        """ Create new reservation """
+        """
+        @todo #434:30min Continue. Add authentication and refactor using CrudAPIView
+         also edit and delete methods for Reservations
+        """
+        form = ReservationForm(request.form)
+        try:
+            if form.validate():
+                reservation = Reservation(
+                    start_time=request.form["start_time"],
+                    end_time=request.form["end_time"],
+                    num_of_persons=request.form["num_of_persons"],
+                    comment=request.form["comment"],
+                    status=request.form["status"]
+                )
+                DB.session.add(reservation)
+                DB.session.commit()
+                return jsonify(status='success'), HTTPStatus.OK
 
+            return jsonify(status='error', errors=form.errors), HTTPStatus.BAD_REQUEST
+
+        except Exception as error:
+            return jsonify(status='error', errors=errors), HTTPStatus.BAD_REQUEST
+
+
+CreateReservation.register(BP, "/create")
 
 @BP.route("/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
