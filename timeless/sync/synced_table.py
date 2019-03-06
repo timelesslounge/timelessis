@@ -9,14 +9,16 @@ from timeless.restaurants.models import Table
      created in it_sync_tables_test.py
 """
 
+
 class SyncedTable:
+
 
     def __init__(self, table, poster_sync, db_session):
         self.poster_sync = poster_sync
         self.db_session = db_session
         self.table = table
 
-        
+
     def sync(self):
         poster_tables = self.poster_sync.tables()
         db_table = self.db_session.query(Table).get(self.table.id)
