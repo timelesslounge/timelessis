@@ -9,6 +9,7 @@ from timeless.restaurants.models import Table
      created in it_sync_tables_test.py
 """
 
+
 class SyncedTable:
 
     def __init__(self, table, poster_sync, db_session):
