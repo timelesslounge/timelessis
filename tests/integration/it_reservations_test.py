@@ -24,7 +24,7 @@ def test_create(client):
     }
     url = url_for("reservations.create_reservation")
     response = client.post(url, data=reservation_dict)
-    assert response.status_code == HTTPStatus.OK
+    assert response.status_code == HTTPStatus.CREATED
     assert Reservation.query.count() == 1
 
 
