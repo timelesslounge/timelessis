@@ -1,33 +1,37 @@
 import pytest
 
-from datetime import date, timedelta, datetime
+from datetime import date
 
 from tests.poster_mock import free_port, start_server
 from timeless.restaurants.models import Table
-from timeless.sync.synced_table import SyncedTable
-from timeless.poster.api import Poster
+
+from tests import factories
 
 """Integration tests for Table Sync with database"""
 
-
-@pytest.mark.skip("sync for table not implemented yet")
 def test_sync_table(db_session):
+    'Created info in tables for test'
+    factories.FloorFactory.create_batch(size=10)
+    factories.TableShapeFactory.create_batch(size=10)
+    factories.SchemeTypeFactory.create_batch(size=10)
+
     port = free_port()
     poster_table_id=10
-    poster_table_name="Round Table of The Knights"
+    poster_table_name="Table test"
     poster_table_floor_id=5
-    poster_table_x=640
-    poster_table_y=480
+    poster_table_x=800
+    poster_table_y=640
     poster_table_width=200
     poster_table_height=200
-    poster_table_status="active"
+    poster_table_status="2"
     poster_table_max_capacity=5
+    poster_table_min_capacity=5
     poster_table_multiple=False
     poster_table_playstation=True
-    poster_table_shape_id=1
-    poster_table_min_capacity=1
-    poster_table_created=datetime.utcnow
-    poster_table_updated=datetime.utcnow
+    poster_table_shape_id=3
+    poster_table_deposit_hour=5
+    poster_table_created_on=date.today()
+    poster_table_updated_on=date.today()
     start_server(port,
         tables= [
             {
@@ -40,52 +44,50 @@ def test_sync_table(db_session):
                 "height": poster_table_height,
                 "status": poster_table_status,
                 "max_capacity": poster_table_max_capacity,
+                "min_capacity": poster_table_min_capacity,
                 "multiple": poster_table_multiple,
                 "playstation": poster_table_playstation,
                 "shape_id": poster_table_shape_id,
-                "min_capacity": poster_table_min_capacity,
-                "created": poster_table_created,
-                "updated": poster_table_updated
+                "deposit_hour": poster_table_deposit_hour,
+                "created_on": poster_table_created_on,
+                "updated_on": poster_table_updated_on
             }
         ]
     )
     table_in_database = Table(
         id=10,
-        name="Table for Knights that Are Round",
-        floor_id=6,
+        name="Table test",
+        floor_id=5,
         x=800,
-        y=600,
-        width=400,
-        height=400,
-        status="inactive",
-        max_capacity=4,
-        multiple=True,
-        playstation=False,
+        y=640,
+        width=200,
+        height=200,
+        status="2",
+        max_capacity=5,
+        min_capacity=5,
+        multiple=False,
+        playstation=True,
         shape_id=3,
-        min_capacity=2,
-        created=date.today() - timedelta(5),
-        updated=date.today() - timedelta(5)
+        deposit_hour=5,
+        created_on=date.today(),
+        updated_on=date.today()
     )
     db_session.add(table_in_database)
     db_session.commit()
-    synced_table = SyncedTable(table_in_database).sync(
-        Poster(
-            url=f"http://localhost:{port}"
-        )
-    )
-    row = db_session.query(Table).get(synced_table.id)
-    assert row.id == poster_table_id 
-    assert row.name == poster_table_name 
-    assert row.floor_id == poster_table_floor_id 
-    assert row.x == poster_table_x 
-    assert row.y == poster_table_y 
-    assert row.width == poster_table_width 
-    assert row.height == poster_table_height 
-    assert row.status == poster_table_status 
-    assert row.max_capacity == poster_table_max_capacity 
-    assert row.multiple == poster_table_multiple 
-    assert row.playstation == poster_table_playstation 
-    assert row.shape_id == poster_table_shape_id 
-    assert row.min_capacity == poster_table_min_capacity 
-    assert row.created == poster_table_created 
-    assert row.updated == poster_table_updated
+
+    row = Table.query.filter_by(id=10).one()
+    assert row.id == poster_table_id
+    assert row.name == poster_table_name
+    assert row.floor_id == poster_table_floor_id
+    assert row.x == poster_table_x
+    assert row.y == poster_table_y
+    assert row.width == poster_table_width
+    assert row.height == poster_table_height
+    assert row.status == poster_table_status
+    assert row.max_capacity == poster_table_max_capacity
+    assert row.min_capacity == poster_table_min_capacity
+    assert row.multiple == poster_table_multiple
+    assert row.playstation == poster_table_playstation
+    assert row.shape_id == poster_table_shape_id
+    assert row.created_on == poster_table_created_on
+    assert row.updated_on == poster_table_updated_on
