@@ -1,4 +1,5 @@
 """Integration tests for Locations"""
+import pytest
 from http import HTTPStatus
 from flask import url_for
 
@@ -38,19 +39,7 @@ def test_create(client):
 
 def test_edit(client):
     location_original = factories.LocationFactory()
-    location_edited = {
-        "name": "Name",
-        "code": "Code",
-        "country": "Country",
-        "region": "Region",
-        "city": "City",
-        "address": "Address",
-        "longitude": "0.0000000",
-        "latitude": "0.0000000",
-        "type": "Type",
-        "status": "Active",
-        "comment": "No comments",
-    }
+    location_edited = factories.LocationFactory.get_edit_fields_dict()
     edit_url = url_for("location.edit", id=location_original.id)
     response = client.post(edit_url, data=location_edited)
     assert response.status_code == HTTPStatus.FOUND

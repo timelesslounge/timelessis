@@ -14,6 +14,18 @@ from timeless.items import models as item_models
 from timeless.schemetypes import models as schemetypes_models
 
 
+class DictMixin:
+
+    @classmethod
+    def get_dict(cls):
+        instance = cls.build()
+        # convert instance to dict
+        return {
+            column.name: str(getattr(instance, column.name))
+            for column in instance.__table__.columns
+        }
+
+
 class TableShapeFactory(factory.alchemy.SQLAlchemyModelFactory):
     """ Factory for creating TableShape instance. """
     description = factory.Faker("text")
@@ -132,7 +144,7 @@ class SchemeTypeFactory(factory.alchemy.SQLAlchemyModelFactory):
         sqlalchemy_session_persistence = "commit"
 
 
-class LocationFactory(factory.alchemy.SQLAlchemyModelFactory):
+class LocationFactory(DictMixin, factory.alchemy.SQLAlchemyModelFactory):
     name = factory.Faker("text")
     code = factory.Faker("text")
     country = factory.Faker("text")
@@ -149,3 +161,15 @@ class LocationFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = restaurant_models.Location
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
+
+    @classmethod
+    def get_edit_fields_dict(cls):
+        location = cls.get_dict()
+        excluded_fields = [
+            'poster_id', 'closed_days', 'id',
+            'working_hours', 'company_id', 'synchronized_on'
+        ]
+        for field in excluded_fields:
+            location.pop(field, None)
+
+        return location
