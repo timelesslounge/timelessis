@@ -24,7 +24,7 @@ class List(views.ListView):
     model = models.TableShape
     template_name = "restaurants/table_shapes/list.html",
 
-    
+
 """List.register(BP, "/")"""
 
 
