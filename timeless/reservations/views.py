@@ -65,6 +65,7 @@ SettingsDetailView.register(BP, "/settings/edit/<int:setting_id>")
 class SettingsDelete(views.DeleteView):
     """ Delete view for Reservation Settings  """
     model = models.ReservationSettings
+    template_name = "reservations/settings/list.html"
 
 
 SettingsDelete.register(BP, "/settings/delete/<int:setting_id>")

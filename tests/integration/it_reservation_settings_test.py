@@ -38,9 +38,6 @@ def test_edit(client):
 
 
 def test_delete(client):
-    assert client.get(
-        url_for("reservations.settings_delete", setting_id=1)
-    ).status_code == HTTPStatus.OK
     data = reservation_data("my very unique comment")
     client.post(url_for("reservations.settings_create_view"), data=data)
     identifier = models.ReservationSettings.query.first().id
