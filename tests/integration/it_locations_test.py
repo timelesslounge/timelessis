@@ -37,8 +37,8 @@ def test_create(client):
 
 
 def test_edit(client):
-    location_old = factories.LocationFactory()
-    location_data = {
+    location_original = factories.LocationFactory()
+    location_edited = {
         "name": "Name",
         "code": "Code",
         "country": "Country",
@@ -51,14 +51,14 @@ def test_edit(client):
         "status": "Active",
         "comment": "No comments",
     }
-    url = url_for("location.edit", id=location_old.id)
-    response = client.post(url, data=location_data)
+    edit_url = url_for("location.edit", id=location_original.id)
+    response = client.post(edit_url, data=location_edited)
     assert response.status_code == HTTPStatus.FOUND
     assert response.location.endswith(url_for('location.list'))
     assert Location.query.count() == 1
-    location = Location.query.get(location_old.id)
-    for attr in location_data.keys():
-        assert getattr(location, attr) == location_data[attr]
+    location = Location.query.get(location_original.id)
+    for attr in location_edited.keys():
+        assert getattr(location, attr) == location_edited[attr]
 
 
 def test_delete(client):
@@ -67,3 +67,4 @@ def test_delete(client):
     response = client.post(url)
     assert response.status_code == HTTPStatus.FOUND
     assert response.location.endswith(url_for('location.list'))
+    assert Location.query.count() == 0
