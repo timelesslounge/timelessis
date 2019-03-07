@@ -38,6 +38,7 @@ def test_filtered_list(client):
 
 @pytest.mark.parametrize("path", (
     "/floors/edit/1",
+    "/floors/delete/1",
 ))
 def test_login_required(client, path):
     response = client.post(path)
