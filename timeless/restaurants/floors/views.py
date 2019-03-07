@@ -17,11 +17,9 @@
  timeless/views.py::UpdateView, receives data from the first view and
  must save the data to the repository. The tests must include checking if the
  view screens were correctly built and if the data was saved to the repository.
-@todo #95:30min Implement delete floor view. Delete floor view is composed of
- two views: the first view must load the desired floor data onto the screen
- and show an button to delete the selected view, extending
- timeless/views.py::DetailView; second view must show the result message of
- floor deletion.
+@todo #424:30min The last step for deletion is to ask for confirmation before
+ actually deleting the object. When clicking on link on list floors pages a
+ javascript modal should appear asking user for confirmation
 """
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
@@ -55,12 +53,11 @@ def edit(id):
         )
 
 
-@BP.route("/delete", methods=["POST"])
-@auth.login_required
-def delete():
-    """ Delete floor with id """
-    flash("Delete not yet implemented")
-    return redirect(url_for("floor.list_floors"))
+class Delete(views.DeleteView):
+    """ Delete floor with id """  
+    decorators = (auth.login_required,)
+    model = Floor
+    success_view_name = "floor.list"
 
 
 class Create(views.CreateView):
@@ -73,3 +70,4 @@ class Create(views.CreateView):
 
 Create.register(BP, "/create")
 List.register(BP, "/")
+Delete.register(BP, "/delete/<int:id>")
