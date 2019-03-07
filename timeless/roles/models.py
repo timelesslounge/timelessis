@@ -11,6 +11,8 @@ class RoleType(Enum):
     Manager = "Manager"
     Master = "Master"
     Intern = "Intern"
+    Administrator = "Administrator"
+    Owner = "Owner"
 
 
 class Role(DB.Model):
