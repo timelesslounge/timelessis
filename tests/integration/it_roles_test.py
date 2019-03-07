@@ -2,7 +2,8 @@ from http import HTTPStatus
 
 from flask import url_for
 
-from timeless.roles.models import Role
+from tests import factories
+from timeless.roles.models import Role, RoleType
 
 
 def test_list(client):
@@ -18,7 +19,12 @@ def test_create(client, db_session):
 
 
 def test_edit(client):
-    assert client.post(url_for('role.edit', id=1)).status_code == HTTPStatus.NOT_FOUND
+    role = factories.RoleFactory(role_type=RoleType.Manager)
+    url = url_for("role.edit", id=role.id)
+
+    client.post(url, data={"role_type": RoleType.Director.value})
+    assert Role.query.filter_by(
+        id=role.id, role_type=RoleType.Director.value).count() == 1
 
 
 def test_delete_not_found(client):
