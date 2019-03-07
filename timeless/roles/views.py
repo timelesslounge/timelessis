@@ -1,3 +1,8 @@
+"""
+@todo #338:30min Continue to implement html templates using html mockups and
+ use generic views for list / create routes. See `templates/_formhelpers.html`,
+ it helps to render inputs in templates correctly.
+"""
 from http import HTTPStatus
 
 from flask import (
