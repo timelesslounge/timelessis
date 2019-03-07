@@ -8,6 +8,7 @@ import pytest
 
 import flask
 
+from tests import factories
 from timeless.auth.auth import login, hash as auth_hash
 from timeless.employees.models import Employee
 
@@ -63,27 +64,21 @@ def test_activate(client):
 
 
 """
-    @todo #370:30min Forgot password routine. At the moment we are showing the
-     e-mail from which we sent the new password link at the forgot_password_post 
-     page. We should mask this e-mail somehow (like p******o@gmail.com) so 
-     just the user get a hint to where the email was sent. After implementing 
-     the masking correct it in the test below
     @todo #388:30min Forgot password routine. Test a forgot password logic: 
      create an random password, Login with it, see it works.
      change it for the user with the received e-mail, find it changed.
 """
 
 
-@pytest.mark.skip(reason="Can't inject mock user base")
 def test_forgot_password_post(client):
-    email = "test@mail.com"
+    employee = factories.EmployeeFactory(email="mrgreen@yahoo.com")
     response = client.post(flask.url_for("auth.forgot_password"), data={
-        "email": email
-    })
+        "email": employee.email})
+
     decoded = response.data.decode("utf-8")
     assert "<h1>Forgot password</h1>" in decoded
     assert (
-        f"We've sent an e-mail to {email} with your new password."
+        f"We've sent an e-mail to mrg***@yahoo.com with your new password."
         in decoded
     )
     assert "Please use it to log in and change it." in decoded

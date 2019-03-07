@@ -6,12 +6,25 @@ import string
 from flask import session
 from passlib.handlers.bcrypt import bcrypt_sha256
 
+from timeless import DB
 from timeless.employees.models import Employee
 from timeless.mail import MAIL
 from flask_mail import Message
 
 
 PASS_LENGTH = 8
+
+
+def mask_email(email: str) -> str:
+    """ It masks provided email with asterisks """
+    username, host = email.split("@")
+    if len(username) == 1:
+        local_part = "*"
+    else:
+        half_len = len(username) // 2
+        local_part = username[:half_len] + half_len * "*"
+    return f"{local_part}@{host}"
+
 
 def login(username="", password=""):
     """Login user
@@ -37,7 +50,7 @@ def forgot_password(email=""):
             string.ascii_uppercase + string.digits
         ) for _ in range(PASS_LENGTH))
     user.password = bcrypt_sha256.hash(password)
-    session.commit()
+    DB.session.commit()
     MAIL.send(
         Message(
             f"Hello! your new password is {password}, please change it!",

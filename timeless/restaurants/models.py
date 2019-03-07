@@ -4,17 +4,19 @@ import enum
 from timeless.db import DB
 from timeless.models import TimestampsMixin
 from timeless.poster.models import PosterSyncMixin
+from sqlalchemy_utils import ChoiceType
 
 
-class ReservationStatus(enum.Enum):
-    """Reservation status"""
-    unconfirmed = 1
-    confirmed = 2
-    started = 3
-    finished = 4
-    canceled = 5
-    late = 6
-    not_contacting = 7
+"""Reservation status"""
+RESERVATION_STATUS = [
+    (u"unconfirmed", u"Unconfirmed"),
+    (u"confirmed", u"Confirmed"),
+    (u"started", u"Started"),
+    (u"finished", "Finished"),
+    (u"canceled", u"Canceled"),
+    (u"late", u"Late"),
+    (u"not_contacting", u"Not Contacting")
+]
 
 
 class TableShape(DB.Model):
@@ -151,7 +153,7 @@ class Reservation(TimestampsMixin, DB.Model):
     customer_id = DB.Column(DB.Integer, DB.ForeignKey("customers.id"))
     num_of_persons = DB.Column(DB.Integer, nullable=False)
     comment = DB.Column(DB.String, nullable=False)
-    status = DB.Column(DB.Enum(ReservationStatus), nullable=False)
+    status = DB.Column(ChoiceType(RESERVATION_STATUS), nullable=False)
 
     tables = DB.relationship("TableReservation", back_populates="reservation")
 

@@ -1,8 +1,9 @@
 """Floors views module.
-@todo #95:30min Continue implementing list floors view. Floors index page
+@todo #421:30min Continue implementing list floors view. Floors index page
  must allow sorting and filtering of floors for every column and it has to be
  accessed by the Location page. Then remove skip annotation from
- FloorsListView test. Authentication must be faked in order to test work.
+ FloorsListView tests for ordering and filtering. Authentication must be 
+ faked in order to test work.
 @todo #95:30min Implement create floor view. Create floor view must extend
  timeless/views.py::CreateView and implement floor creation. First screen
  must show empty fields for floor data input and second view must show the
@@ -28,7 +29,6 @@ from flask import (
 
 from timeless import views
 from timeless.auth import views as auth
-from timeless.views import ListView
 from timeless.restaurants.floors.forms import FloorForm
 from timeless.restaurants.models import Floor
 
@@ -36,7 +36,7 @@ from timeless.restaurants.models import Floor
 BP = Blueprint("floor", __name__, url_prefix="/floors")
 
 
-class FloorListView(ListView):
+class List(views.ListView):
     """List all floors"""
     template_name = "restaurants/floors/list.html"
     model = Floor
@@ -72,4 +72,4 @@ class Create(views.CreateView):
 
 
 Create.register(BP, "/create")
-FloorListView.register(BP, "/")
+List.register(BP, "/")

@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
-{% cache 600 %}
 {% block header %}
-    <h1>{% block title %}Table shapes management - Main{% endblock %}</h1>
+    {% cache 600 %}
+        <h1>{% block title %}Table shapes management - Main{% endblock %}</h1>
+    {% endcache %}
 {% endblock %}
 
 {% block content %}
-    {% for table_shape in table_shapes %}
-        <article class="table_shape">
-            <header>
-                <a class="action" href="{{ url_for('table_shape.edit', id=table_shape['id']) }}">Edit</a>
-            </header>
-            <p class="description">{{ table_shape['description'] }}</p>
-            <img src="{{ table_shape['picture'] }}"/>
-        </article>
-        {% if not loop.last %}
-        <hr>
-        {% endif %}
-    {% endfor %}
+    {% cache 600 %}
+        {% for table_shape in table_shapes %}
+            <article class="table_shape">
+                <header>
+                    <a class="action" href="{{ url_for('table_shape.edit', id=table_shape['id']) }}">Edit</a>
+                </header>
+                <p class="description">{{ table_shape['description'] }}</p>
+                <img src="{{ table_shape['picture'] }}"/>
+            </article>
+            {% if not loop.last %}
+            <hr>
+            {% endif %}
+        {% endfor %}
+    {% endcache %}
 {% endblock %}
-{% endcache %}
+

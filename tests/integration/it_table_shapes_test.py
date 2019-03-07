@@ -52,28 +52,35 @@ def test_filtered_list(client, db_session):
     #  table_shapes = TableShapes(client, filter_by=["description=B"]
     #  assert len(table_shapes) == 1
     #  assert iter(table_shapes).next().id == 1
-    # @todo #260:30min Uncomment below assertion and fix the test once #273 is fixed.
-    #  Currently there is an issue with template caching which is reported by #273 1st point. Lets uncomment
-    #  below assertion checking if filter logic works as expected by checking table shapes rendered within list route.
 
-    # html = response.data.decode('utf-8')
-    # assert html.count('<article class="table_shape">') == 1
-    # assert html.count('<a class="action" href="/table_shapes/edit/1">Edit</a>') == 1
+    html = response.data.decode("utf-8")
+    assert html.count("<article class=\"table_shape\">") == 1
+    assert html.count(
+        "<a class=\"action\" href=\"/table_shapes/edit/1\">Edit</a>"
+    ) == 1
 
 
-def test_create(client, db_session):
-    response = client.post(flask.url_for("table_shape.create"), data={
-        "description": "It's new shape",
-        "picture": "http://...."
-    })
-    # assert response.location.endswith(flask.url_for('table_shape.list'))
-    assert TableShape.query.count() == 0
+def test_create(client):
+    files = {'file': open(
+        'tests/integration/fixtures/test_image.jpg', 'rb')}
+    response = client.post(
+        flask.url_for("table_shape.create"),
+        data={
+            "description": "It's new shape",
+            "files": files
+        }
+    )
+    assert response.location.endswith(flask.url_for('table_shape.list'))
+    table_shape = TableShape.query.first()
+    assert table_shape
+    assert table_shape.picture
 
 
 # @todo #206:15min After the form.save() issue with picture is solved enable
 #  test_edit and test_delete. Both were disabled because picture validation was
 #  added but the form for it wasn't updated, so create method doesn't save
 #  anything right now.
+@pytest.mark.skip
 def test_edit(client):
     table_shape = factories.TableShapeFactory(
         description="Description 1",

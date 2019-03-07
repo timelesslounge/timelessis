@@ -1,16 +1,11 @@
 """Generic classes for API views and Template views.
-@todo #173:30min Implement checking for permissions (like is user logged in or
- is user in role) using decorators for view. For that, create new view which
- all other views will extend. Example would be:
- class AdminView(View):
- ....decorators = [auth.admin_required, auth.login_required]
- class UserView(AdminView):
 @todo #311:30min Once CreateView is implemented, refactor all blueprint views
  to use it for validating the form and storing the record in the database.
  Views already implemented: ItemCreateView
-@todo #173:30min Once UpdateView is implemented, refactor all blueprint views
+@todo #311:30min Once UpdateView is implemented, refactor all blueprint views
  to use it for validating the form and updating the record in the database.
  Reuse SingleObjectMixin to provide simple solution to fetch by id.
+ Views already implemented: ItemCreateView
 @todo #309:30min Refactor all blueprint views to use ListView for getting the
  list of objects from db using model. Also, make sure list.html template is
  made generic to allow all other views to use it. Feel free to add more puzzles
@@ -63,6 +58,25 @@ class CrudAPIView(views.MethodView):
      result.  Please refer to #221 and #222 for documentation.
     """
 
+    @classmethod
+    def register(cls, blueprint, route, name=None):
+        """
+        A shortcut method for registering this view to an app or blueprint.
+        Assuming we have a blueprint and a CompanyCreate view, then these two
+        lines are identical in functionality:
+            views.add_url_rule('/companies/create',
+                               view_func=CompanyCreate.as_view(
+                                   'company_create')
+                               )
+            CompanyCreate.register(views, '/companies/create',
+                                   'company_create')
+        """
+        if not name:
+            # Convert "ViewName" to "view_name" and use it
+            name = camel_to_underscore.sub(r"_\1", cls.__name__).lower()
+
+        blueprint.add_url_rule(route, view_func=cls.as_view(name))
+
     def get(self, object_id):
         """Calls the GET method."""
         return self.model.query.get(object_id)
@@ -81,9 +95,16 @@ class CrudAPIView(views.MethodView):
 
 
 class GenericView(views.MethodView):
-    """ Generic view with common logic """
+    """ Generic view with common logic
+
+    The decorators stored in the decorators list are applied one after another
+    when the view function is created.  Note that you can *not* use the class
+    based decorators since those would decorate the view class and not the
+    generated view function!
+    """
     template_name = None
     methods = ["get", "post"]
+    decorators = ()
 
     @classmethod
     def register(cls, blueprint, route, name=None):

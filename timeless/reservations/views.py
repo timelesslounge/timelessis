@@ -1,5 +1,6 @@
 """ Views for reservations """
 from datetime import datetime
+from http import HTTPStatus
 
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for, jsonify
@@ -16,13 +17,23 @@ from timeless.reservations import models
 BP = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
+class ReservationsListView(views.ListView):
+    """ List the reservation """
+    model = Reservation
+    template_name = "reservations/list.html"
+    context_object_list_name = "reservations"
+
+
+ReservationsListView.register(BP, "/")
+
+
 class SettingsList(views.ListView):
     """
     List view set for Reservation Settings
-    @todo #186:30min For SettingsListView, SettingsCreateView,
-     SettingsDetailView, SettingsDeleteView create correct templates
-     for list, create/detail actions. When templates will be done, pls change
-     `template_name` value in every View Class.
+    @todo #293:30min For SettingsCreateView, SettingsDetailView,
+     SettingsDeleteView create correct templates for list, create/detail
+     actions. When templates will be done, pls change `template_name` value
+     in every View Class.
     """
     model = models.ReservationSettings
     template_name = "restaurants/tables/list.html"
@@ -68,7 +79,7 @@ class CommentView(SecuredView, views.CrudAPIView):
     list_reservations = "reservation_comment"
 
 
-class ReservationsListView(views.CrudAPIView):
+class ReservationView(views.CrudAPIView):
     """ Reservation JSON API /api/reservations
 
     """
@@ -103,11 +114,15 @@ class ReservationsListView(views.CrudAPIView):
 
 @BP.route("/list", methods=("GET",))
 def list():
+    """list """
+
+
+def list():
     """
-        @todo #172:30min Refactor this after the implementation of GenericViews.
-         Take a look at puzzles #134 and #173 where the requirements of generic
-         views are described. Don't forget to cover the generated code with
-         tests
+    @todo #215:30min Replace this for ReservationsListView(views.ListView)
+     in all tests.Because ReservationsListView(views.ListView) covers
+     the needs of this and after using reservationListView more tests
+     break because using this implementation.
 
     :param reservations:
     :return:
@@ -116,37 +131,44 @@ def list():
     return render_template("restaurants/tables/list.html")
 
 
-@BP.route("/create", methods=("GET", "POST"))
-def create():
-    """ Create new reservation """
-    """
-    @todo #380:30min Continue. When we use the form.validate() function the
-     status (enum: timeless/restaurants/models.py) is displaying the
-     following error: 'status': ['Invalid Choice: could not coerce', 'Not a
-     valid choice']. Removes the commented if to see the error. Also refactor
-     the function using genericViews, as explained in puzzles #134 and #137.
-    """
-    form = ReservationForm(request.form)
-    try:
-        """if request.method == "POST" and form.validate():"""
-        if request.method == "POST":
-            reservation = Reservation(
-                start_time=request.form["start_time"],
-                end_time=request.form["end_time"],
-                num_of_persons=request.form["num_of_persons"],
-                comment=request.form["comment"],
-                status=request.form["status"]
-            )
-            DB.session.add(reservation)
-            DB.session.commit()
-            return redirect(url_for("reservations.list"))
-        else:
-            flash("Error: ", form.errors)
-    except Exception as error:
-        flash("Error: ", error)
+class CreateReservation(views.CrudAPIView):
+    """ Create a new reservation instance """
 
-    return render_template("reservations/create_edit.html", error=form.errors,
-                            action="create", form=form)
+    def post(self):
+        """ Create new reservation """
+        """
+        @todo #434:30min Continue the implementation of CreateReservation. 
+         Add authentication and refactor using CrudAPIView also edit and 
+         delete methods for Reservations. Tests for these are skipped.
+         Created reservation should be returned as a JSON object
+        """
+        form = ReservationForm(request.form)
+        try:
+            if form.validate():
+                reservation = Reservation(
+                    start_time=request.form["start_time"],
+                    end_time=request.form["end_time"],
+                    num_of_persons=request.form["num_of_persons"],
+                    comment=request.form["comment"],
+                    status=request.form["status"]
+                )
+                DB.session.add(reservation)
+                DB.session.commit()
+                return jsonify(status="success"), HTTPStatus.CREATED
+
+            return jsonify(
+                status="error",
+                errors=form.errors
+            ), HTTPStatus.BAD_REQUEST
+
+        except Exception as error:
+            return jsonify(
+                status="error",
+                errors=error
+            ), HTTPStatus.BAD_REQUEST
+
+
+CreateReservation.register(BP, "/create")
 
 
 @BP.route("/edit/<int:id>", methods=("GET", "POST"))
