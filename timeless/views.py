@@ -1,16 +1,11 @@
 """Generic classes for API views and Template views.
-@todo #173:30min Implement checking for permissions (like is user logged in or
- is user in role) using decorators for view. For that, create new view which
- all other views will extend. Example would be:
- class AdminView(View):
- ....decorators = [auth.admin_required, auth.login_required]
- class UserView(AdminView):
 @todo #311:30min Once CreateView is implemented, refactor all blueprint views
  to use it for validating the form and storing the record in the database.
  Views already implemented: ItemCreateView
-@todo #173:30min Once UpdateView is implemented, refactor all blueprint views
+@todo #311:30min Once UpdateView is implemented, refactor all blueprint views
  to use it for validating the form and updating the record in the database.
  Reuse SingleObjectMixin to provide simple solution to fetch by id.
+ Views already implemented: ItemCreateView
 @todo #221:30min Remove references to database objects. we should not tie
  our view layer to our database objects. We should create some form of
  abstraction to handle the model calls, for example,
