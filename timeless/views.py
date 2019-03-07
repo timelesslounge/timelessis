@@ -6,6 +6,19 @@
  to use it for validating the form and updating the record in the database.
  Reuse SingleObjectMixin to provide simple solution to fetch by id.
  Views already implemented: ItemCreateView
+@todo #309:30min Refactor all blueprint views to use ListView for getting the
+ list of objects from db using model. Also, make sure list.html template is
+ made generic to allow all other views to use it. Feel free to add more puzzles
+ since there are a lot of views. Already refactored views: TableListView. Check
+ in issues to see if some view is not being refactored in other issue.
+
+ Example of using CrudAPIView:
+
+ class CommentView(CrudView):
+
+     model = Comment
+     url_lookup = "comment_id"
+     
 @todo #221:30min Remove references to database objects. we should not tie
  our view layer to our database objects. We should create some form of
  abstraction to handle the model calls, for example,
