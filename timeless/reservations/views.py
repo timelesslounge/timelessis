@@ -126,6 +126,7 @@ class CreateReservation(views.CrudAPIView):
         @todo #434:30min Continue the implementation of CreateReservation. 
          Add authentication and refactor using CrudAPIView also edit and 
          delete methods for Reservations. Tests for these are skipped.
+         Created reservation should be returned as a JSON object
         """
         form = ReservationForm(request.form)
         try:
@@ -139,7 +140,7 @@ class CreateReservation(views.CrudAPIView):
                 )
                 DB.session.add(reservation)
                 DB.session.commit()
-                return jsonify(status="success"), HTTPStatus.OK
+                return jsonify(status="success"), HTTPStatus.CREATED
 
             return jsonify(
                 status="error",
@@ -149,7 +150,7 @@ class CreateReservation(views.CrudAPIView):
         except Exception as error:
             return jsonify(
                 status="error",
-                errors=errors
+                errors=error
             ), HTTPStatus.BAD_REQUEST
 
 

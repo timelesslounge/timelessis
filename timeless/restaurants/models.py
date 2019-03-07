@@ -9,13 +9,13 @@ from sqlalchemy_utils import ChoiceType
 
 """Reservation status"""
 RESERVATION_STATUS = [
-    (u"unconfirmed", u"unconfirmed"),
-    (u"confirmed", u"confirmed"),
-    (u"started", u"started"),
-    (u"finished", "finished"),
-    (u"canceled", u"canceled"),
-    (u"late", u"late"),
-    (u"not_contacting", u"not_contacting")
+    (u"unconfirmed", u"Unconfirmed"),
+    (u"confirmed", u"Confirmed"),
+    (u"started", u"Started"),
+    (u"finished", "Finished"),
+    (u"canceled", u"Canceled"),
+    (u"late", u"Late"),
+    (u"not_contacting", u"Not Contacting")
 ]
 
 
