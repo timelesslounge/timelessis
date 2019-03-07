@@ -27,16 +27,14 @@ def test_cant_access_unknown_resource(clean_app):
 
 
 def test_cant_access_his_profile(clean_app):
-    assert not has_privilege(method=Method.READ, resource="employee", employee_id=1)
+    assert not has_privilege(
+        method=Method.READ, resource="employee", employee_id=1)
 
 
 def test_can_access_his_profile(clean_app):
-    flask.g.user = Employee(id=1, first_name="Alice", last_name="Cooper",
-                      username="alice", phone_number="1", account_status="T",
-                      birth_date=datetime.utcnow(), pin_code=1234,
-                      registration_date=datetime.utcnow(), user_status="T",
-                      email="test@test.com", password="bla")
-    assert has_privilege(method=Method.READ, resource="employee", employee_id=1)
+    flask.g.user = factories.EmployeeFactory()
+    assert has_privilege(
+        method=Method.READ, resource="employee", employee_id=flask.g.user.id)
 
 
 def test_can_access_own_employees(clean_app):
@@ -146,132 +144,32 @@ def test_can_not_manage_locations_from_different_company(clean_app, db_session):
         method=Method.DELETE, resource="location", id=location.id
     )
 
-@pytest.mark.skip(reason="Implement owner privileges to check for company")
-def test_can_manage_employees_from_same_company(clean_app, db_session):
-    my_company = Company(
-        name="Mothers Of Invention Inc.", code="code1", address="addr"
-    )
-    db_session.add(my_company)
-    db_session.commit()
-    role = Role(
-        id = 1,
-        name = "owner",
-        works_on_shifts = False,
-        company_id = my_company.id
-    )
-    db_session.add(role)
-    db_session.commit()
-    boss = Employee(
-        first_name="Frank", last_name="Zappa",
-        username="frank", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=1248,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=my_company.id,
-        email="fank@mothers.com",
-        password="bla",
-        role_id=role.id
-    )
-    db_session.add(boss)
-    db_session.commit()
-    flask.g.user = boss
-    employee = Employee(
-        first_name="Jack", last_name="Black",
-        username="jack", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=5648,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=my_company.id,
-        email="jack@black.com",
-        password="bla"
-    )
-    db_session.add(employee)
-    db_session.commit()
+
+@pytest.mark.parametrize('method', (
+    Method.READ,
+    Method.CREATE,
+    Method.UPDATE,
+    Method.DELETE,
+))
+def test_can_manage_employees_from_same_company(method, clean_app):
+    me = factories.EmployeeFactory(company=factories.CompanyFactory())
+    colleague = factories.EmployeeFactory(company=me.company)
+    flask.g.user = me
+
     assert has_privilege(
-        method=Method.READ, resource="employee", employee_id=employee.id
-    )
-    assert has_privilege(
-        method=Method.CREATE, resource="employee"
-    )
-    assert has_privilege(
-        method=Method.UPDATE, resource="employee", employee_id=employee.id
-    )
-    assert has_privilege(
-        method=Method.DELETE, resource="employee", employee_id=employee.id
-    )
+        method=method, resource="employee", employee_id=colleague.id)
 
 
-@pytest.mark.skip(reason="Implement owner privileges to check for company")
-def test_can_not_manage_employees_from_different_company(clean_app, db_session):
-    boss_company = Company(
-        name="Mothers Of Invention Inc.", code="code1", address="addr"
-    )
-    db_session.add(boss_company)
-    db_session.commit()
-    owner_role = Role(
-        id = 1,
-        name = "owner",
-        works_on_shifts = False,
-        company_id = boss_company.id
-    )
-    db_session.add(owner_role)
-    db_session.commit()
-    boss = Employee(
-        first_name="Frank", last_name="Zappa",
-        username="frank", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=6547,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=boss_company.id,
-        email="fank@mothers.com",
-        password="bla",
-        role_id=owner_role.id
-    )
-    db_session.add(boss)
-    flask.g.user = boss
-    employee_company = Company(
-        name="Damage Inc.", code="code2", address="addr"
-    )
-    db_session.add(employee_company)
-    db_session.commit()
-    employee_role = Role(
-        id = 2,
-        name = "employee",
-        works_on_shifts = False,
-        company_id = employee_company.id
-    )
-    db_session.add(employee_role)
-    db_session.commit()
-    employee = Employee(
-        first_name="James", last_name="Hetfield",
-        username="jaymz", phone_number="1",
-        birth_date=datetime.utcnow(),
-        pin_code=7777,
-        account_status="on",
-        user_status="on",
-        registration_date=datetime.utcnow(),
-        company_id=employee_company.id,
-        email="jaymz@metallica.com",
-        password="bla",
-        role_id=employee_role.id
-    )
-    db_session.add(employee)
-    db_session.commit()
+@pytest.mark.parametrize('method', (
+    Method.READ,
+    Method.CREATE,
+    Method.UPDATE,
+    Method.DELETE,
+))
+def test_can_not_manage_employees_from_different_company(method, clean_app):
+    me = factories.EmployeeFactory(company=factories.CompanyFactory())
+    someone = factories.EmployeeFactory(company=factories.CompanyFactory())
+    flask.g.user = me
+
     assert not has_privilege(
-        method=Method.READ, resource="employee", employee_id=employee.id
-    )
-    assert not has_privilege(
-        method=Method.CREATE, resource="employee"
-    )
-    assert not has_privilege(
-        method=Method.UPDATE, resource="employee", employee_id=employee.id
-    )
-    assert not has_privilege(
-        method=Method.DELETE, resource="employee", employee_id=employee.id
-    )
+        method=method, resource="employee", employee_id=someone.id)
