@@ -14,10 +14,11 @@ def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
     @todo #358:30min Change checking of this statement below
      `name = g.user.role.name` to `name = g.user.role.role_type` and fix all
      tests, in all tests should be provided role_type instead of name of Role
-     model. Example:
-     manager_role = factories.RoleFactory(
+     model. Example below:
+    
+    manager_role = factories.RoleFactory(
         name="manager", role_type=RoleType.Manager)
-     me = factories.EmployeeFactory(company=my_company, role=manager_role)
+    me = factories.EmployeeFactory(company=my_company, role=manager_role)
     """
 
     if not g.user or not g.user.role:
