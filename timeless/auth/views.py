@@ -69,10 +69,6 @@ def forgot_password():
 def activate():
     """
     Activate the user's account by setting account status to true.
-    @todo #399:30min Implement tests for this method.
-     Tests should include more cases.
-     Currently we are testing not logged in while visiting activate.
-     Tests for a logged in activation needed.
     """
     if not g.user:
         return render_template("auth/activate.html")
