@@ -108,8 +108,8 @@ class FloorFactory(factory.alchemy.SQLAlchemyModelFactory):
 class ReservationFactory(factory.alchemy.SQLAlchemyModelFactory):
     num_of_persons = factory.Faker("pyint")
     comment = factory.Faker("text")
-    start_time = factory.LazyFunction(datetime.now)
-    status = restaurant_models.ReservationStatus.confirmed.name
+    start_time = datetime.now().replace(microsecond=0)
+    status = restaurant_models.RESERVATION_STATUS[2][0]
 
     class Meta:
         model = restaurant_models.Reservation
