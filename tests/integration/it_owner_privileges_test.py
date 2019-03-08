@@ -1,5 +1,4 @@
-''""" Tests for privilege of owner.
-"""
+""" Tests for privilege of owner. """
 
 from datetime import datetime
 
@@ -145,7 +144,7 @@ def test_can_not_manage_locations_from_different_company(clean_app, db_session):
     )
 
 
-@pytest.mark.parametrize('method', (
+@pytest.mark.parametrize("method", (
     Method.READ,
     Method.CREATE,
     Method.UPDATE,
@@ -155,12 +154,11 @@ def test_can_manage_employees_from_same_company(method, clean_app):
     me = factories.EmployeeFactory(company=factories.CompanyFactory())
     colleague = factories.EmployeeFactory(company=me.company)
     flask.g.user = me
-
     assert has_privilege(
         method=method, resource="employee", employee_id=colleague.id)
 
 
-@pytest.mark.parametrize('method', (
+@pytest.mark.parametrize("method", (
     Method.READ,
     Method.CREATE,
     Method.UPDATE,
@@ -170,6 +168,5 @@ def test_can_not_manage_employees_from_different_company(method, clean_app):
     me = factories.EmployeeFactory(company=factories.CompanyFactory())
     someone = factories.EmployeeFactory(company=factories.CompanyFactory())
     flask.g.user = me
-
     assert not has_privilege(
         method=method, resource="employee", employee_id=someone.id)
