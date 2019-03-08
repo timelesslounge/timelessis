@@ -1,11 +1,12 @@
 """Integration tests for Employees"""
 import pytest
 from http import HTTPStatus
-from flask import url_for
+from flask import url_for, g
 from datetime import datetime
 
 from tests import factories
 from timeless.employees.models import Employee
+from timeless.roles.models import Role, RoleType
 
 """
 @todo #278:30min Tests are not using secured views. We should authenticate users 
@@ -111,10 +112,13 @@ def test_create(client, db_session):
     client.post(url_for("employee.create"), data=employee_data)
     assert Employee.query.count() == 1
 
+
 """
 @todo #411:30min Lets fix the test. Currently it fails because of passed form is not being valid, failing
  with 'Already exists.' message for username and pincode. Remember to uncomment Edit view for employee.
 """
+
+
 @pytest.mark.skip
 def test_edit(client):
     employee = factories.EmployeeFactory(comment="No comments")
@@ -146,12 +150,30 @@ def test_cannot_access_create(client, db_session):
     assert client.get("/employees/create").status_code == HTTPStatus.FORBIDDEN
 
 
-@pytest.mark.skip(reason="Authentication injection not implemented")
+"""
+@todo #412:30min timeless/employees/views.py::Delete is not working. Fix it and 
+ then uncomment the tests below. Also refactor Delete to EmployeeDeleteView to
+ make it uniform with the rest of the applicaton. 
+"""
+
+
+@pytest.mark.skip(reason="Correct EmployeeDeleteView")
 def test_delete(client):
-    employee = factories.EmployeeFactory()
-    response = client.post(url_for('employee.delete', id=employee.id))
-    assert response.status_code == HTTPStatus.FOUND
-    assert not Employee.query.count()
+    company = factories.CompanyFactory()
+    intern = factories.EmployeeFactory(
+        company=company, role_id=Role(role_type=RoleType.Intern.name).id
+    )
+    boss = factories.EmployeeFactory(
+        company=company, role_id=Role(role_type=RoleType.Manager.name).id
+    )
+    with client.session_transaction() as session:
+        session["user_id"] = boss.id
+    g.user = boss
+    intern_id = intern.id
+    response = client.post(url_for("employee.delete", id=intern_id))
+    assert len(Employee.query.all()) == 1
+    assert Employee.query.get(intern_id) is None
+    assert response.status_code == HTTPStatus.OK
 
 
 def test_cannot_delete(client, db_session):
