@@ -4,12 +4,11 @@
  accessed by the Location page. Then remove skip annotation from
  FloorsListView tests for ordering and filtering. Authentication must be 
  faked in order to test work.
-@todo #95:30min Implement create floor view. Create floor view must extend
- timeless/views.py::CreateView and implement floor creation. First screen
- must show empty fields for floor data input and second view must show the
- newly inserted  floor information and a message with the result of the
- insertion of this data to the repository. The tests must cover if the
- screen is being showed correctly and if the errors are being displayed if any.
+@todo #95:30min Continue on developing create floor view. After creation we 
+ should render Detail view showing the newly inserted  floor information and 
+ a message with the result of the insertion of this data to the repository.
+ The tests must cover if the screen is being showed correctly and if the 
+ errors are being displayed if any.
 @todo #95:30min Implement edit / update floor views. Edit / update floor
  view is composed of two views: first view of edit / floor view must load the
  desired floor data onto the screen and must extend
@@ -66,10 +65,17 @@ class Create(views.CreateView):
     """ Create a new floor instance """
     decorators = (auth.login_required,)
     template_name = "restaurants/floors/create_edit.html"
-    success_view_name = "floor.list_floors"
+    success_view_name = "floor.list"
     form_class = FloorForm
+
+class Detail(views.DetailView):
+    """ Detail view for Reservation Settings  """
+    model = Floor
+    template_name = "restaurants/floors/create_edit.html"
 
 
 Create.register(BP, "/create")
 List.register(BP, "/")
 Delete.register(BP, "/delete/<int:id>")
+Detail.register(BP, "/<int:id>")
+

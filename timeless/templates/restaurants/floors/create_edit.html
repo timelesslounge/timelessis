@@ -6,12 +6,10 @@
 
 {% block content %}
   <form method="post">
-    <label for="location">Location</label>
-    <input name="location" id="location" required>
-    <br/>
+    <input type="hidden" id="location_id" name="location_id">
     <label for="description">Description</label>
     <textarea name="description" id="description"></textarea>
     <input type="submit" value="{% if action == 'create' %} Create {% else %} Update {% endif %}">
-    <a class="action" href="{{ url_for('floor.list_floors') }}">Cancel</a>
+    <a class="action" href="{{ url_for('floor.list') }}">Cancel</a>
   </form>
 {% endblock %}
