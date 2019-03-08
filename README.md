@@ -32,6 +32,12 @@ A good example on how should be developed the frontend is the [GetSling webapp](
 
 Very important for us in case of serious software/hardware failure. The system should not lose/corrupt data (regular database backups) and we should able to restore system performance within 15 minutes (master-slave replication and failover should be configured).
 
+## Sketches
+
+At the following link you can find the updated sketches for the UI/UX part
+
+https://drive.google.com/drive/folders/1f6aH1qlOL5Ek6Zo4b2rW2f6pkDz5jnp9
+
 ## Functional Requirements
 
 ### Admin Module
