@@ -68,6 +68,7 @@ class Create(views.CreateView):
     success_view_name = "floor.list"
     form_class = FloorForm
 
+
 class Detail(views.DetailView):
     """ Detail view for Reservation Settings  """
     model = Floor
@@ -78,4 +79,3 @@ Create.register(BP, "/create")
 List.register(BP, "/")
 Delete.register(BP, "/delete/<int:id>")
 Detail.register(BP, "/<int:id>")
-
