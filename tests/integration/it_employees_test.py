@@ -94,6 +94,37 @@ def test_create(client, db_session):
     client.post(url_for("employee.create"), data=employee_data)
     assert Employee.query.count() == 1
 
+"""
+@todo #411:30min Lets fix the test. Currently it fails because of passed form is not being valid, failing
+ with 'Already exists.' message for username and pincode.
+"""
+@pytest.mark.skip
+def test_edit(client, db_session):
+    data = {
+        "first_name": "Alice",
+        "last_name": "Brown",
+        "username": "alice",
+        "phone_number": "876",
+        "birth_date": datetime(2019, 2, 1, 0, 0).date(),
+        "registration_date": datetime(2019, 2, 1, 0, 0),
+        "account_status": "A",
+        "user_status": "Working",
+        "email": "test@test.com",
+        "password": "pwd1",
+        "pin_code": 1234,
+        "comment": "No comments",
+    }
+    employee = Employee(**data)
+    db_session.add(employee)
+    db_session.commit()
+    persisted = db_session.query(Employee).get(employee.id)
+    assert persisted.comment == "No comments"
+    data['comment'] = "One comment"
+    client.post(url_for('employee.edit', id=employee.id), data=data)
+    persisted = db_session.query(Employee).get(employee.id)
+    assert persisted.comment == "One comment"
+    """fails"""
+
 
 @pytest.mark.skip
 def test_delete(client):
