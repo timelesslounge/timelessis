@@ -96,7 +96,7 @@ def test_create(client, db_session):
 
 """
 @todo #411:30min Lets fix the test. Currently it fails because of passed form is not being valid, failing
- with 'Already exists.' message for username and pincode.
+ with 'Already exists.' message for username and pincode. Remember to uncomment Edit view for employee.
 """
 @pytest.mark.skip
 def test_edit(client, db_session):
