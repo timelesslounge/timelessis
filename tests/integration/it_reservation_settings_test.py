@@ -42,8 +42,7 @@ def test_delete(client):
     client.post(url_for("reservations.settings_create_view"), data=data)
     identifier = models.ReservationSettings.query.first().id
     client.post(
-        url_for("reservations.settings_delete"),
-        data={"setting_id": identifier}
+        url_for("reservations.settings_delete", setting_id=identifier)
     )
     response = client.get(url_for("reservations.settings_list"))
     assert response.status_code == HTTPStatus.OK
@@ -57,7 +56,7 @@ def reservation_data(comment):
         "start_time": datetime.datetime.now(),
         "end_time": datetime.datetime.now() + datetime.timedelta(hours=1),
         "customer_id": 1,
-        "num_of_persons": 932,
+        "num_of_persons": 1,
         "comment": comment,
         "status": "on",
         "multiple": True,
