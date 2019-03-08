@@ -46,7 +46,7 @@ class SettingsCreateView(views.CreateView):
     """ Create view for Reservation Settings """
     model = models.ReservationSettings
     template_name = "restaurants/tables/create_edit.html"
-    success_view_name = "reservation_settings_list"
+    success_view_name = "reservations.settings_list"
     form_class = SettingsForm
 
 
