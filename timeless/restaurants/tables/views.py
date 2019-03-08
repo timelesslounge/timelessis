@@ -1,9 +1,4 @@
 """tables views module.
-@todo #309:30min Add mock authentication to TableListView. Currently
- TabeListView test is not working because it requires an authenticated user
- with permissions to show list tables. it is currently showing login screen.
- Add an mocked authenticated user so we can run the test, the remove skip
- annotation from it.
 """
 from flask import Blueprint
 
