@@ -7,7 +7,6 @@ from flask import (
 )
 from timeless.auth import auth
 from timeless.employees.models import Employee
-
 from timeless import DB
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
@@ -74,7 +73,6 @@ def activate():
     Activate the user's account by setting account status to true.
     """
     if not g.user:
-        print(g.__dict__)
         return render_template("auth/activate.html")
 
     g.user.account_status = True
