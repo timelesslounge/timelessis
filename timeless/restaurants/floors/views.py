@@ -19,7 +19,9 @@
  view screens were correctly built and if the data was saved to the repository.
 @todo #424:30min The last step for deletion is to ask for confirmation before
  actually deleting the object. When clicking on link on list floors pages a
- javascript modal should appear asking user for confirmation
+ javascript modal should appear asking user for confirmation. Also make sure
+ that when a floor is deleted, all depending entities (like Tables, for example)
+ are deleted
 """
 from flask import (
     Blueprint, flash, redirect, render_template, request, url_for
