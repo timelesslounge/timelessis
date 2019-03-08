@@ -7,35 +7,29 @@ from tests import factories
 from timeless.restaurants.models import Reservation
 
 
-@pytest.mark.skip("reservations.list does not implemented yet")
 def test_list(client):
     reservation = factories.ReservationFactory()
     response = client.get(url_for("reservations.list"))
     assert response.status_code == HTTPStatus.OK
-    assert reservation.comment in response.data
+    assert reservation.comment in response.data.decode('utf-8')
 
 
 def test_create(client):
-    reservation = factories.ReservationFactory.build()
-    # convert reservation instance to dict
-    reservation_dict = {
-        column.name: str(getattr(reservation, column.name))
-        for column in reservation.__table__.columns
-    }
-    url = url_for("reservations.create_reservation")
-    response = client.post(url, data=reservation_dict)
-    assert response.status_code == HTTPStatus.CREATED
+    reservation = factories.ReservationFactory.get_dict()
+    url = url_for("reservations.create")
+    response = client.post(url, data=reservation)
+    assert response.status_code == HTTPStatus.FOUND
     assert Reservation.query.count() == 1
 
 
-@pytest.mark.skip("reservations.edit does not implemented yet")
 def test_edit(client):
     reservation_old = factories.ReservationFactory()
-    reservation_new = factories.ReservationFactory()
+    reservation_new = factories.ReservationFactory.get_dict()
     url = url_for("reservations.edit", id=reservation_old.id)
     response = client.post(url, data=reservation_new)
-    assert response.status_code == HTTPStatus.OK
-    assert reservation_new.comment in response.data
+    assert response.status_code == HTTPStatus.FOUND
+    reservation = Reservation.query.get(reservation_old.id)
+    assert reservation.comment == reservation_new["comment"]
 
 
 def test_delete(client):

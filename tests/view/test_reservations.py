@@ -37,27 +37,3 @@ def test_reservation_list(client):
     assert b"<a class=\"action\" href=\"/reservations/edit/6\">Edit</a>" in response.data
     assert response.status_code == HTTPStatus.OK
 
-@pytest.mark.skip
-def test_edit():
-    start_time = datetime.datetime
-    end_time = datetime.datetime
-    customer = Customer(
-        id=1,
-        first_name="First",
-        last_name="Last",
-        phone_number="555"
-    )
-    num_of_persons = 4
-    comment = "My comment"
-    status = 2
-    new_reservation = Reservation(
-        id=1,
-        start_time=start_time,
-        end_time=end_time,
-        customer_id=customer.id,
-        num_of_persons=num_of_persons,
-        comment=comment,
-        status=status
-    )
-    view = views.edit(id=new_reservation.id)
-    assert "<h1>Reservation management - Edit</h1>" in view

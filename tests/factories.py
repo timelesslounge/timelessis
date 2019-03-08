@@ -117,7 +117,7 @@ class FloorFactory(factory.alchemy.SQLAlchemyModelFactory):
         sqlalchemy_session_persistence = "commit"
 
 
-class ReservationFactory(factory.alchemy.SQLAlchemyModelFactory):
+class ReservationFactory(DictMixin, factory.alchemy.SQLAlchemyModelFactory):
     num_of_persons = factory.Faker("pyint")
     comment = factory.Faker("text")
     start_time = datetime.now().replace(microsecond=0)

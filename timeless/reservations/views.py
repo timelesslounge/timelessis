@@ -18,13 +18,38 @@ BP = Blueprint("reservations", __name__, url_prefix="/reservations")
 
 
 class ReservationsListView(views.ListView):
-    """ List the reservation """
+    """ List the reservations """
     model = Reservation
     template_name = "reservations/list.html"
-    context_object_list_name = "reservations"
 
 
-ReservationsListView.register(BP, "/")
+class ReservationsViewCreate(views.CreateView):
+    """ Create a new reservation instance"""
+    template_name = "reservations/create_edit.html"
+    success_view_name = "reservations.list"
+    form_class = ReservationForm
+
+
+class ReservationsEditView(views.UpdateView):
+    """Update reservation"""
+    template_name = "restaurants/create_edit.html"
+    form_class = ReservationForm
+    model = Reservation
+    success_view_name = "reservations.list"
+
+
+class ReservationsDeleteView(views.DeleteView):
+    """Delete reservation
+    Deletes location using id and redirects to list page
+    """
+    success_view_name = "reservations.list"
+    model = Reservation
+
+
+ReservationsListView.register(BP, "/", name="list")
+ReservationsViewCreate.register(BP, "/create", name="create")
+ReservationsEditView.register(BP, "/edit/<int:id>", name="edit")
+ReservationsDeleteView.register(BP, "/delete/<int:id>", name="delete")
 
 
 class SettingsList(views.ListView):
@@ -112,25 +137,6 @@ class ReservationView(views.CrudAPIView):
         return jsonify(reservations_json)
 
 
-@BP.route("/list", methods=("GET",))
-def list():
-    """list """
-
-
-def list():
-    """
-    @todo #215:30min Replace this for ReservationsListView(views.ListView)
-     in all tests.Because ReservationsListView(views.ListView) covers
-     the needs of this and after using reservationListView more tests
-     break because using this implementation.
-
-    :param reservations:
-    :return:
-    """
-    flash("List not yet implemented")
-    return render_template("restaurants/tables/list.html")
-
-
 class CreateReservation(views.CrudAPIView):
     """ Create a new reservation instance """
 
@@ -169,22 +175,3 @@ class CreateReservation(views.CrudAPIView):
 
 
 CreateReservation.register(BP, "/create")
-
-
-@BP.route("/edit/<int:id>", methods=("GET", "POST"))
-def edit(id):
-    if request.method == "POST":
-        flash("Edit not yet implemented")
-    return render_template(
-        "reservations/create_edit.html", action="edit",
-        id=id
-    )
-
-
-@BP.route("/delete/<int:id>", methods=["POST"])
-def delete(id):
-    """ Delete reservation """
-    reservation = Reservation.query.get(id)
-    DB.session.delete(reservation)
-    DB.session.commit()
-    return redirect(url_for("reservations.list"))
