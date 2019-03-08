@@ -1,17 +1,5 @@
 #!/bin/sh
 
-# @todo #374:30min Continue the deploy algorithm. We need to create an
-#  employee with role administrator belonging to company "Timeless" and
-#  credentials that will be taken by encrypted credential file. Rultor will do
-#  this, take a look at http://doc.rultor.com/reference.html. Administrator
-#  employee fields are encrypted and theis keys are:
-#  credentials.account.admin.first_name
-#  credentials.account.admin.last_name
-#  credentials.account.admin.username
-#  credentials.account.admin.email
-#  credentials.account.admin.password
-#  credentials.account.admin.pincode
-
 which psql
 if [ "$?" -gt "0" ]; then
   echo "Postgres Not installed, installing"
@@ -37,6 +25,15 @@ fi
 sudo cp timeless_pg.service /lib/systemd/system/
 sudo systemctl start timeless_pg.service
 
+which jq
+if [ "$?" -gt "0" ]; then
+  echo "Installing jq to parse credentials"
+  sudo apt-get -y install jq
+  echo "Done installing jq"
+else
+  echo "jq already installed"
+fi
+
 #checks if the database exists and create if not
 if [! psql -lqt | cut -d \| -f 1 | grep -qw "timelessdb"; ]; then
     echo "Creating database: timelessdb"
@@ -57,15 +54,27 @@ if [! psql -t -c '\du' | cut -d \| -f 1 | grep -qw "timeless_user"; ]; then
     echo "Timeless user created successfully"
 fi
 
-company = $(sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO company (name, code, address) values ('Timeless', 'Tm', '')")
-role = $(sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO role (name, works_on_shifts, company_id) values ('Administrator', False, $company)")
-password = "pass from rultor"
+company_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO companies (name, code, address, created_on, updated_on) values ('Timeless', 'Tm', '', current_timestamp, current_timestamp) returning id")
+role_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO roles (name, works_on_shifts, company_id) values ('Administrator', False, $company_id) returning id")
+
+credentials_src="/timelessis/credentials/credentials.json"
+
+# read credentials from rultor
+first_name=$(cat ${credentials_src} | jq '.credentials.account.admin.first_name')
+last_name=$(cat ${credentials_src} | jq '.credentials.account.admin.last_name')
+username=$(cat ${credentials_src} | jq '.credentials.account.admin.username')
+email=$(cat ${credentials_src} | jq '.credentials.account.admin.email')
+password=$(cat ${credentials_src} | jq '.credentials.account.admin.password')
+pincode=$(cat ${credentials_src} | jq '.credentials.account.admin.pincode')
+
+
 sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO employee
     (first_name, last_name, username, phone_number, birth_date,
     registration_date, account_status, user_status, email, password, pin_code,
     comment, company_id, role_id)
     values
-    ($credentials.account.admin.first_name, 'Last', 'timeless', '988888', '', '', 'active', 'active',
-    'abc@xyz.com', $password, '10', 'Timeless user', $company, $role
+    ('$first_name', '$last_name', '$username', '988888', '', '', 'active', 'active',
+     '$email', '$password', '$pincode', 'Timeless user', $company_id, $role_id
     )
     "
+
