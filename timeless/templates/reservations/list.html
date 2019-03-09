@@ -1,20 +1,30 @@
 {% extends 'base.html' %}
-{% cache 600 %}
+
 {% block header %}
-    <h1>{% block title %}Reservations{% endblock %}</h1>
+    {% cache 600 %}
+        <h1>{% block title %}Reservations{% endblock %}</h1>
+    {% endcache %}
 {% endblock %}
 
 {% block content %}
-    {% for reservation in reservations %}
-        <article class="reservation">
-        <header>
-            <a class="action" href="{{ url_for('reservations.edit', id=reservation['id']) }}">Edit</a>
-            <a class="action" href="{{ url_for('reservations.delete', id=reservation['id']) }}">Delete</a>
-        </header>
-        </article>
-        {% if not loop.last %}
-        <hr>
-        {% endif %}
-    {% endfor %}
+    {% cache 600 %}
+        {% for reservation in object_list %}
+            <article class="reservation">
+            <header>
+                <a class="action" href="{{ url_for('reservations.edit', id=reservation['id']) }}">Edit</a>
+                <a class="action" href="{{ url_for('reservations.delete', id=reservation['id']) }}">Delete</a>
+            </header>
+            <p class="column">ID: {{ reservation['id'] }}</p>
+            <p class="column">Start time: {{ reservation['start_time'] }}</p>
+            <p class="column">End time: {{ reservation['end_time'] }} </p>
+            <p class="column">Num of persons: {{ reservation['num_of_persons'] }}</p>
+            <p class="column">Comment: {{ reservation['comment'] }}</p>
+            <p class="column">Status: {{ reservation['status'] }}</p>
+            </article>
+            {% if not loop.last %}
+            <hr>
+            {% endif %}
+        {% endfor %}
+    {% endcache %}
 {% endblock %}
-{% endcache %}
+
