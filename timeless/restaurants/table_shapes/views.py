@@ -18,7 +18,7 @@ from timeless.uploads import IMAGES
 BP = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
 
 
-@pytest.mark.skip(reason="Waiting for TableShape implementation")
+@pytest.mark.skip(reason="Waiting for TableShape Filtering Implementation")
 class List(views.ListView):
     """ List the TableShape """
     model = models.TableShape
