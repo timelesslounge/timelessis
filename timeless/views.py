@@ -12,13 +12,13 @@
  since there are a lot of views. Already refactored views: TableListView. Check
  in issues to see if some view is not being refactored in other issue.
 
-Example of using CrudAPIView:
+ Example of using CrudAPIView:
 
-class CommentView(CrudView):
+ class CommentView(CrudView):
 
      model = Comment
      url_lookup = "comment_id"
-
+     
 @todo #221:30min Remove references to database objects. we should not tie
  our view layer to our database objects. We should create some form of
  abstraction to handle the model calls, for example,

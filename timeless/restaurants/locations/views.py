@@ -6,7 +6,7 @@ from timeless.restaurants.models import Location
 from timeless.restaurants.locations.forms import LocationForm
 
 
-bp = Blueprint("location", __name__, url_prefix="/locations")
+BP = Blueprint("location", __name__, url_prefix="/locations")
 
 
 class Create(views.CreateView):
@@ -38,7 +38,7 @@ class List(views.ListView):
     model = Location
 
 
-List.register(bp, "/")
-Create.register(bp, "/create")
-Edit.register(bp, "/edit/<int:id>")
-Delete.register(bp, "/delete/<int:id>")
+List.register(BP, "/")
+Create.register(BP, "/create")
+Edit.register(BP, "/edit/<int:id>")
+Delete.register(BP, "/delete/<int:id>")
