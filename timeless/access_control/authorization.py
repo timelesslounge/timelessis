@@ -10,12 +10,7 @@ def is_allowed(method=None, resource=None, *args, **kwargs) -> bool:
     Additional information needed for authorization can be passed through
     args or kwargs. This method is meant to work in conjunction with
     SecuredView.dispatch_request so that all available information about
-    a user view can be accessible in the authorization process.
-    @todo #242:30min Implement the rest of the owner privileges.
-     Owner should be able to create, modify, activate and deactivate accounts
-     for employess of his/her company. Create the tests for each of this
-     operation..
-    """
+    a user view can be accessible in the authorization process."""
 
     if g.user is None or g.user.role is None:
         name = "unknown"
