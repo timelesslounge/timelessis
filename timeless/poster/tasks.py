@@ -46,11 +46,11 @@ def sync_tables():
 def sync_customers():
     """
     Periodic task for fetching and saving tables from Poster
+    Docs - https://dev.joinposter.com/docs/api#clients-getclients
     """
     for poster_customer in __poster_api().customers():
         customer = DB.session(Customer).query.filter_by(
-            first_name=poster_customer["first_name"],
-            last_name=poster_customer["last_name"]
+            poster_id=poster_customer["client_id"],
         ).first()
         merge_data(
             model=Customer,

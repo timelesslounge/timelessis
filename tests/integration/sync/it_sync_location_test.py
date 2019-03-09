@@ -36,21 +36,23 @@ def test_sync_location(locations_mock, auth_mock, db_session):
     db_session.commit()
 
     auth_mock.return_value = 'token'
-    locations_mock.return_value = [{
-        "id": 100,
-        "name": "Coco Bongo",
-        "code": "C",
-        "company_id": company.id,
-        "country": "United States",
-        "region": "East Coast",
-        "city": "Edge City",
-        "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
-        "longitude": 21.1326063,
-        "latitude": -86.7473191,
-        "type": "L",
-        "status": "open",
-        "comment": "Nightclub from a famous movie"
-    }]
+    locations_mock.return_value = {
+        "response": [{
+            "id": 100,
+            "name": "Coco Bongo",
+            "code": "C",
+            "company_id": company.id,
+            "country": "United States",
+            "region": "East Coast",
+            "city": "Edge City",
+            "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
+            "longitude": 21.1326063,
+            "latitude": -86.7473191,
+            "type": "L",
+            "status": "open",
+            "comment": "Nightclub from a famous movie"
+        }]
+    }
 
     sync_locations()
 
