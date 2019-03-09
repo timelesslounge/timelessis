@@ -21,6 +21,7 @@ merge:
     python checkstyle.py
     python check_pylint.py
     pytest -vv
+    # @todo #514:30m React Frontend tests should be also executed in CI. The command is "cd frontend && npm test". Coverage should be also reported, maybe this another puzzle.
     pdd -f /dev/null -v
 deploy:
   script: |-
