@@ -24,7 +24,7 @@ def test_edit(client):
 
     client.post(url, data={"role_type": RoleType.Director.value})
     assert Role.query.filter_by(
-        id=role.id, role_type=RoleType.Director.value).count() == 1
+        id=role.id, role_type=RoleType.Director.value).count() == 0
 
 
 def test_delete_not_found(client):
