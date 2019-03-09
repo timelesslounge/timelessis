@@ -1,4 +1,6 @@
 """TableShape views module."""
+import pytest
+
 from http import HTTPStatus
 
 from flask import (
@@ -14,6 +16,16 @@ from timeless.uploads import IMAGES
 
 
 BP = Blueprint("table_shape", __name__, url_prefix="/table_shapes")
+
+
+@pytest.mark.skip(reason="Waiting for TableShape Filtering Implementation")
+class List(views.ListView):
+    """ List the TableShape """
+    model = models.TableShape
+    template_name = "restaurants/table_shapes/list.html",
+
+
+"""List.register(BP, "/")"""
 
 
 @BP.route("/")

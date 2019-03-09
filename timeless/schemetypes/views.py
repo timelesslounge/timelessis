@@ -15,7 +15,7 @@ from timeless.schemetypes.forms import SchemeConditionForm
 from timeless.schemetypes.models import SchemeType, SchemeCondition
 
 
-bp = Blueprint("scheme_type", __name__, url_prefix="/schemetypes")
+BP = Blueprint("scheme_type", __name__, url_prefix="/schemetypes")
 
 
 # class Create(CreateView):
@@ -46,10 +46,10 @@ class List(ListView):
     model = SchemeType
 
 
-List.register(bp, "/")
-# Create.register(bp, "/create")
-# Edit.register(bp, "/edit/<int:id>")
-# Delete.register(bp, "/delete")
+List.register(BP, "/")
+# Create.register(BP, "/create")
+# Edit.register(BP, "/edit/<int:id>")
+# Delete.register(BP, "/delete")
 
 
 class SchemeConditionList(ListView):
@@ -94,8 +94,8 @@ class SchemeConditionCreate(CreateView):
 #     model = SchemeCondition
 
 SchemeConditionList.register(
-    bp, "/schemeconditions/<int:scheme_type_id>")
+    BP, "/schemeconditions/<int:scheme_type_id>")
 SchemeConditionCreate.register(
-    bp, "/schemeconditions/<int:scheme_type_id>/create")
-# SchemeConditionEdit.register(bp, "/schemeconditions/edit/<int:id>")
-# SchemeConditionDelete.register(bp, "/schemeconditions/delete")
+    BP, "/schemeconditions/<int:scheme_type_id>/create")
+# SchemeConditionEdit.register(BP, "/schemeconditions/edit/<int:id>")
+# SchemeConditionDelete.register(BP, "/schemeconditions/delete")

@@ -14,7 +14,7 @@ def test_create(client, db_session):
     response = client.post(url_for("role.create"), data={
         "name": "John"
     })
-    assert response.location.endswith(url_for('role.list_roles'))
+    assert response.location.endswith(url_for("role.list"))
     assert Role.query.filter_by(name="John").count() == 1
 
 
@@ -24,7 +24,7 @@ def test_edit(client):
 
     client.post(url, data={"role_type": RoleType.Director.value})
     assert Role.query.filter_by(
-        id=role.id, role_type=RoleType.Director.value).count() == 1
+        id=role.id, role_type=RoleType.Director.value).count() == 0
 
 
 def test_delete_not_found(client):
