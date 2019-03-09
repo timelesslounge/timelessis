@@ -11,7 +11,9 @@ def test_list(client):
     reservation = factories.ReservationFactory()
     response = client.get(url_for("reservations.list"))
     assert response.status_code == HTTPStatus.OK
-    assert reservation.comment in response.data.decode('utf-8')
+    html = response.data.decode("utf-8")
+    assert reservation.comment in html
+    assert html.count(reservation.comment) == 1
 
 
 def test_create(client):
@@ -23,13 +25,13 @@ def test_create(client):
 
 
 def test_edit(client):
-    reservation_old = factories.ReservationFactory()
-    reservation_new = factories.ReservationFactory.get_dict()
-    url = url_for("reservations.edit", id=reservation_old.id)
-    response = client.post(url, data=reservation_new)
+    reservation_original = factories.ReservationFactory()
+    reservation_edited = factories.ReservationFactory.get_dict()
+    url = url_for("reservations.edit", id=reservation_original.id)
+    response = client.post(url, data=reservation_edited)
     assert response.status_code == HTTPStatus.FOUND
-    reservation = Reservation.query.get(reservation_old.id)
-    assert reservation.comment == reservation_new["comment"]
+    reservation = Reservation.query.get(reservation_original.id)
+    assert reservation.comment == reservation_edited["comment"]
 
 
 def test_delete(client):
