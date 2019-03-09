@@ -100,8 +100,8 @@ class CommentView(SecuredView, views.CrudAPIView):
     """API Resource for comments /api/comments
 
     @todo #267:30min Add resource property to CommentView class so that the
-      /api/comments endpoint works and #267 can be solved. Look at CrudAPIView
-      code to understand why resource property is needed.
+     /api/comments endpoint works and #267 can be solved. Look at CrudAPIView
+     code to understand why resource property is needed.
     """
     model = models.Comment
     url_lookup = "comment_id"
