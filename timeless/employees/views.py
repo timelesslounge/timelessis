@@ -27,15 +27,10 @@ class Create(views.CreateView, SecuredView):
         return self.render_to_response(context)
 
 
-"""
-@todo #348:30min Continue implementing Edit view when generic view UpdateView
- would be implemented. Template "employees/create_edit.html" has already
- provided, so uncomment and modify. Write IT to verify behaviour.
-"""
 # class Edit(views.UpdateView):
 #     """Update employee"""
 #     template_name = "employees/create_edit.html"
-#     form_class  = EmployeeForm
+#     form_class = EmployeeForm
 #     model = Employee
 
 

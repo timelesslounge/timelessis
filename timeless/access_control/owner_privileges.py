@@ -1,6 +1,7 @@
 import flask
 
 from timeless.access_control.methods import Method
+from timeless.employees.models import Employee
 from timeless.restaurants.models import Location
 
 """
@@ -24,14 +25,17 @@ def __location_access(method=None, *args, **kwargs):
 
 
 def __employee_access(method=None, *args, **kwargs):
-    permitted, user = False, flask.g.get("user")
-    employee_id = kwargs.get("employee_id")
-    if method == Method.READ and user:
-        if employee_id:
-            permitted = employee_id == user.id
-        else:
-            permitted = True
-    return permitted
+    user, employee_id = flask.g.user, kwargs.get("employee_id")
+
+    if not employee_id:
+        return True
+
+    employee = Employee.query.get(employee_id)
+
+    if not employee:
+        return False
+
+    return employee.company_id == user.company_id
 
 
 def __company_access(method=None, *args, **kwargs):

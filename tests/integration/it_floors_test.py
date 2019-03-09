@@ -38,7 +38,7 @@ def test_filtered_list(client):
 
 @pytest.mark.parametrize("path", (
     "/floors/edit/1",
-    "/floors/delete",
+    "/floors/delete/1",
 ))
 def test_login_required(client, path):
     response = client.post(path)
@@ -65,5 +65,8 @@ def test_edit(client, auth):
 @pytest.mark.skip(reason="auth.login() is not yet implemented")
 def test_delete(client, auth):
     auth.login()
-    response = client.post("/floors/delete", data={"id": 1})
+    floor = factories.FloorFactory()
+    response = client.post(url_for("floor.delete", id=floor.id))
     assert response.headers["Location"] == "http://localhost/floors/"
+    assert response.status_code == HTTPStatus.FOUND
+    assert Floor.query.count() == 0

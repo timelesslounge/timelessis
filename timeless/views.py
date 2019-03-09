@@ -58,6 +58,25 @@ class CrudAPIView(views.MethodView):
      result.  Please refer to #221 and #222 for documentation.
     """
 
+    @classmethod
+    def register(cls, blueprint, route, name=None):
+        """
+        A shortcut method for registering this view to an app or blueprint.
+        Assuming we have a blueprint and a CompanyCreate view, then these two
+        lines are identical in functionality:
+            views.add_url_rule('/companies/create',
+                               view_func=CompanyCreate.as_view(
+                                   'company_create')
+                               )
+            CompanyCreate.register(views, '/companies/create',
+                                   'company_create')
+        """
+        if not name:
+            # Convert "ViewName" to "view_name" and use it
+            name = camel_to_underscore.sub(r"_\1", cls.__name__).lower()
+
+        blueprint.add_url_rule(route, view_func=cls.as_view(name))
+
     def get(self, object_id):
         """Calls the GET method."""
         return self.model.query.get(object_id)

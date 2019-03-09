@@ -111,6 +111,21 @@ def test_create(client, db_session):
     client.post(url_for("employee.create"), data=employee_data)
     assert Employee.query.count() == 1
 
+"""
+@todo #411:30min Lets fix the test. Currently it fails because of passed form is not being valid, failing
+ with 'Already exists.' message for username and pincode. Remember to uncomment Edit view for employee.
+"""
+@pytest.mark.skip
+def test_edit(client):
+    employee = factories.EmployeeFactory(comment="No comments")
+    persisted = Employee.query.get(employee.id)
+    assert persisted.comment == "No comments"
+    client.post(
+        url_for('employee.edit', id=employee.id), data={"comment": "One comment"})
+    persisted = Employee.query.get(employee.id)
+    assert persisted.comment == "One comment"
+    """fails"""
+
 
 def test_cannot_access_create(client, db_session):
     """ Show 403 - Forbidden when user cannot access employee list """

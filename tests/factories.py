@@ -14,6 +14,18 @@ from timeless.items import models as item_models
 from timeless.schemetypes import models as schemetypes_models
 
 
+class DictMixin:
+
+    @classmethod
+    def get_dict(cls):
+        instance = cls.build()
+        # convert instance to dict
+        return {
+            column.name: str(getattr(instance, column.name))
+            for column in instance.__table__.columns
+        }
+
+
 class TableShapeFactory(factory.alchemy.SQLAlchemyModelFactory):
     """ Factory for creating TableShape instance. """
     description = factory.Faker("text")
@@ -108,8 +120,8 @@ class FloorFactory(factory.alchemy.SQLAlchemyModelFactory):
 class ReservationFactory(factory.alchemy.SQLAlchemyModelFactory):
     num_of_persons = factory.Faker("pyint")
     comment = factory.Faker("text")
-    start_time = factory.LazyFunction(datetime.now)
-    status = restaurant_models.ReservationStatus.confirmed.name
+    start_time = datetime.now().replace(microsecond=0)
+    status = restaurant_models.RESERVATION_STATUS[2][0]
 
     class Meta:
         model = restaurant_models.Reservation
@@ -130,3 +142,34 @@ class SchemeTypeFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = schemetypes_models.SchemeType
         sqlalchemy_session = DB.session
         sqlalchemy_session_persistence = "commit"
+
+
+class LocationFactory(DictMixin, factory.alchemy.SQLAlchemyModelFactory):
+    name = factory.Faker("text")
+    code = factory.Faker("text")
+    country = factory.Faker("text")
+    region = factory.Faker("text")
+    city = factory.Faker("text")
+    address = factory.Faker("text")
+    longitude = factory.Faker("text")
+    latitude = factory.Faker("text")
+    type = factory.Faker("text")
+    status = factory.Faker("text")
+    comment = factory.Faker("text")
+
+    class Meta:
+        model = restaurant_models.Location
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
+
+    @classmethod
+    def get_edit_fields_dict(cls):
+        location = cls.get_dict()
+        excluded_fields = [
+            'poster_id', 'closed_days', 'id',
+            'working_hours', 'company_id', 'synchronized_on'
+        ]
+        for field in excluded_fields:
+            location.pop(field, None)
+
+        return location

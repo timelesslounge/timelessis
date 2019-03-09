@@ -12,6 +12,7 @@
             <h1>{{ floor['description'] }}</h1>
             </div>
             <a class="action" href="{{ url_for('floor.edit', id=floor['id']) }}">Edit</a>
+            <a class="action" href="{{ url_for('floor.delete', id=floor['id']) }}">Destroy</a>
         </header>
         <p class="location">{{ floor['location'] }}</p>
         </article>

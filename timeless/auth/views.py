@@ -53,14 +53,15 @@ def forgot_password():
     if request.method == "POST":
         email = request.form["email"]
         error = auth.forgot_password(email=email)
-        print(error)
-        if error is not None:
-            return render_template("auth/forgot_password.html", error=error)
+
+        if error:
+            template = render_template(
+                "auth/forgot_password.html", error=error)
         else:
-            return render_template(
-                "auth/forgot_password_post.html",
-                email=email
-            )
+            template = render_template(
+                "auth/forgot_password_post.html", email=auth.mask_email(email))
+
+        return template
 
     return render_template("auth/forgot_password.html")
 
@@ -69,10 +70,6 @@ def forgot_password():
 def activate():
     """
     Activate the user's account by setting account status to true.
-    @todo #399:30min Implement tests for this method.
-     Tests should include more cases.
-     Currently we are testing not logged in while visiting activate.
-     Tests for a logged in activation needed.
     """
     if not g.user:
         return render_template("auth/activate.html")
