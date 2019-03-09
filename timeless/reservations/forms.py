@@ -12,7 +12,7 @@ class ReservationForm(forms.ModelForm):
         model = Reservation
 
 
-class SettingsForm(forms.BaseModelForm):
+class SettingsForm(forms.ModelForm):
     """ Base form for creating / updating Settings """
 
     class Meta:
