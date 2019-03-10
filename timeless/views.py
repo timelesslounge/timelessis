@@ -37,12 +37,6 @@ class CrudAPIView(views.MethodView):
      https://marshmallow.readthedocs.io/en/latest/
      to the project for object json serialization, update this puzzle or
      document design considerations for implementation if so.
-    @todo #289:30min Continue with the implementation of CrudAPIView.
-     Implement tests for post, put and delete methods in test_crud_api.py
-     first.  We should return json representation of object model in methods.
-     Use FakeModel for a fake database object, and implement the desired calls
-     on FakeQuery to get, create, save / update and delete returning the
-     result.  Please refer to #221 and #222 for documentation.
     """
 
     @classmethod
