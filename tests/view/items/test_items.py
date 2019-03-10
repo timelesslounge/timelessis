@@ -23,19 +23,17 @@ from tests import factories
 def test_list(client):
     """ Test list is okay """
     employee = factories.EmployeeFactory()
-    factories.ItemFactory(name="1", )
+    factories.ItemFactory(name="1")
     factories.ItemFactory(name="2")
     factories.ItemFactory(name="3")
-    factories.ItemFactory(name="4")
+    flask.g.user = employee
     with client.session_transaction() as session:
         session["user_id"] = employee.id
-    flask.g.user = employee
     response = client.get("/items/")
     print(response.data)
     assert b"<article class=\"item\"><header><div><h1>1</h1></div>" in response.data
     assert b"<article class=\"item\"><header><div><h1>2</h1></div>" in response.data
     assert b"<article class=\"item\"><header><div><h1>3</h1></div>" in response.data
-    assert b"<article class=\"item\"><header><div><h1>4</h1></div>" in response.data
     assert response.status_code == HTTPStatus.OK
 
 
