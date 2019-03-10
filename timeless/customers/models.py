@@ -32,7 +32,7 @@ class Customer(PosterSyncMixin, DB.Model):
             first_name=customer.first_name,
             last_name=customer.last_name,
             phone_number=poster_customer["phone_number"],
-            created_on=customer.created_on,
+            created_on=poster_customer["date_activate"],
             updated_on=datetime.utcnow(),
             poster_id=poster_customer["client_id"],
             synchronized_on=datetime.utcnow()
@@ -48,7 +48,7 @@ class Customer(PosterSyncMixin, DB.Model):
             first_name=poster_customer["firstname"],
             last_name=poster_customer["lastname"],
             phone_number=poster_customer["phone_number"],
-            created_on=datetime.utcnow(),
+            created_on=poster_customer["date_activate"],
             updated_on=datetime.utcnow(),
             poster_id=poster_customer["client_id"],
             synchronized_on=datetime.utcnow()
