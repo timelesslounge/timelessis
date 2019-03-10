@@ -9,9 +9,12 @@ from timeless.views import FakeAPIView
 
 
 def test_get_found_object(app):
-    """ Tests for CrudeAPIView get method when the object exists. """
+    """
+    Tests for CrudeAPIView get method when the object exists.
+    FakeAPIView extends CrudeAPIView.
+    """
     with app.test_request_context(
-            "/test/crudapitest"
+        "/test/crudapitest"
     ):
         apiview = FakeAPIView()
         result = apiview.get(5)
@@ -23,9 +26,12 @@ def test_get_found_object(app):
 
 
 def test_get_not_found_object(app):
-    """ Tests for CrudeAPIView get method when the object does not exists. """
+    """
+    Tests for CrudeAPIView get method when the object does not exists.
+    FakeAPIView extends CrudeAPIView.
+    """
     with app.test_request_context(
-            "/api/crudapi"
+        "/api/crudapi"
     ):
         apiview = FakeAPIView()
         with pytest.raises(NotFound, message="Fake object not found"):
@@ -33,9 +39,12 @@ def test_get_not_found_object(app):
 
 
 def test_post_object(app):
-    """ Tests for CrudeAPIView post method. """
+    """
+    Tests for CrudeAPIView post method.
+    FakeAPIView extends CrudeAPIView.
+    """
     with app.test_request_context(
-            "/test/crudapitest"
+        "/test/crudapitest"
     ):
         apiview = FakeAPIView()
         payload = {"some_id": 6, "some_attr": "attr6"}
@@ -47,9 +56,12 @@ def test_post_object(app):
 
 
 def test_put_object(app):
-    """ Tests for CrudeAPIView post method. """
+    """
+    Tests for CrudeAPIView post method.
+    FakeAPIView extends CrudeAPIView.
+    """
     with app.test_request_context(
-            "/test/crudapitest"
+        "/test/crudapitest"
     ):
         apiview = FakeAPIView()
         payload = {"some_id": 6, "some_attr": "attr6"}
@@ -61,9 +73,12 @@ def test_put_object(app):
 
 
 def test_delete_object(app):
-    """ Tests for CrudeAPIView post method. """
+    """
+    Tests for CrudeAPIView post method.
+    FakeAPIView extends CrudeAPIView.
+    """
     with app.test_request_context(
-            "/test/crudapitest"
+        "/test/crudapitest"
     ):
         apiview = FakeAPIView()
         result = apiview.delete(object_id=5)

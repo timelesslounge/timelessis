@@ -312,13 +312,14 @@ class FakeModel:
 
     class FakeQuery:
         """Fake query for tests."""
+        FAKE_OBJECT_ID = 5
 
         def get(self, object_id):
             """Fake response on get method."""
-            if object_id == 5:
+            if object_id == self.FAKE_OBJECT_ID:
                 response = {
-                        "some_id": 5,
-                        "some_attr": "attr"
+                    "some_id": self.FAKE_OBJECT_ID,
+                    "some_attr": "attr"
                 }
                 return jsonify(response), HTTPStatus.OK
             abort(HTTPStatus.NOT_FOUND)
@@ -333,10 +334,10 @@ class FakeModel:
 
         def delete(self, object_id):
             """Fake response on delete method."""
-            if object_id == 5:
+            if object_id == self.FAKE_OBJECT_ID:
                 response = {
-                        "some_id": 5,
-                        "some_attr": "attr"
+                    "some_id": self.FAKE_OBJECT_ID,
+                    "some_attr": "attr"
                 }
                 return jsonify(response), HTTPStatus.OK
             abort(HTTPStatus.NOT_FOUND)
