@@ -63,12 +63,23 @@ def test_activate(client):
     assert "Successfully activated your account." not in decoded_response
 
 
-"""
-    @todo #388:30min Forgot password routine. Test a forgot password logic: 
-     create an random password, Login with it, see it works.
-     change it for the user with the received e-mail, find it changed.
-"""
-
+def test_forgot_password_routine(db_session, client):
+    employee = factories.EmployeeFactory(
+        username="uname",
+        password=auth_hash("pass"),
+        email="mail@mail.com"
+    )
+    db_session.add(employee)
+    db_session.commit()
+    error = login("uname", "pass")
+    assert not error
+    assert flask.session["user_id"] == employee.id
+    flask.session.clear()
+    client.post(flask.url_for("auth.forgot_password"), data={
+        "email": employee.email})
+    error = login("uname", "pass")
+    assert error
+    assert not flask.session.get("user_id")
 
 def test_forgot_password_post(client):
     employee = factories.EmployeeFactory(email="mrgreen@yahoo.com")
