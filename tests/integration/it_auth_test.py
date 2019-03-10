@@ -63,21 +63,17 @@ def test_activate(client):
     assert "Successfully activated your account." not in decoded_response
 
 
-def test_forgot_password_routine(db_session, client):
+def test_forgot_password_routine(client):
     employee = factories.EmployeeFactory(
         username="uname",
         password=auth_hash("pass"),
         email="mail@mail.com"
     )
-    db_session.add(employee)
-    db_session.commit()
-    error = login("uname", "pass")
-    assert not error
-    assert flask.session["user_id"] == employee.id
+    error = login(employee.username, "pass")
     flask.session.clear()
     client.post(flask.url_for("auth.forgot_password"), data={
         "email": employee.email})
-    error = login("uname", "pass")
+    error = login(employee.username, "pass")
     assert error
     assert not flask.session.get("user_id")
 
