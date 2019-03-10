@@ -68,17 +68,17 @@ class CrudAPIView(views.MethodView):
         """Calls the GET method."""
         return self.model.query.get(object_id)
 
-    def post(self):
+    def post(self, payload):
         """Calls the POST method."""
-        pass
+        return self.model.query.post(payload)
 
-    def put(self):
+    def put(self, payload):
         """Calls the PUT method."""
-        pass
+        return self.model.query.put(payload)
 
-    def delete(self):
+    def delete(self, object_id):
         """Calls the DELETE method."""
-        pass
+        return self.model.query.delete(object_id)
 
 
 class GenericView(views.MethodView):
@@ -313,7 +313,7 @@ class DeleteView(SuccessRedirectMixin, SingleObjectMixin, GenericView):
         return redirect(self.get_success_url_redirect())
 
 
-class FakeModel():
+class FakeModel:
     """Fake model for tests."""
 
     class FakeQuery:
@@ -321,6 +321,24 @@ class FakeModel():
 
         def get(self, object_id):
             """Fake response on get method."""
+            if object_id == 5:
+                response = {
+                        "some_id": 5,
+                        "some_attr": "attr"
+                }
+                return jsonify(response), HTTPStatus.OK
+            abort(HTTPStatus.NOT_FOUND)
+
+        def post(self, payload):
+            """Fake response on post method."""
+            return jsonify(payload), HTTPStatus.OK
+
+        def put(self, payload):
+            """Fake response on put method."""
+            return jsonify(payload), HTTPStatus.OK
+
+        def delete(self, object_id):
+            """Fake response on delete method."""
             if object_id == 5:
                 response = {
                         "some_id": 5,

@@ -18,7 +18,7 @@ def test_get_found_object(app):
     json_result = json.loads(result[0].get_data(as_text=True))
     assert result[0].is_json is True
     assert json_result == {"some_id": 5, "some_attr": "attr"}, \
-            "Wrong result returned from CrudeAPI view"
+        "Wrong result returned from CrudeAPI view"
     assert result[1] == HTTPStatus.OK, "Wrong response from CrudeAPI view"
 
 
@@ -30,3 +30,45 @@ def test_get_not_found_object(app):
         apiview = FakeAPIView()
         with pytest.raises(NotFound, message="Fake object not found"):
             apiview.get(0)
+
+
+def test_post_object(app):
+    """ Tests for CrudeAPIView post method. """
+    with app.test_request_context(
+            "/test/crudapitest"
+    ):
+        apiview = FakeAPIView()
+        payload = {"some_id": 6, "some_attr": "attr6"}
+        result = apiview.post(payload)
+    json_result = json.loads(result[0].get_data(as_text=True))
+    assert result[0].is_json is True
+    assert json_result == payload, "Wrong result returned from CrudeAPI view"
+    assert result[1] == HTTPStatus.OK, "Wrong response from CrudeAPI view"
+
+
+def test_put_object(app):
+    """ Tests for CrudeAPIView post method. """
+    with app.test_request_context(
+            "/test/crudapitest"
+    ):
+        apiview = FakeAPIView()
+        payload = {"some_id": 6, "some_attr": "attr6"}
+        result = apiview.put(payload)
+    json_result = json.loads(result[0].get_data(as_text=True))
+    assert result[0].is_json is True
+    assert json_result == payload, "Wrong result returned from CrudeAPI view"
+    assert result[1] == HTTPStatus.OK, "Wrong response from CrudeAPI view"
+
+
+def test_delete_object(app):
+    """ Tests for CrudeAPIView post method. """
+    with app.test_request_context(
+            "/test/crudapitest"
+    ):
+        apiview = FakeAPIView()
+        result = apiview.delete(object_id=5)
+    json_result = json.loads(result[0].get_data(as_text=True))
+    assert result[0].is_json is True
+    assert json_result == {"some_id": 5, "some_attr": "attr"}, \
+        "Wrong result returned from CrudeAPI view"
+    assert result[1] == HTTPStatus.OK, "Wrong response from CrudeAPI view"
