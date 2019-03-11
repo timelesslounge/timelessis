@@ -168,10 +168,9 @@ def test_delete(client):
     )
     with client.session_transaction() as session:
         session["user_id"] = boss.id
-    g.user = boss
     intern_id = intern.id
     response = client.post(url_for("employee.delete", id=intern_id))
-    assert len(Employee.query.all()) == 1
+    assert Employee.query.count() == 1
     assert Employee.query.get(intern_id) is None
     assert response.status_code == HTTPStatus.OK
 
