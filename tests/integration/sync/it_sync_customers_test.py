@@ -8,10 +8,10 @@ from timeless.poster.api import Poster, Authenticated
 from timeless.poster.tasks import sync_customers
 
 
-@unittest.mock.patch.object(Authenticated, 'auth')
-@unittest.mock.patch.object(Poster, 'customers')
+@unittest.mock.patch.object(Authenticated, "auth")
+@unittest.mock.patch.object(Poster, "customers")
 def test_sync_customers_with_creating_data(customers_mock, auth_mock):
-    auth_mock.return_value = 'token'
+    auth_mock.return_value = "token"
     poster_customer = {
         "client_id": "55",
         "firstname": "",
@@ -58,8 +58,8 @@ def test_sync_customers_with_creating_data(customers_mock, auth_mock):
 
 @pytest.mark.skip(
     "Skipped until puzzle below is not done")
-@unittest.mock.patch.object(Authenticated, 'auth')
-@unittest.mock.patch.object(Poster, 'customers')
+@unittest.mock.patch.object(Authenticated, "auth")
+@unittest.mock.patch.object(Poster, "customers")
 def test_sync_customers_with_merging_data(customers_mock, auth_mock):
     """
     @todo #409:30min Remove skipping decorator from this test.
@@ -67,7 +67,7 @@ def test_sync_customers_with_merging_data(customers_mock, auth_mock):
      working properly, pls fix it. After fixing this test should work
     """
     customer = factories.CustomerFactory(poster_id="1")
-    auth_mock.return_value = 'token'
+    auth_mock.return_value = "token"
     poster_customer = {
         "client_id": customer.poster_id,
         "firstname": customer.first_name,

@@ -48,7 +48,7 @@ def sync_customers():
     Periodic task for fetching and saving tables from Poster
     Docs - https://dev.joinposter.com/docs/api#clients-getclients
     """
-    for poster_customer in __poster_api().customers().get('response', []):
+    for poster_customer in __poster_api().customers().get("response", []):
         customer = Customer.query.filter_by(
             poster_id=poster_customer["client_id"]
         ).first()
