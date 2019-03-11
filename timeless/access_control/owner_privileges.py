@@ -26,7 +26,6 @@ def __location_access(method=None, *args, **kwargs):
 
 def __employee_access(method=None, *args, **kwargs):
     user, employee_id = flask.g.user, kwargs.get("employee_id")
-
     if not employee_id:
         return True
 

@@ -25,9 +25,9 @@ def test_cant_access_unknown_resource(clean_app):
     assert not has_privilege(method=Method.CREATE, resource="unknown")
 
 
-def test_cant_access_his_profile(clean_app):
-    assert not has_privilege(
-        method=Method.READ, resource="employee", employee_id=1)
+def test_can_access_his_profile(clean_app):
+    """ Owner can read every employee """
+    assert has_privilege(method=Method.READ, resource="employee", employee_id=1)
 
 
 def test_can_access_his_profile(clean_app):
