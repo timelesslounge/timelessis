@@ -46,14 +46,20 @@ def test_login_required(client, path):
                                                    _external=True)
 
 
-@pytest.mark.skip(reason="auth.login() is not yet implemented")
 def test_create(client, auth):
+    location = factories.LocationFactory()
     auth.login()
     floor_data = {
-        "description": "Test floor"
+        "description": "Test floor",
+        "location_id": location.id
     }
-    client.post(url_for('floor.create'), data=floor_data)
+    response = client.post(url_for('floor.create'), data=floor_data)
+    assert response.headers["Location"] == "http://localhost/floors/"
+    assert response.status_code == HTTPStatus.FOUND
     assert Floor.query.count() == 1
+    floor = Floor.query.first()
+    assert floor.description == floor_data["description"]
+    assert floor.location_id == floor_data["location_id"]
 
 
 @pytest.mark.skip(reason="auth.login() is not yet implemented")

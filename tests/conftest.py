@@ -53,12 +53,18 @@ class AuthActions():
         self._client = client
 
     def login(self, username="test", password="test"):
-        return self._client.post(
-            "/auth/login",
-            data={"username": username, "password": password}
+        employee = factories.EmployeeFactory(
+            company=factories.CompanyFactory(),
         )
+        with self._client.session_transaction() as session:
+            session["user_id"] = employee.id
+            session["logged_in"] = True
+        return True
 
     def logout(self):
+        with self._client.session_transaction() as session:
+            session["user_id"] = None
+            session["logged_in"] = False
         return self._client.get("/auth/logout")
 
 
