@@ -6,6 +6,7 @@ from http import HTTPStatus
 
 from tests import factories
 from timeless.auth import auth
+from timeless.employees.models import Employee
 
 
 def test_activate_unauthenticated_get(client):
@@ -21,24 +22,20 @@ def test_activate_unauthenticated(client):
     assert response.status_code == HTTPStatus.OK
 
 
-@pytest.mark.skip(reason="Test must set user in session")
 def test_activate_authenticated(client):
     """
     Tests if authenticated POST to activate returns correct screen
-    @todo #385:30min Inject user into session in the test below. Test is broken
-     because we do not set user in session and then auth/views.py does not
-     redirect to correct page. Fix this behavior and uncomment this test.
     """
     employee = factories.EmployeeFactory(
         company=factories.CompanyFactory(),
         account_status=False
     )
     with client.session_transaction() as session:
+        session["logged_in"] = True
         session["user_id"] = employee.id
-    g.user = employee
     response = client.post("/auth/activate")
     assert b"<h1>Successfully activated your account.</h1>" in response.data
-    assert employee.account_status
+    assert Employee.query.get(employee.id).account_status
     assert response.status_code == HTTPStatus.OK
 
 
