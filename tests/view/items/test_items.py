@@ -30,7 +30,6 @@ def test_list(client):
     with client.session_transaction() as session:
         session["user_id"] = employee.id
     response = client.get("/items/")
-    print(response.data)
     assert b"<article class=\"item\"><header><div><h1>1</h1></div>" in response.data
     assert b"<article class=\"item\"><header><div><h1>2</h1></div>" in response.data
     assert b"<article class=\"item\"><header><div><h1>3</h1></div>" in response.data
