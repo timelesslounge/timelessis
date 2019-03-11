@@ -4,6 +4,7 @@ from datetime import timedelta, datetime
 import factory
 import random
 
+from timeless.customers import models as customers_models
 from timeless.db import DB
 from timeless.employees import models as employee_models
 from timeless.restaurants import models as restaurants_models
@@ -173,3 +174,15 @@ class LocationFactory(DictMixin, factory.alchemy.SQLAlchemyModelFactory):
             location.pop(field, None)
 
         return location
+
+
+class CustomerFactory(factory.alchemy.SQLAlchemyModelFactory):
+    first_name = factory.Faker("text")
+    last_name = factory.Faker("text")
+    phone_number = factory.Faker("text")
+    poster_id = factory.Faker("pyint")
+
+    class Meta:
+        model = customers_models.Customer
+        sqlalchemy_session = DB.session
+        sqlalchemy_session_persistence = "commit"
