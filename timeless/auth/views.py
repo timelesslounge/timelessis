@@ -72,7 +72,7 @@ def activate():
     """
     Activate the user's account by setting account status to true.
     """
-    if not g.user:
+    if not session.get("user_id"):
         return render_template("auth/activate.html")
 
     g.user.account_status = True

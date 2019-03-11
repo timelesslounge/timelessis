@@ -25,9 +25,6 @@ def test_activate_unauthenticated(client):
 def test_activate_authenticated(client):
     """
     Tests if authenticated POST to activate returns correct screen
-    @todo #385:30min Inject user into session in the test below. Test is broken
-     because we do not set user in session and then auth/views.py does not
-     redirect to correct page. Fix this behavior and uncomment this test.
     """
     employee = factories.EmployeeFactory(
         company=factories.CompanyFactory(),
