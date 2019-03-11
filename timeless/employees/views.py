@@ -39,13 +39,6 @@ class Delete(views.DeleteView, SecuredView):
     model = Employee
     success_view_name = "employee.list"
     resource = "employee"
-    """
-    @todo #348:30min Delete "template_name" from Delete
-     after #312 will be pulled. Uncomment and test IT test "test_delete".
-     "template_name" is using now due to current implementation of
-     views.DeleteView.
-    """
-    template_name = "employees/list.html"
 
 
 class List(views.ListView, SecuredView):
