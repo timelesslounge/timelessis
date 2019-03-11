@@ -1,23 +1,38 @@
 import pytest
 
 from http import HTTPStatus
+from flask import g, url_for
 
-from timeless.restaurants.models import Table
-from timeless.restaurants.tables.views import TableListView
+from timeless.roles.models import RoleType
 from tests import factories
 
-""" Tests for the Table views."""
+
+""" Tests for the Table views.
+@todo #430:30min Fix TableListView problem of returning empty list. 
+ TableListView is returning an empty list when it should return valid values. 
+ Test below is valid, it calls TableListViews with an authenticated user but it 
+ isn't retrieving the tables. Fix the TableListView class and then uncomment the
+ test below.
+"""
 
 
-@pytest.mark.skip(reason="Inject authentication for tables/list")
+@pytest.mark.skip(reason="TableListView is not behaving correctly")
 def test_list(client):
     """ Test list is okay """
-    floor = factories.FloorFactory()
-    factories.TableFactory(floor_id=floor.id)
-    factories.TableFactory(floor_id=floor.id)
-    factories.TableFactory(floor_id=floor.id)
-    factories.TableFactory(floor_id=floor.id)
-    response = client.get("/tables/")
+    role = factories.RoleFactory(name=RoleType.Intern.name)
+    company = factories.CompanyFactory()
+    employee = factories.EmployeeFactory(
+     company=company, role_id=role.id
+    )
+    location = factories.LocationFactory(company=company)
+    floor = factories.FloorFactory(location=location)
+    with client.session_transaction() as session:
+        session["user_id"] = employee.id
+    g.user = employee
+    factories.TableFactory(floor_id=floor.id, name="Table 01")
+    factories.TableFactory(floor_id=floor.id, name="Table 02")
+    factories.TableFactory(floor_id=floor.id, name="Table 03")
+    response = client.get(url_for("/tables/"))
     assert response.status_code == HTTPStatus.OK
     assert b"<div><h1>Table 01</h1></div>" in response.data
     assert b"<div><h1>Table 02</h1></div>" in response.data
