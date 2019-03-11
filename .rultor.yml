@@ -7,7 +7,7 @@ decrypt:
 install: |-
   sudo add-apt-repository -y ppa:jonathonf/python-3.6
   sudo apt-get update
-  sudo apt-get -y install python3.6 python3.6-dev python3.6-venv
+  sudo apt-get -y install python3.6 python3.6-dev python3.6-venv nodejs npm
   python3.6 -m venv venv
   . venv/bin/activate
   pip install -r requirements.txt
@@ -16,12 +16,13 @@ install: |-
   ./scripts/install/install_db.sh
   chmod +x scripts/install/installRedis.sh
   ./scripts/install/installRedis.sh
+  cd frontend && npm install && cd ..
 merge:
   script: |-
     python checkstyle.py
     python check_pylint.py
     pytest -vv
-    # @todo #514:30m React Frontend tests should be also executed in CI. The command is "cd frontend && npm test". Coverage should be also reported, maybe this another puzzle.
+    cd frontend && npm test && cd ..
     pdd -f /dev/null -v
 deploy:
   script: |-
