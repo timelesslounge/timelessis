@@ -29,12 +29,12 @@ class Customer(PosterSyncMixin, DB.Model):
         """
         return Customer(
             id=customer.id,
-            first_name=customer.first_name,
-            last_name=customer.last_name,
+            first_name=poster_customer["firstname"],
+            last_name=poster_customer["lastname"],
             phone_number=poster_customer["phone_number"],
             created_on=poster_customer["date_activate"],
             updated_on=datetime.utcnow(),
-            poster_id=poster_customer["client_id"],
+            poster_id=customer.poster_id,
             synchronized_on=datetime.utcnow()
         )
 

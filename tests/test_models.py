@@ -164,7 +164,7 @@ def test_customer_merge_with_poster():
     updated_on = datetime.utcnow
     customer = Customer(first_name=first_name, last_name=last_name,
                         phone_number=phone_number, created_on=created_on,
-                        updated_on=updated_on)
+                        updated_on=updated_on, poster_id=1)
 
     poster_customer = {
         "firstname": "First",
@@ -177,8 +177,8 @@ def test_customer_merge_with_poster():
     customer_merged = Customer.merge_with_poster(customer, poster_customer)
 
     assert (
-        customer_merged.first_name == first_name and
-        customer_merged.last_name == last_name and
+        customer_merged.first_name == poster_customer["firstname"] and
+        customer_merged.last_name == poster_customer["lastname"] and
         customer_merged.phone_number == poster_customer["phone_number"] and
         customer_merged.created_on == poster_customer["date_activate"] and
         customer_merged.poster_id == poster_customer["client_id"]
