@@ -8,27 +8,31 @@ from tests import factories
 
 
 """ Tests for the items.
-@todo #270:30min Factories session problem. Sometimes session is aborting with
- the following message: 'sqlalchemy.exc.InvalidRequestError: Object
- '<Item at 0x7fc5bdc05940>' is already attached to session '1' (this is '2')'.
- Correct thsi problem in session and then remove skip annotation from test_list
+@todo #417:30min Fix ItemListView problem of returning empty list. 
+ ItemListView is returning an empty list when it should return valid values. 
+ Test below is valid, it calls ItemListView with an authenticated user but it 
+ isn't retrieving the items. Fix the ItemListView class and then uncomment the
+ test below.
 @todo #311:30min CreateView is not working as intended and is not saving Items.
  Find and fix the problem and then uncomment the def test_create(client) 
  method.
 """
 
 
-@pytest.mark.skip(reason="Correct the factory bug")
+@pytest.mark.skip(reason="Correct the ItemListView bug")
 def test_list(client):
     """ Test list is okay """
-    company = factories.CompanyFactory()
-    employee = factories.EmployeeFactory(company=company)
-    factories.ItemFactory(employee_id=employee.id, company=company)
+    employee = factories.EmployeeFactory()
+    factories.ItemFactory(name="1")
+    factories.ItemFactory(name="2")
+    factories.ItemFactory(name="3")
+    flask.g.user = employee
+    with client.session_transaction() as session:
+        session["user_id"] = employee.id
     response = client.get("/items/")
-    assert "<article class=\"item\"><header><div><h1>1</h1></div>" in response.data
-    assert "<article class=\"item\"><header><div><h1>2</h1></div>" in response.data
-    assert "<article class=\"item\"><header><div><h1>3</h1></div>" in response.data
-    assert "<article class=\"item\"><header><div><h1>4</h1></div>" in response.data
+    assert b"<article class=\"item\"><header><div><h1>1</h1></div>" in response.data
+    assert b"<article class=\"item\"><header><div><h1>2</h1></div>" in response.data
+    assert b"<article class=\"item\"><header><div><h1>3</h1></div>" in response.data
     assert response.status_code == HTTPStatus.OK
 
 
