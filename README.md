@@ -358,3 +358,15 @@ staging server without username and password
 
 See [Rultor manual](http://doc.rultor.com/reference.html) on how to use it
 decrypted files
+
+### React Frontend
+
+You’ll need to have Node 8.10.0 or later on your local development machine. You can use [nvm](https://github.com/creationix/nvm#installation) (macOS/Linux) or [nvm-windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows) to easily switch Node versions between different projects.
+
+The React frontend code can be found in "frontend" dir.
+There you need to run `npm install`.
+
+Then:
+- `npm start` to run the app in development mode.
+- `npm test` to run the tests.
+- `npm run build` to build the production assets.
