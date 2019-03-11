@@ -37,12 +37,6 @@ class CrudAPIView(views.MethodView):
      https://marshmallow.readthedocs.io/en/latest/
      to the project for object json serialization, update this puzzle or
      document design considerations for implementation if so.
-    @todo #289:30min Continue with the implementation of CrudAPIView.
-     Implement tests for post, put and delete methods in test_crud_api.py
-     first.  We should return json representation of object model in methods.
-     Use FakeModel for a fake database object, and implement the desired calls
-     on FakeQuery to get, create, save / update and delete returning the
-     result.  Please refer to #221 and #222 for documentation.
     """
 
     @classmethod
@@ -68,17 +62,17 @@ class CrudAPIView(views.MethodView):
         """Calls the GET method."""
         return self.model.query.get(object_id)
 
-    def post(self):
+    def post(self, payload):
         """Calls the POST method."""
-        pass
+        return self.model.query.post(payload)
 
-    def put(self):
+    def put(self, payload):
         """Calls the PUT method."""
-        pass
+        return self.model.query.put(payload)
 
-    def delete(self):
+    def delete(self, object_id):
         """Calls the DELETE method."""
-        pass
+        return self.model.query.delete(object_id)
 
 
 class GenericView(views.MethodView):
@@ -313,18 +307,37 @@ class DeleteView(SuccessRedirectMixin, SingleObjectMixin, GenericView):
         return redirect(self.get_success_url_redirect())
 
 
-class FakeModel():
+class FakeModel:
     """Fake model for tests."""
 
     class FakeQuery:
         """Fake query for tests."""
+        FAKE_OBJECT_ID = 5
 
         def get(self, object_id):
             """Fake response on get method."""
-            if object_id == 5:
+            if object_id == self.FAKE_OBJECT_ID:
                 response = {
-                        "some_id": 5,
-                        "some_attr": "attr"
+                    "some_id": self.FAKE_OBJECT_ID,
+                    "some_attr": "attr"
+                }
+                return jsonify(response), HTTPStatus.OK
+            abort(HTTPStatus.NOT_FOUND)
+
+        def post(self, payload):
+            """Fake response on post method."""
+            return jsonify(payload), HTTPStatus.OK
+
+        def put(self, payload):
+            """Fake response on put method."""
+            return jsonify(payload), HTTPStatus.OK
+
+        def delete(self, object_id):
+            """Fake response on delete method."""
+            if object_id == self.FAKE_OBJECT_ID:
+                response = {
+                    "some_id": self.FAKE_OBJECT_ID,
+                    "some_attr": "attr"
                 }
                 return jsonify(response), HTTPStatus.OK
             abort(HTTPStatus.NOT_FOUND)
