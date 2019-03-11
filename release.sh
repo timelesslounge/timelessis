@@ -22,11 +22,9 @@ git tag -a $ENVIRONMENT-$TAG -m "Rultor deploy staging-$TAG"
 
 SERVER=$(jq -r ".credentials.server.$ENVIRONMENT.address" ../credentials.json)
 USER=$(jq -r ".credentials.server.$ENVIRONMENT.username" ../credentials.json)
-KEY=../staging.id_rsa
+KEY=../staging.id_rsa.pub
 PG_USER=$(jq -r ".credentials.postgres.$ENVIRONMENT.username" ../credentials.json)
 PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.json)
-
-echo $SERVER
 
 echo "-- Copy application code to staging server"
 scp -i $KEY -r . $USER@$SERVER:/app
