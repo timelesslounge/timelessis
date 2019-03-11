@@ -1,7 +1,7 @@
 import pytest
 
 from http import HTTPStatus
-from flask import g
+from flask import g, url_for
 
 from timeless.roles.models import RoleType
 from tests import factories
@@ -30,10 +30,9 @@ def test_list(client):
         session["user_id"] = employee.id
     g.user = employee
     factories.TableFactory(floor_id=floor.id, name="Table 01")
-    factories.TableFactory(floor_id=floor.id, name="Table 01")
-    factories.TableFactory(floor_id=floor.id, name="Table 01")
-    response = client.get("/tables/")
-    print(response.data)
+    factories.TableFactory(floor_id=floor.id, name="Table 02")
+    factories.TableFactory(floor_id=floor.id, name="Table 03")
+    response = client.get(url_for("/tables/"))
     assert response.status_code == HTTPStatus.OK
     assert b"<div><h1>Table 01</h1></div>" in response.data
     assert b"<div><h1>Table 02</h1></div>" in response.data
