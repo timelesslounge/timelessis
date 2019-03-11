@@ -29,6 +29,7 @@ class PropertyResource(MessageResource):
         self.locale = kwargs.get("locale")
 
     def get(self, key):
+        print("Hey yo")
         path = os.path.join(app.root_path, self.directory)
         file = open(f"{path}message_{self.locale}.properties")
         content = file.read()
