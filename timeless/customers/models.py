@@ -22,18 +22,21 @@ class Customer(PosterSyncMixin, DB.Model):
         return "<Customer(name=%s %s)>" % (self.first_name, self.last_name)
 
     @classmethod
-    def merge_with_poster(cls, customer, poster_customer: dict):
+    def merge_with_poster(cls, customer: "Customer", poster_customer: dict):
         """
         Method should return Customer object with merged data from table entity
         and poster customer dict
-        @todo #262:30min Implement two class methods merge_with_poster and
-         create_by_poster. merge_with_poster will merge entry entity with
-         poster entity, we should make right fields mapping, as result
-         returns Customer instance.
-         The same should be made with method create_by_poster, returns Customer
-         instance with data from poster_customer
         """
-        return cls()
+        return Customer(
+            id=customer.id,
+            first_name=poster_customer["firstname"],
+            last_name=poster_customer["lastname"],
+            phone_number=poster_customer["phone_number"],
+            created_on=poster_customer["date_activate"],
+            updated_on=datetime.utcnow(),
+            poster_id=customer.poster_id,
+            synchronized_on=datetime.utcnow()
+        )
 
     @classmethod
     def create_by_poster(cls, poster_customer: dict):
@@ -41,5 +44,12 @@ class Customer(PosterSyncMixin, DB.Model):
         Method should return Customer object with given data from
         poster_customer dict
         """
-        poster_customer
-        return cls()
+        return Customer(
+            first_name=poster_customer["firstname"],
+            last_name=poster_customer["lastname"],
+            phone_number=poster_customer["phone_number"],
+            created_on=poster_customer["date_activate"],
+            updated_on=datetime.utcnow(),
+            poster_id=poster_customer["client_id"],
+            synchronized_on=datetime.utcnow()
+        )

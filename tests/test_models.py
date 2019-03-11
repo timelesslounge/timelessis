@@ -154,3 +154,52 @@ def test_new_customer():
         customer.created_on == created_on and
         customer.updated_on == updated_on
     )
+
+
+def test_customer_merge_with_poster():
+    first_name = "First"
+    last_name = "Last"
+    phone_number = "+3859136281"
+    created_on = datetime.utcnow
+    updated_on = datetime.utcnow
+    customer = Customer(first_name=first_name, last_name=last_name,
+                        phone_number=phone_number, created_on=created_on,
+                        updated_on=updated_on, poster_id=1)
+
+    poster_customer = {
+        "firstname": "First",
+        "lastname": "Last",
+        "phone_number": "+19999999",
+        "date_activate": datetime(2015, 1, 1),
+        "client_id": 1,
+    }
+
+    customer_merged = Customer.merge_with_poster(customer, poster_customer)
+
+    assert (
+        customer_merged.first_name == poster_customer["firstname"] and
+        customer_merged.last_name == poster_customer["lastname"] and
+        customer_merged.phone_number == poster_customer["phone_number"] and
+        customer_merged.created_on == poster_customer["date_activate"] and
+        customer_merged.poster_id == poster_customer["client_id"]
+    )
+
+
+def test_customer_create_by_poster():
+    poster_customer = {
+        "firstname": "First",
+        "lastname": "Last",
+        "phone_number": "+19999999",
+        "date_activate": datetime(2015, 1, 1),
+        "client_id": 1,
+    }
+
+    customer = Customer.create_by_poster(poster_customer)
+
+    assert (
+        customer.first_name == poster_customer["firstname"] and
+        customer.last_name == poster_customer["lastname"] and
+        customer.phone_number == poster_customer["phone_number"] and
+        customer.created_on == poster_customer["date_activate"] and
+        customer.poster_id == poster_customer["client_id"]
+    )
