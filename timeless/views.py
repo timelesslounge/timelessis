@@ -184,14 +184,12 @@ class ListView(GenericView):
         ordering = request.args.get("ordering")
         if ordering:
             for field_name in ordering.split(","):
-                direction = desc if field_name.startswith("-") else asc
+                order_direction = desc if field_name.startswith("-") else asc
                 model_field = getattr(self.model, field_name.strip("-"), None)
                 if not model_field:
                     continue
 
-                query = query.order_by(direction(model_field))
-
-            return query
+                query = query.order_by(order_direction(model_field))
 
         return query
 
