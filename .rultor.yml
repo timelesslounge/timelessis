@@ -25,9 +25,9 @@ merge:
     pdd -f /dev/null -v
 deploy:
   script: |-
-    echo "Deploy not supported"
-    exit -1
+    chmod +x ./deploy.sh
+    ./deploy.sh
 release:
   script: |-
-    chmod +x ./release.sh
-    ./release.sh $tag staging
+    echo "Release not supported"
+    exit -1
