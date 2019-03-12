@@ -12,6 +12,7 @@ install: |-
   . venv/bin/activate
   pip install -r requirements.txt
   sudo gem install pdd
+  sudo apt-get install sshpass
   chmod +x scripts/install/install_db.sh
   ./scripts/install/install_db.sh
   chmod +x scripts/install/installRedis.sh
