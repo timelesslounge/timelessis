@@ -9,7 +9,7 @@ pytest
 
 SERVER=$(jq -r ".credentials.server.$ENVIRONMENT.address" ../credentials.json)
 USER=$(jq -r ".credentials.server.$ENVIRONMENT.username" ../credentials.json)
-KEY=../staging.id_rsa.pub
+KEY=../staging.id_rsa
 PG_USER=$(jq -r ".credentials.postgres.$ENVIRONMENT.username" ../credentials.json)
 PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.json)
 
