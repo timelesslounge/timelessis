@@ -2,23 +2,10 @@
 
 # Scripts to deploy application to staging server
 
-# Get tag and environment from arguments. Example usage:
-# release.sh 0.0.1 staging
-TAG=$1
-
-if [ "$2" != "" ]; then
-    ENVIRONMENT=$2
-else
-    ENVIRONMENT='staging'
-fi
-
+ENVIRONMENT='staging'
 
 echo "-- Run tests"
 pytest
-
-
-echo "-- Creating $ENVIRONMENT tag"
-git tag -a $ENVIRONMENT-$TAG -m "Rultor deploy staging-$TAG"
 
 SERVER=$(jq -r ".credentials.server.$ENVIRONMENT.address" ../credentials.json)
 USER=$(jq -r ".credentials.server.$ENVIRONMENT.username" ../credentials.json)
