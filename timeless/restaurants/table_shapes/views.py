@@ -31,9 +31,11 @@ class List(views.ListView):
 @BP.route("/")
 def list():
     """List all table shapes
-    @todo #260:30min Implement filtering of table shapes from the UI. It
-     should be possible to filter for every column from the UI. Currently
-     it is possible to filter using browser address bar only.
+    @todo #316:30min Improve filtering of table shapes from the UI.
+     Now to filter tables from the UI, GET params should look like this:
+     filter_by=description=mytable&filter_by=id=1
+     It is ambiguous to make such request from a HTML from. So either
+     alter the way filter fields are parsed or write some JS logic.
     """
     order_fields = request.args.getlist("order_by")
     filter_fields = request.args.getlist("filter_by")
