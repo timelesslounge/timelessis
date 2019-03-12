@@ -7,12 +7,8 @@ ENVIRONMENT='staging'
 SERVER=$(jq -r ".credentials.server.$ENVIRONMENT.address" ../credentials.json)
 USER=$(jq -r ".credentials.server.$ENVIRONMENT.username" ../credentials.json)
 PASSWORD=$(jq -r ".credentials.server.$ENVIRONMENT.password" ../credentials.json)
-KEY=../staging.id_rsa
 PG_USER=$(jq -r ".credentials.postgres.$ENVIRONMENT.username" ../credentials.json)
 PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.json)
-
-sudo chmod go-rw $KEY
-echo $KEY
 
 echo "-- Copy application code to staging server"
 sshpass -p $PASSWORD scp -i $KEY -r . $USER@$SERVER:/app
