@@ -19,7 +19,7 @@ sshpass -p $PASSWORD scp -i $KEY -r . $USER@$SERVER:/app
 
 # add scripts in cron (like the one created in #47)
 # verify the webapplication is running
-ssh $USER@$SERVER -p$PASSWORD << EOF
+sshpass -p $PASSWORD ssh $USER@$SERVER << EOF
   chmod +x app/scripts/install/deploy/install_dependencies.sh
   . app/scripts/install/deploy/install_dependencies.sh
   echo "-- Creating database user: $PG_USER"
