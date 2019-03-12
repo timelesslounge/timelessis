@@ -47,3 +47,5 @@ sshpass -p $PASSWORD ssh $USER@$SERVER << EOF
   flask run &
   echo "-- REPLACE: verify web application is running ok"
 EOF
+
+exit 0
