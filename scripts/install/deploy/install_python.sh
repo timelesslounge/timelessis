@@ -9,7 +9,7 @@ if [ "$?" -gt "0" ]; then
   sudo apt-get update
   sudo apt-get -y install python3.6 python3.6-dev python3.6-venv
   echo "Done installing Python 3.6"
-  alias python=python3
+  sudo alias python=python3.6
 else
   echo "Python installed"
 fi

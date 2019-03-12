@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CURRENT_DIR=`pwd`
+
 which psql
 if [ "$?" -gt "0" ]; then
   echo "Postgres Not installed, installing"
@@ -13,16 +15,10 @@ else
   echo "Postgres already installed"
 fi
 
- service postgresql status
- if [ "$?" -gt "0" ]; then
-   echo "Postgres is Not running, launching".
-   service postgresql start
-   echo "Postgres launched"
- else
-   echo "Postgres already running"
- fi
+echo "Restarting Postgres"
+service postgresql restart
 
-sudo cp timeless_pg.service /lib/systemd/system/
+sudo cp $CURRENT_DIR/scripts/install/deploy/timeless_pg.service /lib/systemd/system/
 sudo systemctl start timeless_pg.service
 
 which jq
