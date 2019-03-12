@@ -4,9 +4,6 @@
 
 ENVIRONMENT='staging'
 
-echo "-- Run tests"
-pytest
-
 SERVER=$(jq -r ".credentials.server.$ENVIRONMENT.address" ../credentials.json)
 USER=$(jq -r ".credentials.server.$ENVIRONMENT.username" ../credentials.json)
 KEY=../staging.id_rsa
