@@ -6,6 +6,7 @@ ENVIRONMENT='staging'
 
 SERVER=$(jq -r ".credentials.server.$ENVIRONMENT.address" ../credentials.json)
 USER=$(jq -r ".credentials.server.$ENVIRONMENT.username" ../credentials.json)
+PASSWORD=$(jq -r ".credentials.server.$ENVIRONMENT.password" ../credentials.json)
 KEY=../staging.id_rsa
 PG_USER=$(jq -r ".credentials.postgres.$ENVIRONMENT.username" ../credentials.json)
 PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.json)
@@ -14,11 +15,11 @@ sudo chmod go-rw $KEY
 echo $KEY
 
 echo "-- Copy application code to staging server"
-scp -i $KEY -r . $USER@$SERVER:/app
+sshpass -p $PASSWORD scp -i $KEY -r . $USER@$SERVER:/app
 
 # add scripts in cron (like the one created in #47)
 # verify the webapplication is running
-ssh -i $KEY $USER@$SERVER << EOF
+ssh $USER@$SERVER -p$PASSWORD << EOF
   chmod +x app/scripts/install/deploy/install_dependencies.sh
   . app/scripts/install/deploy/install_dependencies.sh
   echo "-- Creating database user: $PG_USER"
