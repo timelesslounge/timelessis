@@ -22,7 +22,7 @@ merge:
     python checkstyle.py
     python check_pylint.py
     pytest -vv
-    cd frontend && npm test && cd ..
+    cd frontend && export CI=true && npm test && cd ..
     pdd -f /dev/null -v
 deploy:
   script: |-
