@@ -17,7 +17,6 @@ class TestPropertyResource():
             directory=self.directory, locale="en_US"
         ).get("foundkey") == "thevalue"
 
-    @pytest.mark.skip(reason="PropertyResource not implemented yet")
     def test_get_not_found(self):
         """ Test if PropertyResource returns exception when value does not
         exist
@@ -28,7 +27,6 @@ class TestPropertyResource():
                 locale="en_US"
             ).get("notfoundkey",)
 
-    @pytest.mark.skip(reason="PropertyResource not implemented yet")
     def test_get_found(self):
         """ Test if PropertyResource can return a value that exists from
         localised file
@@ -37,5 +35,5 @@ class TestPropertyResource():
             PropertyResource(
                 directory=self.directory,
                 locale="pt_BR"
-            ).get(self, "foundkey") == "ovalor"
+            ).get("foundkey") == "ovalor"
         )

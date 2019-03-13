@@ -1,9 +1,9 @@
 """ Message resource for internationalization based on a property file """
 
+from configparser import ConfigParser
 
 from timeless.message.message_resource import MessageResource
 
-import re
 import os
 
 from main import app
@@ -29,18 +29,10 @@ class PropertyResource(MessageResource):
         self.locale = kwargs.get("locale")
 
     def get(self, key):
-        print("Hey yo")
         path = os.path.join(app.root_path, self.directory)
-        file = open(f"{path}message_{self.locale}.properties")
-        content = file.read()
-        file.close()
-        print(key)
-        print(content)
-        print(f"^{key}=*$")
-        regex = r"^{key}=.*$"
-        matches = re.findall(rf"^{key}=.*$", content)
-        print("matches")
-        print(matches)
-        print(matches.split("="))
-        return
-        #raise Exception("PropertyResources not implement yet!")
+        config = ConfigParser()
+        config.read(f"{path}message_{self.locale}.properties")
+        if not config.get("MESSAGES", key):
+            raise Exception("Value not found for key")
+        return config.get("MESSAGES", key)
+
