@@ -10,6 +10,8 @@ PASSWORD=$(jq -r ".credentials.server.$ENVIRONMENT.password" ../credentials.json
 PG_USER=$(jq -r ".credentials.postgres.$ENVIRONMENT.username" ../credentials.json)
 PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.json)
 
+echo "-- Remove our own venv dir"
+rm -rf ./venv
 
 echo "-- Remove existing dir"
 sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
@@ -27,6 +29,7 @@ sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
   cd /app
   chmod +x /app/scripts/install/deploy/install_dependencies.sh
   /app/scripts/install/deploy/install_dependencies.sh
+  cd /app
   echo "-- REPLACE: add scripts to cron"
   python3.6 -m venv venv
   echo "-- Enabling virtual environment"
