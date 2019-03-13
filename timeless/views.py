@@ -180,17 +180,20 @@ class ListView(GenericView):
         """
         return self.context_object_list_name
 
+    @staticmethod
+    def get_order_direction(field_name):
+        return desc if field_name.startswith("-") else asc
+
     def sort_query(self, query):
         ordering = request.args.get("ordering")
-        if ordering:
-            for field_name in ordering.split(","):
-                order_direction = desc if field_name.startswith("-") else asc
-                model_field = getattr(self.model, field_name.strip("-"), None)
-                if not model_field:
-                    continue
-
-                query = query.order_by(order_direction(model_field))
-
+        if not ordering:
+            return query
+        for field_name in ordering.split(","):
+            order_direction = self.get_order_direction(field_name)
+            model_field = getattr(self.model, field_name.strip("-"), None)
+            if not model_field:
+                continue
+            query = query.order_by(order_direction(model_field))
         return query
 
     def get_object_list(self):
