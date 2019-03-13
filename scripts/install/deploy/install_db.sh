@@ -31,14 +31,14 @@ else
 fi
 
 #checks if the database exists and create if not
-if [! psql -lqt | cut -d \| -f 1 | grep -qw "timelessdb"; ]; then
+if [ ! psql -lqt | cut -d \| -f 1 | grep -qw "timelessdb" ] then
     echo "Creating database: timelessdb"
     sudo -u postgres psql -c "CREATE DATABASE timelessdb;"
     echo "Timeless database created successfully"
 fi
 
 #checks if the user exists and create if not
-if [! psql -t -c '\du' | cut -d \| -f 1 | grep -qw "timeless_user"; ]; then
+if [ ! psql -t -c '\du' | cut -d \| -f 1 | grep -qw "timeless_user" ] then
     echo "Creating user: timeless_user"
     sudo -u postgres psql -c "CREATE USER timeless_user WITH
         SUPERUSER

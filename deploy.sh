@@ -42,7 +42,7 @@ sshpass -p $PASSWORD ssh $USER@$SERVER -tt << EOF
   export FLASK_ENV=development
   export FLASK_RUN_PORT=80
   export FLASK_RUN_HOST=$SERVER
-  nohup flask run &
+  nohup flask run > /var/log/timeless.log 2>&1 &
   echo "-- REPLACE: verify web application is running ok"
   logout
 EOF
