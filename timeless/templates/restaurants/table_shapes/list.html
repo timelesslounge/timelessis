@@ -7,6 +7,12 @@
 
 {% block content %}
     {% cache 600 %}
+        <form name="filter" target="_self" id="table_filter"/>
+            Description:<br>
+            <input type="text" name="filter_by" value="description=">
+            <br>
+            <input type="submit" name="submit" value="submit">
+        </form>
         {% for table_shape in table_shapes %}
             <article class="table_shape">
                 <header>

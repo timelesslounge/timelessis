@@ -12,18 +12,18 @@ PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.jso
 
 
 echo "-- Remove existing dir"
-sshpass -p $PASSWORD ssh $USER@$SERVER -tt << EOF
+sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
   rm -rf /app
   logout
 EOF
 
 echo "-- Copy application code to staging server"
-sshpass -p $PASSWORD scp -r `pwd` $USER@$SERVER:/app
+sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -r `pwd` $USER@$SERVER:/app
 
 # add scripts in cron (like the one created in #47)
 # verify the webapplication is running
 echo "-- Execute install script"
-sshpass -p $PASSWORD ssh $USER@$SERVER -tt << EOF
+sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
   cd /app
   chmod +x /app/scripts/install/deploy/install_dependencies.sh
   /app/scripts/install/deploy/install_dependencies.sh
