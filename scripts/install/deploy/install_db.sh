@@ -53,7 +53,7 @@ fi
 company_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO companies (name, code, address, created_on, updated_on) values ('Timeless', 'Tm', '', current_timestamp, current_timestamp) returning id")
 role_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO roles (name, works_on_shifts, company_id) values ('Administrator', False, $company_id) returning id")
 
-credentials_src="/timelessis/credentials/credentials.json"
+credentials_src="/app/credentials.json"
 
 # read credentials from rultor
 first_name=$(cat ${credentials_src} | jq '.credentials.account.admin.first_name')

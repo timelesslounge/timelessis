@@ -13,6 +13,8 @@ PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.jso
 echo "-- Remove our own venv dir"
 rm -rf ./venv
 
+cp ../credentials.json .
+
 echo "-- Remove existing dir"
 sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
   rm -rf /app
