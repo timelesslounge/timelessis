@@ -16,9 +16,11 @@ import re
 from http import HTTPStatus
 
 from flask import views, redirect, render_template, request, url_for, jsonify
+from sqlalchemy import desc, asc
 from werkzeug.exceptions import abort
 
 from timeless import DB
+
 
 camel_to_underscore = re.compile("((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))")
 
@@ -178,6 +180,22 @@ class ListView(GenericView):
         """
         return self.context_object_list_name
 
+    @staticmethod
+    def get_order_direction(field_name):
+        return desc if field_name.startswith("-") else asc
+
+    def sort_query(self, query):
+        ordering = request.args.get("ordering")
+        if not ordering:
+            return query
+        for field_name in ordering.split(","):
+            order_direction = self.get_order_direction(field_name)
+            model_field = getattr(self.model, field_name.strip("-"), None)
+            if not model_field:
+                continue
+            query = query.order_by(order_direction(model_field))
+        return query
+
     def get_object_list(self):
         """
         Get the list of objects. If this method is not overwritten, then a
@@ -186,7 +204,7 @@ class ListView(GenericView):
         if self.model is None:
             raise NotImplementedError(f"{self.__class__.__name__} must define "
                                       f"either 'model' or 'get_object_list()'")
-        return self.model.query.all()
+        return self.sort_query(self.model.query.all())
 
     def get_default_context(self):
         """
