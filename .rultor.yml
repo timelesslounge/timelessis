@@ -23,6 +23,7 @@ merge:
     python check_pylint.py
     pytest -vv
     cd frontend && export CI=true && npm test && cd ..
+    #  @todo #533:30m Report coverage for React tests in Rultor to make changes in coverage immediately visible
     pdd -f /dev/null -v
 deploy:
   script: |-
