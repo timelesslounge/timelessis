@@ -37,23 +37,24 @@ if ! sudo -u postgres -H -- psql -lqt | cut -d \| -f 1 | grep -qw "timelessdb"; 
     echo "Timeless database created successfully"
 fi
 
+PG_USER=$(cat ${credentials_src} | jq '.credentials.postgres.staging.username')
+PG_PWD=$(cat ${credentials_src} | jq '.credentials.postgres.staging.password')
+
 #checks if the user exists and create if not
 if ! sudo -u postgres -H -- psql -t -c '\du' | cut -d \| -f 1 | grep -qw "timeless_user"; then
-    echo "Creating user: timeless_user"
-    sudo -u postgres psql -c "CREATE USER timeless_user WITH
+    echo "Creating user: $PG_USER"
+    sudo -u postgres psql -c "CREATE USER $PG_USER WITH
         SUPERUSER
         CREATEDB
         CREATEROLE
         INHERIT
         LOGIN
-        ENCRYPTED PASSWORD 'timeless_pwd';"
+        ENCRYPTED PASSWORD '$PG_PWD';"
     echo "Timeless user created successfully"
 fi
 
 company_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO companies (name, code, address, created_on, updated_on) values ('Timeless', 'Tm', '', current_timestamp, current_timestamp) returning id")
 role_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO roles (name, works_on_shifts, company_id) values ('Administrator', False, $company_id) returning id")
-
-credentials_src="/app/credentials.json"
 
 # read credentials from rultor
 first_name=$(cat ${credentials_src} | jq '.credentials.account.admin.first_name')
