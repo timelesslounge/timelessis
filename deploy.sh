@@ -21,6 +21,7 @@ PINCODE=$(jq -r ".credentials.account.admin.pincode" ../credentials.json)
 echo "-- Remove our own venv dir"
 rm -rf ./venv
 
+echo "-- Copy credential file"
 sudo cp ../credentials.json .
 
 echo "-- Remove existing dir"
