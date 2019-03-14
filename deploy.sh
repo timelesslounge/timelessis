@@ -6,7 +6,7 @@ ENVIRONMENT='staging'
 
 SERVER=$(jq -r ".credentials.server.$ENVIRONMENT.address" ../credentials.json)
 USER=$(jq -r ".credentials.server.$ENVIRONMENT.username" ../credentials.json)
-PASSWORD=$(jq -r ".credentials.server.$ENVIRONMENT.password" ../credentials.json)
+PASS=$(jq -r ".credentials.server.$ENVIRONMENT.password" ../credentials.json)
 PG_USER=$(jq -r ".credentials.postgres.$ENVIRONMENT.username" ../credentials.json)
 PG_PASS=$(jq -r ".credentials.postgres.$ENVIRONMENT.password" ../credentials.json)
 
@@ -25,18 +25,18 @@ echo "-- Copy credential file"
 sudo cp ../credentials.json .
 
 echo "-- Remove existing dir"
-sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
+sshpass -p $PASS ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
   rm -rf /app
   logout
 EOF
 
 echo "-- Copy application code to staging server"
-sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -r `pwd` $USER@$SERVER:/app
+sshpass -p $PASS scp -o StrictHostKeyChecking=no -r `pwd` $USER@$SERVER:/app
 
 # add scripts in cron (like the one created in #47)
 # verify the webapplication is running
 echo "-- Execute install script"
-sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
+sshpass -p $PASS ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
   cd /app
   chmod +x /app/scripts/install/deploy/install_dependencies.sh
   /app/scripts/install/deploy/install_dependencies.sh
