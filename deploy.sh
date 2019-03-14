@@ -21,7 +21,7 @@ PINCODE=$(jq -r ".credentials.account.admin.pincode" ../credentials.json)
 echo "-- Remove our own venv dir"
 rm -rf ./venv
 
-cp ../credentials.json .
+sudo cp ../credentials.json .
 
 echo "-- Remove existing dir"
 sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USER@$SERVER -tt << EOF
