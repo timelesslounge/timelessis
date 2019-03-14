@@ -23,8 +23,7 @@ merge:
     python check_pylint.py
     pytest -vv
     cd frontend && export CI=true && npm test && cd ..
-    # @todo #533:30m Report coverage for React tests in Rultor to make changes in coverage immediately visible
-    # adding more words just to meet a not optimal pdd config, see https://github.com/timelesslounge/timelessis/issues/544
+    # @todo #533:30m Report coverage for React tests in Rultor to make changes in coverage immediately visible adding more words just to meet a not optimal pdd config, see https://github.com/timelesslounge/timelessis/issues/544
     pdd -f /dev/null -v
 deploy:
   script: |-
