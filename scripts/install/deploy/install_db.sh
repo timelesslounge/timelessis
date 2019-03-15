@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CURRENT_DIR=`pwd`
 
@@ -31,46 +31,23 @@ else
 fi
 
 #checks if the database exists and create if not
-if ! sudo -u postgres -H -- psql -lqt | cut -d \| -f 1 | grep -qw "timelessdb"; then
+if sudo -u postgres -H -- psql -lqt | cut -d \| -f 1 | grep -qw "timelessdb"; then
+    echo "Database already exists: nothing to do!"
+else
     echo "Creating database: timelessdb"
     sudo -u postgres psql -c "CREATE DATABASE timelessdb;"
     echo "Timeless database created successfully"
 fi
 
+credentials_src=./credentials.json
 PG_USER=$(cat ${credentials_src} | jq '.credentials.postgres.staging.username')
 PG_PWD=$(cat ${credentials_src} | jq '.credentials.postgres.staging.password')
 
 #checks if the user exists and create if not
-if ! sudo -u postgres -H -- psql -t -c '\du' | cut -d \| -f 1 | grep -qw "timeless_user"; then
+if sudo -u postgres -H -- psql -t -c '\du' | cut -d \| -f 1 | grep -qw "$PG_USER"; then
+    echo "User already exists: nothing to do!"
+else
     echo "Creating user: $PG_USER"
-    sudo -u postgres psql -c "CREATE USER $PG_USER WITH
-        SUPERUSER
-        CREATEDB
-        CREATEROLE
-        INHERIT
-        LOGIN
-        ENCRYPTED PASSWORD '$PG_PWD';"
+    sudo -u postgres -H -- psql -t -c "CREATE USER ${PG_USER:1:-1} WITH SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN ENCRYPTED PASSWORD '${PG_PWD:1:-1}';"
     echo "Timeless user created successfully"
 fi
-
-company_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO companies (name, code, address, created_on, updated_on) values ('Timeless', 'Tm', '', current_timestamp, current_timestamp) returning id")
-role_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO roles (name, works_on_shifts, company_id) values ('Administrator', False, $company_id) returning id")
-
-# read credentials from rultor
-first_name=$(cat ${credentials_src} | jq '.credentials.account.admin.first_name')
-last_name=$(cat ${credentials_src} | jq '.credentials.account.admin.last_name')
-username=$(cat ${credentials_src} | jq '.credentials.account.admin.username')
-email=$(cat ${credentials_src} | jq '.credentials.account.admin.email')
-password=$(cat ${credentials_src} | jq '.credentials.account.admin.password')
-pincode=$(cat ${credentials_src} | jq '.credentials.account.admin.pincode')
-
-
-sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO employee
-    (first_name, last_name, username, phone_number, birth_date,
-    registration_date, account_status, user_status, email, password, pin_code,
-    comment, company_id, role_id)
-    values
-    ('$first_name', '$last_name', '$username', '988888', '', '', 'active', 'active',
-     '$email', '$password', '$pincode', 'Timeless user', $company_id, $role_id
-    )
-    "
