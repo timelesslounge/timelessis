@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #000000;
+  font-family: sans-serif;
+}
+
+.form-wrap {
+  width: 320px;
+  background: #000000;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
+  text-align: center;
+  text-shadow: 2px 2px 4px #75fd00;
+  color: #75fdaa;
+  font-weight: normal;
+  margin-bottom: 20px;
+}
+
+h3 {
+  text-align: center;
+  color: #ffffff;
+  font-weight: normal;
+  margin-bottom: 20px;
+}
+
+label {
+  text-align: center;
+  color: #808080;
+  font-weight: normal;
+}
+
+input {
+  width: 100%;
+  background: none;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  padding: 6px 15px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #fff;
+}
+
+input:focus {
+  border: 1px solid #75fd00;
+  box-shadow: 0 0 2px #75fd00;
+}
+
+
+input[type="submit"] {
+  background: #3ae46a;
+  border: 0;
+  cursor: pointer;
+  color: #000000;
+}
+input[type="submit"]:hover {
+  background: #a4b15c;
+  transition: .6s;
+}
+
+/**
+ * @todo #460:30min Some of the definitions about object size are in hardcoded
+ *  pixels which is rather strange: it means the design is not really
+ *  responsive, but just happens to look good because the screen allows it.
+ *  Make these definitions responsive with CSS 3 screen width meta tags.
+ */
+.container {
+  padding: 16px;
+}

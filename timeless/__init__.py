@@ -9,7 +9,7 @@ a new Flask app for timeless
 # pylint: disable=R0401
 # pylint: disable=W0612
 import os
-from flask import Flask
+from flask import Flask, url_for, render_template
 from timeless.cache import CACHE
 from timeless.mail import MAIL
 from timeless.db import DB
@@ -39,7 +39,7 @@ def create_app(config):
 
     @app.route("/")
     def main():
-        return "Hello, World!"
+        return render_template("auth/login.html")
     return app
 
 

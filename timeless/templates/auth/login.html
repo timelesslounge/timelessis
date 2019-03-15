@@ -1,20 +1,22 @@
-{% extends 'base.html' %}
-
-{# @todo #283:30min Change the style of login page. Lets change the#}
-{#  style of a login page to get the UX like demonstrated in a picture below#}
-{#  https://drive.google.com/uc?export=view&id=1oh8cLv-vHTCBmb0RDkHQiyMythC4_M6o#}
-{% cache 600 %}
-{% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
-{% endblock %}
-
-{% block content %}
+<!doctype html>
+<title>{% block title %}{% endblock %} - Timlessis</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+<!--
+@todo #460:30min Change the style of the login page. Create the image specified
+ in UX documentation, then apply oit as background. UX mock:
+ https://drive.google.com/uc?export=view&id=1oh8cLv-vHTCBmb0RDkHQiyMythC4_M6o
+-->
+<div class="form-wrap">
   <form method="post">
-    <label for="username">Username</label>
-    <input name="username" id="username" required>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required>
-    <input type="submit" value="Log In">
+    <h1>TIMELESS IS</h1>
+    <h3>Login</h3>
+
+    <div class="container">
+        <label for="username">Username</label>
+        <input name="username" id="username" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+        <input type="submit" value="Login">
+    </div>
   </form>
-{% endblock %}
-{% endcache %}
+</div>
