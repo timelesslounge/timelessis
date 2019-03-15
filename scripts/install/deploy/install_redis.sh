@@ -2,6 +2,8 @@
 
 # Script for Redis availability check, installation and launch
 
+CURRENT_DIR=`pwd`
+
 which redis-cli
 if [ "$?" -gt "0" ]; then
   echo "Redis Not installed, installing"
@@ -27,5 +29,5 @@ else
   echo "Redis already running"
 fi
 
-sudo cp redis.service /lib/systemd/system/
+sudo cp $CURRENT_DIR/scripts/install/deploy/redis.service /lib/systemd/system/
 sudo systemctl enable redis

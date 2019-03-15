@@ -1,5 +1,5 @@
 """Employees views module.
-@todo #57:30min Continue implementing List to enable sorting and filtering
+@todo #357:30min Continue implementing ListView to enable filtering
  for every column. For this, probably there will be a need to create a new
  generic view that all other List views will extend. This generic view should
  use GenericFilter implemented in #317.

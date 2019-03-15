@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CURRENT_DIR=`pwd`
+
 which psql
 if [ "$?" -gt "0" ]; then
   echo "Postgres Not installed, installing"
@@ -13,16 +15,10 @@ else
   echo "Postgres already installed"
 fi
 
- service postgresql status
- if [ "$?" -gt "0" ]; then
-   echo "Postgres is Not running, launching".
-   service postgresql start
-   echo "Postgres launched"
- else
-   echo "Postgres already running"
- fi
+echo "Restarting Postgres"
+service postgresql restart
 
-sudo cp timeless_pg.service /lib/systemd/system/
+sudo cp $CURRENT_DIR/scripts/install/deploy/timeless_pg.service /lib/systemd/system/
 sudo systemctl start timeless_pg.service
 
 which jq
@@ -35,29 +31,30 @@ else
 fi
 
 #checks if the database exists and create if not
-if [! psql -lqt | cut -d \| -f 1 | grep -qw "timelessdb"; ]; then
+if ! sudo -u postgres -H -- psql -lqt | cut -d \| -f 1 | grep -qw "timelessdb"; then
     echo "Creating database: timelessdb"
     sudo -u postgres psql -c "CREATE DATABASE timelessdb;"
     echo "Timeless database created successfully"
 fi
 
+PG_USER=$(cat ${credentials_src} | jq '.credentials.postgres.staging.username')
+PG_PWD=$(cat ${credentials_src} | jq '.credentials.postgres.staging.password')
+
 #checks if the user exists and create if not
-if [! psql -t -c '\du' | cut -d \| -f 1 | grep -qw "timeless_user"; ]; then
-    echo "Creating user: timeless_user"
-    sudo -u postgres psql -c "CREATE USER timeless_user WITH
+if ! sudo -u postgres -H -- psql -t -c '\du' | cut -d \| -f 1 | grep -qw "timeless_user"; then
+    echo "Creating user: $PG_USER"
+    sudo -u postgres psql -c "CREATE USER $PG_USER WITH
         SUPERUSER
         CREATEDB
         CREATEROLE
         INHERIT
         LOGIN
-        ENCRYPTED PASSWORD 'timeless_pwd';"
+        ENCRYPTED PASSWORD '$PG_PWD';"
     echo "Timeless user created successfully"
 fi
 
 company_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO companies (name, code, address, created_on, updated_on) values ('Timeless', 'Tm', '', current_timestamp, current_timestamp) returning id")
 role_id=$(sudo -u postgres -H -- psql -qtA -d timelessdb -c "INSERT INTO roles (name, works_on_shifts, company_id) values ('Administrator', False, $company_id) returning id")
-
-credentials_src="/timelessis/credentials/credentials.json"
 
 # read credentials from rultor
 first_name=$(cat ${credentials_src} | jq '.credentials.account.admin.first_name')
@@ -77,4 +74,3 @@ sudo -u postgres -H -- psql -d timelessdb -c "INSERT INTO employee
      '$email', '$password', '$pincode', 'Timeless user', $company_id, $role_id
     )
     "
-

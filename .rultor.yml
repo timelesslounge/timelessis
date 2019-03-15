@@ -1,17 +1,18 @@
 architect:
   - emilianodellacasa
-decrypt:
+_decrypt:
   credentials.json: "repo/credentials/credentials.json.asc"
   staging.id_rsa: "repo/credentials/staging.id_rsa.asc"
   staging.id_rsa.pub: "repo/credentials/staging.id_rsa.pub.asc"
 install: |-
   sudo add-apt-repository -y ppa:jonathonf/python-3.6
   sudo apt-get update
-  sudo apt-get -y install python3.6 python3.6-dev python3.6-venv nodejs npm
+  sudo apt-get -y install python3.6 python3.6-dev python3.6-venv npm nodejs
   python3.6 -m venv venv
   . venv/bin/activate
   pip install -r requirements.txt
   sudo gem install pdd
+  sudo apt-get install sshpass
   chmod +x scripts/install/install_db.sh
   ./scripts/install/install_db.sh
   chmod +x scripts/install/installRedis.sh
@@ -27,9 +28,13 @@ merge:
     pdd -f /dev/null -v
 deploy:
   script: |-
-    echo "Deploy not supported"
-    exit -1
+
+    pdd -f /dev/null -v
+deploy:
+  script: |-
+    chmod +x ./deploy.sh
+    ./deploy.sh
 release:
   script: |-
-    chmod +x ./release.sh
-    ./release.sh $tag staging
+    echo "Release not supported"
+    exit -1
