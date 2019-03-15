@@ -8,23 +8,35 @@
 
 {% block content %}
     {% cache 600 %}
-        {% for reservation in object_list %}
-            <article class="reservation">
-            <header>
-                <a class="action" href="{{ url_for('reservations.edit', id=reservation['id']) }}">Edit</a>
-                <a class="action" href="{{ url_for('reservations.delete', id=reservation['id']) }}">Delete</a>
-            </header>
-            <p class="column">ID: {{ reservation['id'] }}</p>
-            <p class="column">Start time: {{ reservation['start_time'] }}</p>
-            <p class="column">End time: {{ reservation['end_time'] }} </p>
-            <p class="column">Num of persons: {{ reservation['num_of_persons'] }}</p>
-            <p class="column">Comment: {{ reservation['comment'] }}</p>
-            <p class="column">Status: {{ reservation['status'] }}</p>
-            </article>
-            {% if not loop.last %}
-            <hr>
-            {% endif %}
-        {% endfor %}
+        <table id="reservation-table" class="tablesorter">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Start time</th>
+                    <th>End time</th>
+                    <th>Number of persons</th>
+                    <th>Comment</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reservation in object_list %}
+                <tr>
+                    <td>{{ reservation['id'] }}</td>
+                    <td>{{ reservation['start_time'] }}</td>
+                    <td>{{ reservation['end_time'] }} </td>
+                    <td>{{ reservation['num_of_persons'] }}</td>
+                    <td>{{ reservation['comment'] }}</td>
+                    <td>{{ reservation['status'] }}</td>
+                    <td>
+                        <a class="action" href="{{ url_for('reservations.edit', id=reservation['id']) }}">Edit</a>
+                        <a class="action" href="{{ url_for('reservations.delete', id=reservation['id']) }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% endcache %}
 {% endblock %}
 
