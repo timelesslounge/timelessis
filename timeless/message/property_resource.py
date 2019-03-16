@@ -10,15 +10,8 @@ from main import app
 
 
 class PropertyResource(MessageResource):
-    """ Resources read from a property file.
-        @todo #269:30min Implement FileResource. FileResource should read a
-         property file and return the value according to the keys. Locale
-         should be used to define from which locale the file belongs. The
-         locale is defined in the fine name, for example,
-         messages_en_US.properties. An exception must be raised if some
-         resource is not found on property file. Then remove the skip
-         annotations from it_test_property_resource.py
-
+    """ Resources read from a property file. Reads the properties using config
+        file formatting, so it reads keys and values from "[MESSAGES]" title.
     """
 
     directory = None
@@ -32,7 +25,5 @@ class PropertyResource(MessageResource):
         path = os.path.join(app.root_path, self.directory)
         config = ConfigParser()
         config.read(f"{path}message_{self.locale}.properties")
-        if not config.get("MESSAGES", key):
-            raise Exception("Value not found for key")
         return config.get("MESSAGES", key)
 

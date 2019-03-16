@@ -21,7 +21,7 @@ class TestPropertyResource():
         """ Test if PropertyResource returns exception when value does not
         exist
         """
-        with pytest.raises(Exception, "Value not found for key"):
+        with pytest.raises(Exception) as ex:
             PropertyResource(
                 directory=self.directory,
                 locale="en_US"
