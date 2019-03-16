@@ -26,4 +26,3 @@ class PropertyResource(MessageResource):
         config = ConfigParser()
         config.read(f"{path}message_{self.locale}.properties")
         return config.get("MESSAGES", key)
-
