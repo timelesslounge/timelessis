@@ -9,30 +9,24 @@ from timeless.message.property_resource import PropertyResource
 
 class TestPropertyResource():
 
-    directory = "resources/messages/"
+    directory = "../tests/integration/resources/messages/"
 
-    @pytest.mark.skip(reason="PropertyResource not implemented yet")
-    def test_get_found(self):
+    def test_property_found(self):
         """ Test if PropertyResource can return a value that exists"""
-        assert (
-            PropertyResource(
-                 directory=self.directory,
-                 locale="en_US"
-            ).get(self, "foundkey") == "thevalue"
-        )
+        assert PropertyResource(
+            directory=self.directory, locale="en_US"
+        ).get("foundkey") == "thevalue"
 
-    @pytest.mark.skip(reason="PropertyResource not implemented yet")
     def test_get_not_found(self):
         """ Test if PropertyResource returns exception when value does not
         exist
         """
-        with pytest.raises(Exception, "Value not found for key"):
+        with pytest.raises(Exception) as ex:
             PropertyResource(
                 directory=self.directory,
                 locale="en_US"
-            ).get(self, "notfoundkey",)
+            ).get("notfoundkey",)
 
-    @pytest.mark.skip(reason="PropertyResource not implemented yet")
     def test_get_found(self):
         """ Test if PropertyResource can return a value that exists from
         localised file
@@ -41,5 +35,5 @@ class TestPropertyResource():
             PropertyResource(
                 directory=self.directory,
                 locale="pt_BR"
-            ).get(self, "foundkey") == "ovalor"
+            ).get("foundkey") == "ovalor"
         )
