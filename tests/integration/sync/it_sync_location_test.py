@@ -1,7 +1,9 @@
 import unittest.mock
 
 import pytest
+import re
 
+from tests.integration.poster.poster_server_mock import PosterServerMock
 from timeless.companies.models import Company
 from timeless.poster.api import Poster, Authenticated
 from timeless.poster.tasks import sync_locations
@@ -10,21 +12,54 @@ from timeless.restaurants.models import Location
 
 """Integration tests for Location Sync with database
 
-    @todo #232:30min Location poster mock refactor. To simplify future 
-     poster mock creation PosterServerMock were refactored as a 
-     generic server for postermocks (PosterServerMock in
-     tests/integration/poster/poster_integration_mock.py). Implement a mock 
-     location server based on PosterServerMock implementation.
-    @todo #232:30min Refactor it_sync_location_test.py to use factory-created 
+    @todo #232:30min Refactor it_sync_location_test.py to use factory-created
      mocks. Create Location in factories so we can use it instead fixed
-     mocks. The refactor the tests below so they pass again 
+     mocks. The refactor the tests below so they pass again
 """
+class LocationsPosterServerMock(PosterServerMock):
+    PATTERN = re.compile(r"/clients.getLocations")
+    company = None
+
+    def get_content(self):
+        return {
+            "response": [{
+                "id": 100,
+                "name": "Coco Bongo",
+                "code": "C",
+                "company_id": self.company.id,
+                "country": "United States",
+                "region": "East Coast",
+                "city": "Edge City",
+                "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
+                "longitude": 21.1326063,
+                "latitude": -86.7473191,
+                "type": "L",
+                "status": "open",
+                "comment": "Nightclub from a famous movie"
+            }, {
+                "id": 150,
+                "name": "Cook Pirata",
+                "code": "CP",
+                "company_id": self.company.id,
+                "country": "Brazil",
+                "region": "South Region",
+                "city": "Curitiba",
+                "address": "Mateus Leme 1020",
+                "longitude": 19.13063,
+                "latitude": -15.91,
+                "type": "H",
+                "status": "open",
+                "comment": "Famous pirate-themed seafood restaurant"
+            }
+            ]
+        }
+
 
 
 @pytest.mark.skip(
     "Skipped until ticket #453 is fixed")
-@unittest.mock.patch.object(Authenticated, 'auth')
-@unittest.mock.patch.object(Poster, 'locations')
+@unittest.mock.patch.object(Authenticated, "auth")
+@unittest.mock.patch.object(Poster, "locations")
 def test_sync_location(locations_mock, auth_mock, db_session):
     company = Company(
         id=50,
@@ -34,25 +69,10 @@ def test_sync_location(locations_mock, auth_mock, db_session):
     )
     db_session.add(company)
     db_session.commit()
+    auth_mock.return_value = "token"
 
-    auth_mock.return_value = 'token'
-    locations_mock.return_value = {
-        "response": [{
-            "id": 100,
-            "name": "Coco Bongo",
-            "code": "C",
-            "company_id": company.id,
-            "country": "United States",
-            "region": "East Coast",
-            "city": "Edge City",
-            "address": "Blvd. Kukulcan Km 9.5 #30, Plaza Forum",
-            "longitude": 21.1326063,
-            "latitude": -86.7473191,
-            "type": "L",
-            "status": "open",
-            "comment": "Nightclub from a famous movie"
-        }]
-    }
+    poster_locations = LocationsPosterServerMock
+    poster_locations.company = company
 
     sync_locations()
 
