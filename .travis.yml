@@ -4,9 +4,14 @@ services:
   - redis-server
 python:
   - "3.6.7"
+cache:
+  directories:
+    - frontend/node_modules
 install:
   - pip install -r requirements.txt
   - gem install pdd
+  - nvm install node
+  - cd frontend && npm install && cd ..
 before_script:
   - psql -c "CREATE USER timeless_user WITH 
       SUPERUSER
@@ -21,4 +26,5 @@ script:
   - python checkstyle.py
   - python check_pylint.py
   - pytest --cov=./timeless
+  - cd frontend && npm test -- --coverage && cd ..
   - codecov --token=9110359e-20f8-46a4-872c-cd31cc35da00
