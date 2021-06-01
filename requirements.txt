@@ -70,7 +70,7 @@ SQLAlchemy==1.2.16
 SQLAlchemy-Utils==0.33.11
 text-unidecode==1.2
 typed-ast==1.2.0
-urllib3==1.24.1
+urllib3==1.26.5
 validators==0.12.4
 vine==1.2.0
 Werkzeug==0.14.1
