@@ -39,7 +39,7 @@ mccabe==0.6.1
 more-itertools==5.0.0
 passlib==1.7.1
 pep8-naming==0.4.1
-Pillow==5.4.1
+Pillow==8.3.2
 pluggy==0.8.1
 psycopg2==2.7.6.1
 psycopg2-binary==2.7.7
